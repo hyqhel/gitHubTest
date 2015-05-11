@@ -10,5 +10,6 @@ public class HelloWorldTest {
 	   HelloWorld helloWorld =new HelloWorld();
 	   String result=helloWorld.sayHello();
 	   assertEquals("hello maven",result);
+	   System.out.println("1234");
    }
 }
