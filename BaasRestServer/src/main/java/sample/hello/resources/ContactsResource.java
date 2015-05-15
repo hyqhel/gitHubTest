@@ -19,13 +19,19 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import sample.hello.bean.Address;
 import sample.hello.bean.Contact;
+import sample.hello.service.VoteService;
 import sample.hello.storage.ContactStore;
 
-
+@Service
 @Path("/contacts")
 public class ContactsResource {
+	@Autowired
+	public VoteService serv;
 	
 	@Context
 	UriInfo uriInfo;
@@ -37,6 +43,7 @@ public class ContactsResource {
 	public List<Contact> getContacts() {
 		List<Contact> contacts = new ArrayList<Contact>();
 		contacts.addAll( ContactStore.getStore().values() );
+		
 		return contacts;
 	}
 	
@@ -46,6 +53,13 @@ public class ContactsResource {
 	public String getCount() {
 		int count = ContactStore.getStore().size();
 		return String.valueOf(count);
+	}
+	
+	@GET
+	@Path("selec")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Contact> selec() {
+		return serv.getList();
 	}
 	
 	@POST
