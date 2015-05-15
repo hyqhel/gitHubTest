@@ -15,7 +15,7 @@ import sample.hello.bean.Items;
 import sample.hello.service.ItemService;
 
 @Service
-@Path("/subject")
+@Path("/Items")
 public class ItemResource {
 	@Autowired
 	public ItemService itemService;
