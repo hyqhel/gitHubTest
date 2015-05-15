@@ -1,9 +1,11 @@
 package sample.hello.service.impl;
 
+import org.springframework.stereotype.Service;
+
 import sample.hello.bean.Items;
 import sample.hello.bean.ResultData;
 import sample.hello.service.ItemService;
-
+@Service
 public class ItemServiceImpl implements ItemService {
 
 
