@@ -1,13 +1,16 @@
 package sample.hello.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sample.hello.bean.Items;
 import sample.hello.bean.ResultData;
+import sample.hello.dao.ItemMapper;
 import sample.hello.service.ItemService;
 @Service
 public class ItemServiceImpl implements ItemService {
-
+@Autowired
+ItemMapper itemapper;
 
 	/* (non-Javadoc)
 	 * @see sample.hello.service.impl.CreateSubjectService#choose()
@@ -37,8 +40,7 @@ public class ItemServiceImpl implements ItemService {
 	 * @see sample.hello.service.impl.CreateSubjectService#queryItem(java.lang.String, java.lang.String)
 	 */
 	public Items queryItem(String subjectId, String itemId) {
-		// TODO - implement Items.queryItem
-		throw new UnsupportedOperationException();
+		return itemapper.queryItem(subjectId, itemId);
 	}
 
 }

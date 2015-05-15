@@ -13,7 +13,6 @@ public class VoteServiceImpl implements VoteService{
 	@Autowired
 	private VoteMapper voteMapper;
 
-	@Override
 	public List<Contact> getList() {
 		// TODO Auto-generated method stub
 		return voteMapper.getList();
