@@ -2,6 +2,9 @@ package sample.hello.bean;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class ResultData<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
