@@ -6,11 +6,11 @@ public class ResultData<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private int status;//返回 0：失败；1：成�?
+    private int status;//返回 0：失败；1：成�?
 
-	private T data;//具体的对�?
+	private T data;//具体的对�?
 	
-	private String message;//错误时消�?
+	private String message;//错误时消�?
 
 	public int getStatus() {
 		return status;
