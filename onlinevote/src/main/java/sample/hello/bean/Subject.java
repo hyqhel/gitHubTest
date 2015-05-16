@@ -1,5 +1,7 @@
 package sample.hello.bean;
 
+import java.util.List;
+
 public class Subject {
 
 	private String subjectId;
@@ -9,7 +11,16 @@ public class Subject {
 	private String endTime;
 	private String type;
 	private String maxSelect;
+	private  List<Items> Items;
 	
+	
+	
+	public List<Items> getItems() {
+		return Items;
+	}
+	public void setItems(List<Items> items) {
+		Items = items;
+	}
 	public String getSubjectId() {
 		return subjectId;
 	}

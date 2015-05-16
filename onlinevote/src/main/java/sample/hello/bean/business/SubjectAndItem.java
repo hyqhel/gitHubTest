@@ -1,12 +1,22 @@
 package sample.hello.bean.business;
 
+import java.util.List;
+
 public class SubjectAndItem {
 
 	private String subjectId;
 	private String subjectContent;
 	private String itemId;
 	private String itemContent;
+	private List<String> listItme;
 	
+	
+	public List<String> getListItme() {
+		return listItme;
+	}
+	public void setListItme(List<String> listItme) {
+		this.listItme = listItme;
+	}
 	public String getSubjectId() {
 		return subjectId;
 	}
