@@ -1,14 +1,15 @@
 package sample.hello.bean;
 public class Items {
 
-	private String id;
+	private String itemId;
 	private String content;
 	private String result;
-	public String getId() {
-		return id;
+	
+	public String getItemId() {
+		return itemId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 	public String getContent() {
 		return content;

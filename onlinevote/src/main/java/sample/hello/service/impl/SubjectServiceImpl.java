@@ -40,7 +40,7 @@ public class SubjectServiceImpl implements SubjectService {
 		for(Items item:subject.getItemlist()){
 			SubjectAndItem si=new SubjectAndItem();
 			String iteid=Index.CreateNoncestr();
-			item.setId(iteid);
+			item.setItemId(iteid);
 			itemapper.AddItem(item);//添加主题项
 			
 			System.out.println("---------"+iteid);

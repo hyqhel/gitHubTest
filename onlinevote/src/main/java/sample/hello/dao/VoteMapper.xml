@@ -3,10 +3,12 @@
 <mapper namespace="sample.hello.dao.VoteMapper">  <!--这个和我们的dao接口类的名称相同-->
 
 
-<resultMap id="BaseResultMap" type="sample.hello.bean.Contact" >
-    <result column="id" property="id" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
+<resultMap id="BaseResultMap" type="sample.hello.bean.business.VoteSubjectItem" >
+    <result column="onlineItemItemId" property="ItemId" jdbcType="VARCHAR" />
+      <result column="onlineUseruserID" property="personId" jdbcType="VARCHAR" />
+    <result column="onlineSubjectsubjectId" property="subjectId" jdbcType="VARCHAR" />
   </resultMap>
+  
   <sql id="Base_Column_List" >
     id, name
   </sql>
@@ -15,4 +17,19 @@
     <include refid="Base_Column_List" />
     from test
   </select>
+  
+  <insert id="userVote" parameterType="sample.hello.bean.business.VoteSubjectItem">
+INSERT INTO `testaa`.`onlineusersubjectitemrecord` 
+	(`time`, 
+	`onlineUseruserID`, 
+	`onlineItemItemId`, 
+	`onlineSubjectsubjectId`
+	)
+	VALUES
+	(now(), 
+	#{personId}, 
+	#{ItemId}, 
+	#{subjectId}
+	);
+  </insert>
 </mapper>

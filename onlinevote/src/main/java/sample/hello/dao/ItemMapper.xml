@@ -23,7 +23,7 @@
 	`itemContent`
 	)
 	VALUES
-	( #{id},#{content});
+	( #{itemId},#{content});
   </insert>
   
 </mapper>
