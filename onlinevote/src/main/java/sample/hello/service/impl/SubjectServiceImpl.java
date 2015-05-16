@@ -52,7 +52,7 @@ public class SubjectServiceImpl implements SubjectService {
 		for(SubjectAndItem subIt:listitemIds){
 			itemapper.AddSubjectAndItem(subIt);
 		}
-		return "Success";
+		return "1";
 	}
 
 	/* (non-Javadoc)

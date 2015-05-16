@@ -54,13 +54,61 @@ public class SubjectResource {
 	@POST
 	@Path("addSubect")//资源:
 	@Produces(MediaType.APPLICATION_JSON)
-	public String addOneSubject(String subject){
+	public ResultDataList<SubjectAndItem> addOneSubject(String subject){
+		
+		ResultDataList<SubjectAndItem> resultData = new ResultDataList<SubjectAndItem>();
+		
+		
       JsonUtils jsut=new JsonUtils();
   	  Map map =new HashMap<String, Class>();
 	  map.put("itemlist", Items.class);
 	  Subject sres=(Subject)jsut.getObject(subject,Subject.class , map);
-	  String result=subjectService.createSubject(sres);
-		return result;
+	  
+	  //校验
+	  String message="";
+	  boolean rightorw=true;
+	  if("null".equals(sres.getSubjectContent()) || "null".equals(sres.getMaxSelect())
+			  ||"null".equals(sres.getSubjectStatus())||"null".equals(sres.getType()) 
+			  ||"null".equals(sres.getStartTime())||"null".equals(sres.getEndTime())){
+		  message="miss param!";
+		  rightorw=false;
+	  }
+	  if("".equals(sres.getSubjectContent())|| "".equals(sres.getMaxSelect())
+			  ||"".equals(sres.getSubjectStatus())||"".equals(sres.getType()) 
+			  ||"".equals(sres.getStartTime())||"".equals(sres.getEndTime())){
+		  message="please write param value!";
+		  rightorw=false;
+	  }
+	  if(sres.getItemlist()==null || sres.getItemlist().size()==0){
+		  message="please add items for the subject!";
+		  rightorw=false;
+	  }
+		if("2".equals(sres.getType())){
+			 try {
+				if( Integer.parseInt(sres.getMaxSelect())<1){
+					message="MaxSelect must 大于 0!";
+					rightorw=false;
+				}
+			 }catch (NumberFormatException e) {
+				 message=" MaxSelect error!";
+				 rightorw=false;
+			  }
+		  }
+		if("1".equals(sres.getType())){
+			sres.setMaxSelect("1");
+		}
+	  if(rightorw){
+		  message=subjectService.createSubject(sres);
+		  if("1".equals(message)){
+				resultData.setStatus(200);
+				resultData.setMessage("success");
+			}else{
+				resultData.setMessage("error");
+			}
+	  }else{
+		  resultData.setMessage(message);
+	  }
+		return resultData;
 	}
 	
 	
