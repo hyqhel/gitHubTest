@@ -1,7 +1,7 @@
 package sample.hello.service;
 
 import sample.hello.bean.Items;
-import sample.hello.bean.ResultData;
+import sample.hello.bean.business.SubjectAndItem;
 
 public interface ItemService {
 
@@ -12,8 +12,11 @@ public interface ItemService {
 	 * @param subjectId
 	 * @param itemContent
 	 */
-	public  ResultData<Items> AddItem(String subjectId,
-			String itemContent);
+	public  int AddItem(Items item);
+	/**
+	 * 添加主题与项的关系
+	 */
+	public  int AddSubjectAndItem(SubjectAndItem si);
 
 	/**
 	 * 

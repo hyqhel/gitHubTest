@@ -22,9 +22,7 @@ public interface SubjectService {
 	 * @param subjectState
 	 * @param subjectItem
 	 */
-	public String createSubject(String subjectId, String subjectContent,
-			String subjectStartTime, String subjectEndTime, String subjectType,
-			String subjectMaxSelectNum, String subjectState, Items[] subjectItem);
+	public String createSubject(Subject subject);
 
 	/**
 	 * 

@@ -11,15 +11,15 @@ public class Subject {
 	private String endTime;
 	private String type;
 	private String maxSelect;
-	private  List<Items> Items;
+	private  List<Items> itemlist=null;
 	
 	
 	
-	public List<Items> getItems() {
-		return Items;
+	public List<Items> getItemlist() {
+		return itemlist;
 	}
-	public void setItems(List<Items> items) {
-		Items = items;
+	public void setItemlist(List<Items> itemlist) {
+		this.itemlist = itemlist;
 	}
 	public String getSubjectId() {
 		return subjectId;

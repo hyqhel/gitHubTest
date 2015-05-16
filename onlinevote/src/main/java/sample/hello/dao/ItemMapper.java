@@ -2,6 +2,7 @@ package sample.hello.dao;
 
 import sample.hello.bean.Items;
 import sample.hello.bean.ResultData;
+import sample.hello.bean.business.SubjectAndItem;
 
 public interface ItemMapper {
 	public  boolean choose();
@@ -11,8 +12,11 @@ public interface ItemMapper {
 	 * @param subjectId
 	 * @param itemContent
 	 */
-	public  ResultData<Items> AddItem(String subjectId,
-			String itemContent);
+	public  int AddItem(Items item);
+	/**
+	 * 添加主题与项的关系
+	 */
+	public int AddSubjectAndItem(SubjectAndItem si);
 
 	/**
 	 * 

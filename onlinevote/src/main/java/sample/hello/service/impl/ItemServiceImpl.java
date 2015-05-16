@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sample.hello.bean.Items;
-import sample.hello.bean.ResultData;
+import sample.hello.bean.business.SubjectAndItem;
 import sample.hello.dao.ItemMapper;
 import sample.hello.service.ItemService;
 @Service
@@ -23,9 +23,9 @@ ItemMapper itemapper;
 	/* (non-Javadoc)
 	 * @see sample.hello.service.impl.CreateSubjectService#AddItem(java.lang.String, java.lang.String)
 	 */
-	public ResultData<Items> AddItem(String subjectId, String itemContent) {
+	public  int AddItem(Items item){
 		// TODO - implement Items.AddItem
-		throw new UnsupportedOperationException();
+		return itemapper.AddItem(item);
 	}
 
 	/* (non-Javadoc)
@@ -41,6 +41,13 @@ ItemMapper itemapper;
 	 */
 	public Items queryItem(String subjectId, String itemId) {
 		return itemapper.queryItem(subjectId, itemId);
+	}
+/**
+ * 添加主题与项的关系
+ */
+	public int AddSubjectAndItem(SubjectAndItem si) {
+		// TODO Auto-generated method stub
+		return itemapper.AddSubjectAndItem(si);
 	}
 
 }
