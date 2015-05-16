@@ -10,6 +10,7 @@
   <resultMap type="sample.hello.bean.Items" id="BaseResultItems">
 	<result column="onlineItemItemId" property="itemId" jdbcType="VARCHAR"/>
 	<result column="onlineSubjectsubjectId" property="content" jdbcType="VARCHAR"/>
+	<result column="result" property="result" jdbcType="VARCHAR"/>
 </resultMap>
   
   <insert id="AddSubjectAndItem" parameterType="sample.hello.bean.business.SubjectAndItem">
@@ -32,6 +33,23 @@
    <select id="queryItemsBySubjectId" parameterType="java.lang.String" resultMap="BaseResultItems">
   	  select i.ItemId, i.itemContent from onlineitem i,onelinesubjectitem r
   	  where i.ItemId = r.onlineItemItemId and r.onlineSubjectsubjectId=#{subjectId};
+  </select>
+  
+   <select id="queryItemsVoteReslutBySubjectId" parameterType="java.lang.String" resultMap="BaseResultItems">
+  	 SELECT  sit.onlineItemItemId,
+  	   CASE 
+		WHEN sit.onlineItemItemId = rr.onlineItemItemId THEN rr.cc
+		ELSE  0 
+	   END  result,
+	   i.itemContent
+  	   FROM (
+  	   SELECT sub.subjectId,sub.subjectContent,r.onlineItemItemId,COUNT(r.onlineItemItemId)cc FROM 
+  	   onlineusersubjectitemrecord r RIGHT JOIN onlinesubject sub ON sub.subjectId=r.onlineSubjectsubjectId 
+  	   WHERE sub.subjectId=#{subjectId}   GROUP BY r.onlineItemItemId
+  	   )rr 
+  	    LEFT JOIN onelinesubjectitem sit ON sit.onlineSubjectsubjectId=rr.subjectId
+  	    ,onlineitem i 
+  	    WHERE i.ItemId=sit.onlineItemItemId
   </select>
   
 </mapper>

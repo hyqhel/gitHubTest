@@ -21,8 +21,26 @@ INSERT INTO onlinesubject
   </insert>
   
     <select id="getSubjectById" parameterType="java.lang.String" resultMap="BaseResultMap">
-	  select subjectId,subjectContent from onlinesubject 
+    select 
+	  	`subjectId`, 
+	`subjectContent`, 
+	`subjectStatus`, 
+	`startTime`, 
+	`endTime`, 
+	`type`, 
+	`maxSelect` from onlinesubject 
 	  where subjectId=#{subjectId};
+  </select>
+  
+   <select id="getAllSubject" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+	  	`subjectId`, 
+	`subjectContent`, 
+	`subjectStatus`, 
+	`startTime`, 
+	`endTime`, 
+	`type`, 
+	`maxSelect` from onlinesubject  where startTime &lt;=now() and endTime>=now();
   </select>
   
 </mapper>

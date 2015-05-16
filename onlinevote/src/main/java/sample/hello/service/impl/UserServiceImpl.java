@@ -20,7 +20,11 @@ public class UserServiceImpl implements UserService{
 	 */
 	public String login(String id, String password) {
 		// TODO - implement Person.login
-		List<Person> listp=usermapper.login(id, password);
+		System.out.println(id+""+password);
+		Person p=new Person();
+		p.setPersonId(id);
+		p.setPersonPassword(password);
+		List<Person> listp=usermapper.login(p);
         if(listp.size()==0){
         	return "0";
         }else{

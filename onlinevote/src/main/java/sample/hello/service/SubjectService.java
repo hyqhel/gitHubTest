@@ -1,5 +1,7 @@
 package sample.hello.service;
 
+import java.util.List;
+
 import sample.hello.bean.Items;
 import sample.hello.bean.Subject;
 
@@ -22,7 +24,7 @@ public interface SubjectService {
 	 * @param subjectState
 	 * @param subjectItem
 	 */
-	public String createSubject(Subject subject);
+	public Subject createSubject(Subject subject);
 
 	/**
 	 * 
@@ -60,5 +62,9 @@ public interface SubjectService {
 	public Subject[] querySubject(String subjectId);
 	
 	public Subject getSubjectAndItems(String subjectId);
+	
+	public Subject getSubjectVoteResult(String subjectId);
+	
+	public List<Subject> getAllSubject();
 
 }

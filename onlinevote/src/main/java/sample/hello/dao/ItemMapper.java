@@ -34,4 +34,6 @@ public interface ItemMapper {
 	public  Items queryItem(String subjectId,
 			String itemId);
 	public ArrayList<Items> queryItemsBySubjectId(String subjectId);
+	
+	public ArrayList<Items> queryItemsVoteReslutBySubjectId(String subjectId);
 }

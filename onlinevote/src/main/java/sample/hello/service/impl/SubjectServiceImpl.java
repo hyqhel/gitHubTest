@@ -31,7 +31,7 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 	
 	@Transactional
-	public String createSubject(Subject subject) {
+	public Subject createSubject(Subject subject) {
 		System.out.println("2345");
 		String subid=Index.CreateNoncestr();
 		subject.setSubjectId(subid);
@@ -52,7 +52,7 @@ public class SubjectServiceImpl implements SubjectService {
 		for(SubjectAndItem subIt:listitemIds){
 			itemapper.AddSubjectAndItem(subIt);
 		}
-		return "1";
+		return subject;
 	}
 
 	/* (non-Javadoc)
@@ -89,11 +89,28 @@ public class SubjectServiceImpl implements SubjectService {
 	
 	public Subject getSubjectAndItems(String subjectId) {
 		Subject subjectInfo = submapper.getSubjectById(subjectId);
-		ArrayList<Items> itemInfos = itemapper.queryItemsBySubjectId(subjectId);
-		
-		subjectInfo.setItemlist(itemInfos);
+		if(subjectInfo!=null){
+			ArrayList<Items> itemInfos = itemapper.queryItemsBySubjectId(subjectId);
+			subjectInfo.setItemlist(itemInfos);
+		}
 		
 		return subjectInfo;
 	}
-
+	
+	public List<Subject> getAllSubject(){
+		List<Subject> lists=submapper.getAllSubject();
+		for(Subject subj:lists){
+			subj.setItemlist(itemapper.queryItemsBySubjectId(subj.getSubjectId()));
+		}
+		return lists;
+	}
+	public Subject getSubjectVoteResult(String subjectId){
+		Subject subjectInfo = submapper.getSubjectById(subjectId);
+		if(subjectInfo!=null){
+			ArrayList<Items> itemInfos = itemapper.queryItemsVoteReslutBySubjectId(subjectId);
+			subjectInfo.setItemlist(itemInfos);
+		}
+		
+		return subjectInfo;
+	}
 }

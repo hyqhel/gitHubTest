@@ -22,7 +22,7 @@ public class VoteServiceImpl implements VoteService{
 		return voteMapper.getList();
 	}
 	@Transactional
-	public String userVote(ItemVoteRecord itemvote) {
+	public String userVote(ItemVoteRecord itemvote){
 		// TODO Auto-generated method stub
 		List<Items> listems=itemvote.getVoteItems();
 		for(Items its:listems){

@@ -19,9 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sample.hello.bean.Items;
+import sample.hello.bean.ResultData;
 import sample.hello.bean.ResultDataList;
 import sample.hello.bean.Subject;
-import sample.hello.bean.business.SubjectAndItem;
 import sample.hello.service.SubjectService;
 import sample.hello.util.JsonUtils;
 
@@ -60,9 +60,9 @@ public class SubjectResource {
 	@POST
 	@Path("addSubect")//资源:
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResultDataList<SubjectAndItem> addOneSubject(String subject){
+	public ResultData<Subject> addOneSubject(String subject){
 		
-		ResultDataList<SubjectAndItem> resultData = new ResultDataList<SubjectAndItem>();
+		ResultData<Subject> resultData = new ResultData<Subject>();
 		
 		
       JsonUtils jsut=new JsonUtils();
@@ -104,10 +104,11 @@ public class SubjectResource {
 			sres.setMaxSelect("1");
 		}
 	  if(rightorw){
-		  message=subjectService.createSubject(sres);
-		  if("1".equals(message)){
+		  Subject suresult=subjectService.createSubject(sres);
+		  if(suresult!=null){
 				resultData.setStatus(200);
 				resultData.setMessage("success");
+				resultData.setData(suresult);
 			}else{
 				resultData.setMessage("error");
 			}
@@ -117,5 +118,40 @@ public class SubjectResource {
 		return resultData;
 	}
 	
+	//访问方法如：http://localhost:8080/onlinevote/rest/subject/getAllActiveSubject
+	@GET
+	@Path("/getAllActiveSubject")//资源:
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResultDataList<Subject> getAllActiveSubject(){
+		ResultDataList<Subject> resultData = new ResultDataList<Subject>();
+		
+		List<Subject> liss = subjectService.getAllSubject();
+		
+		resultData.setStatus(200);
+		resultData.setMessage("success");
+		resultData.setData(liss);
+		
+		return resultData;
+	}
 	
+	@GET
+	@Path("/selectResult/{subjectId}")//资源:
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResultData<Subject> selectResult(@PathParam("subjectId") String subjectId){
+		
+		ResultData<Subject> resultData = new ResultData<Subject>();
+		
+		Subject bss = subjectService.getSubjectVoteResult(subjectId);
+		if(null==bss){
+			resultData.setStatus(200);
+			resultData.setMessage("not exists ths subject");
+		}else{
+			resultData.setStatus(200);
+			resultData.setMessage("success");
+			resultData.setData(bss);
+		}
+		
+		
+		return resultData;
+	}
 }

@@ -10,5 +10,5 @@ public interface UserMapper {
 	 * @param id
 	 * @param password
 	 */
-	public List<Person> login(String id, String password) ;
+	public List<Person> login(Person person) ;
 }
