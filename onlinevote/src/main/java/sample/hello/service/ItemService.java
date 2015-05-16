@@ -1,5 +1,7 @@
 package sample.hello.service;
 
+import java.util.ArrayList;
+
 import sample.hello.bean.Items;
 import sample.hello.bean.business.SubjectAndItem;
 
@@ -32,5 +34,5 @@ public interface ItemService {
 	 */
 	public  Items queryItem(String subjectId,
 			String itemId);
-
+	public ArrayList<Items> queryItemsBySubjectId(String subjectId);
 }

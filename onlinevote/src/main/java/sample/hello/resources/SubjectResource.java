@@ -41,12 +41,18 @@ public class SubjectResource {
 	@GET
 	@Path("/{subjectId}")//资源:
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResultDataList<SubjectAndItem> getSubjects(@PathParam("subjectId") String subjectId){
+	public ResultDataList<Subject> getSubjects(@PathParam("subjectId") String subjectId){
 		System.out.println("aaaaaaaaaaa"+subjectId);
-		ResultDataList<SubjectAndItem> resultData = new ResultDataList<SubjectAndItem>();
+		ResultDataList<Subject> resultData = new ResultDataList<Subject>();
+		
+		Subject subjectAndItems = subjectService.getSubjectAndItems(subjectId);
+		List<Subject> rtnList = new ArrayList<Subject>();
+		rtnList.add(subjectAndItems);
 		
 		resultData.setStatus(0);
 		resultData.setMessage("OK");
+		resultData.setData(rtnList);
+		
 		return resultData;
 	}
 	

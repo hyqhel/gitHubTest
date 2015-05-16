@@ -9,4 +9,6 @@ public interface SubjectMapper {
 	 * @return
 	 */
   public int addSubject(Subject subject);
+
+  public Subject getSubjectById(String subjectId);
 }

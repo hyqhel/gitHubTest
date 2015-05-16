@@ -58,5 +58,7 @@ public interface SubjectService {
 	 * @param subjectId
 	 */
 	public Subject[] querySubject(String subjectId);
+	
+	public Subject getSubjectAndItems(String subjectId);
 
 }

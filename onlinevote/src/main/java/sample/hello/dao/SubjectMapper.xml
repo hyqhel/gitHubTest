@@ -19,4 +19,10 @@ INSERT INTO onlinesubject
 	(#{subjectId},#{subjectContent}, #{subjectStatus},  DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s'), 
 	DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), #{type},#{maxSelect});
   </insert>
+  
+    <select id="getSubjectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+	  select subjectId,subjectContent from onlinesubject 
+	  where subjectId=#{subjectId};
+  </select>
+  
 </mapper>

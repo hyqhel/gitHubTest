@@ -1,5 +1,7 @@
 package sample.hello.service.impl;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +51,10 @@ ItemMapper itemapper;
 		// TODO Auto-generated method stub
 		return itemapper.AddSubjectAndItem(si);
 	}
+	public ArrayList<Items> queryItemsBySubjectId(String subjectId) {
+		ArrayList<Items> itemInfos = itemapper.queryItemsBySubjectId(subjectId);
+		return itemInfos;
+	}
+
 
 }

@@ -86,4 +86,14 @@ public class SubjectServiceImpl implements SubjectService {
 		// TODO - implement Subject.querySubject
 		throw new UnsupportedOperationException();
 	}
+	
+	public Subject getSubjectAndItems(String subjectId) {
+		Subject subjectInfo = submapper.getSubjectById(subjectId);
+		ArrayList<Items> itemInfos = itemapper.queryItemsBySubjectId(subjectId);
+		
+		subjectInfo.setItemlist(itemInfos);
+		
+		return subjectInfo;
+	}
+
 }
