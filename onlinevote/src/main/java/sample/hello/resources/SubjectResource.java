@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -20,10 +21,12 @@ public class SubjectResource {
 	@Autowired
 	private SubjectService subjectService;
 	
+	//访问方法如：http://localhost:8080/onlinevote/rest/subject/1111 查询id为1111的subject
 	@GET
-	@Path("getSubjects")
+	@Path("/{subjectId}")//资源:
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResultDataList<SubjectAndItem> getSubjects(){
+	public ResultDataList<SubjectAndItem> getSubjects(@PathParam("subjectId") String subjectId){
+		System.out.println("aaaaaaaaaaa"+subjectId);
 		ResultDataList<SubjectAndItem> resultData = new ResultDataList<SubjectAndItem>();
 		
 		resultData.setStatus(0);
