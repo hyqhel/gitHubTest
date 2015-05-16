@@ -8,8 +8,8 @@
     <result column="onlineSubjectsubjectId" property="subjectId" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap type="sample.hello.bean.Items" id="BaseResultItems">
-	<result column="itemId" property="itemId" jdbcType="VARCHAR"/>
-	<result column="itemContent" property="itemContent" jdbcType="VARCHAR"/>
+	<result column="onlineItemItemId" property="itemId" jdbcType="VARCHAR"/>
+	<result column="onlineSubjectsubjectId" property="content" jdbcType="VARCHAR"/>
 </resultMap>
   
   <insert id="AddSubjectAndItem" parameterType="sample.hello.bean.business.SubjectAndItem">
@@ -30,8 +30,8 @@
 	( #{itemId},#{content});
   </insert>
    <select id="queryItemsBySubjectId" parameterType="java.lang.String" resultMap="BaseResultItems">
-  	  select i.itemId, i.itemContent from onlineitem i,onelinesubjectitem r
-  	  where i.itemId = r.itemId and r.subjectId=#{subjectId};
+  	  select i.ItemId, i.itemContent from onlineitem i,onelinesubjectitem r
+  	  where i.ItemId = r.onlineItemItemId and r.onlineSubjectsubjectId=#{subjectId};
   </select>
   
 </mapper>
