@@ -24,7 +24,11 @@ import sample.hello.bean.ResultDataList;
 import sample.hello.bean.Subject;
 import sample.hello.service.SubjectService;
 import sample.hello.util.JsonUtils;
-
+/**
+ * 主题资源接口
+ * @author huangyq3
+ *
+ */
 @Service
 @Path("/subject")
 public class SubjectResource {
@@ -35,7 +39,7 @@ public class SubjectResource {
 	Request request;
 	
 	@Autowired
-	private SubjectService subjectService;
+	private SubjectService subjectService;//主题service
 	
 	//访问方法如：http://localhost:8080/onlinevote/rest/subject/1111 查询id为1111的subject
 	@GET
@@ -55,8 +59,12 @@ public class SubjectResource {
 		
 		return resultData;
 	}
-	
-	
+	/**
+	 * 增加一个主题
+	 * @param subject
+	 * @return
+	 */
+	//http://localhost:8080/onlinevote/rest/subject/addSubect
 	@POST
 	@Path("addSubect")//资源:
 	@Produces(MediaType.APPLICATION_JSON)
@@ -68,7 +76,7 @@ public class SubjectResource {
       JsonUtils jsut=new JsonUtils();
   	  Map map =new HashMap<String, Class>();
 	  map.put("itemlist", Items.class);
-	  Subject sres=(Subject)jsut.getObject(subject,Subject.class , map);
+	  Subject sres=(Subject)jsut.getObject(subject,Subject.class , map);//json转换成实体
 	  
 	  //校验
 	  String message="";
@@ -117,7 +125,10 @@ public class SubjectResource {
 	  }
 		return resultData;
 	}
-	
+	/**
+	 * 获取可以投票的主题
+	 * @return
+	 */
 	//访问方法如：http://localhost:8080/onlinevote/rest/subject/getAllActiveSubject
 	@GET
 	@Path("/getAllActiveSubject")//资源:
@@ -133,7 +144,12 @@ public class SubjectResource {
 		
 		return resultData;
 	}
-	
+	/**
+	 * 查询某主题投票结果
+	 * @param subjectId
+	 * @return
+	 */
+	//http://localhost:8080/onlinevote/rest/subject/selectResult/{subjectId}
 	@GET
 	@Path("/selectResult/{subjectId}")//资源:
 	@Produces(MediaType.APPLICATION_JSON)

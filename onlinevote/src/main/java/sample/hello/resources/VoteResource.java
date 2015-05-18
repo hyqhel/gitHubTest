@@ -23,7 +23,11 @@ import sample.hello.service.SubjectService;
 import sample.hello.service.UserService;
 import sample.hello.service.VoteService;
 import sample.hello.util.JsonUtils;
-
+/**
+ * 投票资源
+ * @author huangyq3
+ *
+ */
 @Service
 @Path("/uservote")
 public class VoteResource {
@@ -34,13 +38,14 @@ public class VoteResource {
 	Request request;
 	
 	@Autowired
-	private VoteService voteService;
+	private VoteService voteService;//投票serivce
 	@Autowired
-	private UserService userserivce;
+	private UserService userserivce;//用户service
 	
 	@Autowired
 	private SubjectService subjectser;
 	
+	//http://localhost:8080/onlinevote/rest/uservote/vote
 	@POST
 	@Path("vote")//资源:
 	@Produces(MediaType.APPLICATION_JSON)
