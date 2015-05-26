@@ -2,6 +2,7 @@ package com.asiainfo.baas.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.*;
 
 public class ParamUtil {
 	public static Map<String,String> parse(String paramString) {

@@ -9,6 +9,7 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.stereotype.Service;
+import javax.ws.rs.core.*;
 
 @Service
 @Path("/contacts")
