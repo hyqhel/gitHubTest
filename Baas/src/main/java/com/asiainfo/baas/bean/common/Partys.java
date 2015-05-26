@@ -16,5 +16,7 @@ public abstract class Partys {
 	 * The time period that the Party is valid for
 	 */
 	public String validFor;
+	public String party_type;
+	public String party_pwd;
 
 }
