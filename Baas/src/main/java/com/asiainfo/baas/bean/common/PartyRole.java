@@ -12,7 +12,6 @@ public class PartyRole {
 	public Partys _party;
 	public List<PartyRoleAssociation> _partyRoleAssociation;
 	public List<ContactMedium> _contactMedium;
-	public List<PartyRoleAssociation> _partyRoleAssociation2;
 	/**
 	 * Unique identifier for PartyRoles
 	 */

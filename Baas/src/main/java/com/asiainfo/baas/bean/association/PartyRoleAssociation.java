@@ -7,7 +7,6 @@ import com.asiainfo.baas.bean.common.*;
  */
 public class PartyRoleAssociation {
 
-	public PartyRole _partyRole2;
 	public PartyRole _partyRole;
 	/**
 	 * A categorization of the association, such as organizational, household, and so forth.
