@@ -1,5 +1,7 @@
 package com.asiainfo.baas.service.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.asiainfo.baas.service.*;
 import com.asiainfo.baas.bean.common.*;
 import com.asiainfo.baas.bean.partyname.*;
@@ -8,6 +10,7 @@ import com.asiainfo.baas.bean.identification.*;
 /**
  * 注册用户接口实现类
  */
+@Service
 public class RegisterServiceImpl implements RegisterService {
 
 	/**

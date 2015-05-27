@@ -12,5 +12,5 @@ public interface PartySearchService {
  * @param party
  * @return
  */
-	Partys searchParty(Partys party);
+	Partys searchParty(String partyId);
 }
