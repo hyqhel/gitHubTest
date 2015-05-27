@@ -1,12 +1,18 @@
 package com.asiainfo.baas.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.asiainfo.baas.service.*;
 import com.asiainfo.baas.bean.common.*;
-
+import com.asiainfo.baas.dao.PartyInfoDao;
+import com.asiainfo.baas.dao.PartyRoleDao;
+@Service
 public class PartySearchImpl implements PartySearchService {
-
+	@Autowired
+	PartyInfoDao partyInfoDao;
 	/**
-	 * ²éÑ¯party
+	 * ï¿½ï¿½Ñ¯party
 	 * @return
 	 */
 	public Partys searchParty(java.lang.String partyId) {

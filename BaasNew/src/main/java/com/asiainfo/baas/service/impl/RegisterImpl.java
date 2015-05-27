@@ -1,35 +1,43 @@
 package com.asiainfo.baas.service.impl;
 
-import com.asiainfo.baas.service.*;
-import com.asiainfo.baas.bean.common.*;
-import com.asiainfo.baas.bean.partyname.*;
-import com.asiainfo.baas.bean.identification.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.asiainfo.baas.bean.common.Partys;
+import com.asiainfo.baas.bean.identification.PartyIdentification;
+import com.asiainfo.baas.bean.partyname.PartyName;
+import com.asiainfo.baas.dao.PartyInfoDao;
+import com.asiainfo.baas.dao.PartyRoleDao;
+import com.asiainfo.baas.service.RegisterService;
+@Service
 public class RegisterImpl implements RegisterService {
-
+	@Autowired
+	PartyRoleDao partyRoleDao;
+	@Autowired
+	PartyInfoDao partyInfoDao;
 	/**
-	 * ×¢²áÓÃ»§
+	 * ×¢ï¿½ï¿½ï¿½Ã»ï¿½
 	 */
 	public Partys registerUser(Partys party) {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * Ìí¼Óparty
+	 * ï¿½ï¿½ï¿½party
 	 */
 	public Partys addPartyInfo(Partys party) {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * Ìí¼Ópartyname
+	 * ï¿½ï¿½ï¿½partyname
 	 */
 	public PartyName addPartyNameInfo(PartyName partyName) {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * Ìí¼ÓÈÏÖ¤ÐÅÏ¢
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½Ï¢
 	 */
 	public PartyIdentification addIdentificationInfo(
 			PartyIdentification identifitionInfo) {
