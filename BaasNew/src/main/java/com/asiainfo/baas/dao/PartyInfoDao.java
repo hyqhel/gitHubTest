@@ -11,49 +11,59 @@ public interface PartyInfoDao {
 	/**
 	 * 添加party
 	 */
-	Partys insertParty(Partys party);
+	public Partys insertParty(Partys party);
 	/**
 	 * 添加个人party
 	 */
-	Partys insertIndividualParty(Partys individualparty);
+	public Partys insertIndividualParty(Partys individualparty);
 	/**
 	 * 添加集团party
 	 */
-	Partys insertOrganizationParty(Partys organizasparty);
+	public Partys insertOrganizationParty(Partys organizasparty);
 	
 	/**
 	 * 添加partyname
 	 */
-	PartyName addPartyName(PartyName partyName);
+	public PartyName addPartyName(PartyName partyName);
 	
 	/**
 	 * 添加个人partyname
 	 */
-	PartyName addIndividualPartyNameInfo(PartyName individualpartyName);
+	public PartyName addIndividualPartyNameInfo(PartyName individualpartyName);
 	/**
 	 * 添加集团partyname
 	 */
-	PartyName addOrganizationPartyNameInfo(PartyName organizaspartyName);
+	public PartyName addOrganizationPartyNameInfo(PartyName organizaspartyName);
 
 	/**
 	 * 添加认证信息
 	 */
-	PartyIdentification addIdentificationInfo(PartyIdentification identifitionInfo);
+	public PartyIdentification addPartyIdentificationInfo(PartyIdentification identifitionInfo);
+	
+	/**
+	 * 添加个人认证信息
+	 */
+	public PartyIdentification addIndividualIdentificationInfo(PartyIdentification identifitionInfo);
+	
+	/**
+	 * 添加集团认证信息
+	 */
+	public PartyIdentification addOrganizationIdentificationInfo(PartyIdentification identifitionInfo);
 	
 	/**
 	 * 查询party
 	 */
-	Partys searchParty(Partys party);
+	public Partys searchParty(Partys party);
 	/**
 	 * 查询partyName
 	 */
-	Partys searchPartyNameByPartyId(String partyId);
+	public Partys searchPartyNameByPartyId(String partyId);
 	/**
 	 * 查询party认证信息
 	 */
-	Partys searchPartyIdentificationByPartyId(String partyId);
+	public Partys searchPartyIdentificationByPartyId(String partyId);
 	/**
 	 * 查询party语言信息
 	 */
-	Partys searchPartyLanguageByPartyId(String partyId);
+	public Partys searchPartyLanguageByPartyId(String partyId);
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.baas.dao.PartyInfoDao">
+
+<resultMap type="com.asiainfo.baas.bean.common.Partys" id="BaseResultPartyMap">
+	<result column="party_id" property="partyId" jdbcType="VARCHAR" />
+	<result column="party_type" property="party_type" jdbcType="VARCHAR" />
+	<result column="party_pwd" property="party_pwd" jdbcType="VARCHAR" />
+</resultMap>
+
+</mapper>

@@ -10,27 +10,27 @@ import com.asiainfo.baas.bean.identification.*;
 public interface RegisterService {
 
 	/**
-	 * 注册用户
+	 * 注册个人用户
 	 * @param party
 	 */
-	Partys registerUser(Partys party);
+	public Partys registerUserIndividual(Individual individual) throws Exception;
 
 	/**
-	 * 添加party
+	 * 添加个人party
 	 * @param party
 	 */
-	Partys addPartyInfo(Partys party);
+	public Partys addIndividualPartyInfo(Individual individual) throws Exception;
 
 	/**
-	 * 添加partyname
+	 * 添加个人partyname
 	 * @param partyName
 	 */
-	PartyName addPartyNameInfo(PartyName partyName);
+	public PartyName addIndividualPartyNameInfo(IndividualName individualName) throws Exception;
 
 	/**
-	 * 添加认证信息
+	 * 添加个人认证信息
 	 * @param identifitionInfo
 	 */
-	PartyIdentification addIdentificationInfo(PartyIdentification identifitionInfo);
+	public PartyIdentification addIndividualIdentificationInfo(IndividualIdentification individualIdentifitionInfo) throws Exception;
 
 }
