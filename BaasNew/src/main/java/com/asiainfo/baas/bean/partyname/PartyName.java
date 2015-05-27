@@ -7,6 +7,8 @@ import com.asiainfo.baas.bean.language.*;
  */
 public abstract class PartyName {
 
+	public String partyNameId;
+	
 	public Language _partyName;
 	/**
 	 * The time period that the PartyName is applicable.
@@ -24,6 +26,11 @@ public abstract class PartyName {
 	public void setValidFor(String validFor) {
 		this.validFor = validFor;
 	}
-	
+	public String getPartyNameId() {
+		return partyNameId;
+	}
+	public void setPartyNameId(String partyNameId) {
+		this.partyNameId = partyNameId;
+	}
 	
 }

@@ -8,6 +8,7 @@ import com.asiainfo.baas.bean.language.*;
  */
 public abstract class PartyIdentification {
 
+	public String partyIdentificationId;
 	public Organization _issuer;
 	public Language _language;
 	/**
@@ -52,6 +53,11 @@ public abstract class PartyIdentification {
 	public void setValidFor(String validFor) {
 		this.validFor = validFor;
 	}
-	
+	public String getPartyIdentificationId() {
+		return partyIdentificationId;
+	}
+	public void setPartyIdentificationId(String partyIdentificationId) {
+		this.partyIdentificationId = partyIdentificationId;
+	}
 	
 }
