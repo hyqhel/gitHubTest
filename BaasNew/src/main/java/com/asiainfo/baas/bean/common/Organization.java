@@ -12,9 +12,9 @@ public class Organization extends Partys {
 	/**
 	 * Organization Identification represents our registration of information used as proof of identity by an Organization
 	 */
-	public Collection<OrganizationIdentification> _organizationIdentification;
+	public List<OrganizationIdentification> _organizationIdentification;
 	public OrganizationName _organizationName;
-	public Collection<PartyIdentification> _partyIdentification;
+	public List<PartyIdentification> _partyIdentification;
 	/**
 	 * Incorporation date to disincorporation date.
 	 */
@@ -24,7 +24,7 @@ public class Organization extends Partys {
 	 */
 	public boolean isLegalEntity;
 	/**
-	 * The type of organization Notes: Club, Society, ¡­
+	 * The type of organization Notes: Club, Society, ï¿½ï¿½
 	 */
 	public String type;
 }

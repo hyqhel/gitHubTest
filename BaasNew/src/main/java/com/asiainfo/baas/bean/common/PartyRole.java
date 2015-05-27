@@ -11,7 +11,7 @@ import com.asiainfo.baas.bean.contact.*;
 public class PartyRole {
 
 	public Partys _party;
-	public Collection<PartyRoleAssociation> _partyRoleAssociation;
+	public List<PartyRoleAssociation> _partyRoleAssociation;
 	public List<ContactMedium> _contactMedium;
 	public List<PartyRoleAssociation> _partyRoleAssociation2;
 	/**

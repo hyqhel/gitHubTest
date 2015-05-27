@@ -7,7 +7,7 @@ import java.util.*;
  */
 public abstract class Partys {
 
-	public Collection<PartyRole> _partyRole;
+	public List<PartyRole> _partyRole;
 	/**
 	 * Unique identifier for Party
 	 */
