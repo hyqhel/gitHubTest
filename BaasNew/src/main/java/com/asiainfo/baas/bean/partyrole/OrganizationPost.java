@@ -11,4 +11,14 @@ public class OrganizationPost extends PartyRole {
 	 * The name of the job title associated with the OrganizationalPost.
 	 */
 	public String jobTitle;
+
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+	
+	
 }

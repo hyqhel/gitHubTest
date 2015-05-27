@@ -9,4 +9,13 @@ public class BirthCertificateIdentification extends IndividualIdentification {
 	 * A number assigned birth certificate used to identify it.
 	 */
 	public String certificateNr;
+
+	public String getCertificateNr() {
+		return certificateNr;
+	}
+
+	public void setCertificateNr(String certificateNr) {
+		this.certificateNr = certificateNr;
+	}
+	
 }

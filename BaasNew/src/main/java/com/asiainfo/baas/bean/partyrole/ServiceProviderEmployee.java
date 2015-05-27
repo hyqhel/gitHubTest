@@ -19,4 +19,24 @@ public class ServiceProviderEmployee extends PartyRole {
 	 * The current fixed regular payment, typically paid on a monthly or biweekly basis but often expressed as an annual sum, made by an employer to an employee.
 	 */
 	public String currentSalary;
+	public String getEmploymentStatus() {
+		return employmentStatus;
+	}
+	public void setEmploymentStatus(String employmentStatus) {
+		this.employmentStatus = employmentStatus;
+	}
+	public String getEmployeeNr() {
+		return employeeNr;
+	}
+	public void setEmployeeNr(String employeeNr) {
+		this.employeeNr = employeeNr;
+	}
+	public String getCurrentSalary() {
+		return currentSalary;
+	}
+	public void setCurrentSalary(String currentSalary) {
+		this.currentSalary = currentSalary;
+	}
+	
+	
 }

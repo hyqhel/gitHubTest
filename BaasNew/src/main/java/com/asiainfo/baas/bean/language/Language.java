@@ -20,4 +20,31 @@ public class Language {
 	 * A list of the dialects of the language Note: ISO standard ?
 	 */
 	public String dialectNames;
+	public List<PartyName> get_language() {
+		return _language;
+	}
+	public void set_language(List<PartyName> _language) {
+		this._language = _language;
+	}
+	public List<PartyIdentification> get_partyIdentification() {
+		return _partyIdentification;
+	}
+	public void set_partyIdentification(
+			List<PartyIdentification> _partyIdentification) {
+		this._partyIdentification = _partyIdentification;
+	}
+	public String getAlphabetName() {
+		return alphabetName;
+	}
+	public void setAlphabetName(String alphabetName) {
+		this.alphabetName = alphabetName;
+	}
+	public String getDialectNames() {
+		return dialectNames;
+	}
+	public void setDialectNames(String dialectNames) {
+		this.dialectNames = dialectNames;
+	}
+	
+	
 }

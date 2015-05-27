@@ -22,4 +22,36 @@ public abstract class PartyIdentification {
 	 * The time period that the Party Identification is valid for Note: The validitity start date may not necessarily equal the issue date (e.g. credit cards are only valid some time after thay are issued) Permitted Values: Refer Time Period class
 	 */
 	public String validFor;
+	public Organization get_issuer() {
+		return _issuer;
+	}
+	public void set_issuer(Organization _issuer) {
+		this._issuer = _issuer;
+	}
+	public Language get_language() {
+		return _language;
+	}
+	public void set_language(Language _language) {
+		this._language = _language;
+	}
+	public String getIssueDate() {
+		return issueDate;
+	}
+	public void setIssueDate(String issueDate) {
+		this.issueDate = issueDate;
+	}
+	public String getScan() {
+		return scan;
+	}
+	public void setScan(String scan) {
+		this.scan = scan;
+	}
+	public String getValidFor() {
+		return validFor;
+	}
+	public void setValidFor(String validFor) {
+		this.validFor = validFor;
+	}
+	
+	
 }

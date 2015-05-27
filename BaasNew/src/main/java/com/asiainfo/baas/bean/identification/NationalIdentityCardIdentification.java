@@ -10,4 +10,14 @@ public class NationalIdentityCardIdentification extends
 	 * A number assigned to a NationalIdentityCard used to identify it.
 	 */
 	public String cardNr;
+
+	public String getCardNr() {
+		return cardNr;
+	}
+
+	public void setCardNr(String cardNr) {
+		this.cardNr = cardNr;
+	}
+	
+	
 }

@@ -13,4 +13,18 @@ public class EmployeeIdentification extends IndividualIdentification {
 	 * A picture or likeness obtained by photography.
 	 */
 	public String photo;
+	public String getEmployeeNr() {
+		return employeeNr;
+	}
+	public void setEmployeeNr(String employeeNr) {
+		this.employeeNr = employeeNr;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
+	
 }

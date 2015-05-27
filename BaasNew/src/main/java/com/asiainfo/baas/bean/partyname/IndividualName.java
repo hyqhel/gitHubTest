@@ -57,4 +57,84 @@ public class IndividualName extends PartyName {
 	 * Contains the letters used to describe academic or other type qualifications held by a person and/or the distinctions conferred upon them. e.g. PhD, MD, CPA, MCSD, etc Note: also known as orders, decorations, honors, awards and distinctions
 	 */
 	public String qualifications;
+	public List<Individual> get_individual() {
+		return _individual;
+	}
+	public void set_individual(List<Individual> _individual) {
+		this._individual = _individual;
+	}
+	public String getAristocraticTitle() {
+		return aristocraticTitle;
+	}
+	public void setAristocraticTitle(String aristocraticTitle) {
+		this.aristocraticTitle = aristocraticTitle;
+	}
+	public String getFamilyGeneration() {
+		return familyGeneration;
+	}
+	public void setFamilyGeneration(String familyGeneration) {
+		this.familyGeneration = familyGeneration;
+	}
+	public String getFamilyNamePrefix() {
+		return familyNamePrefix;
+	}
+	public void setFamilyNamePrefix(String familyNamePrefix) {
+		this.familyNamePrefix = familyNamePrefix;
+	}
+	public String getFamilyNames() {
+		return familyNames;
+	}
+	public void setFamilyNames(String familyNames) {
+		this.familyNames = familyNames;
+	}
+	public String getFormattedName() {
+		return formattedName;
+	}
+	public void setFormattedName(String formattedName) {
+		this.formattedName = formattedName;
+	}
+	public String getFormOfAddress() {
+		return formOfAddress;
+	}
+	public void setFormOfAddress(String formOfAddress) {
+		this.formOfAddress = formOfAddress;
+	}
+	public String getGeneration() {
+		return generation;
+	}
+	public void setGeneration(String generation) {
+		this.generation = generation;
+	}
+	public String getGivenNames() {
+		return givenNames;
+	}
+	public void setGivenNames(String givenNames) {
+		this.givenNames = givenNames;
+	}
+	public String getLegalName() {
+		return legalName;
+	}
+	public void setLegalName(String legalName) {
+		this.legalName = legalName;
+	}
+	public String getMiddleNames() {
+		return middleNames;
+	}
+	public void setMiddleNames(String middleNames) {
+		this.middleNames = middleNames;
+	}
+	public String getPreferredGivenName() {
+		return preferredGivenName;
+	}
+	public void setPreferredGivenName(String preferredGivenName) {
+		this.preferredGivenName = preferredGivenName;
+	}
+	public String getQualifications() {
+		return qualifications;
+	}
+	public void setQualifications(String qualifications) {
+		this.qualifications = qualifications;
+	}
+	
+	
 }

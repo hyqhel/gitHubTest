@@ -9,4 +9,13 @@ public class SocialSecurityNrIdentification extends IndividualIdentification {
 	 * A nine-digit number issued to U.S. citizens, permanent residents, and temporary (working) residents.
 	 */
 	public String socialSecurityNr;
+
+	public String getSocialSecurityNr() {
+		return socialSecurityNr;
+	}
+
+	public void setSocialSecurityNr(String socialSecurityNr) {
+		this.socialSecurityNr = socialSecurityNr;
+	}
+	
 }

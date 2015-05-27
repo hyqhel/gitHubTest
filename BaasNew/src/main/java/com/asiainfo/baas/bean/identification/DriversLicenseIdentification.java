@@ -9,4 +9,14 @@ public class DriversLicenseIdentification extends IndividualIdentification {
 	 * A number assigned to a driver's license used to identify it.
 	 */
 	public String licenseNr;
+
+	public String getLicenseNr() {
+		return licenseNr;
+	}
+
+	public void setLicenseNr(String licenseNr) {
+		this.licenseNr = licenseNr;
+	}
+	
+	
 }

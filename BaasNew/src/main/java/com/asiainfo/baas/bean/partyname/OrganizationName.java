@@ -17,4 +17,24 @@ public class OrganizationName extends PartyName {
 	 * The name that the organization (unit) trades under
 	 */
 	public String tradingName;
+	public List<Organization> get_organization() {
+		return _organization;
+	}
+	public void set_organization(List<Organization> _organization) {
+		this._organization = _organization;
+	}
+	public String getNameType() {
+		return nameType;
+	}
+	public void setNameType(String nameType) {
+		this.nameType = nameType;
+	}
+	public String getTradingName() {
+		return tradingName;
+	}
+	public void setTradingName(String tradingName) {
+		this.tradingName = tradingName;
+	}
+	
+	
 }

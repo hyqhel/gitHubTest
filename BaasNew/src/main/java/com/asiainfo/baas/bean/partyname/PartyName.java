@@ -12,4 +12,18 @@ public abstract class PartyName {
 	 * The time period that the PartyName is applicable.
 	 */
 	public String validFor;
+	public Language get_partyName() {
+		return _partyName;
+	}
+	public void set_partyName(Language _partyName) {
+		this._partyName = _partyName;
+	}
+	public String getValidFor() {
+		return validFor;
+	}
+	public void setValidFor(String validFor) {
+		this.validFor = validFor;
+	}
+	
+	
 }

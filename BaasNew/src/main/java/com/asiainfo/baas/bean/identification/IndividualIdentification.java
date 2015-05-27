@@ -8,4 +8,6 @@ import com.asiainfo.baas.bean.common.*;
 public abstract class IndividualIdentification extends PartyIdentification {
 
 	public Individual _individual;
+	
+	public String IndividualType;
 }
