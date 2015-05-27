@@ -13,4 +13,26 @@ public abstract class ContactMedium {
 	 * The time period that the Contact Medium is valid for.
 	 */
 	public String validFor;
+	
+	public String contactMediumEnumId;
+	
+	public List<PartyRole> get_partyRole() {
+		return _partyRole;
+	}
+	public void set_partyRole(List<PartyRole> _partyRole) {
+		this._partyRole = _partyRole;
+	}
+	public String getValidFor() {
+		return validFor;
+	}
+	public void setValidFor(String validFor) {
+		this.validFor = validFor;
+	}
+	public String getContactMediumEnumId() {
+		return contactMediumEnumId;
+	}
+	public void setContactMediumEnumId(String contactMediumEnumId) {
+		this.contactMediumEnumId = contactMediumEnumId;
+	}
+	
 }

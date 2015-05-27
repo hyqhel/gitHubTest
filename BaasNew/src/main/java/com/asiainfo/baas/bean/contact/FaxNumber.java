@@ -9,4 +9,13 @@ public class FaxNumber extends ContactMedium {
 	 * A number, often a telephone number. associated with a printer or other output device used to communicate information.
 	 */
 	public String number;
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	
 }

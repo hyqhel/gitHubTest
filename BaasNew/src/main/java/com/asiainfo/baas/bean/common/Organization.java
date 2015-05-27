@@ -27,4 +27,43 @@ public class Organization extends Partys {
 	 * The type of organization Notes: Club, Society, ��
 	 */
 	public String type;
+	
+	public List<OrganizationIdentification> get_organizationIdentification() {
+		return _organizationIdentification;
+	}
+	public void set_organizationIdentification(
+			List<OrganizationIdentification> _organizationIdentification) {
+		this._organizationIdentification = _organizationIdentification;
+	}
+	public OrganizationName get_organizationName() {
+		return _organizationName;
+	}
+	public void set_organizationName(OrganizationName _organizationName) {
+		this._organizationName = _organizationName;
+	}
+	public List<PartyIdentification> get_partyIdentification() {
+		return _partyIdentification;
+	}
+	public void set_partyIdentification(
+			List<PartyIdentification> _partyIdentification) {
+		this._partyIdentification = _partyIdentification;
+	}
+	public String getExistsDuring() {
+		return existsDuring;
+	}
+	public void setExistsDuring(String existsDuring) {
+		this.existsDuring = existsDuring;
+	}
+	public boolean isLegalEntity() {
+		return isLegalEntity;
+	}
+	public void setLegalEntity(boolean isLegalEntity) {
+		this.isLegalEntity = isLegalEntity;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 }

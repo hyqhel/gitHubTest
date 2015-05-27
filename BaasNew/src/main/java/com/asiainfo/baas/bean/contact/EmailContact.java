@@ -9,4 +9,13 @@ public class EmailContact extends ContactMedium {
 	 * A full e-mail address in standard format. Notes: e.g. fred.bloggs@thing.com
 	 */
 	public String eMailAddress;
+
+	public String geteMailAddress() {
+		return eMailAddress;
+	}
+
+	public void seteMailAddress(String eMailAddress) {
+		this.eMailAddress = eMailAddress;
+	}
+	
 }

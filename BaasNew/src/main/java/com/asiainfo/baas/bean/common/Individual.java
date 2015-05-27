@@ -41,4 +41,61 @@ public class Individual extends Partys {
 	 * Note: Probably only used for employees, but is really role independent This should be modeled as a separate entity but is shown as an attribute for brevity
 	 */
 	public String skills;
+	
+	public List<IndividualIdentification> get_individualIdentification() {
+		return _individualIdentification;
+	}
+	public void set_individualIdentification(
+			List<IndividualIdentification> _individualIdentification) {
+		this._individualIdentification = _individualIdentification;
+	}
+	public IndividualName get_individualName() {
+		return _individualName;
+	}
+	public void set_individualName(IndividualName _individualName) {
+		this._individualName = _individualName;
+	}
+	public String getAliveDuring() {
+		return aliveDuring;
+	}
+	public void setAliveDuring(String aliveDuring) {
+		this.aliveDuring = aliveDuring;
+	}
+	public String getDisabilities() {
+		return disabilities;
+	}
+	public void setDisabilities(String disabilities) {
+		this.disabilities = disabilities;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+	public String getNationality() {
+		return nationality;
+	}
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+	public String getPlaceOfBirth() {
+		return placeOfBirth;
+	}
+	public void setPlaceOfBirth(String placeOfBirth) {
+		this.placeOfBirth = placeOfBirth;
+	}
+	public String getSkills() {
+		return skills;
+	}
+	public void setSkills(String skills) {
+		this.skills = skills;
+	}
+	
 }
