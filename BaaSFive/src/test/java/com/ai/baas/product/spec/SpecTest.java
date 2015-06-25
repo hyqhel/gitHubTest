@@ -1,4 +1,4 @@
-package com.asiainfo.baas.test;
+package com.ai.baas.product.spec;
 
 import java.util.Date;
 

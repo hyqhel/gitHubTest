@@ -1,4 +1,4 @@
-package com.asiainfo.baas.test;
+package com.ai.baas.product.spec;
 
 public class MainTest {
  public static void main(String[] args) {
