@@ -37,7 +37,7 @@ public class ProductCatalogTest {
 	}
 	@After
 	public void systemMyInfo(){
-		System.out.println("catalog name is"+pclog.getName());
+		System.out.println("catalog name is "+pclog.getName());
 		System.out.println("   I have manay offering  size is :"+pclog.getProdCatalogProdOffer().size());
 		System.out.println("       I am a offering my name is: "+pclog.getProdCatalogProdOffer().get(0).getProdOffering().getName());
 	}

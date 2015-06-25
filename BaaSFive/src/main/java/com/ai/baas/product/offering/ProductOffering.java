@@ -1,6 +1,7 @@
 package com.ai.baas.product.offering;
 
 import java.util.*;
+
 import com.ai.baas.product.offering.price.*;
 import com.ai.baas.product.offering.catalog.*;
 import com.ai.baas.basetype.*;
@@ -10,10 +11,38 @@ import com.ai.baas.basetype.*;
  */
 public abstract class ProductOffering {
 
-    public List<ProductOfferingPrice> productOfferingPrice;
-    public List<ProductOfferingRelationship> prodOfferingRelationship;
-    public List<ProdCatalogProdOffer> prodCatalogProdOffer;
-    /**
+    private List<ProductOfferingPrice> productOfferingPrice;
+    private List<ProductOfferingRelationship> prodOfferingRelationship;
+    private List<ProdCatalogProdOffer> prodCatalogProdOffer;
+    
+    public List<ProductOfferingPrice> getProductOfferingPrice() {
+		return productOfferingPrice;
+	}
+
+	public void setProductOfferingPrice(
+			List<ProductOfferingPrice> productOfferingPrice) {
+		this.productOfferingPrice = productOfferingPrice;
+	}
+
+	public List<ProductOfferingRelationship> getProdOfferingRelationship() {
+		return prodOfferingRelationship;
+	}
+
+	public void setProdOfferingRelationship(
+			List<ProductOfferingRelationship> prodOfferingRelationship) {
+		this.prodOfferingRelationship = prodOfferingRelationship;
+	}
+
+	public List<ProdCatalogProdOffer> getProdCatalogProdOffer() {
+		return prodCatalogProdOffer;
+	}
+
+	public void setProdCatalogProdOffer(
+			List<ProdCatalogProdOffer> prodCatalogProdOffer) {
+		this.prodCatalogProdOffer = prodCatalogProdOffer;
+	}
+
+	/**
      * A unique identifier for the ProductOffering.
      */
     private String id;
@@ -92,8 +121,12 @@ public abstract class ProductOffering {
      * @param validFor
      */
     public void addRelatedOffering(ProductOffering offering, String relationType, TimePeriod validFor) {
-        // TODO - implement ProductOffering.addRelatedOffering
-        throw new UnsupportedOperationException();
+    	ProductOfferingRelationship pors =  new ProductOfferingRelationship(this,offering,relationType,validFor);
+    	if(this.prodOfferingRelationship == null){
+    		this.prodOfferingRelationship = new ArrayList<ProductOfferingRelationship>();
+    	}
+    	this.prodOfferingRelationship.add(pors);
+    	
     }
 
     /**
@@ -103,8 +136,6 @@ public abstract class ProductOffering {
      * @param validFor
      */
     public void addRelatedOffering(String offeringId, String relationType, TimePeriod validFor) {
-        // TODO - implement ProductOffering.addRelatedOffering
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -112,8 +143,9 @@ public abstract class ProductOffering {
      * @param offering
      */
     public void removeRelatedOffering(ProductOffering offering) {
-        // TODO - implement ProductOffering.removeRelatedOffering
-        throw new UnsupportedOperationException();
+    	if(this.prodOfferingRelationship != null && this.prodOfferingRelationship.size()>0){
+    		this.prodOfferingRelationship.remove(offering);
+    	}
     }
 
     /**
@@ -121,17 +153,25 @@ public abstract class ProductOffering {
      * @param offeringId
      */
     public void removeRelatedOffering(String offeringId) {
-        // TODO - implement ProductOffering.removeRelatedOffering
-        throw new UnsupportedOperationException();
     }
 
     /**
      * 
      * @param relationType
      */
-    public ProductOffering[] queryRelatedOffering(String relationType) {
-        // TODO - implement ProductOffering.queryRelatedOffering
-        throw new UnsupportedOperationException();
+    public List<ProductOffering> queryRelatedOffering(String relationType) {
+    	List<ProductOffering> poarr= new ArrayList<ProductOffering>();
+    	if("".equals(relationType)){
+    		return null;
+    	}
+    	if(this.prodOfferingRelationship != null && this.prodOfferingRelationship.size()>0){
+    		for(int i=0 ;i<this.prodOfferingRelationship.size();i++){
+    			if(this.prodOfferingRelationship.get(i).getTypeRelationship().equals(relationType)){
+    				poarr.add(this.prodOfferingRelationship.get(i).getTargetOffering());
+    			}
+    		}
+    	}
+        return poarr;
     }
 
     /**
@@ -140,8 +180,7 @@ public abstract class ProductOffering {
      * @param time
      */
     public ProductOffering[] queryRelatedOffering(String relationType, Date time) {
-        // TODO - implement ProductOffering.queryRelatedOffering
-        throw new UnsupportedOperationException();
+    	return null;
     }
 
     /**
@@ -149,8 +188,13 @@ public abstract class ProductOffering {
      * @param price
      */
     public void addPrice(ProductOfferingPrice price) {
-        // TODO - implement ProductOffering.addPrice
-        throw new UnsupportedOperationException();
+    	if(price !=null){
+    		if(this.productOfferingPrice ==null ){
+    			this.productOfferingPrice = new ArrayList<ProductOfferingPrice>();
+    		}
+    		this.productOfferingPrice.add(price);
+    	}
+    	
     }
 
     /**
@@ -158,8 +202,6 @@ public abstract class ProductOffering {
      * @param priceId
      */
     public void addPrice(String priceId) {
-        // TODO - implement ProductOffering.addPrice
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -167,8 +209,11 @@ public abstract class ProductOffering {
      * @param price
      */
     public void removePrice(ProductOfferingPrice price) {
-        // TODO - implement ProductOffering.removePrice
-        throw new UnsupportedOperationException();
+    	if(price !=null){
+    		if(this.productOfferingPrice !=null && this.productOfferingPrice.size()>0){
+    			this.productOfferingPrice.remove(price);
+    		}
+    	}
     }
 
     /**
@@ -176,8 +221,6 @@ public abstract class ProductOffering {
      * @param priceId
      */
     public void removePrice(String priceId) {
-        // TODO - implement ProductOffering.removePrice
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -185,8 +228,6 @@ public abstract class ProductOffering {
      * @param price
      */
     public void setPrice(ProductOfferingPrice[] price) {
-        // TODO - implement ProductOffering.setPrice
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -194,8 +235,7 @@ public abstract class ProductOffering {
      * @param time
      */
     public ProductOfferingPrice[] queryPrice(Date time) {
-        // TODO - implement ProductOffering.queryPrice
-        throw new UnsupportedOperationException();
+    	return null;
     }
 
 }
