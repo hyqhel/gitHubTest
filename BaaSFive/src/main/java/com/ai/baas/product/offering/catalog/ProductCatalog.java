@@ -2,6 +2,7 @@ package com.ai.baas.product.offering.catalog;
 
 import com.ai.baas.common.catalog.*;
 import java.util.*;
+
 import com.ai.baas.basetype.*;
 import com.ai.baas.product.offering.*;
 import com.ai.baas.product.offering.price.*;
@@ -16,7 +17,11 @@ public class ProductCatalog extends Catalog {
 
     public List<ProdCatalogProdOffer> prodCatalogProdOffer;
 
-    /**
+    public List<ProdCatalogProdOffer> getProdCatalogProdOffer() {
+		return prodCatalogProdOffer;
+	}
+
+	/**
      * 
      * @param id
      * @param name
@@ -36,6 +41,9 @@ public class ProductCatalog extends Catalog {
     public void publishOffering(ProductOffering offering, TimePeriod validFor) {
         // TODO - implement ProductCatalog.publishOffering
     	ProdCatalogProdOffer prodOffer = new ProdCatalogProdOffer( offering,  validFor);
+    	if(this.prodCatalogProdOffer == null){
+    		this.prodCatalogProdOffer =  new ArrayList<ProdCatalogProdOffer>();
+    	}
     	this.prodCatalogProdOffer.add(prodOffer);
     }
 

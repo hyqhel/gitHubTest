@@ -12,7 +12,12 @@ public class ProdCatalogProdOffer {
 
     public ProductOffering prodOffering;
     public List<ProductOfferingPrice> productOfferingPrice;
-    /**
+    
+    public ProductOffering getProdOffering() {
+		return prodOffering;
+	}
+
+	/**
      * The period during which the ProductOffering appears in the ProductCatalog.
      */
     private TimePeriod validFor;
