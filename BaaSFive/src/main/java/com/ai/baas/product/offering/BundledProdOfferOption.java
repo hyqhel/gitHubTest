@@ -7,9 +7,27 @@ package com.ai.baas.product.offering;
  */
 public class BundledProdOfferOption {
 
-    public ProductOffering productOffering;
-    public BundledProductOffering bundledProductOffering;
-    /**
+    private ProductOffering productOffering;
+    private BundledProductOffering bundledProductOffering;
+    
+    public ProductOffering getProductOffering() {
+		return productOffering;
+	}
+
+	public void setProductOffering(ProductOffering productOffering) {
+		this.productOffering = productOffering;
+	}
+
+	public BundledProductOffering getBundledProductOffering() {
+		return bundledProductOffering;
+	}
+
+	public void setBundledProductOffering(
+			BundledProductOffering bundledProductOffering) {
+		this.bundledProductOffering = bundledProductOffering;
+	}
+
+	/**
      * The lower limit of related ProductOfferings that can be procured as part of the BundledProductOffering.
      * 
      * Values can range from 0 to unbounded.
@@ -45,8 +63,10 @@ public class BundledProdOfferOption {
      * @param upperLimit
      */
     public BundledProdOfferOption(ProductOffering offering, int lowerLimit, int upperLimit) {
-        // TODO - implement BundledProdOfferOption.BundledProdOfferOption
-        throw new UnsupportedOperationException();
+    	this.productOffering = offering;
+    	this.numberRelOfferLowerLimit = lowerLimit;
+    	this.numberRelOfferUpperLimit = upperLimit;
+    	
     }
 
     /**
