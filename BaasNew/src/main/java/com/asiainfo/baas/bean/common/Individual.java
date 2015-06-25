@@ -13,6 +13,8 @@ public class Individual extends Partys {
 
 	public List<IndividualIdentification> _individualIdentification;
 	public IndividualName _individualName;
+	
+	public String individualId;
 	/**
 	 * Birth date and death date.
 	 */
@@ -96,6 +98,12 @@ public class Individual extends Partys {
 	}
 	public void setSkills(String skills) {
 		this.skills = skills;
+	}
+	public String getIndividualId() {
+		return individualId;
+	}
+	public void setIndividualId(String individualId) {
+		this.individualId = individualId;
 	}
 	
 }

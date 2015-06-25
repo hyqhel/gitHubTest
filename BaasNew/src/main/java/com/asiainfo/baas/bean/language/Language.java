@@ -12,6 +12,8 @@ public class Language {
 
 	public List<PartyName> _language;
 	public List<PartyIdentification> _partyIdentification;
+	
+	public String languageId;
 	/**
 	 * The alphabet name use for the language Note: ISO standard ?
 	 */
@@ -44,6 +46,12 @@ public class Language {
 	}
 	public void setDialectNames(String dialectNames) {
 		this.dialectNames = dialectNames;
+	}
+	public String getLanguageId() {
+		return languageId;
+	}
+	public void setLanguageId(String languageId) {
+		this.languageId = languageId;
 	}
 	
 	

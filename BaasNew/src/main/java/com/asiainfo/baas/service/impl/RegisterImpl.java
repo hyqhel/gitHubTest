@@ -66,6 +66,7 @@ public class RegisterImpl implements RegisterService {
 		
 		String indexId = Index.CreateNoncestr();
 		individual.setPartyId(indexId);
+		individual.getPartyId();
 		partyInfoDao.insertParty(individual);
 		partyInfoDao.insertIndividualParty(individual);
 		
@@ -93,7 +94,6 @@ public class RegisterImpl implements RegisterService {
 		String indexId = Index.CreateNoncestr();
 		individualIdentifitionInfo.setPartyIdentificationId(indexId);
 		partyInfoDao.addPartyIdentificationInfo(individualIdentifitionInfo);
-		partyInfoDao.addIndividualIdentificationInfo(individualIdentifitionInfo);
 		
 		return individualIdentifitionInfo;
 	}

@@ -7,8 +7,12 @@ import java.util.*;
  * A word, term, or phrase by which an individual is known and distinguished from other individuals.A name is an informal way of identifying an object [Fowler]This entity allows for international naming variations. An IndividualName is a type of PartyName.
  */
 public class IndividualName extends PartyName {
+	
+	public String individualNameId;
 
 	public List<Individual> _individual;
+	
+	public String partyId;
 	/**
 	 * A name that describes someone's aristocratic position, such as Baron, Graf, Earl, and so forth.
 	 */
@@ -134,6 +138,18 @@ public class IndividualName extends PartyName {
 	}
 	public void setQualifications(String qualifications) {
 		this.qualifications = qualifications;
+	}
+	public String getIndividualNameId() {
+		return individualNameId;
+	}
+	public void setIndividualNameId(String individualNameId) {
+		this.individualNameId = individualNameId;
+	}
+	public String getPartyId() {
+		return partyId;
+	}
+	public void setPartyId(String partyId) {
+		this.partyId = partyId;
 	}
 	
 	

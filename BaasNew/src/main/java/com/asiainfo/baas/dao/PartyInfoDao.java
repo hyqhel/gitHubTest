@@ -15,7 +15,7 @@ public interface PartyInfoDao {
 	/**
 	 * 添加个人party
 	 */
-	public Partys insertIndividualParty(Partys individualparty);
+	public Partys insertIndividualParty(Individual individualparty);
 	/**
 	 * 添加集团party
 	 */
@@ -29,7 +29,7 @@ public interface PartyInfoDao {
 	/**
 	 * 添加个人partyname
 	 */
-	public PartyName addIndividualPartyNameInfo(PartyName individualpartyName);
+	public PartyName addIndividualPartyNameInfo(IndividualName individualpartyName);
 	/**
 	 * 添加集团partyname
 	 */
@@ -39,16 +39,6 @@ public interface PartyInfoDao {
 	 * 添加认证信息
 	 */
 	public PartyIdentification addPartyIdentificationInfo(PartyIdentification identifitionInfo);
-	
-	/**
-	 * 添加个人认证信息
-	 */
-	public PartyIdentification addIndividualIdentificationInfo(PartyIdentification identifitionInfo);
-	
-	/**
-	 * 添加集团认证信息
-	 */
-	public PartyIdentification addOrganizationIdentificationInfo(PartyIdentification identifitionInfo);
 	
 	/**
 	 * 查询party

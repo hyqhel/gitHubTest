@@ -43,7 +43,7 @@ public interface PartyInfoDao {
 	/**
 	 * ≤È—Øparty
 	 */
-	Partys searchParty(Partys party);
+	Partys searchParty(String partyId);
 	/**
 	 * ≤È—ØpartyName
 	 */

@@ -11,6 +11,16 @@ public abstract class PartyIdentification {
 	public String partyIdentificationId;
 	public Organization _issuer;
 	public Language _language;
+	
+	public String identifiEnumId;
+	
+	
+	public String getIdentifiEnumId() {
+		return identifiEnumId;
+	}
+	public void setIdentifiEnumId(String identifiEnumId) {
+		this.identifiEnumId = identifiEnumId;
+	}
 	/**
 	 * The date that the identification was produced / printed
 	 */

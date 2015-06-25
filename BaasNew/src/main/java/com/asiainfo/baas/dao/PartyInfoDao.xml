@@ -2,10 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.asiainfo.baas.dao.PartyInfoDao">
 
+<!-- Party类 -->
 <resultMap type="com.asiainfo.baas.bean.common.Partys" id="BaseResultPartyMap">
 	<result column="party_id" property="partyId" jdbcType="VARCHAR" />
+	<result column="valid_date" property="validFor" jdbcType="VARCHAR" />
 	<result column="party_type" property="party_type" jdbcType="VARCHAR" />
 	<result column="party_pwd" property="party_pwd" jdbcType="VARCHAR" />
 </resultMap>
+
+<!-- Individual类 -->
+<resultMap type="com.asiainfo.baas.bean.common.Individual" id="BaseResultIndividualPartyMap">
+	<result column="individual_id" property="individualId" jdbcType="VARCHAR" />
+	<result column="gender" property="gender" jdbcType="VARCHAR" />
+	<result column="place_of_birth" property="placeOfBirth" jdbcType="VARCHAR" />
+	<result column="party_id" property="partyId" jdbcType="VARCHAR" />
+</resultMap>
+
+<!-- PartyName类 -->
+<resultMap type="com.asiainfo.baas.bean.partyname.PartyName" id="BaseResultPartyNameMap">
+	<result column="party_name_id" property="partyNameId" jdbcType="VARCHAR" />
+	<result column="valid_date" property="validFor" jdbcType="VARCHAR" />
+	<result column="party_id" property="partyId" jdbcType="VARCHAR" />
+	<result column="language_id" property="party_pwd" jdbcType="com.asiainfo.baas.bean." />
+</resultMap>
+
+<!-- 新增party -->
+<insert id="insertParty" parameterType="com.asiainfo.baas.bean.common.Partys">
+	insert into party 
+	(party_id, valid_date, party_type, party_pwd)
+	values
+	(#{partyId}, #{validFor}, #{party_type}, #{party_pwd})
+</insert>
+
+<!-- 新增insertIndividualParty -->
+<insert id="insertIndividualParty" parameterType="com.asiainfo.baas.bean.common.Individual">
+	insert into individual_party 
+	(individual_id, gender, place_of_birth, party_id)
+	values
+	(#{individualId}, #{gender}, #{placeOfBirth}, #{partyId})
+</insert>
+
+<!-- 新增addPartyName -->
+<insert id="addPartyName" parameterType="com.asiainfo.baas.bean.partyname.PartyName">
+	insert into party_name 
+	(party_name_id, valid_date, party_id, language_id)
+	values
+	(#{partyId}, #{validFor}, #{party_type}, #{_partyName.languageId})
+</insert>
+
+<!-- 新增addIndividualPartyNameInfo -->
+<insert id="addIndividualPartyNameInfo" parameterType="com.asiainfo.baas.bean.partyname.IndividualName">
+	insert into individual_name 
+	(individual_name_id, formatted_Name, legal_name, aristocratic_title, form_address, generation, party_id)
+	values
+	(#{individualNameId}, #{formattedName}, #{legalName}, #{aristocraticTitle}, #{formAddress}, #{generation}, #{partyId})
+</insert>
+
+<!-- 新增addPartyIdentificationInfo -->
+<insert id="addPartyIdentificationInfo" parameterType="com.asiainfo.baas.bean.identification.PartyIdentification">
+	insert into identification 
+	(identification_id, identifi_enum_id, identification_code, identification_language_id, partyparty_id)
+	values
+	(#{partyIdentificationId}, #{identifiEnumId}, #{code}, #{aristocraticTitle}, #{_language.languageId}, #{_individual.partyId})
+</insert>
 
 </mapper>

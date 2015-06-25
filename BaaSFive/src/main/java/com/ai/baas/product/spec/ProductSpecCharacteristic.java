@@ -343,8 +343,4 @@ public class ProductSpecCharacteristic {
         throw new UnsupportedOperationException();
     }
 
-	public List<ProductSpecCharacteristicValue> getProdSpecCharValue() {
-		return prodSpecCharValue;
-	}
-
 }
