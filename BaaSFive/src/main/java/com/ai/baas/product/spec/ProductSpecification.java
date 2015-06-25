@@ -229,18 +229,16 @@ public abstract class ProductSpecification {
      */
     public void attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
     	
-    	if(null!=prodSpecChar && prodSpecChar.size()>0){
-    		for (int i = 0; i < prodSpecChar.size(); i++) {
-    			List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecChar.get(i).getProdSpecCharValue();
-    			String usedSpecCharId = prodSpecChar.get(i).getProdSpecChar().getID();
-    			String specCharId = specChar.getID();
-    			if(usedSpecCharId.equals(specCharId)){
-    				ProdSpecCharValueUse prodSpecCharValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
-    				prodSpecCharValueUseList = new ArrayList<ProdSpecCharValueUse>();
-    				prodSpecCharValueUseList.add(prodSpecCharValueUse);
-    			}
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
+				if(prodSpecCharUse.getProdSpecChar().getID().equals(specChar.getID())){
+					prodSpecCharUse.addValue(charValue, isDefault, validFor);
+				}
 			}
     	}
+    	
     }
 
     /**

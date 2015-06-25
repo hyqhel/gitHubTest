@@ -1,6 +1,7 @@
 package com.ai.baas.product.spec;
 
 import java.util.*;
+
 import com.ai.baas.basetype.*;
 
 public class ProductSpecCharUse {
@@ -206,8 +207,13 @@ public class ProductSpecCharUse {
      * @param validFor
      */
     public void addValue(ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharUse.addValue
-        throw new UnsupportedOperationException();
+    	ProdSpecCharValueUse prodSpecCharValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
+    	
+    	if(null==prodSpecCharValue ){
+    		prodSpecCharValue = new ArrayList<ProdSpecCharValueUse>();
+    	}
+    	
+    	prodSpecCharValue.add(prodSpecCharValueUse);
     }
 
     /**
