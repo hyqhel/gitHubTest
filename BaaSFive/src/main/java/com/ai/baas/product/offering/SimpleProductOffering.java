@@ -8,7 +8,20 @@ import com.ai.baas.product.spec.*;
  */
 public class SimpleProductOffering extends ProductOffering {
 
-    /**
+	 private ProductSpecification productSpecification;
+	
+	
+    public ProductSpecification getProductSpecification() {
+		return productSpecification;
+	}
+
+
+	public void setProductSpecification(ProductSpecification productSpecification) {
+		this.productSpecification = productSpecification;
+	}
+
+
+	/**
      * 
      * @param id
      * @param name
@@ -19,6 +32,7 @@ public class SimpleProductOffering extends ProductOffering {
     public SimpleProductOffering(String id, String name, String description, TimePeriod validFor, ProductSpecification prodSpec) {
         // TODO - implement SimpleProductOffering.SimpleProductOffering
     	super(id, name, description, validFor);
+    	this.productSpecification = prodSpec;
         throw new UnsupportedOperationException();
     }
 
