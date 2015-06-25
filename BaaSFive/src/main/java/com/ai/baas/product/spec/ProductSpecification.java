@@ -2,6 +2,7 @@ package com.ai.baas.product.spec;
 
 import java.util.*;
 import com.ai.baas.basetype.*;
+import com.ai.baas.product.offering.SimpleProductOffering;
 
 /**
  * A detailed description of a tangible or intangible object made available externally in the form of a ProductOffering to Customers or other Parties playing a PartyRole. A ProductSpecification may consist of other ProductSpecifications supplied together as a collection. Members of the collection may be offered in their own right. ProductSpecifications may also exist within groupings, such as ProductCategories, ProductLines, and ProductTypes.
@@ -13,6 +14,7 @@ public abstract class ProductSpecification {
     public List<ProductSpecificationVersion> prodSpecVersion;
     public List<ProductSpecCharUse> prodSpecChar;
     public List<CompositeProductSpecification> compositeProdSpec;
+    public List<SimpleProductOffering> simpleProdOffering;
     /**
      * The name of the product specification.
      */
