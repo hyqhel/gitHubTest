@@ -1,6 +1,5 @@
 package com.ai.baas.common.util;
 
-import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,11 +10,9 @@ import java.util.Date;
  * 
  * 类描述：时间操作定义类
  * 
- * @author: jeecg
- * @date： 日期：2012-12-8 时间：下午12:15:03
  * @version 1.0
  */
-public class DateUtils extends PropertyEditorSupport {
+public class DateUtils {
 	// 各种时间格式
 	public static final SimpleDateFormat date_sdf = new SimpleDateFormat(
 			"yyyy-MM-dd");
