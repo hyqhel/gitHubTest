@@ -7,9 +7,26 @@ import com.ai.baas.basetype.*;
  */
 public class ProductOfferingRelationship {
 
-    public ProductOffering targetOffering;
-    public ProductOffering sourceOffering;
-    /**
+    private ProductOffering targetOffering;
+    private ProductOffering sourceOffering;
+    
+    public ProductOffering getTargetOffering() {
+		return targetOffering;
+	}
+
+	public void setTargetOffering(ProductOffering targetOffering) {
+		this.targetOffering = targetOffering;
+	}
+
+	public ProductOffering getSourceOffering() {
+		return sourceOffering;
+	}
+
+	public void setSourceOffering(ProductOffering sourceOffering) {
+		this.sourceOffering = sourceOffering;
+	}
+
+	/**
      * A categorization of the relationship, such as supplier/partner equivalent, alternate, and so forth.
      */
     private String typeRelationship;
@@ -42,8 +59,10 @@ public class ProductOfferingRelationship {
      * @param validFor
      */
     public ProductOfferingRelationship(ProductOffering sourceOffering, ProductOffering targetOffering, String type, TimePeriod validFor) {
-        // TODO - implement ProductOfferingRelationship.ProductOfferingRelationship
-        throw new UnsupportedOperationException();
+    	this.sourceOffering =sourceOffering;
+    	this.targetOffering = targetOffering;
+    	this.typeRelationship = type;
+    	this.validFor = validFor;
     }
 
     /**
@@ -54,8 +73,8 @@ public class ProductOfferingRelationship {
      * @param validFor
      */
     public ProductOfferingRelationship(ProductOffering sourceOffering, String targetOfferingId, String type, TimePeriod validFor) {
-        // TODO - implement ProductOfferingRelationship.ProductOfferingRelationship
-        throw new UnsupportedOperationException();
+        // TODO - implement ProductOfferingRelationship.ProductOfferingRelationshiph
+    	
     }
 
     /**
@@ -67,7 +86,7 @@ public class ProductOfferingRelationship {
      */
     public ProductOfferingRelationship(String sourceOfferingId, ProductOffering targetOffering, String type, TimePeriod validFor) {
         // TODO - implement ProductOfferingRelationship.ProductOfferingRelationship
-        throw new UnsupportedOperationException();
+    
     }
 
 }
