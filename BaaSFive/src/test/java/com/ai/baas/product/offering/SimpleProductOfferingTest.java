@@ -1,15 +1,24 @@
 package com.ai.baas.product.offering;
 
-import org.junit.BeforeClass;
+import org.junit.Test;
 
 import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.util.DateUtils;
 import com.ai.baas.product.spec.ProductSpecification;
 
 public class SimpleProductOfferingTest {
-	static ProductOffering offering =null;
-	@BeforeClass
-    public static void createProductOffering(){
+	private ProductOffering offering =null;
+	
+	public ProductOffering getOffering() {
+		return offering;
+	}
+
+	public void setOffering(ProductOffering offering) {
+		this.offering = offering;
+	}
+
+	@Test
+    public  void createProductOffering(){
 		String id = "0001" ;
 		String name = "11 英寸 MacBook Air";
 		TimePeriod validFor = new TimePeriod(); 

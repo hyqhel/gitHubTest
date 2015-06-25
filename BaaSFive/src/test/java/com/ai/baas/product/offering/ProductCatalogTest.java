@@ -28,8 +28,9 @@ public class ProductCatalogTest {
 		String enddate = "2015-06-26 10:20:00";
 		validFor.setStartDateTime(DateUtils.str2Date(startdate, DateUtils.datetimeFormat));
 		validFor.setEndDateTime(DateUtils.str2Date(enddate, DateUtils.datetimeFormat));
-		SimpleProductOfferingTest.createProductOffering();
-		ProductOffering offering =SimpleProductOfferingTest.offering ;
+		SimpleProductOfferingTest spot = new SimpleProductOfferingTest();
+		spot.createProductOffering();
+		ProductOffering offering = spot.getOffering();
 		pclog.publishOffering(offering, validFor);
 	}
 }
