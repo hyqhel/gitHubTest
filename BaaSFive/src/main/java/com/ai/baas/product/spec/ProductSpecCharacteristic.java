@@ -148,8 +148,16 @@ public class ProductSpecCharacteristic {
      * @param derivationFormula
      */
     public ProductSpecCharacteristic(String id, String name, String valueType, TimePeriod validFor, String unique, int minCardinality, int maxCardinality, boolean extensible, String description, String derivationFormula) {
-        // TODO - implement ProductSpecCharacteristic.ProductSpecCharacteristic
-        throw new UnsupportedOperationException();
+        this.ID = id;
+        this.name = name;
+        this.valueType = valueType;
+        this.validFor = validFor;
+        this.unique = unique;
+        this.minCardinality = minCardinality;
+        this.maxCardinality = maxCardinality;
+        this.extensible = extensible;
+        this.description = description;
+        this.derivationFormula = derivationFormula;
     }
 
     /**

@@ -160,8 +160,15 @@ public class ProductSpecCharUse {
      * @param description
      */
     public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-        // TODO - implement ProductSpecCharUse.ProductSpecCharUse
-        throw new UnsupportedOperationException();
+        this.prodSpecChar = specChar;
+        this.canBeOveridden = canBeOveridden;
+        this.isPackage = isPackage;
+        this.name = name;
+        this.unique = unique;
+        this.minCardinality = minCardinality;
+        this.maxCardinality = maxCardinality;
+        this.extensible = extensible;
+        this.description = description;
     }
 
     /**

@@ -117,8 +117,10 @@ public class ProductSpecCharacteristicValue {
      * @param isDefault
      */
     public ProductSpecCharacteristicValue(String valueType, String unitOfMeasure, TimePeriod validFor, String value, boolean isDefault) {
-        // TODO - implement ProductSpecCharacteristicValue.ProductSpecCharacteristicValue
-        throw new UnsupportedOperationException();
+        this.valueType = valueType;
+        this.unitOfMeasure = unitOfMeasure;
+        this.validFor = validFor;
+        this.isDefault = isDefault;
     }
 
     /**

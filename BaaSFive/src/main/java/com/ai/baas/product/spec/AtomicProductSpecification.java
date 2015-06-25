@@ -1,5 +1,7 @@
 package com.ai.baas.product.spec;
 
+import java.util.ArrayList;
+
 import com.ai.baas.basetype.*;
 
 /**
@@ -16,9 +18,7 @@ public class AtomicProductSpecification extends ProductSpecification {
      * @param validFor
      */
     public AtomicProductSpecification(String productNumber, String name, String brand, String description, TimePeriod validFor) {
-        // TODO - implement AtomicProductSpecification.AtomicProductSpecification
     	super(name, productNumber, brand, validFor, description);
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -38,7 +38,13 @@ public class AtomicProductSpecification extends ProductSpecification {
 			boolean canBeOveridden, boolean isPackage, TimePeriod validFor,
 			String name, String unique, int minCardinality, int maxCardinality,
 			boolean extensible, String description) {
-		// TODO Auto-generated method stub
+		 
+		ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
+	    
+		if(null==prodSpecChar || "".equals(prodSpecChar)){
+			prodSpecChar = new ArrayList<ProductSpecCharUse>();
+		}
+	    prodSpecChar.add(prodSpecCharUse);
 		
 	}
 

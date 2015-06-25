@@ -1,6 +1,7 @@
 package com.ai.baas.product.spec;
 
 import java.util.*;
+
 import com.ai.baas.basetype.*;
 import com.ai.baas.product.offering.SimpleProductOffering;
 
@@ -15,7 +16,12 @@ public abstract class ProductSpecification {
     public List<ProductSpecCharUse> prodSpecChar;
     public List<CompositeProductSpecification> compositeProdSpec;
     public List<SimpleProductOffering> simpleProdOffering;
-    /**
+    
+    public List<ProductSpecCharUse> getProdSpecChar() {
+		return prodSpecChar;
+	}
+
+	/**
      * The name of the product specification.
      */
     private String name;
@@ -104,8 +110,11 @@ public abstract class ProductSpecification {
      * @param description A narrative that explains in detail what the product spec is.
      */
     public ProductSpecification(String name, String productNumber, String brand, TimePeriod validFor, String description) {
-        // TODO - implement ProductSpecification.ProductSpecification
-        throw new UnsupportedOperationException();
+        this.name = name;
+        this.productNumber = productNumber;
+        this.brand = brand;
+        this.validFor = validFor;
+        this.description = description;
     }
 
     /**
@@ -116,8 +125,9 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
      */
     public void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.addCharacteristic
-        throw new UnsupportedOperationException();
+        ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor);
+    	
+        prodSpecChar.add(prodSpecCharUse);
     }
 
     /**
@@ -218,8 +228,19 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.attachCharacteristicValue
-        throw new UnsupportedOperationException();
+    	
+    	if(null!=prodSpecChar && prodSpecChar.size()>0){
+    		for (int i = 0; i < prodSpecChar.size(); i++) {
+    			List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecChar.get(i).getProdSpecCharValue();
+    			String usedSpecCharId = prodSpecChar.get(i).getProdSpecChar().getID();
+    			String specCharId = specChar.getID();
+    			if(usedSpecCharId.equals(specCharId)){
+    				ProdSpecCharValueUse prodSpecCharValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
+    				prodSpecCharValueUseList = new ArrayList<ProdSpecCharValueUse>();
+    				prodSpecCharValueUseList.add(prodSpecCharValueUse);
+    			}
+			}
+    	}
     }
 
     /**
