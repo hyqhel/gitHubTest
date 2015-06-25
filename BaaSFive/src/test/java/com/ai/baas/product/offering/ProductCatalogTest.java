@@ -8,8 +8,9 @@ import com.ai.baas.common.util.DateUtils;
 import com.ai.baas.product.offering.catalog.ProductCatalog;
 
 public class ProductCatalogTest {
+	ProductCatalog pclog = null;
 	@Before
-  public  ProductCatalog createProductCatalog(){
+  public  void createProductCatalog(){
 		String id = "";
 		String name = "MacBook Air";
 		String type = "电子";
@@ -18,8 +19,7 @@ public class ProductCatalogTest {
 		String enddate = "2015-06-26 10:20:00";
 		validFor.setStartDateTime(DateUtils.str2Date(startdate, DateUtils.datetimeFormat));
 		validFor.setEndDateTime(DateUtils.str2Date(enddate, DateUtils.datetimeFormat));
-		ProductCatalog pclog = new ProductCatalog(id, name, type, validFor);
-		return pclog;
+		 pclog = new ProductCatalog(id, name, type, validFor);
   }
 	@Test
 	public void publishOffering(){
@@ -28,9 +28,8 @@ public class ProductCatalogTest {
 		String enddate = "2015-06-26 10:20:00";
 		validFor.setStartDateTime(DateUtils.str2Date(startdate, DateUtils.datetimeFormat));
 		validFor.setEndDateTime(DateUtils.str2Date(enddate, DateUtils.datetimeFormat));
-		
-		ProductCatalog pclog = createProductCatalog();
-		ProductOffering offering = SimpleProductOfferingTest.createProductOffering();
+		SimpleProductOfferingTest.createProductOffering();
+		ProductOffering offering =SimpleProductOfferingTest.offering ;
 		pclog.publishOffering(offering, validFor);
 	}
 }
