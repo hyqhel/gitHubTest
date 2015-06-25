@@ -7,8 +7,9 @@ import com.ai.baas.common.util.DateUtils;
 import com.ai.baas.product.spec.ProductSpecification;
 
 public class SimpleProductOfferingTest {
+	static ProductOffering offering =null;
 	@BeforeClass
-    public static ProductOffering createProductOffering(){
+    public static void createProductOffering(){
 		String id = "0001" ;
 		String name = "11 英寸 MacBook Air";
 		TimePeriod validFor = new TimePeriod(); 
@@ -18,8 +19,7 @@ public class SimpleProductOfferingTest {
 		String enddate = "2015-06-26 10:20:00";
 		validFor.setStartDateTime(DateUtils.str2Date(startdate, DateUtils.datetimeFormat));
 		validFor.setEndDateTime(DateUtils.str2Date(enddate, DateUtils.datetimeFormat));
-		ProductOffering offering = new SimpleProductOffering( id,  name,  description,  validFor,  prodSpec);
-		return offering;
+		 offering = new SimpleProductOffering( id,  name,  description,  validFor,  prodSpec);
     }
 	
 	
