@@ -40,5 +40,13 @@ public class ProductCatalogTest {
 		System.out.println("catalog name is "+pclog.getName());
 		System.out.println("   I have manay offering  size is :"+pclog.getProdCatalogProdOffer().size());
 		System.out.println("       I am a offering my name is: "+pclog.getProdCatalogProdOffer().get(0).getProdOffering().getName());
+		SimpleProductOffering s=(SimpleProductOffering)(pclog.getProdCatalogProdOffer().get(0).getProdOffering());
+		System.out.println("       I hvae a automSpec,name is "+s.getProductSpecification().getName());
+		int prscharussize=s.getProductSpecification().getProdSpecChar().size();
+		System.out.println("       automSpec use "+prscharussize+" char his is:");
+		for(int i=0;i<prscharussize;i++){
+			System.out.println("         character name: "+s.getProductSpecification().getProdSpecChar().get(i).getProdSpecChar().getName());
+		}
+
 	}
 }

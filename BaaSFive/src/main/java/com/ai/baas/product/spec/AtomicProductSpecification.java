@@ -33,7 +33,7 @@ public class AtomicProductSpecification extends ProductSpecification {
         throw new UnsupportedOperationException();
     }
 
-	@Override
+	/*@Override
 	public void addCharacteristic(ProductSpecCharacteristic specChar,
 			boolean canBeOveridden, boolean isPackage, TimePeriod validFor,
 			String name, String unique, int minCardinality, int maxCardinality,
@@ -47,7 +47,7 @@ public class AtomicProductSpecification extends ProductSpecification {
 		
 	    prodSpecChar.add(prodSpecCharUse);
 		
-	}
+	}*/
 
 	@Override
 	public void addCharacteristic(String specCharId, boolean canBeOveridden,

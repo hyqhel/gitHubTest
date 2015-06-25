@@ -10,16 +10,23 @@ import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecificationTest {
+	String[] specSelectCharIds = {"1","2","4"};
+	int[][] specCharUseValueRelate = {
+			{0,0},
+			{0,1},
+			{2,2}
+	};
+	String[] specSelectCharValueIds = {"11","12","15"};
 	
-	//ProductSpecification Object
-	ProductSpecification atomicProdSpec;
+	private ProductSpecification atomicProdSpec;
 	
-	//selectedProdSpecChar
-	ProductSpecCharacteristic selectedProdSpecChar;
-	
-	//
-	ProductSpecCharacteristicValue[] selectedProdSpecCharValuesStr ;
+	public ProductSpecification getAtomicProdSpec() {
+		return atomicProdSpec;
+	}
 
+	public void setAtomicProdSpec(ProductSpecification atomicProdSpec) {
+		this.atomicProdSpec = atomicProdSpec;
+	}
 	/**
 	 * this is an operation to create ProductSpecification Object
 	 * @return
@@ -28,7 +35,7 @@ public class ProductSpecificationTest {
 	@Test
 	public void createProdSpec() throws ParseException{
 		String productNumber = "1";
-		String name = "11 英寸 MacBook Air";
+		String name = "11 鑻卞 MacBook Air";
 		String brand = "apple";
 		String description = "Mac";
 		TimePeriod validFor = new TimePeriod();
@@ -45,80 +52,67 @@ public class ProductSpecificationTest {
 		List<ProductSpecCharacteristic> specCharList = prodSpecCharTest.getProdSpecChars();
 		
 		boolean isDefault = false;
-		
 		boolean canBeOveridden = false;
 		boolean isPackage = true;
-		String nameUse ="内存_Use";
+		String nameUse ="char_Use";
 		String unique = ""; 
 		int minCardinality = 1;
 		int maxCardinality =3;
 		boolean extensible = false;
 		String descriptionUse = "this is a description about size and weight used by CharUse";
-		String[] specCharIds = new String[2];
-		specCharIds[0] = "1";
-		specCharIds[1] = "2";
 		
-		//这个是全部的数组 都取specChar下的所有两条记录
-		String[] specCharValueIds = new String[2];
-		specCharValueIds[0] = "1.6GHz";
-		specCharValueIds[1] = "2.2GHz";
-		
-		for (int i = 0; i < specCharIds.length; i++) {
-			selectedProdChar(specCharList, specCharIds[i], specCharValueIds);
-			
+		for (int i = 0; i < specSelectCharIds.length; i++) {
+			//selectedProdChar(specCharList, specCharIds[i], specCharValueIds);
 			/*new CharUse Object*/
-			atomicProdSpec.addCharacteristic(selectedProdSpecChar, canBeOveridden, isPackage, validFor, nameUse,  unique, minCardinality, maxCardinality, extensible,  descriptionUse);
-			
-			List<ProductSpecCharacteristicValue> prodSpecCharValueList = selectedProdSpecChar.getProdSpecCharValue();
-			if(null!=prodSpecCharValueList && prodSpecCharValueList.size()>0){
-				for (int j = 0; j < prodSpecCharValueList.size(); j++) {
-					ProductSpecCharacteristicValue charValue = prodSpecCharValueList.get(j);
-					atomicProdSpec.attachCharacteristicValue(selectedProdSpecChar, charValue, isDefault, validFor);
+			ProductSpecCharacteristic selectedSpecChar = selectedProdChar(specCharList,specSelectCharIds[i]);
+			atomicProdSpec.addCharacteristic(selectedSpecChar, canBeOveridden, isPackage, validFor, nameUse,  unique, minCardinality, maxCardinality, extensible,  descriptionUse);
+			List<ProductSpecCharacteristicValue> prodSpecCharValueList = selectedSpecChar.getProdSpecCharValue();
+			for(int j=0;j<specCharUseValueRelate.length;j++){
+				if(i==specCharUseValueRelate[j][0]){
+					int valuesub=specCharUseValueRelate[j][1];
+					ProductSpecCharacteristicValue selectvalue=selectedProdCharValue(prodSpecCharValueList,specSelectCharValueIds[valuesub]);
+					atomicProdSpec.attachCharacteristicValue(selectedSpecChar, selectvalue, isDefault, validFor);
 				}
 			}
 		}
 	}
-	
-	@After
-	private void  printResult(){
-		/*print result*/
-		System.out.println(atomicProdSpec.getName());
-		List<ProductSpecCharUse> prodSpecCharUseList = atomicProdSpec.getProdSpecChar();
-		ProductSpecCharUse prodSpecCharUse ;
-		if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-			for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-				prodSpecCharUse = prodSpecCharUseList.get(i);
-				System.out.println(prodSpecCharUse.getName());
-			}
-		}
-	}
-	
-	
-	/*get ProductSpecCharValue which selected by user*/
-	private void selectedProdChar(List<ProductSpecCharacteristic> specCharList, String selectedProdSpecCharId, String[] selectedProdSpecCharValues){
+	private ProductSpecCharacteristic selectedProdChar(List<ProductSpecCharacteristic> specCharList, String selectedProdSpecCharId){
 		String prodSpecCharId = "";
+		ProductSpecCharacteristic prodSpecSelectChar=null;
 		if(null!=specCharList && specCharList.size()>0){
 			for (int i = 0; i < specCharList.size(); i++) {
 				prodSpecCharId = specCharList.get(i).getID();
 				if(prodSpecCharId.equals(selectedProdSpecCharId)){
-					ProductSpecCharacteristic prodSpecChar = specCharList.get(i);
-					
-					//得到选择的char的value数组
-					if(null!=selectedProdSpecCharValues && selectedProdSpecCharValues.length>0){
-						List<ProductSpecCharacteristicValue> prodSpecCharValues = prodSpecChar.getProdSpecCharValue();
-						for (int j = 0; j < prodSpecCharValues.size(); j++) {
-							for (int j2 = 0; j2 < selectedProdSpecCharValues.length; j2++) {
-								if(prodSpecCharValues.get(j).getValue().equals(selectedProdSpecCharValues[j2])){
-									specCharList.get(i).getProdSpecCharValue().add(prodSpecCharValues.get(j));
-								}
-							}
-						}
-					}
-					selectedProdSpecChar = specCharList.get(i);
+					prodSpecSelectChar= specCharList.get(i);
 				}
 			}
 		}
-		
+		return prodSpecSelectChar;
 	}
 	
+	private ProductSpecCharacteristicValue selectedProdCharValue(List<ProductSpecCharacteristicValue> specCharValueList, String selectedProdSpecCharValueId){
+		String prodSpecCharVauleId = "";
+		ProductSpecCharacteristicValue prodSpecSelectCharValue=null;
+		if(null!=specCharValueList && specCharValueList.size()>0){
+			for (int i = 0; i < specCharValueList.size(); i++) {
+				prodSpecCharVauleId = specCharValueList.get(i).getUnitOfMeasure();
+				if(prodSpecCharVauleId.equals(selectedProdSpecCharValueId)){
+					prodSpecSelectCharValue= specCharValueList.get(i);
+				}
+			}
+		}
+		return prodSpecSelectCharValue;
+	}
+	@After
+	public void  printResult(){
+		/*print result*/
+		System.out.println(atomicProdSpec.getName());
+		List<ProductSpecCharUse> prodSpecCharUseList = atomicProdSpec.getProdSpecChar();
+		if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+			for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+				ProductSpecCharUse  prodSpecCharUse = prodSpecCharUseList.get(i);
+				System.out.println(prodSpecCharUse.getName());
+			}
+		}
+	}
 }

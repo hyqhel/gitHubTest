@@ -54,14 +54,14 @@ public class CompositeProductSpecification extends ProductSpecification {
         throw new UnsupportedOperationException();
     }
 
-	@Override
+	/*@Override
 	public void addCharacteristic(ProductSpecCharacteristic specChar,
 			boolean canBeOveridden, boolean isPackage, TimePeriod validFor,
 			String name, String unique, int minCardinality, int maxCardinality,
 			boolean extensible, String description) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
 	@Override
 	public void addCharacteristic(String specCharId, boolean canBeOveridden,

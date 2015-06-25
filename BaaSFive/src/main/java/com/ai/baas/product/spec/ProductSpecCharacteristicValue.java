@@ -121,6 +121,8 @@ public class ProductSpecCharacteristicValue {
         this.unitOfMeasure = unitOfMeasure;
         this.validFor = validFor;
         this.isDefault = isDefault;
+        this.value = value;
+        
     }
 
     /**
@@ -133,8 +135,11 @@ public class ProductSpecCharacteristicValue {
      * @param rangeInterval
      */
     public ProductSpecCharacteristicValue(String valueType, String unitOfMeasure, TimePeriod validFor, String valueFrom, String valueTo, String rangeInterval) {
-        // TODO - implement ProductSpecCharacteristicValue.ProductSpecCharacteristicValue
-        throw new UnsupportedOperationException();
+    	this.valueType = valueType;
+        this.unitOfMeasure = unitOfMeasure;
+        this.validFor = validFor;
+        this.valueFrom = valueFrom;
+        this.valueTo = valueTo;
     }
 
     /**

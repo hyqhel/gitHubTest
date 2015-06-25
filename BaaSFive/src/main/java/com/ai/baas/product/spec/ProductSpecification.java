@@ -121,7 +121,7 @@ public abstract class ProductSpecification {
      * 
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
      * @param canBeOveridden An indicator that specifies that the CharacteristicSpecValues associated with the CharacteristicSpec cannot be changed when instantiating a ServiceCharacteristicValue. For example, a bandwidth of 64 MB cannot be changed.
-     * @param isPackage An indicator that specifies if the associated CharacteristicSpecification is a composite. true£ºis a composite one
+     * @param isPackage An indicator that specifies if the associated CharacteristicSpecification is a composite. trueï¿½ï¿½is a composite one
      * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
      */
     public void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
@@ -134,7 +134,7 @@ public abstract class ProductSpecification {
      * 
      * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
      * @param canBeOveridden An indicator that specifies that the CharacteristicSpecValues associated with the CharacteristicSpec cannot be changed when instantiating a ServiceCharacteristicValue. For example, a bandwidth of 64 MB cannot be changed.
-     * @param isPackage An indicator that specifies if the associated CharacteristicSpecification is a composite. true£ºis a composite one
+     * @param isPackage An indicator that specifies if the associated CharacteristicSpecification is a composite. trueï¿½ï¿½is a composite one
      * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
      */
     public void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
@@ -155,7 +155,15 @@ public abstract class ProductSpecification {
      * @param extensible An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
      * @param description A narrative that explains the CharacteristicSpecification.
      */
-    public abstract void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description);
+    public  void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
+ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
+	    
+		if(null==prodSpecChar || "".equals(prodSpecChar)){
+			prodSpecChar = new ArrayList<ProductSpecCharUse>();
+		}
+		
+	    prodSpecChar.add(prodSpecCharUse);
+    }
 
     /**
      * 
@@ -224,7 +232,7 @@ public abstract class ProductSpecification {
      * 
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
      * @param charValue A number or text that be assigned to a ProductSpecCharacteristic. The value must be in the characterisc's values.
-     * @param isDefault Indicates if the value is the default value for a characteristic. true£ºis default value
+     * @param isDefault Indicates if the value is the default value for a characteristic. trueï¿½ï¿½is default value
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
@@ -245,7 +253,7 @@ public abstract class ProductSpecification {
      * 
      * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
      * @param charValue A number or text that be assigned to a ProductSpecCharacteristic. The value must be in the characterisc's values.
-     * @param isDefault Indicates if the value is the default value for a characteristic. true£ºis default value
+     * @param isDefault Indicates if the value is the default value for a characteristic. trueï¿½ï¿½is default value
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(String specCharId, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
@@ -257,7 +265,7 @@ public abstract class ProductSpecification {
      * 
      * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
      * @param charValueId A number or text that be assigned to a ProductSpecCharacteristic. The value must be in the characterisc's values.
-     * @param isDefault Indicates if the value is the default value for a characteristic. true£ºis default value
+     * @param isDefault Indicates if the value is the default value for a characteristic. trueï¿½ï¿½is default value
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(String specCharId, String charValueId, boolean isDefault, TimePeriod validFor) {

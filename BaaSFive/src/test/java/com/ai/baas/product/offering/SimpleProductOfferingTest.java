@@ -20,7 +20,7 @@ public class SimpleProductOfferingTest {
 	@Test
     public  void createProductOffering(){
 		String id = "0001" ;
-		String name = "11 英寸 MacBook Air";
+		String name = "11 英寸 MacBook Air 6,288";
 		TimePeriod validFor = new TimePeriod(); 
 		String description = "1.6GHz 双核 Intel Core i5 处理器，Turbo Boost 高达 2.7GHz"; 
 		ProductSpecification prodSpec = null;
