@@ -33,7 +33,6 @@ public class SimpleProductOffering extends ProductOffering {
         // TODO - implement SimpleProductOffering.SimpleProductOffering
     	super(id, name, description, validFor);
     	this.productSpecification = prodSpec;
-        throw new UnsupportedOperationException();
     }
 
 }

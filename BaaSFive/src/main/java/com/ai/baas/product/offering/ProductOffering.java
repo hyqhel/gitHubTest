@@ -79,7 +79,10 @@ public abstract class ProductOffering {
      */
     public ProductOffering(String id, String name, String description, TimePeriod validFor) {
         // TODO - implement ProductOffering.ProductOffering
-        throw new UnsupportedOperationException();
+    	this.id = id;
+    	this.name = name;
+    	this.description = description;
+    	this.validFor = validFor;
     }
 
     /**
