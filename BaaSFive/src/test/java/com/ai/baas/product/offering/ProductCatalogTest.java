@@ -1,5 +1,6 @@
 package com.ai.baas.product.offering;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,9 +29,16 @@ public class ProductCatalogTest {
 		String enddate = "2015-06-26 10:20:00";
 		validFor.setStartDateTime(DateUtils.str2Date(startdate, DateUtils.datetimeFormat));
 		validFor.setEndDateTime(DateUtils.str2Date(enddate, DateUtils.datetimeFormat));
-		SimpleProductOfferingTest spot = new SimpleProductOfferingTest();
-		spot.createProductOffering();
+		ProductOfferingTest spot = new ProductOfferingTest();
+		spot.createSimpleProductOffering();
 		ProductOffering offering = spot.getOffering();
 		pclog.publishOffering(offering, validFor);
+		
+	}
+	@After
+	public void systemMyInfo(){
+		System.out.println("catalog name is"+pclog.getName());
+		System.out.println("   I have manay offering  size is :"+pclog.getProdCatalogProdOffer().size());
+		System.out.println("       I am a offering my name is: "+pclog.getProdCatalogProdOffer().get(0).getProdOffering().getName());
 	}
 }
