@@ -1,6 +1,7 @@
 package com.ai.baas.product.offering;
 
 import java.util.*;
+
 import com.ai.baas.basetype.*;
 
 public class BundledProductOffering extends ProductOffering {
@@ -25,7 +26,6 @@ public class BundledProductOffering extends ProductOffering {
     public BundledProductOffering(String id, String name, String description, TimePeriod validFor) {
         // TODO - implement BundledProductOffering.BundledProductOffering
     	super(id, name, description, validFor);
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -34,7 +34,7 @@ public class BundledProductOffering extends ProductOffering {
      */
     public void addSubOffering(ProductOffering offering) {
         // TODO - implement BundledProductOffering.addSubOffering
-        throw new UnsupportedOperationException();
+    	
     }
 
     /**
@@ -53,8 +53,11 @@ public class BundledProductOffering extends ProductOffering {
      * @param upperLimit
      */
     public void addSubOffering(ProductOffering offering, int lowerLimit, int upperLimit) {
-        // TODO - implement BundledProductOffering.addSubOffering
-        throw new UnsupportedOperationException();
+    	if(this.bundledProdOfferOption==null){
+    		this.bundledProdOfferOption = new ArrayList<BundledProdOfferOption>();
+    	}
+    	BundledProdOfferOption bpop =  new BundledProdOfferOption(offering,lowerLimit,upperLimit);
+    	this.bundledProdOfferOption.add(bpop);
     }
 
     /**

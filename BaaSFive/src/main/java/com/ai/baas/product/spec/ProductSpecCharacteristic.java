@@ -1,6 +1,7 @@
 package com.ai.baas.product.spec;
 
 import java.util.*;
+
 import com.ai.baas.basetype.*;
 
 /**
@@ -8,9 +9,28 @@ import com.ai.baas.basetype.*;
  */
 public class ProductSpecCharacteristic {
 
-    List<ProductSpecCharacteristicValue> prodSpecCharValue;
-    public List<ProductSpecCharRelationship> prodSpecCharRelationship;
-    /**
+    private  List<ProductSpecCharacteristicValue> prodSpecCharValue;
+    private List<ProductSpecCharRelationship> prodSpecCharRelationship;
+    
+    public List<ProductSpecCharacteristicValue> getProdSpecCharValue() {
+		return prodSpecCharValue;
+	}
+
+	public void setProdSpecCharValue(
+			List<ProductSpecCharacteristicValue> prodSpecCharValue) {
+		this.prodSpecCharValue = prodSpecCharValue;
+	}
+
+	public List<ProductSpecCharRelationship> getProdSpecCharRelationship() {
+		return prodSpecCharRelationship;
+	}
+
+	public void setProdSpecCharRelationship(
+			List<ProductSpecCharRelationship> prodSpecCharRelationship) {
+		this.prodSpecCharRelationship = prodSpecCharRelationship;
+	}
+
+	/**
      * A unique identifier for the ProductSpecCharacteristic.
      * ?
      */
@@ -175,8 +195,10 @@ public class ProductSpecCharacteristic {
      * @param charVal
      */
     public void addValue(ProductSpecCharacteristicValue charVal) {
-        // TODO - implement ProductSpecCharacteristic.addValue
-        throw new UnsupportedOperationException();
+    	if(this.prodSpecCharValue ==null ){
+    		this.prodSpecCharValue=new ArrayList<ProductSpecCharacteristicValue>();
+    	}
+    	this.prodSpecCharValue.add(charVal);
     }
 
     /**
@@ -320,5 +342,9 @@ public class ProductSpecCharacteristic {
         // TODO - implement ProductSpecCharacteristic.queryRelatedCharacteristic
         throw new UnsupportedOperationException();
     }
+
+	public List<ProductSpecCharacteristicValue> getProdSpecCharValue() {
+		return prodSpecCharValue;
+	}
 
 }

@@ -44,6 +44,7 @@ public class AtomicProductSpecification extends ProductSpecification {
 		if(null==prodSpecChar || "".equals(prodSpecChar)){
 			prodSpecChar = new ArrayList<ProductSpecCharUse>();
 		}
+		
 	    prodSpecChar.add(prodSpecCharUse);
 		
 	}
