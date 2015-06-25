@@ -62,7 +62,11 @@ public class Catalog {
      */
     public Catalog(String id, String name, String type, TimePeriod validFor) {
         // TODO - implement Catalog.Catalog
-        throw new UnsupportedOperationException();
+    	this.ID = id;
+    	this.name = name;
+    	this.type = type;
+    	this.validFor = validFor;
+    	
     }
 
 }

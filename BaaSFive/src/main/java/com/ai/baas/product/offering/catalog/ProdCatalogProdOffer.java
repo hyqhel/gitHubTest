@@ -32,7 +32,8 @@ public class ProdCatalogProdOffer {
      */
     public ProdCatalogProdOffer(ProductOffering offering, TimePeriod validFor) {
         // TODO - implement ProdCatalogProdOffer.ProdCatalogProdOffer
-        throw new UnsupportedOperationException();
+    	this.prodOffering =  offering;
+    	this.validFor = validFor;
     }
 
     /**

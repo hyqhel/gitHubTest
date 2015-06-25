@@ -26,7 +26,6 @@ public class ProductCatalog extends Catalog {
     public ProductCatalog(String id, String name, String type, TimePeriod validFor) {
         // TODO - implement ProductCatalog.ProductCatalog
     	super(id, name, type, validFor);
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -36,7 +35,8 @@ public class ProductCatalog extends Catalog {
      */
     public void publishOffering(ProductOffering offering, TimePeriod validFor) {
         // TODO - implement ProductCatalog.publishOffering
-        throw new UnsupportedOperationException();
+    	ProdCatalogProdOffer prodOffer = new ProdCatalogProdOffer( offering,  validFor);
+    	this.prodCatalogProdOffer.add(prodOffer);
     }
 
     /**
@@ -46,7 +46,7 @@ public class ProductCatalog extends Catalog {
      */
     public void publishOffering(String offeringId, TimePeriod validFor) {
         // TODO - implement ProductCatalog.publishOffering
-        throw new UnsupportedOperationException();
+    	
     }
 
     /**
