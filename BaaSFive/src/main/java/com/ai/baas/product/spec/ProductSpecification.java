@@ -450,8 +450,19 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProductSpecCharUse[] getLeafCharacteristic(ProductSpecCharacteristic specChar, Date time) {
-        // TODO - implement ProductSpecification.getLeafCharacteristic
-        throw new UnsupportedOperationException();
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	List<ProductSpecCharUse> resultProdSpecCharUseList = new ArrayList<ProductSpecCharUse>();
+    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specChar.getID())){
+    				ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(Const.SPEC_CHAR_AGERAGETION);
+        			if(null != relatedChars && relatedChars.length > 0){
+        				resultProdSpecCharUseList.add(prodSpecCharUseList.get(i));
+        			}
+    			}
+			}
+    	}
+    	return resultProdSpecCharUseList.toArray(new ProductSpecCharUse[resultProdSpecCharUseList.size()]);
     }
 
     /**
@@ -460,8 +471,19 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProductSpecCharUse[] getLeafCharacteristic(String specCharId, Date time) {
-        // TODO - implement ProductSpecification.getLeafCharacteristic
-        throw new UnsupportedOperationException();
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	List<ProductSpecCharUse> resultProdSpecCharUseList = new ArrayList<ProductSpecCharUse>();
+    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specCharId)){
+    				ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(Const.SPEC_CHAR_AGERAGETION);
+        			if(null != relatedChars && relatedChars.length > 0){
+        				resultProdSpecCharUseList.add(prodSpecCharUseList.get(i));
+        			}
+    			}
+			}
+    	}
+    	return resultProdSpecCharUseList.toArray(new ProductSpecCharUse[resultProdSpecCharUseList.size()]);
     }
 
     /**
