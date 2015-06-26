@@ -13,5 +13,11 @@ public class Money {
      * A positive floating point number.
      */
     public long amount;
+    
+	public Money(String units, long amount) {
+		super();
+		this.units = units;
+		this.amount = amount;
+	}
 
 }

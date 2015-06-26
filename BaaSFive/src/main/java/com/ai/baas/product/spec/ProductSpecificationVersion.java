@@ -79,7 +79,10 @@ public class ProductSpecificationVersion {
      */
     public ProductSpecificationVersion(String revisionType, String description, String revisionNumber, Date revisionDate, TimePeriod validFor) {
         // TODO - implement ProductSpecificationVersion.ProductSpecificationVersion
-        throw new UnsupportedOperationException();
+    	this.prodSpecRevisionType = revisionType;
+    	this.description = description;
+    	this.validFor = validFor;
+    	this.prodSpecRevisionNumber = revisionNumber;
     }
 
 }

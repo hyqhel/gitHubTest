@@ -1,12 +1,14 @@
 package com.ai.baas.product.spec;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.ai.baas.basetype.Money;
 import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.constant.Const;
 import com.ai.baas.common.util.DateUtils;
@@ -25,13 +27,9 @@ public class ProductSpecificationTest {
 	
 	private static TimePeriod validFor;
 	
-	public ProductSpecification getAtomicProdSpec() {
-		return atomicProdSpec;
-	}
-
-	public void setAtomicProdSpec(ProductSpecification atomicProdSpec) {
-		this.atomicProdSpec = atomicProdSpec;
-	}
+	String units = "pound";
+	long amount = 100;
+	
 	/**
 	 * this is an operation to create ProductSpecification Object
 	 * @return
@@ -61,6 +59,12 @@ public class ProductSpecificationTest {
 			}
 		}
 		
+		//add prodSpecVersion
+		atomicProdSpec.setVersion("1.0.0", "create a version", new Date(), validFor);
+		
+		//add prodSpecCost
+		Money cost = new Money(units, amount);
+		atomicProdSpec.addCost(cost, validFor);
 		
 	}
 	
@@ -125,6 +129,25 @@ public class ProductSpecificationTest {
 				}
 			}
 		}
+		//version
+		List<ProductSpecificationVersion> prodSpecCharVersionList = atomicProdSpec.getProdSpecVersion();
+		String version = "";
+		if(null!=prodSpecCharVersionList && prodSpecCharVersionList.size()>0){
+			for (int i = 0; i < prodSpecCharVersionList.size(); i++) {
+				String versionType = prodSpecCharVersionList.get(i).getProdSpecRevisionType();
+				String versionNum = prodSpecCharVersionList.get(i).getProdSpecRevisionNumber();
+			}
+		}
+		System.out.println("创建版本是："+version);
+		
+		List<ProductSpecificationCost> prodSpecCostList = atomicProdSpec.getProductSpecificationCost();
+		if(null!=prodSpecCostList && prodSpecCostList.size()>0){
+			for (int i = 0; i < prodSpecCostList.size(); i++) {
+				Money money = prodSpecCostList.get(i).getCostToBusiness();
+				String units = money.units;
+				long amout = money.amount;
+			}
+		}
 	}
 	
 	@BeforeClass
@@ -139,4 +162,13 @@ public class ProductSpecificationTest {
 	public void getAllRootProdSpec(){
 		
 	}
+	
+	public ProductSpecification getAtomicProdSpec() {
+		return atomicProdSpec;
+	}
+
+	public void setAtomicProdSpec(ProductSpecification atomicProdSpec) {
+		this.atomicProdSpec = atomicProdSpec;
+	}
+
 }

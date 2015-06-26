@@ -3,6 +3,7 @@ package com.ai.baas.product.spec;
 import java.util.*;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.constant.Const;
 import com.ai.baas.product.offering.SimpleProductOffering;
 
 /**
@@ -17,7 +18,15 @@ public abstract class ProductSpecification {
     public List<CompositeProductSpecification> compositeProdSpec;
     public List<SimpleProductOffering> simpleProdOffering;
     
-    public List<ProductSpecCharUse> getProdSpecChar() {
+    public List<ProductSpecificationCost> getProductSpecificationCost() {
+		return productSpecificationCost;
+	}
+
+	public List<ProductSpecificationVersion> getProdSpecVersion() {
+		return prodSpecVersion;
+	}
+
+	public List<ProductSpecCharUse> getProdSpecChar() {
 		return prodSpecChar;
 	}
 
@@ -100,6 +109,7 @@ public abstract class ProductSpecification {
         this.name = name;
         this.productNumber = productNumber;
         this.brand = brand;
+        this.lifecycleStatus ?
     }
 
     /**
@@ -116,6 +126,7 @@ public abstract class ProductSpecification {
         this.brand = brand;
         this.validFor = validFor;
         this.description = description;
+        
     }
 
     /**
@@ -127,7 +138,7 @@ public abstract class ProductSpecification {
      */
     public void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
         ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor);
-        if(null==prodSpecChar || "".equals(prodSpecChar)){
+        if (null == prodSpecChar) {
 			prodSpecChar = new ArrayList<ProductSpecCharUse>();
 		}
         prodSpecChar.add(prodSpecCharUse);
@@ -142,7 +153,7 @@ public abstract class ProductSpecification {
      */
     public void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
     	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specCharId, canBeOveridden, isPackage, validFor);
-        if(null==prodSpecChar || "".equals(prodSpecChar)){
+        if (null == prodSpecChar) {
 			prodSpecChar = new ArrayList<ProductSpecCharUse>();
 		}
         prodSpecChar.add(prodSpecCharUse);
@@ -163,7 +174,7 @@ public abstract class ProductSpecification {
      */
     public  void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
     	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
-		if(null==prodSpecChar || "".equals(prodSpecChar)){
+		if (null == prodSpecChar) {
 			prodSpecChar = new ArrayList<ProductSpecCharUse>();
 		}
 	    prodSpecChar.add(prodSpecCharUse);
@@ -391,8 +402,35 @@ public abstract class ProductSpecification {
      * @param validFor
      */
     public void setVersion(String version, String description, Date revisionDate, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.setVersion
-        throw new UnsupportedOperationException();
+    	if(version!=null && !"".equals(version)){
+    		String []vos = version.split(".");
+    		if(vos.length!=3){
+    			throw new UnsupportedOperationException("version error! ");
+    		}else{
+    			if(prodSpecVersion==null ){
+    				prodSpecVersion = new ArrayList<ProductSpecificationVersion>();
+    			}
+                for(int i=0;i<vos.length;i++){
+                	String vertype=getVersionTypeBy(i);
+                	ProductSpecificationVersion versi= new ProductSpecificationVersion(vertype,"set first version",vos[i],revisionDate,validFor);
+                	prodSpecVersion.add(versi);
+                }
+    		}
+    	}
+    }
+    
+    private String getVersionTypeBy(int index){
+    	String vertype="";
+    	if(index==0){
+    		vertype = Const.SPEC_MAJOR_VERSION;
+    	}
+    	if(index==1){
+    		vertype = Const.SPEC_MINOR_VERSION;
+    	}
+    	if(index==2){
+    		vertype = Const.SPEC_PATCH_VERSION;
+    	}
+    	return vertype;
     }
 
     public ProductSpecificationVersion[] getCurrentVersion() {
