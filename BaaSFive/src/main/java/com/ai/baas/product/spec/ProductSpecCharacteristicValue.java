@@ -154,6 +154,7 @@ public class ProductSpecCharacteristicValue {
         this.validFor = validFor;
         this.valueFrom = valueFrom;
         this.valueTo = valueTo;
+        this.rangeInterval=rangeInterval;
     }
 
     /**

@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ai.baas.basetype.TimePeriod;
+import com.ai.baas.common.constant.Const;
 import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecCharacteristicTest {
@@ -73,7 +74,7 @@ public class ProductSpecCharacteristicTest {
 						// form to value
 						ProductSpecCharacteristicValue  prodSpecCharValue=null;
 						String charvalueId=specCharValue[charvaluesub][1].toString();
-						if("3".equals((String)specCharValue[charvaluesub][0])){
+						if(Const.SPEC_CHAR_VALUE_TYPE_FORTH.equals((String)specCharValue[charvaluesub][0])){
 							  prodSpecCharValue = new ProductSpecCharacteristicValue((String)specCharValue[charvaluesub][0], specCharValue[charvaluesub][2].toString(), validFor, specCharValue[charvaluesub][3].toString(), specCharValue[charvaluesub][4].toString(), specCharValue[charvaluesub][5].toString());
 						}else{
 							  prodSpecCharValue = new ProductSpecCharacteristicValue((String)specCharValue[charvaluesub][0], specCharValue[charvaluesub][2].toString(), validFor, specCharValue[charvaluesub][3].toString(), false);
