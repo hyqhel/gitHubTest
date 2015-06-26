@@ -35,6 +35,12 @@ public class ProductSpecCharacteristicTest {
 				{3,3},
 				{4,4}
 		};
+	
+	private	int [][] specCharRelate= {
+			{1,3},
+			{1,4},
+			{1,5}
+	};
 	private List<ProductSpecCharacteristic> prodSpecChars;
 	public List<ProductSpecCharacteristic> getProdSpecChars() {
 		createProdSpecCharTest();
@@ -64,7 +70,7 @@ public class ProductSpecCharacteristicTest {
 						int charvaluesub=specCharRelateValue[j][1];
 						/** form to value**/
 						ProductSpecCharacteristicValue  prodSpecCharValue=null;
-						String charvalueId=specCharValue[charvaluesub][0].toString();
+						String charvalueId=specCharValue[charvaluesub][1].toString();
 						if("3".equals((String)specCharValue[charvaluesub][0])){
 							  prodSpecCharValue = new ProductSpecCharacteristicValue((String)specCharValue[charvaluesub][0], specCharValue[charvaluesub][2].toString(), validFor, specCharValue[charvaluesub][3].toString(), specCharValue[charvaluesub][4].toString(), specCharValue[charvaluesub][5].toString());
 						}else{
@@ -77,4 +83,13 @@ public class ProductSpecCharacteristicTest {
 				prodSpecChars.add(prodSpecChar);
 			}
 		}
+	
+	@Test
+	public void addRelatedCharacteristic(){
+		ProductSpecCharacteristic ownpsc;
+		for(int i=0;i<specCharRelate.length;i++){
+			
+		}
+		prodSpecChars.get(0);
+	}
 }
