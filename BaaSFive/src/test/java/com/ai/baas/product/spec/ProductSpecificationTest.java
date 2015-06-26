@@ -111,14 +111,11 @@ public class ProductSpecificationTest {
 						if(null!=prodSpecCharValueUse){
 							if(null!=prodSpecCharValueUse.getProdSpecCharValue()){
 								//如果是from to的则输出范围值
+								String unitmeasure =prodSpecCharValueUse.getProdSpecCharValue().getUnitOfMeasure();
 								if(prodSpecCharValueUse.getProdSpecCharValue().getValueType().equals(Const.SPEC_CHAR_VALUE_TYPE_FORTH)){
-									//System.out.println("特征的取值范围是："+prodSpecCharValueUse.getProdSpecCharValue().getValueFrom()+"~"+prodSpecCharValueUse.getProdSpecCharValue().getValueTo());
-									String validFrom = prodSpecCharValueUse.getProdSpecCharValue().getValueFrom();
-									String rangeInterval = prodSpecCharValueUse.getProdSpecCharValue().getRangeInterval();
-									String theValue = String.valueOf(Double.parseDouble(validFrom)+Double.parseDouble(rangeInterval));
-									System.out.println("："+theValue+prodSpecCharValueUse.getProdSpecCharValue().getUnitOfMeasure());
+									System.out.println("特征的取值范围是："+prodSpecCharValueUse.getProdSpecCharValue().getValueFrom()+unitmeasure+"~"+prodSpecCharValueUse.getProdSpecCharValue().getValueTo()+unitmeasure);
 								}else{
-									System.out.println("："+prodSpecCharValueUse.getProdSpecCharValue().getValue()+prodSpecCharValueUse.getProdSpecCharValue().getUnitOfMeasure());
+									System.out.println("："+prodSpecCharValueUse.getProdSpecCharValue().getValue()+unitmeasure);
 								}
 							}
 						}
