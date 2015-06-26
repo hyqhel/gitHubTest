@@ -1,8 +1,10 @@
 package com.ai.baas.product.spec;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import com.ai.baas.basetype.*;
+import com.ai.baas.basetype.TimePeriod;
 
 /**
  * A characteristic quality or distinctive feature of a ProductSpecification. The characteristic can be take on a discrete value, such as color, can take on a range of values, (for example, sensitivity of 100-240 mV), or can be derived from a formula (for example, usage time (hrs) = 30 - talk time *3). Certain characteristics, such as color, may be configured during the ordering or some other process.
@@ -268,7 +270,11 @@ public class ProductSpecCharacteristic {
      */
     public void addRelatedCharacteristic(ProductSpecCharacteristic specChar, String type, TimePeriod validFor) {
         // TODO - implement ProductSpecCharacteristic.addRelatedCharacteristic
-        throw new UnsupportedOperationException();
+    	ProductSpecCharRelationship pship = new ProductSpecCharRelationship(this,specChar,type,validFor);    	
+    	if(prodSpecCharRelationship ==null){
+    		prodSpecCharRelationship = new ArrayList<ProductSpecCharRelationship>();
+    	}
+    	prodSpecCharRelationship.add(pship);
     }
 
     /**

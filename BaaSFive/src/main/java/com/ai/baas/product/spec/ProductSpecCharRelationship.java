@@ -57,7 +57,10 @@ public class ProductSpecCharRelationship {
      */
     public ProductSpecCharRelationship(ProductSpecCharacteristic srourceSpecChar, ProductSpecCharacteristic targetSpecChar, String relationType, TimePeriod validFor) {
         // TODO - implement ProductSpecCharRelationship.ProductSpecCharRelationship
-        throw new UnsupportedOperationException();
+    	this.sourceProdSpecChar = srourceSpecChar;
+    	this.targetProdSpecChar = targetSpecChar;
+    	this.charRelationshipType = relationType;
+    	this.validFor = validFor;
     }
 
     /**

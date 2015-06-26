@@ -3,6 +3,8 @@ package com.ai.baas.product.spec;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.ai.baas.basetype.TimePeriod;
@@ -25,7 +27,6 @@ public class ProductSpecCharacteristicTest {
 				{"3","13","cm",0.3,1.7,1},
 				{"2","14","cm",1.08},
 				{"2","15","cm",19.2},
-				{"2","16","cm",30}
 		};
 		
 	private	int [][] specCharRelateValue= {
@@ -36,10 +37,10 @@ public class ProductSpecCharacteristicTest {
 				{4,4}
 		};
 	
-	private	int [][] specCharRelate= {
-			{1,3},
-			{1,4},
-			{1,5}
+	private	String [][] specCharRelate= {
+			{"2","3"},
+			{"2","4"},
+			{"2","5"}
 	};
 	private List<ProductSpecCharacteristic> prodSpecChars;
 	public List<ProductSpecCharacteristic> getProdSpecChars() {
@@ -51,7 +52,7 @@ public class ProductSpecCharacteristicTest {
 		this.prodSpecChars = prodSpecChars;
 	}
 
-	@Test
+	@Before
 	public void createProdSpecCharTest(){
 			TimePeriod validFor = new TimePeriod();
 			String startDate = "2015-06-01";
@@ -86,10 +87,28 @@ public class ProductSpecCharacteristicTest {
 	
 	@Test
 	public void addRelatedCharacteristic(){
-		ProductSpecCharacteristic ownpsc;
-		for(int i=0;i<specCharRelate.length;i++){
-			
+	    String carId = specCharRelate[0][0].toString();
+	    ProductSpecCharacteristic psc =getCharac(carId);
+		TimePeriod validFor = new TimePeriod();
+		String startDate = "2015-06-01";
+		String endDate = "2015-08-21";
+		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
+		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
+		for(int j=0;j<specCharRelate.length;j++){
+			String dependenccharId=specCharRelate[j][1];
+			psc.addRelatedCharacteristic(getCharac(dependenccharId), "dependences", validFor);
 		}
-		prodSpecChars.get(0);
+	}
+	private  ProductSpecCharacteristic getCharac(String carId){
+		for(int i=0;i<prodSpecChars.size();i++){
+			 if(carId.equals(prodSpecChars.get(i).getID())){
+				 return  prodSpecChars.get(i);
+			 }
+		}
+		return null;
+	}
+	@After
+	public void printRelationChara(){
+		
 	}
 }
