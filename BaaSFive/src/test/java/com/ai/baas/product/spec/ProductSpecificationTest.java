@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import com.ai.baas.basetype.TimePeriod;
+import com.ai.baas.common.constant.Const;
 import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecificationTest {
@@ -84,6 +85,7 @@ public class ProductSpecificationTest {
 				prodSpecCharId = specCharList.get(i).getID();
 				if(prodSpecCharId.equals(selectedProdSpecCharId)){
 					prodSpecSelectChar= specCharList.get(i);
+					break;
 				}
 			}
 		}
@@ -112,6 +114,23 @@ public class ProductSpecificationTest {
 			for (int i = 0; i < prodSpecCharUseList.size(); i++) {
 				ProductSpecCharUse  prodSpecCharUse = prodSpecCharUseList.get(i);
 				System.out.println(prodSpecCharUse.getName());
+				List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecCharUse.getProdSpecCharValue();
+				if(null!=prodSpecCharValueUseList && prodSpecCharValueUseList.size()>0){
+					for (int j = 0; j < prodSpecCharValueUseList.size(); j++) {
+						ProdSpecCharValueUse prodSpecCharValueUse = prodSpecCharValueUseList.get(j);
+						if(null!=prodSpecCharValueUse){
+							if(null!=prodSpecCharValueUse.getProdSpecCharValue()){
+								//如果是from to的则输出范围值
+								if(prodSpecCharValueUse.getProdSpecCharValue().getValueType().equals(Const.SPEC_CHAR_VALUE_TYPE_FORTH)){
+									System.out.println("特征的取值范围是："+prodSpecCharValueUse.getProdSpecCharValue().getValueFrom()+"~"+prodSpecCharValueUse.getProdSpecCharValue().getValueTo());
+								}else{
+									System.out.println("特征值是："+prodSpecCharValueUse.getProdSpecCharValue().getValue());
+								}
+							}
+							
+						}
+					}
+				}
 			}
 		}
 	}
