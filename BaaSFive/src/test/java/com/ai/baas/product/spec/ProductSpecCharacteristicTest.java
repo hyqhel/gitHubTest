@@ -115,7 +115,7 @@ public class ProductSpecCharacteristicTest {
 		System.out.println("I'm a Composite charac,sub chara is:");
 		for(int i=0;i<psc.getProdSpecCharRelationship().size();i++){
 			ProductSpecCharRelationship tarc= psc.getProdSpecCharRelationship().get(i);
-			System.out.println(tarc.getTargetProdSpecChar().getName()+" "+tarc.getCharRelationshipType());
+			System.out.println("characname:"+tarc.getTargetProdSpecChar().getName()+"    ,RelationshipType:"+tarc.getCharRelationshipType());
 		}
 	}
 }
