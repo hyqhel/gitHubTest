@@ -522,7 +522,7 @@ public abstract class ProductSpecification {
      */
     public void setVersion(String version, String description, Date revisionDate, TimePeriod validFor) {
     	if(version!=null && !"".equals(version)){
-    		String []vos = version.split(".");
+    		String []vos = version.split("\\.");
     		if(vos.length!=3){
     			throw new UnsupportedOperationException("version error! ");
     		}else{

@@ -3,7 +3,9 @@ package com.ai.baas.product.spec;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -62,9 +64,6 @@ public class ProductSpecificationTest {
 		//add prodSpecVersion
 		atomicProdSpec.setVersion("1.0.0", "create a version", new Date(), validFor);
 		
-		//add prodSpecCost
-		Money cost = new Money(units, amount);
-		atomicProdSpec.addCost(cost, validFor);
 		
 	}
 	
@@ -131,23 +130,15 @@ public class ProductSpecificationTest {
 		}
 		//version
 		List<ProductSpecificationVersion> prodSpecCharVersionList = atomicProdSpec.getProdSpecVersion();
-		String version = "";
+		Map <String,String> mapv=new HashedMap();
 		if(null!=prodSpecCharVersionList && prodSpecCharVersionList.size()>0){
 			for (int i = 0; i < prodSpecCharVersionList.size(); i++) {
 				String versionType = prodSpecCharVersionList.get(i).getProdSpecRevisionType();
 				String versionNum = prodSpecCharVersionList.get(i).getProdSpecRevisionNumber();
+				mapv.put(versionType, versionNum);
 			}
 		}
-		System.out.println("创建版本是："+version);
-		
-		List<ProductSpecificationCost> prodSpecCostList = atomicProdSpec.getProductSpecificationCost();
-		if(null!=prodSpecCostList && prodSpecCostList.size()>0){
-			for (int i = 0; i < prodSpecCostList.size(); i++) {
-				Money money = prodSpecCostList.get(i).getCostToBusiness();
-				String units = money.units;
-				long amout = money.amount;
-			}
-		}
+		System.out.println("创建版本是："+mapv.get(Const.SPEC_MAJOR_VERSION)+"."+mapv.get(Const.SPEC_MINOR_VERSION)+"."+mapv.get(Const.SPEC_PATCH_VERSION));
 	}
 	
 	@BeforeClass
