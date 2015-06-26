@@ -35,7 +35,7 @@ public class ProductSpecificationTest {
 	@Test
 	public void createProdSpec() throws ParseException{
 		String productNumber = "1";
-		String name = "11 鑻卞 MacBook Air";
+		String name = "11 英寸 MacBook Air";
 		String brand = "apple";
 		String description = "Mac";
 		TimePeriod validFor = new TimePeriod();
