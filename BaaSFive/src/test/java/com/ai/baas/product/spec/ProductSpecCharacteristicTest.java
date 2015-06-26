@@ -20,8 +20,8 @@ public class ProductSpecCharacteristicTest {
 		
 	/**valueType,id,unitOfMeasure,value, valueform,valueto,rangeInterval**/
 	private	Object [][] specCharValue= {
-				{"1","11","GHz","1.6GHz"},
-				{"1","12","GHz","2.0GHz"},
+				{"1","11","GHz","1.6"},
+				{"1","12","GHz","2.0"},
 				{"3","13","cm",0.3,1.7,1},
 				{"2","14","cm",1.08},
 				{"2","15","cm",19.2},
