@@ -109,7 +109,7 @@ public abstract class ProductSpecification {
         this.name = name;
         this.productNumber = productNumber;
         this.brand = brand;
-        this.lifecycleStatus ?
+//        this.lifecycleStatus ;
     }
 
     /**
@@ -410,6 +410,8 @@ public abstract class ProductSpecification {
     			if(prodSpecVersion==null ){
     				prodSpecVersion = new ArrayList<ProductSpecificationVersion>();
     			}
+    			setVersion(Const.SPEC_MAJOR_VERSION, vos[0], description, revisionDate, validFor);
+    			
                 for(int i=0;i<vos.length;i++){
                 	String vertype=getVersionTypeBy(i);
                 	ProductSpecificationVersion versi= new ProductSpecificationVersion(vertype,"set first version",vos[i],revisionDate,validFor);
