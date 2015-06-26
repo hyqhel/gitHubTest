@@ -341,8 +341,11 @@ public class ProductSpecCharacteristic {
      * @param charSpecSeq
      */
     public void addRelatedCharacteristic(ProductSpecCharacteristic specChar, String type, TimePeriod validFor, int charSpecSeq) {
-        // TODO - implement ProductSpecCharacteristic.addRelatedCharacteristic
-        throw new UnsupportedOperationException();
+    	if(this.prodSpecCharRelationship==null){
+    		this.prodSpecCharRelationship =new ArrayList<ProductSpecCharRelationship>();
+    	}
+    	ProductSpecCharRelationship ship =new ProductSpecCharRelationship(this,specChar,type,validFor,charSpecSeq);
+    	this.prodSpecCharRelationship.add(ship);
     }
 
     /**
@@ -354,7 +357,11 @@ public class ProductSpecCharacteristic {
      */
     public void addRelatedCharacteristic(String specCharId, String type, TimePeriod validFor, int charSpecSeq) {
         // TODO - implement ProductSpecCharacteristic.addRelatedCharacteristic
-        throw new UnsupportedOperationException();
+    	if(this.prodSpecCharRelationship==null){
+    		this.prodSpecCharRelationship =new ArrayList<ProductSpecCharRelationship>();
+    	}
+    	ProductSpecCharRelationship ship =new ProductSpecCharRelationship(this,specCharId,type,validFor,charSpecSeq);
+    	this.prodSpecCharRelationship.add(ship);
     }
 
     /**
