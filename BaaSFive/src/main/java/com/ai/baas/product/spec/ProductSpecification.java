@@ -3,6 +3,7 @@ package com.ai.baas.product.spec;
 import java.util.*;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.constant.Const;
 import com.ai.baas.product.offering.SimpleProductOffering;
 
 /**
@@ -391,8 +392,35 @@ public abstract class ProductSpecification {
      * @param validFor
      */
     public void setVersion(String version, String description, Date revisionDate, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.setVersion
-        throw new UnsupportedOperationException();
+    	if(version!=null && !"".equals(version)){
+    		String []vos = version.split(".");
+    		if(vos.length!=3){
+    			throw new UnsupportedOperationException("version error! ");
+    		}else{
+    			if(prodSpecVersion==null ){
+    				prodSpecVersion = new ArrayList<ProductSpecificationVersion>();
+    			}
+                for(int i=0;i<vos.length;i++){
+                	String vertype=getVersionTypeBy(i);
+                	ProductSpecificationVersion versi= new ProductSpecificationVersion(vertype,"set first version",vos[i],revisionDate,validFor);
+                	prodSpecVersion.add(versi);
+                }
+    		}
+    	}
+    }
+    
+    private String getVersionTypeBy(int index){
+    	String vertype="";
+    	if(index==0){
+    		vertype = Const.SPEC_MAJOR_VERSION;
+    	}
+    	if(index==1){
+    		vertype = Const.SPEC_MINOR_VERSION;
+    	}
+    	if(index==2){
+    		vertype = Const.SPEC_PATCH_VERSION;
+    	}
+    	return vertype;
     }
 
     public ProductSpecificationVersion[] getCurrentVersion() {
