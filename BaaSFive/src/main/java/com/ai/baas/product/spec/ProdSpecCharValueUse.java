@@ -56,8 +56,8 @@ public class ProdSpecCharValueUse {
      * @param validFor
      */
     public ProdSpecCharValueUse(String charValId, boolean isDefault, TimePeriod validFor) {
-        // TODO - implement ProdSpecCharValueUse.ProdSpecCharValueUse
-        throw new UnsupportedOperationException();
+    	this.isDefault =isDefault;
+    	this.validFor =validFor;
     }
 
 }

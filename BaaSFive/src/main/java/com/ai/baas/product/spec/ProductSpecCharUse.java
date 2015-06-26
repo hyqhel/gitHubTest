@@ -131,8 +131,9 @@ public class ProductSpecCharUse {
      * @param validFor
      */
     public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharUse.ProductSpecCharUse
-        throw new UnsupportedOperationException();
+    	this.prodSpecChar =specChar;
+    	this.canBeOveridden=canBeOveridden;
+    	this.isPackage = isPackage;
     }
 
     /**
@@ -143,8 +144,8 @@ public class ProductSpecCharUse {
      * @param validFor
      */
     public ProductSpecCharUse(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharUse.ProductSpecCharUse
-        throw new UnsupportedOperationException();
+    	this.canBeOveridden = canBeOveridden;
+    	this.isPackage=isPackage;
     }
 
     /**
@@ -186,8 +187,14 @@ public class ProductSpecCharUse {
      * @param description
      */
     public ProductSpecCharUse(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-        // TODO - implement ProductSpecCharUse.ProductSpecCharUse
-        throw new UnsupportedOperationException();
+    	this.canBeOveridden = canBeOveridden;
+    	this.isPackage =isPackage;
+    	 this.name=name;
+    	 this.unique =unique;
+    	 this.minCardinality=minCardinality;
+    	 this.maxCardinality =maxCardinality;
+    	 this.extensible =extensible;
+    	 this.description =description;
     }
 
     /**
@@ -196,8 +203,8 @@ public class ProductSpecCharUse {
      * @param maxCardinality
      */
     public void setCardinality(int minCardinality, int maxCardinality) {
-        // TODO - implement ProductSpecCharUse.setCardinality
-        throw new UnsupportedOperationException();
+    	this.minCardinality =minCardinality;
+    	this.maxCardinality = maxCardinality;
     }
 
     /**
@@ -223,8 +230,8 @@ public class ProductSpecCharUse {
      * @param validFor
      */
     public void addValue(String charValueId, boolean isDefault, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharUse.addValue
-        throw new UnsupportedOperationException();
+    	ProdSpecCharValueUse pscvu=new ProdSpecCharValueUse(charValueId,isDefault,validFor);
+    	this.prodSpecCharValue.add(pscvu);
     }
 
     /**
@@ -232,8 +239,16 @@ public class ProductSpecCharUse {
      * @param charValue
      */
     public void removeValue(ProductSpecCharacteristicValue charValue) {
-        // TODO - implement ProductSpecCharUse.removeValue
-        throw new UnsupportedOperationException();
+    	if(this.prodSpecCharValue!=null){
+    		for(int i=0;i<this.prodSpecCharValue.size();i++){
+        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().getId().equals(charValue.getId())){
+        			this.prodSpecCharValue.remove(i);
+        		}
+        	}	
+    	}else{
+    		 throw new UnsupportedOperationException("you remove not exists");
+    	}
+    	
     }
 
     /**
@@ -241,8 +256,15 @@ public class ProductSpecCharUse {
      * @param charValueId
      */
     public void removeValue(String charValueId) {
-        // TODO - implement ProductSpecCharUse.removeValue
-        throw new UnsupportedOperationException();
+    	if(this.prodSpecCharValue!=null){
+    		for(int i=0;i<this.prodSpecCharValue.size();i++){
+        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().getId().equals(charValueId)){
+        			this.prodSpecCharValue.remove(i);
+        		}
+        	}	
+    	}else{
+    		 throw new UnsupportedOperationException("you remove not exists");
+    	}
     }
 
     /**
@@ -250,8 +272,17 @@ public class ProductSpecCharUse {
      * @param defaultValue
      */
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristicValue defaultValue) {
-        // TODO - implement ProductSpecCharUse.specifyDefaultCharacteristicValue
-        throw new UnsupportedOperationException();
+        if(this.prodSpecCharValue!=null){
+        	for(int i=0;i<this.prodSpecCharValue.size();i++){
+        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().getId().equals(defaultValue.getId())){
+        			if(!this.prodSpecCharValue.get(i).getProdSpecCharValue().isIsDefault()){
+        				this.prodSpecCharValue.get(i).getProdSpecCharValue().setIsDefault(true);
+        			}
+        		}
+        	}
+        }else{
+        	throw new UnsupportedOperationException("you remove not exists");
+        }
     }
 
     /**
@@ -259,8 +290,17 @@ public class ProductSpecCharUse {
      * @param defaultValueId
      */
     public void specifyDefaultCharacteristicValue(String defaultValueId) {
-        // TODO - implement ProductSpecCharUse.specifyDefaultCharacteristicValue
-        throw new UnsupportedOperationException();
+    	if(this.prodSpecCharValue!=null){
+        	for(int i=0;i<this.prodSpecCharValue.size();i++){
+        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().getId().equals(defaultValueId)){
+        			if(!this.prodSpecCharValue.get(i).getProdSpecCharValue().isIsDefault()){
+        				this.prodSpecCharValue.get(i).getProdSpecCharValue().setIsDefault(true);
+        			}
+        		}
+        	}
+        }else{
+        	throw new UnsupportedOperationException("you specify default not exists");
+        }
     }
 
 }

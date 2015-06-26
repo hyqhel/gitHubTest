@@ -188,8 +188,8 @@ public class ProductSpecCharacteristic {
      * @param maxCardinality
      */
     public void setCardinality(int minCardinality, int maxCardinality) {
-        // TODO - implement ProductSpecCharacteristic.setCardinality
-        throw new UnsupportedOperationException();
+        this.minCardinality =minCardinality;
+        this.maxCardinality =maxCardinality;
     }
 
     /**
@@ -208,8 +208,7 @@ public class ProductSpecCharacteristic {
      * @param charValId
      */
     public void addValue(String charValId) {
-        // TODO - implement ProductSpecCharacteristic.addValue
-        throw new UnsupportedOperationException();
+    	//this.prodSpecCharValue.add(e)
     }
 
     /**
@@ -217,8 +216,16 @@ public class ProductSpecCharacteristic {
      * @param charVal
      */
     public void removeValue(ProductSpecCharacteristicValue charVal) {
-        // TODO - implement ProductSpecCharacteristic.removeValue
-        throw new UnsupportedOperationException();
+    	if(charVal==null){
+            throw new UnsupportedOperationException("remove charval is null");
+    	}
+    	if(this.prodSpecCharValue!=null && this.prodSpecCharValue.size()>0){
+    		for(int i=0;i<this.prodSpecCharValue.size();i++){
+    			if(prodSpecCharValue.get(i).getId().equals(charVal.getId())){
+    				prodSpecCharValue.remove(i);
+    			}
+    		}
+    	}
     }
 
     /**
@@ -226,8 +233,16 @@ public class ProductSpecCharacteristic {
      * @param charValId
      */
     public void removeValue(String charValId) {
-        // TODO - implement ProductSpecCharacteristic.removeValue
-        throw new UnsupportedOperationException();
+    	if("".equals(charValId)){
+            throw new UnsupportedOperationException("remove charval is null");
+    	}
+    	if(this.prodSpecCharValue!=null && this.prodSpecCharValue.size()>0){
+    		for(int i=0;i<this.prodSpecCharValue.size();i++){
+    			if(prodSpecCharValue.get(i).getId().equals(charValId)){
+    				prodSpecCharValue.remove(i);
+    			}
+    		}
+    	}
     }
 
     /**
@@ -244,8 +259,17 @@ public class ProductSpecCharacteristic {
      * @param defaultCharVal
      */
     public void setDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
-        // TODO - implement ProductSpecCharacteristic.setDefaultValue
-        throw new UnsupportedOperationException();
+    	if(this.prodSpecCharValue!=null){
+        	for(int i=0;i<this.prodSpecCharValue.size();i++){
+        		if(this.prodSpecCharValue.get(i).getId().equals(defaultCharVal.getId())){
+        			if(!this.prodSpecCharValue.get(i).isIsDefault()){
+        				this.prodSpecCharValue.get(i).setIsDefault(true);
+        			}
+        		}
+        	}
+        }else{
+        	throw new UnsupportedOperationException("you remove not exists");
+        }
     }
 
     /**
@@ -253,13 +277,34 @@ public class ProductSpecCharacteristic {
      * @param defaultCharValId
      */
     public void setDefaultValue(String defaultCharValId) {
-        // TODO - implement ProductSpecCharacteristic.setDefaultValue
-        throw new UnsupportedOperationException();
+    	if(this.prodSpecCharValue!=null){
+        	for(int i=0;i<this.prodSpecCharValue.size();i++){
+        		if(this.prodSpecCharValue.get(i).getId().equals(defaultCharValId)){
+        			if(!this.prodSpecCharValue.get(i).isIsDefault()){
+        				this.prodSpecCharValue.get(i).setIsDefault(true);
+        			}
+        		}else{
+        			if(this.prodSpecCharValue.get(i).isIsDefault()){
+        				this.prodSpecCharValue.get(i).setIsDefault(false);
+        			}
+        		}
+        	}
+        }else{
+        	throw new UnsupportedOperationException("you remove not exists");
+        }
     }
 
     public ProductSpecCharacteristicValue getDefaultValue() {
-        // TODO - implement ProductSpecCharacteristic.getDefaultValue
-        throw new UnsupportedOperationException();
+        if(this.prodSpecCharValue==null){
+        	throw new UnsupportedOperationException("no value");
+        }else{
+        	for(int i=0;i<this.prodSpecCharValue.size();i++){
+        		if(prodSpecCharValue.get(i).isIsDefault()){
+        			return prodSpecCharValue.get(i);
+        		}
+        	}
+        }
+        return null;
     }
 
     /**
