@@ -9,13 +9,13 @@ import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecCharacteristicTest {
-	/**id,name,dis,min,max**/
+	/**id,name,dis,min,max,uniqe,extensible**/
 	private    Object [][] specChar= {
-		        {"1","处理器","cpu",1,2},		
-				{"2","尺寸与重量","compistchar",1,1},			
-				{"3","高度","high",1,1},
-				{"4","宽度","width",1,1},
-				{"5","深度","height",1,1}
+		        {"1","处理器","cpu",1,2,"false",false},		
+				{"2","尺寸与重量","compistchar",1,1,"true",false},			
+				{"3","高度","high",1,1,"true",true},
+				{"4","宽度","width",1,1,"true",true},
+				{"5","深度","height",1,1,"true",true}
 		};
 		
 	/**valueType,id,unitOfMeasure,value, valueform,valueto,rangeInterval**/
@@ -52,15 +52,13 @@ public class ProductSpecCharacteristicTest {
 			String endDate = "2015-08-21";
 			validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
 			validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
-			String unique = "";
 			String derivationFormula = "";
-			boolean extensible = false;
 			String valueType="";
 			if(prodSpecChars ==null ){
 				prodSpecChars = new ArrayList<ProductSpecCharacteristic>();
 			}
 			for(int i=0;i<specChar.length;i++){
-				ProductSpecCharacteristic prodSpecChar = new ProductSpecCharacteristic(specChar[i][0].toString(), specChar[i][1].toString(), valueType, validFor, unique,  Integer.parseInt(specChar[i][3].toString()),  Integer.parseInt((String)specChar[i][4].toString()), extensible, specChar[i][2].toString(),derivationFormula);
+				ProductSpecCharacteristic prodSpecChar = new ProductSpecCharacteristic(specChar[i][0].toString(), specChar[i][1].toString(), valueType, validFor, specChar[i][5].toString(),  Integer.parseInt(specChar[i][3].toString()),  Integer.parseInt((String)specChar[i][4].toString()), (Boolean)specChar[i][6], specChar[i][2].toString(),derivationFormula);
 				for(int j=0;j<specCharRelateValue.length;j++){
 					if(i==specCharRelateValue[j][0]){
 						int charvaluesub=specCharRelateValue[j][1];
