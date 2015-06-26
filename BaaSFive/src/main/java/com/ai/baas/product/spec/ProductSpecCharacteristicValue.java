@@ -8,7 +8,10 @@ import com.ai.baas.basetype.*;
  */
 public class ProductSpecCharacteristicValue {
 
-    public List<ProdSpecCharValueRelationship> prodSpecCharValueRelationship;
+    private List<ProdSpecCharValueRelationship> prodSpecCharValueRelationship;
+    
+    private String id;
+    
     /**
      * A kind of value that the characteristic can take on, such as numeric, text, and so forth.
      */
@@ -42,9 +45,20 @@ public class ProductSpecCharacteristicValue {
     /**
      * The period of time for which a value is applicable.
      */
+    
+    
+    
     private TimePeriod validFor;
 
-    public String getValueType() {
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getValueType() {
         return this.valueType;
     }
 
