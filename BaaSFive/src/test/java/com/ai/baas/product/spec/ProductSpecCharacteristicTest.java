@@ -42,6 +42,7 @@ public class ProductSpecCharacteristicTest {
 			{"2","4"},
 			{"2","5"}
 	};
+	ProductSpecCharacteristic psc =null;
 	private List<ProductSpecCharacteristic> prodSpecChars;
 	public List<ProductSpecCharacteristic> getProdSpecChars() {
 		createProdSpecCharTest();
@@ -69,7 +70,7 @@ public class ProductSpecCharacteristicTest {
 				for(int j=0;j<specCharRelateValue.length;j++){
 					if(i==specCharRelateValue[j][0]){
 						int charvaluesub=specCharRelateValue[j][1];
-						/** form to value**/
+						// form to value
 						ProductSpecCharacteristicValue  prodSpecCharValue=null;
 						String charvalueId=specCharValue[charvaluesub][1].toString();
 						if("3".equals((String)specCharValue[charvaluesub][0])){
@@ -88,7 +89,7 @@ public class ProductSpecCharacteristicTest {
 	@Test
 	public void addRelatedCharacteristic(){
 	    String carId = specCharRelate[0][0].toString();
-	    ProductSpecCharacteristic psc =getCharac(carId);
+	     psc =getCharac(carId);
 		TimePeriod validFor = new TimePeriod();
 		String startDate = "2015-06-01";
 		String endDate = "2015-08-21";
@@ -109,6 +110,11 @@ public class ProductSpecCharacteristicTest {
 	}
 	@After
 	public void printRelationChara(){
-		
+		System.out.println("ProductSpecCharacteristic name:"+psc.getName());
+		System.out.println("I'm a Composite charac,sub chara is:");
+		for(int i=0;i<psc.getProdSpecCharRelationship().size();i++){
+			ProductSpecCharRelationship tarc= psc.getProdSpecCharRelationship().get(i);
+			System.out.println(tarc.getTargetProdSpecChar().getName()+" "+tarc.getCharRelationshipType());
+		}
 	}
 }

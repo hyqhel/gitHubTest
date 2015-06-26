@@ -7,9 +7,28 @@ import com.ai.baas.basetype.*;
  */
 public class ProductSpecCharRelationship {
 
-    public ProductSpecCharacteristic targetProdSpecChar;
-    public ProductSpecCharacteristic sourceProdSpecChar;
-    /**
+    private ProductSpecCharacteristic targetProdSpecChar;
+    private ProductSpecCharacteristic sourceProdSpecChar;
+    
+
+
+	public ProductSpecCharacteristic getTargetProdSpecChar() {
+		return targetProdSpecChar;
+	}
+
+	public void setTargetProdSpecChar(ProductSpecCharacteristic targetProdSpecChar) {
+		this.targetProdSpecChar = targetProdSpecChar;
+	}
+
+	public ProductSpecCharacteristic getSourceProdSpecChar() {
+		return sourceProdSpecChar;
+	}
+
+	public void setSourceProdSpecChar(ProductSpecCharacteristic sourceProdSpecChar) {
+		this.sourceProdSpecChar = sourceProdSpecChar;
+	}
+
+	/**
      * A categorization of the relationship, such as aggregation, migration, substitution, dependency, exclusivity.
      */
     private String charRelationshipType;
