@@ -54,7 +54,7 @@ public class ProductSpecCharacteristicTest {
 		this.prodSpecChars = prodSpecChars;
 	}
 
-	@Before
+	@Test
 	public void createProdSpecCharTest(){
 			TimePeriod validFor = new TimePeriod();
 			String startDate = "2015-06-01";
@@ -85,9 +85,10 @@ public class ProductSpecCharacteristicTest {
 				}
 				prodSpecChars.add(prodSpecChar);
 			}
+			addRelatedCharacteristic();
 		}
 	
-	@Test
+	//@Test
 	public void addRelatedCharacteristic(){
 	    String carId = specCharRelate[0][0].toString();
 	     psc =getCharac(carId);
