@@ -109,7 +109,7 @@ public abstract class ProductSpecification {
         this.name = name;
         this.productNumber = productNumber;
         this.brand = brand;
-//        this.lifecycleStatus ;
+        this.lifecycleStatus = Const.SPEC_STATUS_ACTIVE;
     }
 
     /**
@@ -126,7 +126,7 @@ public abstract class ProductSpecification {
         this.brand = brand;
         this.validFor = validFor;
         this.description = description;
-        
+        this.lifecycleStatus = Const.SPEC_STATUS_ACTIVE;
     }
 
     /**
@@ -194,7 +194,11 @@ public abstract class ProductSpecification {
      * @param description A narrative that explains the CharacteristicSpecification.
      */
     public void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
-    	
+    	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specCharId, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
+		if (null == prodSpecChar) {
+			prodSpecChar = new ArrayList<ProductSpecCharUse>();
+		}
+	    prodSpecChar.add(prodSpecCharUse);
     }
 
     /**
@@ -202,7 +206,13 @@ public abstract class ProductSpecification {
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
     public void removeCharacteristic(ProductSpecCharacteristic specChar){
-    	
+    	if (null != this.prodSpecChar){
+    		for (int i = 0; i < prodSpecChar.size(); i++) {
+    			if(this.prodSpecChar.get(i).getProdSpecChar().getID().equals(specChar.getID())){
+    				this.prodSpecChar.remove(i);
+    			}
+			}
+    	}
     }
 
     /**
@@ -210,7 +220,13 @@ public abstract class ProductSpecification {
      * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
     public void removeCharacteristic(String specCharId){
-    	
+    	if (null != this.prodSpecChar){
+    		for (int i = 0; i < prodSpecChar.size(); i++) {
+    			if(this.prodSpecChar.get(i).getProdSpecChar().getID().equals(specCharId)){
+    				this.prodSpecChar.remove(i);
+    			}
+			}
+    	}
     }
 
     /**
@@ -227,8 +243,21 @@ public abstract class ProductSpecification {
      * @param description A narrative that explains the CharacteristicSpecification.
      */
     public void modifyCharacteristicInfo(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-        // TODO - implement ProductSpecification.modifyCharacteristicInfo
-        throw new UnsupportedOperationException();
+    	if (null != this.prodSpecChar){
+    		for (int i = 0; i < prodSpecChar.size(); i++) {
+    			ProductSpecCharUse prodSpecCharUse = this.prodSpecChar.get(i);
+    			if(prodSpecCharUse.getProdSpecChar().getID().equals(specChar.getID())){
+    				prodSpecCharUse.setCanBeOveridden(canBeOveridden);
+        			prodSpecCharUse.setIsPackage(isPackage);
+        			prodSpecCharUse.setName(name);
+        			prodSpecCharUse.setUnique(unique);
+        			prodSpecCharUse.setExtensible(extensible);
+        			prodSpecCharUse.setMaxCardinality(maxCardinality);
+        			prodSpecCharUse.setMinCardinality(minCardinality);
+        			prodSpecCharUse.setDescription(description);
+    			}
+			}
+    	}
     }
 
     /**
@@ -245,8 +274,21 @@ public abstract class ProductSpecification {
      * @param description A narrative that explains the CharacteristicSpecification.
      */
     public void modifyCharacteristicInfo(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-        // TODO - implement ProductSpecification.modifyCharacteristicInfo
-        throw new UnsupportedOperationException();
+    	if (null != this.prodSpecChar){
+    		for (int i = 0; i < prodSpecChar.size(); i++) {
+    			ProductSpecCharUse prodSpecCharUse = this.prodSpecChar.get(i);
+    			if(prodSpecCharUse.getProdSpecChar().getID().equals(specCharId)){
+    				prodSpecCharUse.setCanBeOveridden(canBeOveridden);
+        			prodSpecCharUse.setIsPackage(isPackage);
+        			prodSpecCharUse.setName(name);
+        			prodSpecCharUse.setUnique(unique);
+        			prodSpecCharUse.setExtensible(extensible);
+        			prodSpecCharUse.setMaxCardinality(maxCardinality);
+        			prodSpecCharUse.setMinCardinality(minCardinality);
+        			prodSpecCharUse.setDescription(description);
+    			}
+			}
+    	}
     }
 
     /**
@@ -276,8 +318,15 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(String specCharId, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.attachCharacteristicValue
-        throw new UnsupportedOperationException();
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
+				if(prodSpecCharUse.getProdSpecChar().getID().equals(specCharId)){
+					prodSpecCharUse.addValue(charValue, isDefault, validFor);
+				}
+			}
+    	}
     }
 
     /**
@@ -288,8 +337,15 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(String specCharId, String charValueId, boolean isDefault, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.attachCharacteristicValue
-        throw new UnsupportedOperationException();
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
+				if(prodSpecCharUse.getProdSpecChar().getID().equals(specCharId)){
+					prodSpecCharUse.addValue(charValueId, isDefault, validFor);
+				}
+			}
+    	}
     }
 
     /**
@@ -297,14 +353,34 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param charValue
      */
-    public abstract void detachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue);
+    public void detachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue){
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
+				if(prodSpecCharUse.getProdSpecChar().getID().equals(specChar.getID())){
+					prodSpecCharUse.removeValue(charValue);
+				}
+			}
+    	}
+    }
 
     /**
      * 
      * @param specCharId
      * @param charValueId
      */
-    public abstract void detachCharacteristicValue(String specCharId, String charValueId);
+    public void detachCharacteristicValue(String specCharId, String charValueId){
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
+				if(prodSpecCharUse.getProdSpecChar().getID().equals(specCharId)){
+					prodSpecCharUse.removeValue(charValueId);
+				}
+			}
+    	}
+    }
 
     /**
      * 
@@ -312,8 +388,7 @@ public abstract class ProductSpecification {
      * @param defaultCharValue
      */
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue defaultCharValue) {
-        // TODO - implement ProductSpecification.specifyDefaultCharacteristicValue
-        throw new UnsupportedOperationException();
+        this.specifyDefaultCharacteristicValue(specChar, defaultCharValue);
     }
 
     /**
@@ -322,8 +397,7 @@ public abstract class ProductSpecification {
      * @param defaultCharValueId
      */
     public void specifyDefaultCharacteristicValue(String specCharId, String defaultCharValueId) {
-        // TODO - implement ProductSpecification.specifyDefaultCharacteristicValue
-        throw new UnsupportedOperationException();
+        this.specifyDefaultCharacteristicValue(specCharId, defaultCharValueId);
     }
 
     /**
@@ -331,8 +405,12 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProductSpecCharUse[] retrieveCharacteristic(Date time) {
-        // TODO - implement ProductSpecification.retrieveCharacteristic
-        throw new UnsupportedOperationException();
+    	List<ProductSpecCharUse> prodSpecCharUse = this.prodSpecChar;
+    	List<ProductSpecCharUse> prodSpecCharUseByDate = new ArrayList<ProductSpecCharUse>();
+    	
+    	//TODO 查询时间点下的所有特征
+    	
+    	return prodSpecCharUse.toArray(new ProductSpecCharUse[prodSpecCharUseByDate.size()]);
     }
 
     /**
@@ -341,13 +419,29 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProdSpecCharValueUse[] retrieveCharacteristicValue(ProductSpecCharacteristic specChar, Date time) {
-        // TODO - implement ProductSpecification.retrieveCharacteristicValue
-        throw new UnsupportedOperationException();
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	if(null != prodSpecCharUseList && prodSpecCharUseList.size()>0){
+    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specChar.getID())){
+    				//TODO 查询time 时间点下的所有特征值
+    			}
+			}
+    	}
+    	return null;
     }
 
     public ProductSpecCharUse[] getRootCharacteristic() {
-        // TODO - implement ProductSpecification.getRootCharacteristic
-        throw new UnsupportedOperationException();
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	List<ProductSpecCharUse> resultProdSpecCharUseList = new ArrayList<ProductSpecCharUse>();
+    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    			ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(Const.SPEC_CHAR_AGERAGETION);
+    			if(null == relatedChars || relatedChars.length == 0){
+    				resultProdSpecCharUseList.add(prodSpecCharUseList.get(i));
+    			}
+			}
+    	}
+    	return resultProdSpecCharUseList.toArray(new ProductSpecCharUse[resultProdSpecCharUseList.size()]);
     }
 
     /**
@@ -390,8 +484,11 @@ public abstract class ProductSpecification {
      * @param validFor
      */
     private void setVersion(String verType, String curTypeVersion, String description, Date revisionDate, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.setVersion
-        throw new UnsupportedOperationException();
+    	ProductSpecificationVersion versi= new ProductSpecificationVersion(verType,description,curTypeVersion,revisionDate,validFor);
+    	if(prodSpecVersion==null ){
+			prodSpecVersion = new ArrayList<ProductSpecificationVersion>();
+		}
+		prodSpecVersion.add(versi);
     }
 
     /**
@@ -407,34 +504,14 @@ public abstract class ProductSpecification {
     		if(vos.length!=3){
     			throw new UnsupportedOperationException("version error! ");
     		}else{
-    			if(prodSpecVersion==null ){
-    				prodSpecVersion = new ArrayList<ProductSpecificationVersion>();
-    			}
-
+    			
     			setVersion(Const.SPEC_MAJOR_VERSION, vos[0], description, revisionDate, validFor);
-                for(int i=0;i<vos.length;i++){
-                	String vertype=getVersionTypeBy(i);
-                	ProductSpecificationVersion versi= new ProductSpecificationVersion(vertype,"set first version",vos[i],revisionDate,validFor);
-                	prodSpecVersion.add(versi);
-                }
+    			setVersion(Const.SPEC_MINOR_VERSION, vos[1], description, revisionDate, validFor);
+    			setVersion(Const.SPEC_PATCH_VERSION, vos[2], description, revisionDate, validFor);
     		}
     	}
     }
     
-    private String getVersionTypeBy(int index){
-    	String vertype="";
-    	if(index==0){
-    		vertype = Const.SPEC_MAJOR_VERSION;
-    	}
-    	if(index==1){
-    		vertype = Const.SPEC_MINOR_VERSION;
-    	}
-    	if(index==2){
-    		vertype = Const.SPEC_PATCH_VERSION;
-    	}
-    	return vertype;
-    }
-
     public ProductSpecificationVersion[] getCurrentVersion() {
         // TODO - implement ProductSpecification.getCurrentVersion
         throw new UnsupportedOperationException();
