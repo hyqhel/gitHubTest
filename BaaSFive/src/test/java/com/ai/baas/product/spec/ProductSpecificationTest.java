@@ -60,6 +60,8 @@ public class ProductSpecificationTest {
 				}
 			}
 		}
+		
+		
 	}
 	
 	private ProductSpecCharacteristic selectedProdChar(List<ProductSpecCharacteristic> specCharList, String selectedProdSpecCharId){
@@ -98,7 +100,7 @@ public class ProductSpecificationTest {
 		if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
 			for (int i = 0; i < prodSpecCharUseList.size(); i++) {
 				ProductSpecCharUse  prodSpecCharUse = prodSpecCharUseList.get(i);
-				System.out.println("    特征："+prodSpecCharUse.getName());
+				System.out.print("     "+prodSpecCharUse.getName());
 				List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecCharUse.getProdSpecCharValue();
 				if(null!=prodSpecCharValueUseList && prodSpecCharValueUseList.size()>0){
 					for (int j = 0; j < prodSpecCharValueUseList.size(); j++) {
@@ -111,14 +113,15 @@ public class ProductSpecificationTest {
 									String validFrom = prodSpecCharValueUse.getProdSpecCharValue().getValueFrom();
 									String rangeInterval = prodSpecCharValueUse.getProdSpecCharValue().getRangeInterval();
 									String theValue = String.valueOf(Double.parseDouble(validFrom)+Double.parseDouble(rangeInterval));
-									System.out.println("         特征值："+theValue+prodSpecCharValueUse.getProdSpecCharValue().getUnitOfMeasure());
+									System.out.println("："+theValue+prodSpecCharValueUse.getProdSpecCharValue().getUnitOfMeasure());
 								}else{
-									System.out.println("         特征值："+prodSpecCharValueUse.getProdSpecCharValue().getValue()+prodSpecCharValueUse.getProdSpecCharValue().getUnitOfMeasure());
+									System.out.println("："+prodSpecCharValueUse.getProdSpecCharValue().getValue()+prodSpecCharValueUse.getProdSpecCharValue().getUnitOfMeasure());
 								}
 							}
-							
 						}
 					}
+				}else{
+					System.out.println();
 				}
 			}
 		}

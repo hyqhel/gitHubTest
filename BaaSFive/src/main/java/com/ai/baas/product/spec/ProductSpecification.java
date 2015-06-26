@@ -97,8 +97,9 @@ public abstract class ProductSpecification {
      * @param brand The manufacturer or trademark of the specification.
      */
     public ProductSpecification(String name, String productNumber, String brand) {
-        // TODO - implement ProductSpecification.ProductSpecification
-        throw new UnsupportedOperationException();
+        this.name = name;
+        this.productNumber = productNumber;
+        this.brand = brand;
     }
 
     /**
@@ -126,7 +127,9 @@ public abstract class ProductSpecification {
      */
     public void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
         ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor);
-    	
+        if(null==prodSpecChar || "".equals(prodSpecChar)){
+			prodSpecChar = new ArrayList<ProductSpecCharUse>();
+		}
         prodSpecChar.add(prodSpecCharUse);
     }
 
@@ -138,8 +141,11 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
      */
     public void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.addCharacteristic
-        throw new UnsupportedOperationException();
+    	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specCharId, canBeOveridden, isPackage, validFor);
+        if(null==prodSpecChar || "".equals(prodSpecChar)){
+			prodSpecChar = new ArrayList<ProductSpecCharUse>();
+		}
+        prodSpecChar.add(prodSpecCharUse);
     }
 
     /**
@@ -156,12 +162,10 @@ public abstract class ProductSpecification {
      * @param description A narrative that explains the CharacteristicSpecification.
      */
     public  void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
-ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
-	    
+    	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
 		if(null==prodSpecChar || "".equals(prodSpecChar)){
 			prodSpecChar = new ArrayList<ProductSpecCharUse>();
 		}
-		
 	    prodSpecChar.add(prodSpecCharUse);
     }
 
@@ -178,19 +182,25 @@ ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveri
      * @param extensible An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
      * @param description A narrative that explains the CharacteristicSpecification.
      */
-    public abstract void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description);
+    public void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
+    	
+    }
 
     /**
      * 
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
-    public abstract void removeCharacteristic(ProductSpecCharacteristic specChar);
+    public void removeCharacteristic(ProductSpecCharacteristic specChar){
+    	
+    }
 
     /**
      * 
      * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
-    public abstract void removeCharacteristic(String specCharId);
+    public void removeCharacteristic(String specCharId){
+    	
+    }
 
     /**
      * 
@@ -236,7 +246,6 @@ ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveri
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-    	
     	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
@@ -246,7 +255,6 @@ ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveri
 				}
 			}
     	}
-    	
     }
 
     /**
