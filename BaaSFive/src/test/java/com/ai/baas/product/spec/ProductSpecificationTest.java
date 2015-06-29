@@ -6,17 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ai.baas.basetype.Money;
 import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.constant.Const;
 import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecificationTest {
-	
+	private static final Logger logger = Logger.getLogger(ProductSpecificationTest.class);
+
 	String[] specSelectCharIds = {"1","2","4","3"};
 	String[] specSelectCharValueIds = {"11","12","14","13"};
 	int[][] specCharUseValueRelate = {
@@ -60,7 +61,7 @@ public class ProductSpecificationTest {
 				}
 			}
 		}
-		
+		logger.info("11111111111");
 		//add prodSpecVersion
 		atomicProdSpec.setVersion("1.0.0", "create a version", new Date(), validFor);
 		
