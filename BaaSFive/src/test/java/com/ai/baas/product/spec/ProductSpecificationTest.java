@@ -1,18 +1,17 @@
 package com.ai.baas.product.spec;
 
+import static org.junit.Assert.assertEquals;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
-import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.constant.Const;
 import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecificationTest {
@@ -60,6 +59,7 @@ public class ProductSpecificationTest {
 					atomicProdSpec.attachCharacteristicValue(selectedSpecChar, selectvalue, false, validFor);
 				}
 			}
+			System.out.println(selectedSpecChar.toString()+"---");
 		}
 		logger.info("11111111111");
 		//add prodSpecVersion
@@ -96,9 +96,9 @@ public class ProductSpecificationTest {
 		}
 		return prodSpecSelectCharValue;
 	}
-	@After
+	/*@After
 	public void  printResult(){
-		/*print result*/
+		print result
 		System.out.println("规格："+atomicProdSpec.getName());
 		List<ProductSpecCharUse> prodSpecCharUseList = atomicProdSpec.getProdSpecChar();
 		if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
@@ -137,7 +137,7 @@ public class ProductSpecificationTest {
 			}
 		}
 		System.out.println("创建版本是："+mapv.get(Const.SPEC_MAJOR_VERSION)+"."+mapv.get(Const.SPEC_MINOR_VERSION)+"."+mapv.get(Const.SPEC_PATCH_VERSION));
-	}
+	}*/
 	
 	@BeforeClass
 	public static void initVliadFor(){
@@ -158,6 +158,26 @@ public class ProductSpecificationTest {
 
 	public void setAtomicProdSpec(ProductSpecification atomicProdSpec) {
 		this.atomicProdSpec = atomicProdSpec;
+	}
+	
+	ProductSpecCharacteristic specChar;
+	
+	
+	@Before
+	public  void getData(){
+		atomicProdSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
+		
+		specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		ProductSpecCharacteristicTest prodSpecCharTest = new ProductSpecCharacteristicTest();
+		List<ProductSpecCharacteristic> specCharList = prodSpecCharTest.getProdSpecChars();
+	}
+	
+	/**
+	 * 创建规格test类
+	 */
+	public void addCharacteristicTest(){
+		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
+		assertEquals(1,atomicProdSpec.getProdSpecChar().size());
 	}
 
 }
