@@ -30,12 +30,12 @@ public class ProductOfferingTest {
 		ProductSpecification prodSpec = null;
 		ProductSpecificationTest pst =new ProductSpecificationTest();
 		try {
-			pst.createProdSpec();
-			prodSpec=pst.getAtomicProdSpec();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				pst.createProdSpec();
+		} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 		}
+		prodSpec=pst.getAtomicProdSpec();
 		String startdate = "2015-06-04 10:20:00";
 		String enddate = "2015-06-26 10:20:00";
 		validFor.setStartDateTime(DateUtils.str2Date(startdate, DateUtils.datetimeFormat));

@@ -398,7 +398,7 @@ public class ProductSpecCharacteristic {
 			}
 		}
 		if(prodSpecCharRelationship!=null){
-			tostr.append("\n\n   关联的特征【"); 
+			tostr.append("\n\n关联的特征【"); 
 			for(ProductSpecCharRelationship pvRship:prodSpecCharRelationship){
 				tostr.append("\n   "+pvRship.toString());
 			}

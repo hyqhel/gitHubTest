@@ -30,7 +30,8 @@ public class ProductSpecCharacteristicTest {
 				{"2","尺寸与重量","compistchar",1,1,"true",false},			
 				{"3","高度","high",1,1,"true",true},
 				{"4","宽度","width",1,1,"true",true},
-				{"5","深度","height",1,1,"true",true}
+				{"5","深度","height",1,1,"true",true},
+				{"6","存储设备","cache",1,1,"true",true}
 		};
 		
 	//valueType,id,unitOfMeasure,value, valueform,valueto,rangeInterval
@@ -40,6 +41,9 @@ public class ProductSpecCharacteristicTest {
 				{"3","13","cm",0.3,1.7,1},
 				{"2","14","cm",1.08},
 				{"2","15","cm",19.2},
+				{"1","16","GB",128},
+				{"1","17","GB",256},
+				{"1","18","GB",512}
 		};
 		
 	private	int [][] specCharRelateValue= {
@@ -47,7 +51,10 @@ public class ProductSpecCharacteristicTest {
 				{0,1},
 				{2,2},
 				{3,3},
-				{4,4}
+				{4,4},
+				{5,5},
+				{5,6},
+				{5,7}
 		};
 	
 	private	String [][] specCharRelate= {
