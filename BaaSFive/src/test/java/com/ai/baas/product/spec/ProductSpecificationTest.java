@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -42,7 +43,7 @@ public class ProductSpecificationTest {
 	 * @return
 	 * @throws Exception 
 	 */
-	@Ignore
+	@Test
 	public void createProdSpec() throws Exception{
 		
 		/*new AtomicProductSpecification Object*/
@@ -105,7 +106,7 @@ public class ProductSpecificationTest {
 	/**
 	 * print result
 	 */
-	@Ignore
+	@After
 	public void  printResult(){
 		System.out.println("规格："+atomicProdSpec.getName());
 		List<ProductSpecCharUse> prodSpecCharUseList = atomicProdSpec.getProdSpecChar();
@@ -178,21 +179,20 @@ public class ProductSpecificationTest {
 	 */
 	@Ignore
 	public void testAddCharacteristic(){
-		Boolean rtnFlag = false;
 		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
 		
 		//TODO 空指针异常怎么处理？？？    调用的地方加判断？？？
 		//atomicProdSpec.getProdSpecChar().size();
 		
-		rtnFlag = atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
+		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
 		assertEquals("是否成功添加一个特征",1,atomicProdSpec.getProdSpecChar().size());
 		
 		ProductSpecCharacteristic specCharTwo = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		rtnFlag = atomicProdSpec.addCharacteristic(specCharTwo, false, false, validFor);
+		atomicProdSpec.addCharacteristic(specCharTwo, false, false, validFor);
 		assertEquals("同一个特征值是否能重复添加",1,atomicProdSpec.getProdSpecChar().size());
 		
 		specCharTwo = null;
-		rtnFlag = atomicProdSpec.addCharacteristic(specCharTwo, false, false, validFor);
+		atomicProdSpec.addCharacteristic(specCharTwo, false, false, validFor);
 		assertEquals("能否添加一个特征值为null的特征对象",1,atomicProdSpec.getProdSpecChar().size());
 	}
 	

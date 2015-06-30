@@ -176,17 +176,6 @@ public abstract class ProductSpecification {
 
     /**
      * 
-     * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
-     * @param canBeOveridden An indicator that specifies that the CharacteristicSpecValues associated with the CharacteristicSpec cannot be changed when instantiating a ServiceCharacteristicValue. For example, a bandwidth of 64 MB cannot be changed.
-     * @param isPackage An indicator that specifies if the associated CharacteristicSpecification is a composite. true��is a composite one
-     * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
-     */
-    public void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-    	throw new UnsupportedOperationException();
-    }
-
-    /**
-     * 
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
      * @param canBeOveridden An indicator that specifies that the CharacteristicSpecValues associated with the CharacteristicSpec cannot be changed when instantiating a ServiceCharacteristicValue. For example, a bandwidth of 64 MB cannot be changed.
      * @param isPackage An indicator that specifies if the associated CharacteristicSpecification is a composite.
@@ -224,23 +213,6 @@ public abstract class ProductSpecification {
 
     /**
      * 
-     * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
-     * @param canBeOveridden An indicator that specifies that the CharacteristicSpecValues associated with the CharacteristicSpec cannot be changed when instantiating a ServiceCharacteristicValue. For example, a bandwidth of 64 MB cannot be changed.
-     * @param isPackage An indicator that specifies if the associated CharacteristicSpecification is a composite.
-     * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
-     * @param name A word, term, or phrase by which the CharacteristicSpecification is known and distinguished from other CharacteristicSpecifications.
-     * @param unique An indicator that specifies if a value is unique for the specification. Possible values are: "unique while value is in effect" and "unique whether value is in effect or not"
-     * @param minCardinality The minimum number of instances a CharacteristicValue can take on. For example, zero to five phone numbers in a group calling plan, where zero is the value for the minCardinality.
-     * @param maxCardinality The maximum number of instances a CharacteristicValue can take on. For example, zero to five phone numbers in a group calling plan, where five is the value for the maxCardinality.
-     * @param extensible An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
-     * @param description A narrative that explains the CharacteristicSpecification.
-     */
-    public void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
-    	throw new UnsupportedOperationException();
-    }
-
-    /**
-     * 
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
     public boolean removeCharacteristic(ProductSpecCharacteristic specChar){
@@ -265,14 +237,6 @@ public abstract class ProductSpecification {
     		return false;
     	}
     	return true;
-    }
-
-    /**
-     * 
-     * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
-     */
-    public void removeCharacteristic(String specCharId){
-    	throw new UnsupportedOperationException();
     }
 
     /**
@@ -314,23 +278,6 @@ public abstract class ProductSpecification {
 
     /**
      * 
-     * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic.
-     * @param canBeOveridden An indicator that specifies that the CharacteristicSpecValues associated with the CharacteristicSpec cannot be changed when instantiating a ServiceCharacteristicValue. For example, a bandwidth of 64 MB cannot be changed.
-     * @param isPackage An indicator that specifies if the associated CharacteristicSpecification is a composite.
-     * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
-     * @param name A word, term, or phrase by which the CharacteristicSpecification is known and distinguished from other CharacteristicSpecifications.
-     * @param unique An indicator that specifies if a value is unique for the specification. Possible values are: "unique while value is in effect" and "unique whether value is in effect or not"
-     * @param minCardinality The minimum number of instances a CharacteristicValue can take on. For example, zero to five phone numbers in a group calling plan, where zero is the value for the minCardinality.
-     * @param maxCardinality The maximum number of instances a CharacteristicValue can take on. For example, zero to five phone numbers in a group calling plan, where five is the value for the maxCardinality.
-     * @param extensible An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
-     * @param description A narrative that explains the CharacteristicSpecification.
-     */
-    public void modifyCharacteristicInfo(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-    	throw new UnsupportedOperationException();
-    }
-
-    /**
-     * 
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
      * @param charValue A number or text that be assigned to a ProductSpecCharacteristic. The value must be in the characterisc's values.
      * @param isDefault Indicates if the value is the default value for a characteristic. true��is default value
@@ -356,28 +303,6 @@ public abstract class ProductSpecification {
 				}
 			}
     	}
-    }
-
-    /**
-     * 
-     * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
-     * @param charValue A number or text that be assigned to a ProductSpecCharacteristic. The value must be in the characterisc's values.
-     * @param isDefault Indicates if the value is the default value for a characteristic. true��is default value
-     * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
-     */
-    public void attachCharacteristicValue(String specCharId, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-    	throw new UnsupportedOperationException();
-    }
-
-    /**
-     * 
-     * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
-     * @param charValueId A number or text that be assigned to a ProductSpecCharacteristic. The value must be in the characterisc's values.
-     * @param isDefault Indicates if the value is the default value for a characteristic. true��is default value
-     * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
-     */
-    public void attachCharacteristicValue(String specCharId, String charValueId, boolean isDefault, TimePeriod validFor) {
-    	throw new UnsupportedOperationException();
     }
 
     /**
@@ -414,19 +339,11 @@ public abstract class ProductSpecification {
 
     /**
      * 
-     * @param specCharId
-     * @param charValueId
-     */
-    public void detachCharacteristicValue(String specCharId, String charValueId){
-    	throw new UnsupportedOperationException();
-    }
-
-    /**
-     * 
      * @param specChar
      * @param defaultCharValue
      */
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue defaultCharValue) {
+    	111
     	if(null == specChar){
     		log.error("ProductSpecification类中的specifyDefaultCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
     		return;
@@ -446,15 +363,6 @@ public abstract class ProductSpecification {
 
     /**
      * 
-     * @param specCharId
-     * @param defaultCharValueId
-     */
-    public void specifyDefaultCharacteristicValue(String specCharId, String defaultCharValueId) {
-    	throw new UnsupportedOperationException();
-    }
-
-    /**
-     * 
      * @param time
      */
     public ProductSpecCharUse[] retrieveCharacteristic(Date time) {
@@ -465,8 +373,10 @@ public abstract class ProductSpecification {
     		log.error("ProductSpecification类中的retrieveCharacteristic方法参数传入错误：Date数据为空time="+time);
     		return null;
     	}
-    	
     	//TODO 查询时间点下的所有特征
+    	for (int i = 0; i < array.length; i++) {
+			
+		}
     	
     	return prodSpecCharUseByDate.toArray(new ProductSpecCharUse[prodSpecCharUseByDate.size()]);
     }
@@ -482,6 +392,9 @@ public abstract class ProductSpecification {
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specChar.getID())){
     				//TODO 查询time 时间点下的所有特征值
+    				for (int j = 0; j < array.length; j++) {
+						
+					}
     			}
 			}
     	}
@@ -551,6 +464,7 @@ public abstract class ProductSpecification {
      * @param maxCardinality
      */
     public boolean setCardinality(ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality) {
+    	222
         if(null == specChar){
         	log.error("ProductSpecification类中的setCardinality方法参数传入错误：ProductSpecCharacteristic对象为空");
         	return false;
@@ -576,6 +490,7 @@ public abstract class ProductSpecification {
      */
     private void setVersion(String verType, String curTypeVersion, String description, Date revisionDate, TimePeriod validFor) {
     	ProductSpecificationVersion versi= new ProductSpecificationVersion(verType,description,curTypeVersion,revisionDate,validFor);
+    	333
     	if(prodSpecVersion==null ){
 			prodSpecVersion = new ArrayList<ProductSpecificationVersion>();
 		}
@@ -695,16 +610,6 @@ public abstract class ProductSpecification {
 
     /**
      * 
-     * @param prodSpecId
-     * @param type
-     * @param validFor
-     */
-    public void addRelatedProdSpec(String prodSpecId, String type, TimePeriod validFor) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * 
      * @param prodSpec
      */
     public void removeRelatedProdSpec(ProductSpecification prodSpec) {
@@ -720,14 +625,6 @@ public abstract class ProductSpecification {
     			prodSpecRelationship.remove(i);
     		}
     	}
-    }
-
-    /**
-     * 
-     * @param prodSpecId
-     */
-    public void removeRelatedProdSpec(String prodSpecId) {
-        throw new UnsupportedOperationException();
     }
 
     /**
