@@ -59,20 +59,7 @@ public class AtomicProductSpecification extends ProductSpecification {
 	}
 
 	@Override
-	public void removeCharacteristic(ProductSpecCharacteristic specChar) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void removeCharacteristic(String specCharId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void detachCharacteristicValue(ProductSpecCharacteristic specChar,
-			ProductSpecCharacteristicValue charValue) {
 		// TODO Auto-generated method stub
 		
 	}
