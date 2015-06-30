@@ -384,7 +384,7 @@ public class ProductSpecCharacteristic {
 	@Override
 	public String toString() {
 		StringBuffer tostr = new StringBuffer();
-		tostr.append("ProductSpecCharacteristic \n   ")
+		tostr.append("特征 \n   ")
 		     .append("ID=" + ID + ", name=" + name)
 			 .append(", description=" + description + ", unique=" + unique)
 			 .append(", valueType=" + valueType + ", minCardinality="+ minCardinality)
@@ -392,16 +392,17 @@ public class ProductSpecCharacteristic {
 			 .append(", extensible=" + extensible + ", derivationFormula="+ derivationFormula)
 			 .append(", validFor=" + validFor );
 		if(prodSpecCharValue!=null){
-			tostr.append("\n     ProductSpecCharacteristicValue "); 
+			tostr.append("\n     特征值 "); 
 			for(ProductSpecCharacteristicValue pv:prodSpecCharValue){
 				tostr.append("\n     "+pv.toString());
 			}
 		}
 		if(prodSpecCharRelationship!=null){
-			tostr.append("\n\n   ProductSpecCharRelationships"); 
+			tostr.append("\n\n   关联的特征【"); 
 			for(ProductSpecCharRelationship pvRship:prodSpecCharRelationship){
 				tostr.append("\n   "+pvRship.toString());
 			}
+			tostr.append("\n】");
 		}
 		return tostr.toString();
 	}

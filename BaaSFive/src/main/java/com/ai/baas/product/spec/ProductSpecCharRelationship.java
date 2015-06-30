@@ -1,6 +1,7 @@
 package com.ai.baas.product.spec;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.enums.ProdSpecEnum;
 
 /**
  * A aggregation, migration, substitution, dependency, or exclusivity relationship between/among ProductSpecCharacteristics.
@@ -156,10 +157,15 @@ public class ProductSpecCharRelationship {
     
 	@Override
 	public String toString() {
-		return "charRelationshipType="
-				+ charRelationshipType + ", charSpecSeq=" + charSpecSeq
-				+ ", validFor=" + validFor + "targetProdSpecChar="
-				+targetProdSpecChar.toString()+ "   ";
+		String value="";
+	       for (ProdSpecEnum.ProdSpecRelationship aLight : ProdSpecEnum.ProdSpecRelationship.values ()) {
+	    	   if(aLight.getValue().equals(charRelationshipType)){
+	    		   value = aLight.getName(); 
+	    	   }
+	       }
+		return "关系类型："
+				+ value+ "\n"
+				+"   "+targetProdSpecChar.toString()+ "   ";
 	}
 
 }
