@@ -190,16 +190,6 @@ public class ProductSpecCharacteristicValue {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * 
-     * @param charValueId
-     * @param relationType
-     * @param validFor
-     */
-    public void addRelatedCharValue(String charValueId, String relationType, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharacteristicValue.addRelatedCharValue
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * 
@@ -210,14 +200,6 @@ public class ProductSpecCharacteristicValue {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * 
-     * @param charValueId
-     */
-    public void removeRelatedCharValue(String charValueId) {
-        // TODO - implement ProductSpecCharacteristicValue.removeRelatedCharValue
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * 
@@ -245,7 +227,7 @@ public class ProductSpecCharacteristicValue {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + (isDefault ? 1231 : 1237);
+		result = prime * result + (new Boolean(isDefault).hashCode());
 		result = prime * result
 				+ ((rangeInterval == null) ? 0 : rangeInterval.hashCode());
 		result = prime * result
@@ -263,12 +245,15 @@ public class ProductSpecCharacteristicValue {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj){
 			return true;
-		if (obj == null)
+		}
+		if (obj == null){
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()){
 			return false;
+		}
 		ProductSpecCharacteristicValue other = (ProductSpecCharacteristicValue) obj;
 		if (id == null) {
 			if (other.id != null)
