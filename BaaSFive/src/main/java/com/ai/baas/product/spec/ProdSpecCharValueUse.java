@@ -64,11 +64,7 @@ public class ProdSpecCharValueUse {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (isDefault ? 1231 : 1237);
-		result = prime
-				* result
-				+ ((prodSpecCharValue == null) ? 0 : prodSpecCharValue
-						.hashCode());
+		result = prime * result + (new Boolean(isDefault).hashCode());
 		result = prime * result
 				+ ((validFor == null) ? 0 : validFor.hashCode());
 		return result;

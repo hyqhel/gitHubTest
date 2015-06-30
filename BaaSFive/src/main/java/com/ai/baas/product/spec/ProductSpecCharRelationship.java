@@ -96,9 +96,7 @@ public class ProductSpecCharRelationship {
     	this.targetProdSpecChar = targetSpecChar;
     }
 
-
-    
-	@Override
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -106,6 +104,10 @@ public class ProductSpecCharRelationship {
 				* result
 				+ ((charRelationshipType == null) ? 0 : charRelationshipType
 						.hashCode());
+		result = prime
+		* result
+		+ ((targetProdSpecChar == null) ? 0 : targetProdSpecChar
+				.hashCode());
 		result = prime * result
 				+ ((validFor == null) ? 0 : validFor.hashCode());
 		result = prime * result + charSpecSeq;
@@ -131,6 +133,13 @@ public class ProductSpecCharRelationship {
 		} else if (!charRelationshipType.equals(other.charRelationshipType)){
 			return false;
 		}
+		if (targetProdSpecChar == null) {
+			if (other.targetProdSpecChar != null){
+				return false;
+			}
+		} else if (!targetProdSpecChar.equals(other.targetProdSpecChar)){
+			return false;
+		}
 		if (charSpecSeq != other.charSpecSeq){
 			return false;
 		}
@@ -144,6 +153,7 @@ public class ProductSpecCharRelationship {
 		return true;
 	}
 
+    
 	@Override
 	public String toString() {
 		return "charRelationshipType="

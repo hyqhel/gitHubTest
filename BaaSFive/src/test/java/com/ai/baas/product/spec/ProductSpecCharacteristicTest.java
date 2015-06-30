@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -53,7 +54,7 @@ public class ProductSpecCharacteristicTest {
 			{"2","4"},
 			{"2","5"}
 	};
-	ProductSpecCharacteristic psc =null;
+	private static ProductSpecCharacteristic psc =null;
 	private List<ProductSpecCharacteristic> prodSpecChars;
 	public List<ProductSpecCharacteristic> getProdSpecChars() {
 		createProdSpecCharTest();
@@ -76,7 +77,7 @@ public class ProductSpecCharacteristicTest {
 		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
 		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
 	}
-	//@Test
+	@Test
 	public void createProdSpecCharTest(){
 			String derivationFormula = "";
 			String valueType="";
@@ -103,13 +104,13 @@ public class ProductSpecCharacteristicTest {
 				prodSpecChars.add(prodSpecChar);
 			}
 			prodSpecChars.add(prodSpecCharOwn);
-			for(int i=0;i<prodSpecChars.size();i++){
+			/*for(int i=0;i<prodSpecChars.size();i++){
 				if(prodSpecChars.get(i) instanceof ConfigurableProductSpecCharacteristic){
 					System.out.println("config");
 				}else{
 					System.out.println("not config");
 				}
-			}
+			}*/
 			addRelatedCharacteristic();
 		}
 	
@@ -123,7 +124,7 @@ public class ProductSpecCharacteristicTest {
 		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
 		for(int j=0;j<specCharRelate.length;j++){
 			String dependenccharId=specCharRelate[j][1];
-			psc.addRelatedCharacteristic(getCharac(dependenccharId), "dependences", validFor);
+			psc.addRelatedCharacteristic(getCharac(dependenccharId),ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		}
 	}
 	private  ProductSpecCharacteristic getCharac(String carId){
@@ -134,8 +135,8 @@ public class ProductSpecCharacteristicTest {
 		}
 		return null;
 	}
-	//@After
-	public void printRelationChara(){
+	@AfterClass
+	public static void printRelationChara(){
 		logger.info(psc.toString());
 		System.out.println(psc.toString());
 		/*System.out.println("ProductSpecCharacteristic name:"+psc.getName());
@@ -160,18 +161,35 @@ public class ProductSpecCharacteristicTest {
 	@Test
 	public void  testRemoveValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
+		assertFalse("删除不存在的value",prodSpecCharOwn.removeValue(prodSpecCharValue));
+		
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharOwn.removeValue(prodSpecCharValue);
 		assertEquals("判断是否删除成功",0,prodSpecCharOwn.getProdSpecCharValue().size());
 		assertFalse("删除不存在的value",prodSpecCharOwn.removeValue(prodSpecCharValue));
 	} 
-	@Ignore
+	@Test
 	public void  testAddRelatedCharacteristic(){
 		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "", validFor, "true",  1,  1, true, "compistchar","");
-		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, "dependences", validFor);
+		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		 assertEquals("判断是否加了关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
-		 assertEquals("判断添加的关系类型","dependences",prodSpecCharOwn.getProdSpecCharRelationship().get(0).getCharRelationshipType());
+		 assertEquals("判断添加的关系类型","1",prodSpecCharOwn.getProdSpecCharRelationship().get(0).getCharRelationshipType());
+		 
+		 prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
+		 assertEquals("再次添加相同关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
+		 
+		 prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue(), validFor);
+		 assertEquals("再次添加不相同关系",2,prodSpecCharOwn.getProdSpecCharRelationship().size());
 	}
 	
-	
+	@Test
+	public void  testRemoveRelatedCharacteristic(){
+		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "", validFor, "true",  1,  1, true, "compistchar","");
+		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelate);
+		assertNull("判断删除关系",prodSpecCharOwn.getProdSpecCharRelationship());
+		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
+		 
+		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelate);
+		assertEquals("判断删除关系",0,prodSpecCharOwn.getProdSpecCharRelationship().size());
+	}
 }

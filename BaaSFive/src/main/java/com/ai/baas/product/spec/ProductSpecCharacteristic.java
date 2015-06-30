@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.log4j.Logger;
 
 import com.ai.baas.basetype.TimePeriod;
 
@@ -13,6 +12,7 @@ import com.ai.baas.basetype.TimePeriod;
  * A characteristic quality or distinctive feature of a ProductSpecification. The characteristic can be take on a discrete value, such as color, can take on a range of values, (for example, sensitivity of 100-240 mV), or can be derived from a formula (for example, usage time (hrs) = 30 - talk time *3). Certain characteristics, such as color, may be configured during the ordering or some other process.
  */
 public class ProductSpecCharacteristic {
+	private static final Logger logger = Logger.getLogger(ProductSpecCharacteristic.class);
 
     private  List<ProductSpecCharacteristicValue> prodSpecCharValue;
     private List<ProductSpecCharRelationship> prodSpecCharRelationship;
@@ -253,7 +253,7 @@ public class ProductSpecCharacteristic {
         		}
         	}
         }else{
-        	throw new UnsupportedOperationException("you remove not exists");
+            logger.error("you set setDefaultValue  not exists");
         }
     }
 
@@ -262,21 +262,6 @@ public class ProductSpecCharacteristic {
      * @param defaultCharValId
      */
     public void setDefaultValue(String defaultCharValId) {
-    	if(this.prodSpecCharValue!=null){
-        	for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		if(this.prodSpecCharValue.get(i).getId().equals(defaultCharValId)){
-        			if(!this.prodSpecCharValue.get(i).isIsDefault()){
-        				this.prodSpecCharValue.get(i).setIsDefault(true);
-        			}
-        		}else{
-        			if(this.prodSpecCharValue.get(i).isIsDefault()){
-        				this.prodSpecCharValue.get(i).setIsDefault(false);
-        			}
-        		}
-        	}
-        }else{
-        	throw new UnsupportedOperationException("you remove not exists");
-        }
     }
 
     public ProductSpecCharacteristicValue getDefaultValue() {
@@ -303,6 +288,11 @@ public class ProductSpecCharacteristic {
     	ProductSpecCharRelationship pship = new ProductSpecCharRelationship(this,specChar,type,validFor);    	
     	if(prodSpecCharRelationship ==null){
     		prodSpecCharRelationship = new ArrayList<ProductSpecCharRelationship>();
+    	}
+    	for(int i=0;i<prodSpecCharRelationship.size();i++){
+    		if(prodSpecCharRelationship.get(i).equals(pship)){
+    			return;
+    		}
     	}
     	prodSpecCharRelationship.add(pship);
     }
@@ -338,7 +328,7 @@ public class ProductSpecCharacteristic {
     		return;
     	}
     	for(int i=0;i<prodSpecCharRelationship.size();i++){
-    		if(prodSpecCharRelationship.get(i).getTargetProdSpecChar().getID().equals(specChar.getID())){
+    		if(prodSpecCharRelationship.get(i).getTargetProdSpecChar().equals(specChar)){
     			prodSpecCharRelationship.remove(i);
     		}
     	}
@@ -383,7 +373,7 @@ public class ProductSpecCharacteristic {
 			return false;
 		}
 		ProductSpecCharacteristic other = (ProductSpecCharacteristic) obj;
-		if (ID == null && other.ID == null
+		if (ID == null && other.getID() == null
 				|| ID != null && ID.equals(other.getID())) {
 				return true;
 		} 

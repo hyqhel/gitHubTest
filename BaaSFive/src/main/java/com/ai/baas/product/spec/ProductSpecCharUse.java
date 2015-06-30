@@ -2,12 +2,15 @@ package com.ai.baas.product.spec;
 
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
 import com.ai.baas.basetype.*;
 
 public class ProductSpecCharUse {
+	private static final Logger logger = Logger.getLogger(ProductSpecCharUse.class);
 
-    ProductSpecCharacteristic prodSpecChar;
-    public List<ProdSpecCharValueUse> prodSpecCharValue;
+	private ProductSpecCharacteristic prodSpecChar;
+    private List<ProdSpecCharValueUse> prodSpecCharValue;
     /**
      * A word, term, or phrase by which the CharacteristicSpecification is known and distinguished from other CharacteristicSpecifications.
      */
@@ -214,8 +217,22 @@ public class ProductSpecCharUse {
      * @param validFor
      */
     public void addValue(ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
+    	if(prodSpecChar.getProdSpecCharValue() ==null || prodSpecChar.getProdSpecCharValue().size()==0){
+    		logger.error("添加char use 的value为空");
+    		return;
+    	}
+    	boolean existValue = false;
+    	for(int i=0;i<prodSpecChar.getProdSpecCharValue().size();i++){
+    		if(prodSpecChar.getProdSpecCharValue().get(i).equals(charValue)){
+    			existValue = true;
+    		}
+    	}
+    	if(!existValue){
+    		logger.error("char use 所关联value 没有你想要的value");
+    		return;
+    	}
     	ProdSpecCharValueUse prodSpecCharValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
-    	if(null==prodSpecCharValue ){
+    	if (null == prodSpecCharValue ) {
     		prodSpecCharValue = new ArrayList<ProdSpecCharValueUse>();
     	}
     	for(int i=0;i<prodSpecCharValue.size();i++){
@@ -256,15 +273,6 @@ public class ProductSpecCharUse {
      * @param charValueId
      */
     public void removeValue(String charValueId) {
-    	if(this.prodSpecCharValue!=null){
-    		for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().getId().equals(charValueId)){
-        			this.prodSpecCharValue.remove(i);
-        		}
-        	}	
-    	}else{
-    		 throw new UnsupportedOperationException("you remove not exists");
-    	}
     }
 
     /**
@@ -281,27 +289,11 @@ public class ProductSpecCharUse {
         		}
         	}
         }else{
+            logger.error("you specify default not exists");
         	return;
         }
     }
 
-    /**
-     * 
-     * @param defaultValueId
-     */
-    public void specifyDefaultCharacteristicValue(String defaultValueId) {
-    	if(this.prodSpecCharValue!=null){
-        	for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().getId().equals(defaultValueId)){
-        			if(!this.prodSpecCharValue.get(i).getProdSpecCharValue().isIsDefault()){
-        				this.prodSpecCharValue.get(i).getProdSpecCharValue().setIsDefault(true);
-        			}
-        		}
-        	}
-        }else{
-        	throw new UnsupportedOperationException("you specify default not exists");
-        }
-    }
 
 	@Override
 	public int hashCode() {

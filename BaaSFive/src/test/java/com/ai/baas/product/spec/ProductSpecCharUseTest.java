@@ -19,6 +19,10 @@ public class ProductSpecCharUseTest {
 	@Before
 	public void createProductSpecCharacteristic(){
 		prodSpecCharOwn = new ProductSpecCharacteristic("1", "深度", "", validFor, "false",  1,  1, true, "height","");
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
+		prodSpecCharOwn.addValue(prodSpecCharValue);
+		ProductSpecCharacteristicValue prodSpecCharValuee = new ProductSpecCharacteristicValue("1", "cm", validFor, "12.3", "", "");
+		prodSpecCharOwn.addValue(prodSpecCharValuee);
 	    pscu = new ProductSpecCharUse(prodSpecCharOwn, false, false, validFor);
 	}
 	@BeforeClass
