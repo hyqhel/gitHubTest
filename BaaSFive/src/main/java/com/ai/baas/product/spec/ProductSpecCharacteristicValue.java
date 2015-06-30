@@ -1,6 +1,7 @@
 package com.ai.baas.product.spec;
 
 import java.util.*;
+
 import com.ai.baas.basetype.*;
 
 /**
@@ -188,8 +189,16 @@ public class ProductSpecCharacteristicValue {
      * @param validFor
      */
     public void addRelatedCharValue(ProductSpecCharacteristicValue charValue, String relationType, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharacteristicValue.addRelatedCharValue
-        throw new UnsupportedOperationException();
+    	ProdSpecCharValueRelationship pship = new ProdSpecCharValueRelationship(this,charValue,relationType,validFor);    	
+    	if(prodSpecCharValueRelationship == null){
+    		prodSpecCharValueRelationship = new ArrayList<ProdSpecCharValueRelationship>();
+    	}
+    	for(int i=0;i<prodSpecCharValueRelationship.size();i++){
+    		if(prodSpecCharValueRelationship.get(i).equals(pship)){
+    			return;
+    		}
+    	}
+    	prodSpecCharValueRelationship.add(pship);
     }
 
 
@@ -198,8 +207,14 @@ public class ProductSpecCharacteristicValue {
      * @param charValue
      */
     public void removeRelatedCharValue(ProductSpecCharacteristicValue charValue) {
-        // TODO - implement ProductSpecCharacteristicValue.removeRelatedCharValue
-        throw new UnsupportedOperationException();
+    	if(this.prodSpecCharValueRelationship == null){
+    		return;
+    	}
+    	for(int i=0;i<prodSpecCharValueRelationship.size();i++){
+    		if(prodSpecCharValueRelationship.get(i).equals(charValue)){
+    			prodSpecCharValueRelationship.remove(i);
+    		}
+    	}
     }
 
 

@@ -3,6 +3,7 @@ package com.ai.baas.product.spec;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,8 +189,26 @@ public class ProductSpecCharacteristicTest {
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelate);
 		assertNull("判断删除关系",prodSpecCharOwn.getProdSpecCharRelationship());
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
-		 
+		
+		ProductSpecCharacteristic prodSpecCharRelatee = new ProductSpecCharacteristic("1", "颜色", "", validFor, "true",  1,  1, false, "compistchar","");
+		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelatee);
+		assertEquals("在已添加一个关系基础上删除不存在的关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
+		
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelate);
 		assertEquals("判断删除关系",0,prodSpecCharOwn.getProdSpecCharRelationship().size());
+	}
+	
+	@Test 
+	public void testSetDefaultValue(){
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
+		prodSpecCharOwn.addValue(prodSpecCharValue);
+		
+		prodSpecCharValue = null;
+		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+		assertFalse("判断是否指定了默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		
+		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
+		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+		assertTrue("判断是否指定了默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
 	}
 }

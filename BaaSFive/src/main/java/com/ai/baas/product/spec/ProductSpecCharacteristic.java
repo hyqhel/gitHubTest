@@ -246,9 +246,10 @@ public class ProductSpecCharacteristic {
     public void setDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
     	if(this.prodSpecCharValue!=null){
         	for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		if(this.prodSpecCharValue.get(i).getId().equals(defaultCharVal.getId())){
-        			if(!this.prodSpecCharValue.get(i).isIsDefault()){
-        				this.prodSpecCharValue.get(i).setIsDefault(true);
+        		ProductSpecCharacteristicValue psv = this.prodSpecCharValue.get(i);
+        		if(psv.equals(defaultCharVal)){
+        			if(!psv.isIsDefault()){
+        				psv.setIsDefault(true);
         			}
         		}
         	}

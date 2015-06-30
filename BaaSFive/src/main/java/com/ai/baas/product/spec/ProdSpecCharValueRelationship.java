@@ -39,32 +39,63 @@ public class ProdSpecCharValueRelationship {
      * @param validFor
      */
     public ProdSpecCharValueRelationship(ProductSpecCharacteristicValue srourceCharValue, ProductSpecCharacteristicValue targetCharValue, String relationType, TimePeriod validFor) {
-        // TODO - implement ProdSpecCharValueRelationship.ProdSpecCharValueRelationship
-        throw new UnsupportedOperationException();
+       this.sourceCharValue = sourceCharValue;
+       this.productSpecCharacteristicValue = targetCharValue;
     }
 
-    /**
-     * 
-     * @param srourceCharValue
-     * @param targetCharValueId
-     * @param relationType
-     * @param validFor
-     */
-    public ProdSpecCharValueRelationship(ProductSpecCharacteristicValue srourceCharValue, String targetCharValueId, String relationType, TimePeriod validFor) {
-        // TODO - implement ProdSpecCharValueRelationship.ProdSpecCharValueRelationship
-        throw new UnsupportedOperationException();
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((charValueRelationshipType == null) ? 0
+						: charValueRelationshipType.hashCode());
+		result = prime
+				* result
+				+ ((productSpecCharacteristicValue == null) ? 0
+						: productSpecCharacteristicValue.hashCode());
+		result = prime * result
+				+ ((validFor == null) ? 0 : validFor.hashCode());
+		return result;
+	}
 
-    /**
-     * 
-     * @param srourceCharValueId
-     * @param targetCharValue
-     * @param relationType
-     * @param validFor
-     */
-    public ProdSpecCharValueRelationship(String srourceCharValueId, ProductSpecCharacteristicValue targetCharValue, String relationType, TimePeriod validFor) {
-        // TODO - implement ProdSpecCharValueRelationship.ProdSpecCharValueRelationship
-        throw new UnsupportedOperationException();
-    }
-
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj){
+			return true;
+		}
+		if (obj == null){
+			return false;
+		}
+		if (getClass() != obj.getClass()){
+			return false;
+		}
+		ProdSpecCharValueRelationship other = (ProdSpecCharValueRelationship) obj;
+		if (charValueRelationshipType == null) {
+			if (other.charValueRelationshipType != null){
+				return false;
+			}
+		} else if (!charValueRelationshipType
+				.equals(other.charValueRelationshipType)){
+			return false;
+		}
+		if (productSpecCharacteristicValue == null) {
+			if (other.productSpecCharacteristicValue != null){
+				return false;
+			}
+		} else if (!productSpecCharacteristicValue
+				.equals(other.productSpecCharacteristicValue)){
+			return false;
+		}
+		if (validFor == null) {
+			if (other.validFor != null){
+				return false;
+			}
+		} else if (!validFor.equals(other.validFor)){
+			return false;
+		}
+		return true;
+	}
+    
 }

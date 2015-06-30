@@ -282,9 +282,10 @@ public class ProductSpecCharUse {
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristicValue defaultValue) {
         if(this.prodSpecCharValue!=null){
         	for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().equals(defaultValue)){
-        			if(!this.prodSpecCharValue.get(i).getProdSpecCharValue().isIsDefault()){
-        				this.prodSpecCharValue.get(i).getProdSpecCharValue().setIsDefault(true);
+        		ProductSpecCharacteristicValue pscv = this.prodSpecCharValue.get(i).getProdSpecCharValue();
+        		if(pscv.equals(defaultValue)){
+        			if(!pscv.isIsDefault()){
+        				pscv.setIsDefault(true);
         			}
         		}
         	}
