@@ -28,8 +28,8 @@ public class ProdSpecEnum {
 	 * */
 	public enum VersionLevel{
 		MAJOR_VERSION("1","主版本"),
-		MINOR_VERSION("2","中版本"),
-		PATCH_VERSION("3","小版本");
+		MINOR_VERSION("2","次版本"),
+		PATCH_VERSION("3","patch版本");
 		private String value;
 		private String name;
 		VersionLevel(String value,String name){
