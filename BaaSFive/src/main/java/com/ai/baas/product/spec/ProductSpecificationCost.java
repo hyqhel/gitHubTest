@@ -38,8 +38,8 @@ public class ProductSpecificationCost {
      * @param validFor
      */
     public ProductSpecificationCost(Money cost, TimePeriod validFor) {
-        // TODO - implement ProductSpecificationCost.ProductSpecificationCost
-        throw new UnsupportedOperationException();
+        this.costToBusiness = cost;
+        this.validFor = validFor;
     }
 
 }

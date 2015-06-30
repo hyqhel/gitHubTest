@@ -40,10 +40,10 @@ public class ProductSpecificationTest {
 	/**
 	 * this is an operation to create ProductSpecification Object
 	 * @return
-	 * @throws ParseException
+	 * @throws Exception 
 	 */
 	@Ignore
-	public void createProdSpec() throws ParseException{
+	public void createProdSpec() throws Exception{
 		
 		/*new AtomicProductSpecification Object*/
 		atomicProdSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
@@ -199,10 +199,14 @@ public class ProductSpecificationTest {
 	/**
 	 * 给规格remove一个特征的test类
 	 */
-	@Ignore
+	@Test
 	public void testRemoveCharacteristic(){
-		Boolean rtnFlag = false;
 		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		
+		atomicProdSpec.removeCharacteristic(specChar);
+		assertEquals(0, (atomicProdSpec.getProdSpecChar() == null ? 0 : atomicProdSpec.getProdSpecChar().size()));
+		
+		Boolean rtnFlag = false;
 		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
 		
 		ProductSpecCharacteristic specCharNotExsit = new ProductSpecCharacteristic("2", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
@@ -215,6 +219,18 @@ public class ProductSpecificationTest {
 		specChar = null;
 		rtnFlag = atomicProdSpec.removeCharacteristic(specChar);
 		assertEquals("入参中要删除的特征为null是否正确", false,rtnFlag);
+	}
+	
+	/**
+	 * 规格下modify一个特征的test类
+	 */
+	public void testModifyCharacteristicInfo(){
+		Boolean rtnFlag = false;
+		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
+		
+		rtnFlag = atomicProdSpec.modifyCharacteristicInfo(specChar, false, false, validFor, "颜色是否修改", "unique", 1, 3, false, "description");
+		assertEquals("是否成功修改特征名称", true, rtnFlag);
 	}
 	
 	/**
@@ -235,7 +251,11 @@ public class ProductSpecificationTest {
 		
 		specChar = null;
 		rtnFlag = atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
-		assertEquals("为空的特征否成功添加特征值",false,rtnFlag);
+		assertEquals("为空的特征能否成功添加特征值",false,rtnFlag);
+		
+		ProductSpecCharacteristic specCharNotExist = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		rtnFlag = atomicProdSpec.attachCharacteristicValue(specCharNotExist, charValue, false, validFor);
+		assertEquals("找不到的特征能否成功添加特征值",false,rtnFlag);
 		
 		specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
 		charValue = null;
@@ -246,7 +266,7 @@ public class ProductSpecificationTest {
 	/**
 	 * 删除特征下的某一个特征值得test类
 	 */
-	@Test
+	@Ignore
 	public void testDetachCharacteristicValue(){
 		Boolean rtnFlag = false;
 		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
@@ -264,6 +284,19 @@ public class ProductSpecificationTest {
 		specChar = null;
 		rtnFlag = atomicProdSpec.detachCharacteristicValue(specChar, charValue);
 		assertEquals("入参中要删除的特征值为null是否正确", false, rtnFlag);
+	}
+	
+	@Test
+	public void testAddRelatedProdSpec(){
+		ProductSpecification atomicProdSpecTwo = new AtomicProductSpecification("2", "13 英寸 MacBook Air", "apple", "Mac", validFor);
 		
+		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue(), validFor);
+		assertEquals("是否成功添加一个互斥关系的prodSpec", 1, atomicProdSpec.getProdSpecRelationship().size());
+		
+		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue(), validFor);
+		assertEquals("与同一个spec建立同一个类型关系是否可以", 1, atomicProdSpec.getProdSpecRelationship().size());
+		
+		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue(), validFor);
+		assertEquals("是否可以与一个为null的spec建立关系", 1, atomicProdSpec.getProdSpecRelationship().size());
 	}
 }

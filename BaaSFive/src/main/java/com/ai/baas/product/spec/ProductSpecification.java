@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.ai.baas.basetype.Money;
@@ -35,6 +36,17 @@ public abstract class ProductSpecification {
 	public List<ProductSpecCharUse> getProdSpecChar() {
 		return prodSpecChar;
 	}
+	
+
+	public List<ProductSpecificationRelationship> getProdSpecRelationship() {
+		return prodSpecRelationship;
+	}
+
+	public void setProdSpecRelationship(
+			List<ProductSpecificationRelationship> prodSpecRelationship) {
+		this.prodSpecRelationship = prodSpecRelationship;
+	}
+
 
 	/**
      * The name of the product specification.
@@ -336,11 +348,13 @@ public abstract class ProductSpecification {
     		return false;
     	}
     	
+    	boolean charIsExist = false;
     	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
 				if(prodSpecCharUse.getProdSpecChar().getID().equals(specChar.getID())){
+					charIsExist = true;
 					//判断该特征下是否已经存在该特征值
 					List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecCharUse.getProdSpecCharValue();
 					if(null != prodSpecCharValueUseList && prodSpecCharValueUseList.size()>0){
@@ -354,6 +368,10 @@ public abstract class ProductSpecification {
 					prodSpecCharUse.addValue(charValue, isDefault, validFor);
 				}
 			}
+    	}
+    	//特征不存在
+    	if(!charIsExist){
+    		return false;
     	}
     	return true;
     }
@@ -429,15 +447,7 @@ public abstract class ProductSpecification {
      * @param charValueId
      */
     public void detachCharacteristicValue(String specCharId, String charValueId){
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
-    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
-				if(prodSpecCharUse.getProdSpecChar().getID().equals(specCharId)){
-					prodSpecCharUse.removeValue(charValueId);
-				}
-			}
-    	}
+    	throw new UnsupportedOperationException();
     }
 
     /**
@@ -446,7 +456,21 @@ public abstract class ProductSpecification {
      * @param defaultCharValue
      */
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue defaultCharValue) {
-        this.specifyDefaultCharacteristicValue(specChar, defaultCharValue);
+    	if(null == specChar){
+    		log.error("ProductSpecification类中的specifyDefaultCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
+    		return;
+    	}
+    	if(null == defaultCharValue){
+    		log.error("ProductSpecification类中的specifyDefaultCharacteristicValue方法参数传入错误：ProductSpecCharacteristicValue对象为空");
+    		return;
+    	}
+    	if(null != this.prodSpecChar){
+    		for (int i = 0; i < prodSpecChar.size(); i++) {
+				if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
+					prodSpecChar.get(i).specifyDefaultCharacteristicValue(defaultCharValue);
+				}
+			}
+    	}
     }
 
     /**
@@ -455,7 +479,7 @@ public abstract class ProductSpecification {
      * @param defaultCharValueId
      */
     public void specifyDefaultCharacteristicValue(String specCharId, String defaultCharValueId) {
-        this.specifyDefaultCharacteristicValue(specCharId, defaultCharValueId);
+    	throw new UnsupportedOperationException();
     }
 
     /**
@@ -466,9 +490,14 @@ public abstract class ProductSpecification {
     	List<ProductSpecCharUse> prodSpecCharUse = this.prodSpecChar;
     	List<ProductSpecCharUse> prodSpecCharUseByDate = new ArrayList<ProductSpecCharUse>();
     	
+    	if(null == time){
+    		log.error("ProductSpecification类中的retrieveCharacteristic方法参数传入错误：Date数据为空time="+time);
+    		return null;
+    	}
+    	
     	//TODO 查询时间点下的所有特征
     	
-    	return prodSpecCharUse.toArray(new ProductSpecCharUse[prodSpecCharUseByDate.size()]);
+    	return prodSpecCharUseByDate.toArray(new ProductSpecCharUse[prodSpecCharUseByDate.size()]);
     }
 
     /**
@@ -550,9 +579,20 @@ public abstract class ProductSpecification {
      * @param minCardinality
      * @param maxCardinality
      */
-    public void setCardinality(ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality) {
-        // TODO - implement ProductSpecification.setCardinality
-        throw new UnsupportedOperationException();
+    public boolean setCardinality(ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality) {
+        if(null == specChar){
+        	log.error("ProductSpecification类中的setCardinality方法参数传入错误：ProductSpecCharacteristic对象为空");
+        	return false;
+        }
+        if(null != prodSpecChar && prodSpecChar.size()>0){
+        	for (int i = 0; i < prodSpecChar.size(); i++) {
+        		if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
+        			prodSpecChar.get(i).setMinCardinality(minCardinality);
+        			prodSpecChar.get(i).setMaxCardinality(maxCardinality);
+        		}
+			}
+        }
+        return true;
     }
 
     /**
@@ -577,14 +617,15 @@ public abstract class ProductSpecification {
      * @param description
      * @param revisionDate
      * @param validFor
+     * @throws Exception 
      */
-    public void setVersion(String version, String description, Date revisionDate, TimePeriod validFor) {
+    public void setVersion(String version, String description, Date revisionDate, TimePeriod validFor) throws Exception {
     	if(version!=null && !"".equals(version)){
     		String []vos = version.split("\\.");
     		if(vos.length!=3){
-    			throw new UnsupportedOperationException("version error! ");
+    			log.error("ProductSpecification类中的setVersion方法错误,传入的Version格式不正确");
+    			throw new Exception("version error!");
     		}else{
-    			
     			setVersion(ProdSpecEnum.VersionLevel.MAJOR_VERSION.getValue(), vos[0], description, revisionDate, validFor);
     			setVersion(ProdSpecEnum.VersionLevel.MINOR_VERSION.getValue(), vos[1], description, revisionDate, validFor);
     			setVersion(ProdSpecEnum.VersionLevel.PATCH_VERSION.getValue(), vos[2], description, revisionDate, validFor);
@@ -593,7 +634,6 @@ public abstract class ProductSpecification {
     }
     
     public ProductSpecificationVersion[] getCurrentVersion() {
-        // TODO - implement ProductSpecification.getCurrentVersion
         throw new UnsupportedOperationException();
     }
 
@@ -615,7 +655,6 @@ public abstract class ProductSpecification {
      * @param revisionDate
      */
     public String upgradeMinorVersion(String minorVersion, String description, Date revisionDate) {
-        // TODO - implement ProductSpecification.upgradeMinorVersion
         throw new UnsupportedOperationException();
     }
 
@@ -626,7 +665,6 @@ public abstract class ProductSpecification {
      * @param revisionDate
      */
     public String upgradePatchVersion(String patchVersion, String description, Date revisionDate) {
-        // TODO - implement ProductSpecification.upgradePatchVersion
         throw new UnsupportedOperationException();
     }
 
@@ -636,8 +674,8 @@ public abstract class ProductSpecification {
      * @param validFor
      */
     public void addCost(Money cost, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.addCost
-        throw new UnsupportedOperationException();
+    	ProductSpecificationCost prodSpecCost = new ProductSpecificationCost(cost, validFor);
+        this.getProductSpecificationCost().add(prodSpecCost);
     }
 
     /**
@@ -646,7 +684,6 @@ public abstract class ProductSpecification {
      * @param validFor
      */
     public void updateCostPeriod(ProductSpecificationCost cost, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.updateCostPeriod
         throw new UnsupportedOperationException();
     }
 
@@ -655,7 +692,6 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProductSpecificationCost[] queryCost(Date time) {
-        // TODO - implement ProductSpecification.queryCost
         throw new UnsupportedOperationException();
     }
 
@@ -666,8 +702,23 @@ public abstract class ProductSpecification {
      * @param validFor
      */
     public void addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.addRelatedProdSpec
-        throw new UnsupportedOperationException();
+    	if(StringUtils.isBlank(type)){
+    		
+    	}
+    	if(null == prodSpec){
+    		log.error("ProductSpecification类中的addRelatedProdSpec方法错误,传入的ProductSpecification对象为空");
+    		return;
+    	}
+    	if(this.prodSpecRelationship == null){
+    		this.prodSpecRelationship = new ArrayList<ProductSpecificationRelationship>();
+    	}
+    	ProductSpecificationRelationship ship =new ProductSpecificationRelationship(this, prodSpec, type, validFor);
+    	for(int i=0;i<prodSpecRelationship.size();i++){
+    		if(prodSpecRelationship.get(i).equals(ship)){
+    			return;
+    		}
+    	}
+    	this.prodSpecRelationship.add(ship);
     }
 
     /**
@@ -677,7 +728,6 @@ public abstract class ProductSpecification {
      * @param validFor
      */
     public void addRelatedProdSpec(String prodSpecId, String type, TimePeriod validFor) {
-        // TODO - implement ProductSpecification.addRelatedProdSpec
         throw new UnsupportedOperationException();
     }
 
@@ -686,8 +736,18 @@ public abstract class ProductSpecification {
      * @param prodSpec
      */
     public void removeRelatedProdSpec(ProductSpecification prodSpec) {
-        // TODO - implement ProductSpecification.removeRelatedProdSpec
-        throw new UnsupportedOperationException();
+    	if(null == prodSpec){
+    		log.error("ProductSpecification类中的removeRelatedProdSpec方法错误,传入的ProductSpecification对象为空");
+    		return;
+    	}
+    	if(this.prodSpecRelationship == null){
+    		return;
+    	}
+    	for(int i=0;i<prodSpecRelationship.size();i++){
+    		if(prodSpecRelationship.get(i).getTargetProdSpec().equals(prodSpec)){
+    			prodSpecRelationship.remove(i);
+    		}
+    	}
     }
 
     /**
@@ -695,7 +755,6 @@ public abstract class ProductSpecification {
      * @param prodSpecId
      */
     public void removeRelatedProdSpec(String prodSpecId) {
-        // TODO - implement ProductSpecification.removeRelatedProdSpec
         throw new UnsupportedOperationException();
     }
 
@@ -704,7 +763,6 @@ public abstract class ProductSpecification {
      * @param type
      */
     public ProductSpecification[] queryRelatedProdSpec(String type) {
-        // TODO - implement ProductSpecification.queryRelatedProdSpec
         throw new UnsupportedOperationException();
     }
 
@@ -714,7 +772,6 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProductSpecification[] queryRelatedProdSpec(String type, Date time) {
-        // TODO - implement ProductSpecification.queryRelatedProdSpec
         throw new UnsupportedOperationException();
     }
 
