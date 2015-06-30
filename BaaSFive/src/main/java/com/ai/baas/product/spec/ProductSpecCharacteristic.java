@@ -215,16 +215,19 @@ public class ProductSpecCharacteristic {
      * 
      * @param charVal
      */
-    public void removeValue(ProductSpecCharacteristicValue charVal) {
+    public boolean removeValue(ProductSpecCharacteristicValue charVal) {
     	if(charVal==null){
-    		return;
+    		return false;
     	}
     	if(this.prodSpecCharValue!=null && this.prodSpecCharValue.size()>0){
-    		for(int i=0;i<this.prodSpecCharValue.size();i++){
-    			if(prodSpecCharValue.get(i).getId().equals(charVal.getId())){
-    				prodSpecCharValue.remove(i);
-    			}
+    		if(!prodSpecCharValue.contains(charVal)){
+    			return false;
+    		}else{
+    			prodSpecCharValue.remove(charVal);
+    			return true;
     		}
+    	}else{
+    		return false;
     	}
     }
 
@@ -233,7 +236,6 @@ public class ProductSpecCharacteristic {
      * @param time
      */
     public ProductSpecCharacteristicValue[] getValue(Date time) {
-        // TODO - implement ProductSpecCharacteristic.getValue
         throw new UnsupportedOperationException();
     }
 
@@ -318,6 +320,11 @@ public class ProductSpecCharacteristic {
     		this.prodSpecCharRelationship =new ArrayList<ProductSpecCharRelationship>();
     	}
     	ProductSpecCharRelationship ship =new ProductSpecCharRelationship(this,specChar,type,validFor,charSpecSeq);
+    	for(int i=0;i<prodSpecCharRelationship.size();i++){
+    		if(prodSpecCharRelationship.get(i).equals(ship)){
+    			return;
+    		}
+    	}
     	this.prodSpecCharRelationship.add(ship);
     }
 
@@ -327,6 +334,14 @@ public class ProductSpecCharacteristic {
      * @param specChar
      */
     public void removeRelatedCharacteristic(ProductSpecCharacteristic specChar) {
+    	if(this.prodSpecCharRelationship == null){
+    		return;
+    	}
+    	for(int i=0;i<prodSpecCharRelationship.size();i++){
+    		if(prodSpecCharRelationship.get(i).getTargetProdSpecChar().getID().equals(specChar.getID())){
+    			prodSpecCharRelationship.remove(i);
+    		}
+    	}
     }
 
 
@@ -364,7 +379,7 @@ public class ProductSpecCharacteristic {
 		if (obj == null){
 			return false;
 		}
-		if (getClass() != obj.getClass()){
+		if (!(obj instanceof ProductSpecCharacteristic)){
 			return false;
 		}
 		ProductSpecCharacteristic other = (ProductSpecCharacteristic) obj;

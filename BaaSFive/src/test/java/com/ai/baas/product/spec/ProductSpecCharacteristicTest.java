@@ -1,11 +1,11 @@
 package com.ai.baas.product.spec;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -15,7 +15,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.constant.Const;
+import com.ai.baas.common.enums.ProdSpecEnum;
 import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecCharacteristicTest {
@@ -76,7 +76,7 @@ public class ProductSpecCharacteristicTest {
 		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
 		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
 	}
-	@Test
+	//@Test
 	public void createProdSpecCharTest(){
 			String derivationFormula = "";
 			String valueType="";
@@ -91,7 +91,7 @@ public class ProductSpecCharacteristicTest {
 						// form to value
 						ProductSpecCharacteristicValue  prodSpecCharValue=null;
 						String charvalueId=specCharValue[charvaluesub][1].toString();
-						if(Const.SPEC_CHAR_VALUE_TYPE_FORTH.equals((String)specCharValue[charvaluesub][0])){
+						if(ProdSpecEnum.ProdSpecType.FORTH.getValue().equals((String)specCharValue[charvaluesub][0])){
 							  prodSpecCharValue = new ProductSpecCharacteristicValue((String)specCharValue[charvaluesub][0], specCharValue[charvaluesub][2].toString(), validFor, specCharValue[charvaluesub][3].toString(), specCharValue[charvaluesub][4].toString(), specCharValue[charvaluesub][5].toString());
 						}else{
 							  prodSpecCharValue = new ProductSpecCharacteristicValue((String)specCharValue[charvaluesub][0], specCharValue[charvaluesub][2].toString(), validFor, specCharValue[charvaluesub][3].toString(), false);
@@ -134,7 +134,7 @@ public class ProductSpecCharacteristicTest {
 		}
 		return null;
 	}
-	@After
+	//@After
 	public void printRelationChara(){
 		logger.info(psc.toString());
 		System.out.println(psc.toString());
@@ -146,7 +146,7 @@ public class ProductSpecCharacteristicTest {
 		}*/
 	}
 	
-	@Ignore
+	@Test
 	public void  testAddValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValue);
@@ -157,11 +157,13 @@ public class ProductSpecCharacteristicTest {
 		prodSpecCharOwn.addValue(prodSpecCharValues);
 		assertEquals("判断再次加相同的value",1,prodSpecCharOwn.getProdSpecCharValue().size());
 	} 
-	@Ignore
+	@Test
 	public void  testRemoveValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
+		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharOwn.removeValue(prodSpecCharValue);
-		assertNull("判断是否删除成功",prodSpecCharOwn.getProdSpecCharValue());
+		assertEquals("判断是否删除成功",0,prodSpecCharOwn.getProdSpecCharValue().size());
+		assertFalse("删除不存在的value",prodSpecCharOwn.removeValue(prodSpecCharValue));
 	} 
 	@Ignore
 	public void  testAddRelatedCharacteristic(){

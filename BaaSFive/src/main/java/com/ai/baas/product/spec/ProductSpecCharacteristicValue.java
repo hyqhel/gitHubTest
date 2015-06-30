@@ -163,8 +163,8 @@ public class ProductSpecCharacteristicValue {
      * @param value
      */
     public void setValue(String unitOfMeasure, String value) {
-        // TODO - implement ProductSpecCharacteristicValue.setValue
-        throw new UnsupportedOperationException();
+    	this.unitOfMeasure = unitOfMeasure;
+    	this.value = value;
     }
 
     /**
@@ -175,8 +175,10 @@ public class ProductSpecCharacteristicValue {
      * @param rangeInterval
      */
     public void setValue(String unitOfMeasure, String valueFrom, String valueTo, String rangeInterval) {
-        // TODO - implement ProductSpecCharacteristicValue.setValue
-        throw new UnsupportedOperationException();
+    	this.unitOfMeasure = unitOfMeasure;
+    	this.valueFrom = valueFrom;
+    	this.valueTo = valueTo;
+    	this.rangeInterval = rangeInterval;
     }
 
     /**
@@ -251,7 +253,7 @@ public class ProductSpecCharacteristicValue {
 		if (obj == null){
 			return false;
 		}
-		if (getClass() != obj.getClass()){
+		if (!(obj instanceof ProductSpecCharacteristicValue)){
 			return false;
 		}
 		ProductSpecCharacteristicValue other = (ProductSpecCharacteristicValue) obj;

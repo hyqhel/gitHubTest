@@ -215,11 +215,14 @@ public class ProductSpecCharUse {
      */
     public void addValue(ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
     	ProdSpecCharValueUse prodSpecCharValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
-    	
     	if(null==prodSpecCharValue ){
     		prodSpecCharValue = new ArrayList<ProdSpecCharValueUse>();
     	}
-    	
+    	for(int i=0;i<prodSpecCharValue.size();i++){
+    		if(prodSpecCharValue.get(i).equals(prodSpecCharValueUse)){
+    			return;
+    		}
+    	}
     	prodSpecCharValue.add(prodSpecCharValueUse);
     }
 
@@ -230,8 +233,6 @@ public class ProductSpecCharUse {
      * @param validFor
      */
     public void addValue(String charValueId, boolean isDefault, TimePeriod validFor) {
-    	ProdSpecCharValueUse pscvu=new ProdSpecCharValueUse(charValueId,isDefault,validFor);
-    	this.prodSpecCharValue.add(pscvu);
     }
 
     /**
@@ -241,14 +242,13 @@ public class ProductSpecCharUse {
     public void removeValue(ProductSpecCharacteristicValue charValue) {
     	if(this.prodSpecCharValue!=null){
     		for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().getId().equals(charValue.getId())){
+        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().equals(charValue)){
         			this.prodSpecCharValue.remove(i);
         		}
         	}	
     	}else{
-    		 throw new UnsupportedOperationException("you remove not exists");
+    		return;
     	}
-    	
     }
 
     /**
@@ -274,14 +274,14 @@ public class ProductSpecCharUse {
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristicValue defaultValue) {
         if(this.prodSpecCharValue!=null){
         	for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().getId().equals(defaultValue.getId())){
+        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().equals(defaultValue)){
         			if(!this.prodSpecCharValue.get(i).getProdSpecCharValue().isIsDefault()){
         				this.prodSpecCharValue.get(i).getProdSpecCharValue().setIsDefault(true);
         			}
         		}
         	}
         }else{
-        	throw new UnsupportedOperationException("you remove not exists");
+        	return;
         }
     }
 

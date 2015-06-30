@@ -60,4 +60,51 @@ public class ProdSpecCharValueUse {
     	this.validFor =validFor;
     }
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (isDefault ? 1231 : 1237);
+		result = prime
+				* result
+				+ ((prodSpecCharValue == null) ? 0 : prodSpecCharValue
+						.hashCode());
+		result = prime * result
+				+ ((validFor == null) ? 0 : validFor.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj){
+			return true;
+		}
+		if (obj == null){
+			return false;
+		}
+		if (!(obj instanceof ProdSpecCharValueUse) ){
+			return false;
+		}
+		ProdSpecCharValueUse other = (ProdSpecCharValueUse) obj;
+		if (isDefault != other.isDefault){
+			return false;
+		}
+		if (prodSpecCharValue == null) {
+			if (other.prodSpecCharValue != null){
+				return false;
+			}
+		} else if (!prodSpecCharValue.equals(other.prodSpecCharValue)){
+			return false;
+		}
+		if (validFor == null) {
+			if (other.validFor != null){
+				return false;
+			}
+		} else if (!validFor.equals(other.validFor)){
+			return false;
+		}
+		return true;
+	}
+    
+
 }

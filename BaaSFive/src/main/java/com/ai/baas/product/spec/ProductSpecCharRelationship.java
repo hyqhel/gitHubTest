@@ -82,29 +82,6 @@ public class ProductSpecCharRelationship {
     	this.validFor = validFor;
     }
 
-    /**
-     * 
-     * @param srourceSpecChar
-     * @param targetSpecCharId
-     * @param relationType
-     * @param validFor
-     */
-    public ProductSpecCharRelationship(ProductSpecCharacteristic srourceSpecChar, String targetSpecCharId, String relationType, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharRelationship.ProductSpecCharRelationship
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * 
-     * @param srourceSpecCharId
-     * @param targetSpecChar
-     * @param relationType
-     * @param validFor
-     */
-    public ProductSpecCharRelationship(String srourceSpecCharId, ProductSpecCharacteristic targetSpecChar, String relationType, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharRelationship.ProductSpecCharRelationship
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * 
@@ -114,9 +91,9 @@ public class ProductSpecCharRelationship {
      * @param validFor
      * @param specSeq
      */
-    public ProductSpecCharRelationship(ProductSpecCharacteristic srourceSpecChar, ProductSpecCharacteristic targetSpecChar, String relationType, TimePeriod validFor, int specSeq) {
-        // TODO - implement ProductSpecCharRelationship.ProductSpecCharRelationship
-        throw new UnsupportedOperationException();
+    public ProductSpecCharRelationship(ProductSpecCharacteristic srourceSpecChar,ProductSpecCharacteristic targetSpecChar, String relationType, TimePeriod validFor, int specSeq) {
+    	this.sourceProdSpecChar = sourceProdSpecChar;
+    	this.targetProdSpecChar = targetSpecChar;
     }
 
 
@@ -128,14 +105,6 @@ public class ProductSpecCharRelationship {
 		result = prime
 				* result
 				+ ((charRelationshipType == null) ? 0 : charRelationshipType
-						.hashCode());
-		result = prime
-				* result
-				+ ((sourceProdSpecChar == null) ? 0 : sourceProdSpecChar
-						.hashCode());
-		result = prime
-				* result
-				+ ((targetProdSpecChar == null) ? 0 : targetProdSpecChar
 						.hashCode());
 		result = prime * result
 				+ ((validFor == null) ? 0 : validFor.hashCode());
@@ -151,32 +120,27 @@ public class ProductSpecCharRelationship {
 		if (obj == null){
 			return false;
 		}
-		if (getClass() != obj.getClass()){
+		if (!(obj instanceof ProductSpecCharRelationship)){
 			return false;
 		}
 		ProductSpecCharRelationship other = (ProductSpecCharRelationship) obj;
 		if (charRelationshipType == null) {
-			if (other.charRelationshipType != null)
+			if (other.charRelationshipType != null){
 				return false;
-		} else if (!charRelationshipType.equals(other.charRelationshipType))
+			}
+		} else if (!charRelationshipType.equals(other.charRelationshipType)){
 			return false;
-		if (charSpecSeq != other.charSpecSeq)
+		}
+		if (charSpecSeq != other.charSpecSeq){
 			return false;
-		if (sourceProdSpecChar == null) {
-			if (other.sourceProdSpecChar != null)
-				return false;
-		} else if (!sourceProdSpecChar.equals(other.sourceProdSpecChar))
-			return false;
-		if (targetProdSpecChar == null) {
-			if (other.targetProdSpecChar != null)
-				return false;
-		} else if (!targetProdSpecChar.equals(other.targetProdSpecChar))
-			return false;
+		}
 		if (validFor == null) {
-			if (other.validFor != null)
+			if (other.validFor != null){
 				return false;
-		} else if (!validFor.equals(other.validFor))
+			}
+		} else if (!validFor.equals(other.validFor)){
 			return false;
+		}
 		return true;
 	}
 
