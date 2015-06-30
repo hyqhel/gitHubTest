@@ -203,7 +203,18 @@ public class ProductSpecCharacteristic {
     	if(this.prodSpecCharValue ==null ){
     		this.prodSpecCharValue=new ArrayList<ProductSpecCharacteristicValue>();
     	}
-    	this.prodSpecCharValue.add(charVal);
+    	boolean isExists=false;
+    	for(ProductSpecCharacteristicValue pscv:prodSpecCharValue){
+    		if(pscv.equals(charVal)){
+    			isExists = true;
+    			break;
+    		}
+    	}
+    	if(isExists){
+    		
+    	}else{
+    		this.prodSpecCharValue.add(charVal);
+    	}
     }
 
     /**
@@ -431,7 +442,28 @@ public class ProductSpecCharacteristic {
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		StringBuffer tostr = new StringBuffer();
+		tostr.append("ProductSpecCharacteristic \n   "
+				+  "ID=" + ID + ", name=" + name
+				+ ", description=" + description + ", unique=" + unique
+				+ ", valueType=" + valueType + ", minCardinality="+ minCardinality
+				+ ", maxCardinality=" + maxCardinality
+				+ ", extensible=" + extensible + ", derivationFormula="+ derivationFormula
+				+ ", validFor=" + validFor );
+		if(prodSpecCharValue!=null){
+			tostr.append("\n     ProductSpecCharacteristicValue "); 
+			for(ProductSpecCharacteristicValue pv:prodSpecCharValue){
+				tostr.append("\n     "+pv.toString());
+			}
+		}
+		if(prodSpecCharRelationship!=null){
+			tostr.append("\n\n   ProductSpecCharRelationships"); 
+			for(ProductSpecCharRelationship pvRship:prodSpecCharRelationship){
+				tostr.append("\n   "+pvRship.toString());
+			}
+		}
+		
+		return tostr.toString();
 	}
 
 	

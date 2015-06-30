@@ -238,4 +238,89 @@ public class ProductSpecCharacteristicValue {
         throw new UnsupportedOperationException();
     }
 
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (isDefault ? 1231 : 1237);
+		result = prime * result
+				+ ((rangeInterval == null) ? 0 : rangeInterval.hashCode());
+		result = prime * result
+				+ ((unitOfMeasure == null) ? 0 : unitOfMeasure.hashCode());
+		result = prime * result
+				+ ((validFor == null) ? 0 : validFor.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result
+				+ ((valueFrom == null) ? 0 : valueFrom.hashCode());
+		result = prime * result + ((valueTo == null) ? 0 : valueTo.hashCode());
+		result = prime * result
+				+ ((valueType == null) ? 0 : valueType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductSpecCharacteristicValue other = (ProductSpecCharacteristicValue) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (isDefault != other.isDefault)
+			return false;
+		if (rangeInterval == null) {
+			if (other.rangeInterval != null)
+				return false;
+		} else if (!rangeInterval.equals(other.rangeInterval))
+			return false;
+		if (unitOfMeasure == null) {
+			if (other.unitOfMeasure != null)
+				return false;
+		} else if (!unitOfMeasure.equals(other.unitOfMeasure))
+			return false;
+		if (validFor == null) {
+			if (other.validFor != null)
+				return false;
+		} else if (!validFor.equals(other.validFor))
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		if (valueFrom == null) {
+			if (other.valueFrom != null)
+				return false;
+		} else if (!valueFrom.equals(other.valueFrom))
+			return false;
+		if (valueTo == null) {
+			if (other.valueTo != null)
+				return false;
+		} else if (!valueTo.equals(other.valueTo))
+			return false;
+		if (valueType == null) {
+			if (other.valueType != null)
+				return false;
+		} else if (!valueType.equals(other.valueType))
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "id=" + id + ", valueType="
+				+ valueType + ", isDefault=" + isDefault + ", value=" + value
+				+ ", unitOfMeasure=" + unitOfMeasure + ", valueFrom="
+				+ valueFrom + ", valueTo=" + valueTo + ", rangeInterval="
+				+ rangeInterval + ", validFor=" + validFor;
+	}
+
 }

@@ -6,11 +6,11 @@ import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -20,7 +20,8 @@ import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecCharacteristicTest {
 	private static final Logger logger = Logger.getLogger(ProductSpecCharacteristicTest.class);
-	ProductSpecCharacteristic prodSpecChar=null;
+	ProductSpecCharacteristic prodSpecCharOwn=null;
+	private static TimePeriod validFor;
 	/**id,name,dis,min,max,uniqe,extensible**/
 	private    Object [][] specChar= {
 		        {"1","处理器","cpu",1,2,"false",false},		
@@ -30,7 +31,7 @@ public class ProductSpecCharacteristicTest {
 				{"5","深度","height",1,1,"true",true}
 		};
 		
-	/**valueType,id,unitOfMeasure,value, valueform,valueto,rangeInterval**/
+	//valueType,id,unitOfMeasure,value, valueform,valueto,rangeInterval
 	private	Object [][] specCharValue= {
 				{"1","11","GHz","1.6"},
 				{"1","12","GHz","2.0"},
@@ -65,21 +66,18 @@ public class ProductSpecCharacteristicTest {
 
 	@Before
 	public void createProductSpecCharacteristic(){
-		TimePeriod validFor = new TimePeriod();
+		prodSpecCharOwn = new ConfigurableProductSpecCharacteristic("1", "深度", "", validFor, "false",  1,  1, true, "height","");
+	}
+	@BeforeClass
+	public static void initVliadFor(){
+		validFor = new TimePeriod();
 		String startDate = "2015-06-01";
-		String endDate = "2015-08-21";
+		String endDate = "2015-08-01";
 		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
 		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
-		 prodSpecChar = new ProductSpecCharacteristic("1", "处理器", "", validFor, "false",  1,  2, false, "cpu","");
 	}
-	
-	@Ignore
+	@Test
 	public void createProdSpecCharTest(){
-			TimePeriod validFor = new TimePeriod();
-			String startDate = "2015-06-01";
-			String endDate = "2015-08-21";
-			validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
-			validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
 			String derivationFormula = "";
 			String valueType="";
 			if(prodSpecChars ==null ){
@@ -104,10 +102,17 @@ public class ProductSpecCharacteristicTest {
 				}
 				prodSpecChars.add(prodSpecChar);
 			}
+			prodSpecChars.add(prodSpecCharOwn);
+			for(int i=0;i<prodSpecChars.size();i++){
+				if(prodSpecChars.get(i) instanceof ConfigurableProductSpecCharacteristic){
+					System.out.println("config");
+				}else{
+					System.out.println("not config");
+				}
+			}
 			addRelatedCharacteristic();
 		}
 	
-	//@Test
 	public void addRelatedCharacteristic(){
 	    String carId = specCharRelate[0][0].toString();
 	     psc =getCharac(carId);
@@ -129,45 +134,42 @@ public class ProductSpecCharacteristicTest {
 		}
 		return null;
 	}
-	//@After
+	@After
 	public void printRelationChara(){
-		System.out.println("ProductSpecCharacteristic name:"+psc.getName());
+		logger.info(psc.toString());
+		System.out.println(psc.toString());
+		/*System.out.println("ProductSpecCharacteristic name:"+psc.getName());
 		System.out.println("I'm a Composite charac,sub chara is:");
 		for(int i=0;i<psc.getProdSpecCharRelationship().size();i++){
 			ProductSpecCharRelationship tarc= psc.getProdSpecCharRelationship().get(i);
 			System.out.println("characname:"+tarc.getTargetProdSpecChar().getName()+"    ,RelationshipType:"+tarc.getCharRelationshipType());
-		}
+		}*/
 	}
 	
-	@Test
+	@Ignore
 	public void  testAddValue(){
-		TimePeriod validFor = new TimePeriod();
-		String startDate = "2015-06-01";
-		String endDate = "2015-08-21";
-		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
-		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
-		ProductSpecCharacteristic prodSpecChar = new ProductSpecCharacteristic("1", "处理器", "", validFor, "false",  1,  2, false, "cpu","");
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
-		prodSpecChar.addValue(prodSpecCharValue);
-		assertEquals(1,prodSpecChar.getProdSpecCharValue().size());
-		assertEquals("对比所添加的值的类型是否为1","1",prodSpecChar.getProdSpecCharValue().get(0).getValueType());
-		logger.info("成功");
-	} 
-	@Test
-	public void  testRemoveValue(){
-		TimePeriod validFor = new TimePeriod();
-		String startDate = "2015-06-01";
-		String endDate = "2015-08-21";
-		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
-		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
-		prodSpecChar.removeValue(prodSpecCharValue);
-		assertNull("判断是否删除成功",prodSpecChar.getProdSpecCharValue());
-		logger.info("成功");
-	} 
-	@Test
-	public void  testAddRelatedCharacteristic(){
+		prodSpecCharOwn.addValue(prodSpecCharValue);
+		assertEquals("判断是否成功加上了value",1,prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("对比所添加的值的类型是否为1","1",prodSpecCharOwn.getProdSpecCharValue().get(0).getValueType());
 		
+		ProductSpecCharacteristicValue prodSpecCharValues = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
+		prodSpecCharOwn.addValue(prodSpecCharValues);
+		assertEquals("判断再次加相同的value",1,prodSpecCharOwn.getProdSpecCharValue().size());
+	} 
+	@Ignore
+	public void  testRemoveValue(){
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
+		prodSpecCharOwn.removeValue(prodSpecCharValue);
+		assertNull("判断是否删除成功",prodSpecCharOwn.getProdSpecCharValue());
+	} 
+	@Ignore
+	public void  testAddRelatedCharacteristic(){
+		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "", validFor, "true",  1,  1, true, "compistchar","");
+		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, "dependences", validFor);
+		 assertEquals("判断是否加了关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
+		 assertEquals("判断添加的关系类型","dependences",prodSpecCharOwn.getProdSpecCharRelationship().get(0).getCharRelationshipType());
 	}
+	
 	
 }
