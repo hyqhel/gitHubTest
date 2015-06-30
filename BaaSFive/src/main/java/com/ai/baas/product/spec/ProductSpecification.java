@@ -137,11 +137,23 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
      */
     public void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-        ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor);
+    	
         if (null == prodSpecChar) {
 			prodSpecChar = new ArrayList<ProductSpecCharUse>();
 		}
-        prodSpecChar.add(prodSpecCharUse);
+        boolean isHaveSpecChar = false;
+        for (int i = 0; i < prodSpecChar.size(); i++) {
+        	if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
+        		isHaveSpecChar = true;
+        		break;
+        	}
+		}
+        if(isHaveSpecChar){
+        	
+        }else{
+        	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor);
+        	prodSpecChar.add(prodSpecCharUse);
+        }
     }
 
     /**
