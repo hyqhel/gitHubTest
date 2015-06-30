@@ -303,4 +303,71 @@ public class ProductSpecCharUse {
         }
     }
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (new Boolean(canBeOveridden).hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + (new Boolean(extensible).hashCode());
+		result = prime * result + (new Boolean(isPackage).hashCode());
+		result = prime * result + maxCardinality;
+		result = prime * result + minCardinality;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((unique == null) ? 0 : unique.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj){
+			return true;
+		}
+		if (obj == null){
+			return false;
+		}
+		if (!(obj instanceof ProductSpecCharUse)){
+			return false;
+		}
+		ProductSpecCharUse other = (ProductSpecCharUse) obj;
+		if (canBeOveridden != other.canBeOveridden)
+			return false;
+		if (description == null) {
+			if (other.description != null){
+				return false;
+			}
+		} else if (!description.equals(other.description)){
+			return false;
+		}
+		if (extensible != other.extensible){
+			return false;
+		}
+		if (isPackage != other.isPackage){
+			return false;
+		}
+		if (maxCardinality != other.maxCardinality){
+			return false;
+		}
+		if (minCardinality != other.minCardinality){
+			return false;
+		}
+		if (name == null) {
+			if (other.name != null){
+				return false;
+			}
+		} else if (!name.equals(other.name)){
+			return false;
+		}
+		if (unique == null) {
+			if (other.unique != null){
+				return false;
+			}
+		} else if (!unique.equals(other.unique)){
+			return false;
+		}
+		return true;
+	}
+    
+    
 }

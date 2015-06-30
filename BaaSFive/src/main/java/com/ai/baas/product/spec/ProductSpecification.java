@@ -3,7 +3,7 @@ package com.ai.baas.product.spec;
 import java.util.*;
 
 import com.ai.baas.basetype.*;
-import com.ai.baas.common.constant.Const;
+import com.ai.baas.common.enums.ProdSpecEnum;
 import com.ai.baas.product.offering.SimpleProductOffering;
 
 /**
@@ -109,7 +109,7 @@ public abstract class ProductSpecification {
         this.name = name;
         this.productNumber = productNumber;
         this.brand = brand;
-        this.lifecycleStatus = Const.SPEC_STATUS_ACTIVE;
+        this.lifecycleStatus = ProdSpecEnum.ProdSpecStatus.STATUS_ACTIVE.getValue();
     }
 
     /**
@@ -126,7 +126,7 @@ public abstract class ProductSpecification {
         this.brand = brand;
         this.validFor = validFor;
         this.description = description;
-        this.lifecycleStatus = Const.SPEC_STATUS_ACTIVE;
+        this.lifecycleStatus = ProdSpecEnum.ProdSpecStatus.STATUS_ACTIVE.getValue();
     }
 
     /**
@@ -136,24 +136,25 @@ public abstract class ProductSpecification {
      * @param isPackage An indicator that specifies if the associated CharacteristicSpecification is a composite. true��is a composite one
      * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
      */
-    public void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-    	
+    public boolean addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
+    	boolean rtnFlag = false;
+    	//特征为空
+    	if(null == specChar){
+    		return rtnFlag;
+    	}
         if (null == prodSpecChar) {
 			prodSpecChar = new ArrayList<ProductSpecCharUse>();
 		}
-        boolean isHaveSpecChar = false;
+        //charUse中可以添加多个  引用同一个char的charUse对象
+        ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor);
         for (int i = 0; i < prodSpecChar.size(); i++) {
-        	if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
-        		isHaveSpecChar = true;
-        		break;
+        	if(prodSpecChar.get(i).equals(prodSpecCharUse)){
+        		return rtnFlag;
         	}
 		}
-        if(isHaveSpecChar){
-        	
-        }else{
-        	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor);
-        	prodSpecChar.add(prodSpecCharUse);
-        }
+    	prodSpecChar.add(prodSpecCharUse);
+    	rtnFlag = true;
+    	return rtnFlag;
     }
 
     /**
@@ -447,7 +448,7 @@ public abstract class ProductSpecification {
     	List<ProductSpecCharUse> resultProdSpecCharUseList = new ArrayList<ProductSpecCharUse>();
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-    			ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(Const.SPEC_CHAR_AGERAGETION);
+    			ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
     			if(null == relatedChars || relatedChars.length == 0){
     				resultProdSpecCharUseList.add(prodSpecCharUseList.get(i));
     			}
@@ -467,7 +468,7 @@ public abstract class ProductSpecification {
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specChar.getID())){
-    				ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(Const.SPEC_CHAR_AGERAGETION);
+    				ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
         			if(null != relatedChars && relatedChars.length > 0){
         				resultProdSpecCharUseList.add(prodSpecCharUseList.get(i));
         			}
@@ -488,7 +489,7 @@ public abstract class ProductSpecification {
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specCharId)){
-    				ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(Const.SPEC_CHAR_AGERAGETION);
+    				ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
         			if(null != relatedChars && relatedChars.length > 0){
         				resultProdSpecCharUseList.add(prodSpecCharUseList.get(i));
         			}
@@ -539,9 +540,9 @@ public abstract class ProductSpecification {
     			throw new UnsupportedOperationException("version error! ");
     		}else{
     			
-    			setVersion(Const.SPEC_MAJOR_VERSION, vos[0], description, revisionDate, validFor);
-    			setVersion(Const.SPEC_MINOR_VERSION, vos[1], description, revisionDate, validFor);
-    			setVersion(Const.SPEC_PATCH_VERSION, vos[2], description, revisionDate, validFor);
+    			setVersion(ProdSpecEnum.VersionLevel.MAJOR_VERSION.getValue(), vos[0], description, revisionDate, validFor);
+    			setVersion(ProdSpecEnum.VersionLevel.MINOR_VERSION.getValue(), vos[1], description, revisionDate, validFor);
+    			setVersion(ProdSpecEnum.VersionLevel.PATCH_VERSION.getValue(), vos[2], description, revisionDate, validFor);
     		}
     	}
     }
