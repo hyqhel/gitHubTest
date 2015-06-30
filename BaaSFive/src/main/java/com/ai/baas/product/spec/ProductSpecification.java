@@ -215,7 +215,7 @@ public abstract class ProductSpecification {
 		}
         //TODO 用list的Contance？？？
         /*if(prodSpecChar.contains(prodSpecCharUse)){
-    		return rtnFlag;
+    		return false;
     	}*/
         ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
     	prodSpecChar.add(prodSpecCharUse);
@@ -336,44 +336,26 @@ public abstract class ProductSpecification {
      * @param isDefault Indicates if the value is the default value for a characteristic. true��is default value
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
-    public boolean attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
+    public void attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
     	//判断specChar是否为空
     	if(null == specChar){
     		log.error("ProductSpecification类中的attachCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
-    		return false;
+    		return;
     	}
     	//判断charValue是否为空
     	if(null == charValue){
     		log.error("ProductSpecification类中的attachCharacteristicValue方法参数传入错误：ProductSpecCharacteristicValue对象为空");
-    		return false;
+    		return;
     	}
-    	
-    	boolean charIsExist = false;
     	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
-				if(prodSpecCharUse.getProdSpecChar().getID().equals(specChar.getID())){
-					charIsExist = true;
-					//判断该特征下是否已经存在该特征值
-					List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecCharUse.getProdSpecCharValue();
-					if(null != prodSpecCharValueUseList && prodSpecCharValueUseList.size()>0){
-						for (int j = 0; j < prodSpecCharValueUseList.size(); j++) {
-							if(prodSpecCharValueUseList.get(j).getProdSpecCharValue().equals(charValue)){
-								log.error("ProductSpecification类中的attachCharacteristicValue方法错误：ProductSpecCharacteristicValue对象已存在");
-								return false;
-							}
-						}
-					}
+				if(prodSpecCharUse.getProdSpecChar().equals(specChar)){
 					prodSpecCharUse.addValue(charValue, isDefault, validFor);
 				}
 			}
     	}
-    	//特征不存在
-    	if(!charIsExist){
-    		return false;
-    	}
-    	return true;
     }
 
     /**
@@ -403,42 +385,31 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param charValue
      */
-    public boolean detachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue){
+    public void detachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue){
     	//判断specChar是否为空
     	if(null == specChar){
     		log.error("ProductSpecification类中的detachCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
-    		return false;
+    		return;
     	}
     	//判断charValue是否为空
     	if(null == charValue){
     		log.error("ProductSpecification类中的detachCharacteristicValue方法参数传入错误：ProductSpecCharacteristicValue对象为空");
-    		return false;
+    		return;
     	}
-    	boolean isExist = false;
+    	boolean charIsExist = false;
     	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
-    			List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecCharUse.getProdSpecCharValue();
-    			if(null != prodSpecCharValueUseList && prodSpecCharValueUseList.size()>0){
-    				for (int j = 0; j < prodSpecCharValueUseList.size(); j++) {
-    					if(prodSpecCharValueUseList.get(j).getProdSpecCharValue().equals(charValue)){
-    						prodSpecCharValueUseList.remove(j);
-    						isExist = true;
-    						break;
-    					}
-					}
-    			}
-    			if(isExist){
-    				break;
+    			if(prodSpecCharUse.getProdSpecChar().equals(specChar)){
+    				charIsExist = true;
+    				prodSpecCharUse.removeValue(charValue);
     			}
 			}
+    		if(!charIsExist){
+    			log.error("ProductSpecification类中的detachCharacteristicValue方法spec下没有要使用要删除的特征值关联的特征");
+    		}
     	}
-    	//删除一个不存在的
-    	if(!isExist){
-    		return false;
-    	}
-    	return true;
     }
 
     /**
@@ -703,7 +674,8 @@ public abstract class ProductSpecification {
      */
     public void addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
     	if(StringUtils.isBlank(type)){
-    		
+    		log.error("ProductSpecification类中的addRelatedProdSpec方法错误,传入的type为空 type="+type);
+    		return;
     	}
     	if(null == prodSpec){
     		log.error("ProductSpecification类中的addRelatedProdSpec方法错误,传入的ProductSpecification对象为空");
