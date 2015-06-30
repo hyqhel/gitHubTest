@@ -147,7 +147,7 @@ public class ProductSpecificationTest {
 	}
 	
 	@BeforeClass
-	public static void initVliadFor(){
+	public static void setUpBeforeClass(){
 		validFor = new TimePeriod();
 		String startDate = "2015-06-01";
 		String endDate = "2015-08-01";
@@ -168,7 +168,7 @@ public class ProductSpecificationTest {
 	}
 	
 	@Before
-	public  void getData(){
+	public  void setUp(){
 		atomicProdSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
 	}
 	
