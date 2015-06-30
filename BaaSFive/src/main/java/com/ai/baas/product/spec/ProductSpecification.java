@@ -1,8 +1,13 @@
 package com.ai.baas.product.spec;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import com.ai.baas.basetype.*;
+import org.apache.log4j.Logger;
+
+import com.ai.baas.basetype.Money;
+import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.enums.ProdSpecEnum;
 import com.ai.baas.product.offering.SimpleProductOffering;
 
@@ -10,6 +15,7 @@ import com.ai.baas.product.offering.SimpleProductOffering;
  * A detailed description of a tangible or intangible object made available externally in the form of a ProductOffering to Customers or other Parties playing a PartyRole. A ProductSpecification may consist of other ProductSpecifications supplied together as a collection. Members of the collection may be offered in their own right. ProductSpecifications may also exist within groupings, such as ProductCategories, ProductLines, and ProductTypes.
  */
 public abstract class ProductSpecification {
+	private static final Logger log = Logger.getLogger(ProductSpecification.class);
 
     public List<ProductSpecificationCost> productSpecificationCost;
     public List<ProductSpecificationRelationship> prodSpecRelationship;
@@ -137,24 +143,23 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
      */
     public boolean addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-    	boolean rtnFlag = false;
     	//特征为空
     	if(null == specChar){
-    		return rtnFlag;
+    		log.error("ProductSpecification类中的addCharacteristic方法入参错误：ProductSpecCharacteristic对象为空");
+    		return false;
     	}
         if (null == prodSpecChar) {
 			prodSpecChar = new ArrayList<ProductSpecCharUse>();
 		}
-        //charUse中可以添加多个  引用同一个char的charUse对象
-        ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor);
+        //该特征已在该规格下使用过  则不能再次添加该特征
         for (int i = 0; i < prodSpecChar.size(); i++) {
-        	if(prodSpecChar.get(i).equals(prodSpecCharUse)){
-        		return rtnFlag;
+        	if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
+        		return false;
         	}
 		}
+        ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor);
     	prodSpecChar.add(prodSpecCharUse);
-    	rtnFlag = true;
-    	return rtnFlag;
+    	return true;
     }
 
     /**
@@ -165,11 +170,7 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
      */
     public void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-    	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specCharId, canBeOveridden, isPackage, validFor);
-        if (null == prodSpecChar) {
-			prodSpecChar = new ArrayList<ProductSpecCharUse>();
-		}
-        prodSpecChar.add(prodSpecCharUse);
+    	throw new UnsupportedOperationException();
     }
 
     /**
@@ -185,12 +186,28 @@ public abstract class ProductSpecification {
      * @param extensible An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
      * @param description A narrative that explains the CharacteristicSpecification.
      */
-    public  void addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
-    	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
-		if (null == prodSpecChar) {
+    public boolean addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
+    	//特征为空
+    	if(null == specChar){
+    		log.error("ProductSpecification类中的addCharacteristic方法入参错误：ProductSpecCharacteristic对象为空");
+    		return false;
+    	}
+        if (null == prodSpecChar) {
 			prodSpecChar = new ArrayList<ProductSpecCharUse>();
 		}
-	    prodSpecChar.add(prodSpecCharUse);
+      //该特征已在该规格下使用过  则不能再次添加该特征
+        for (int i = 0; i < prodSpecChar.size(); i++) {
+        	if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
+        		return false;
+        	}
+		}
+        //TODO 用list的Contance？？？
+        /*if(prodSpecChar.contains(prodSpecCharUse)){
+    		return rtnFlag;
+    	}*/
+        ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
+    	prodSpecChar.add(prodSpecCharUse);
+    	return true;
     }
 
     /**
@@ -207,25 +224,35 @@ public abstract class ProductSpecification {
      * @param description A narrative that explains the CharacteristicSpecification.
      */
     public void addCharacteristic(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
-    	ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specCharId, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
-		if (null == prodSpecChar) {
-			prodSpecChar = new ArrayList<ProductSpecCharUse>();
-		}
-	    prodSpecChar.add(prodSpecCharUse);
+    	throw new UnsupportedOperationException();
     }
 
     /**
      * 
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
-    public void removeCharacteristic(ProductSpecCharacteristic specChar){
+    public boolean removeCharacteristic(ProductSpecCharacteristic specChar){
+    	//传入的特征对象为空
+    	if(null == specChar){
+    		log.error("ProductSpecification类中的removeCharacteristic方法入参错误：ProductSpecCharacteristic对象null");
+    		return false;
+    	}
+    	boolean isExist = false;
     	if (null != this.prodSpecChar){
     		for (int i = 0; i < prodSpecChar.size(); i++) {
     			if(this.prodSpecChar.get(i).getProdSpecChar().getID().equals(specChar.getID())){
+    				isExist = true;
     				this.prodSpecChar.remove(i);
+    				break;
     			}
 			}
     	}
+    	//删除一个不存在的
+    	if(!isExist){
+    		log.error("ProductSpecification类中的removeCharacteristic方法错误：ProductSpecCharacteristic对象不存在");
+    		return false;
+    	}
+    	return true;
     }
 
     /**
@@ -233,13 +260,7 @@ public abstract class ProductSpecification {
      * @param specCharId A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
     public void removeCharacteristic(String specCharId){
-    	if (null != this.prodSpecChar){
-    		for (int i = 0; i < prodSpecChar.size(); i++) {
-    			if(this.prodSpecChar.get(i).getProdSpecChar().getID().equals(specCharId)){
-    				this.prodSpecChar.remove(i);
-    			}
-			}
-    	}
+    	throw new UnsupportedOperationException();
     }
 
     /**
@@ -255,22 +276,28 @@ public abstract class ProductSpecification {
      * @param extensible An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
      * @param description A narrative that explains the CharacteristicSpecification.
      */
-    public void modifyCharacteristicInfo(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
+    public boolean modifyCharacteristicInfo(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
+    	if(null == specChar){
+    		log.error("ProductSpecification类中的modifyCharacteristicInfo方法参数传入错误：ProductSpecCharacteristic对象为空");
+    		return false;
+    	}
+    	
     	if (null != this.prodSpecChar){
     		for (int i = 0; i < prodSpecChar.size(); i++) {
     			ProductSpecCharUse prodSpecCharUse = this.prodSpecChar.get(i);
     			if(prodSpecCharUse.getProdSpecChar().getID().equals(specChar.getID())){
     				prodSpecCharUse.setCanBeOveridden(canBeOveridden);
         			prodSpecCharUse.setIsPackage(isPackage);
-        			prodSpecCharUse.setName(name);
-        			prodSpecCharUse.setUnique(unique);
+        			prodSpecCharUse.setName(name == null ? prodSpecCharUse.getName() : name);
+        			prodSpecCharUse.setUnique(unique == null ? prodSpecCharUse.getUnique() : unique);
         			prodSpecCharUse.setExtensible(extensible);
         			prodSpecCharUse.setMaxCardinality(maxCardinality);
         			prodSpecCharUse.setMinCardinality(minCardinality);
-        			prodSpecCharUse.setDescription(description);
+        			prodSpecCharUse.setDescription(description == null ? prodSpecCharUse.getDescription() : description);
     			}
 			}
     	}
+    	return true;
     }
 
     /**
@@ -287,21 +314,7 @@ public abstract class ProductSpecification {
      * @param description A narrative that explains the CharacteristicSpecification.
      */
     public void modifyCharacteristicInfo(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-    	if (null != this.prodSpecChar){
-    		for (int i = 0; i < prodSpecChar.size(); i++) {
-    			ProductSpecCharUse prodSpecCharUse = this.prodSpecChar.get(i);
-    			if(prodSpecCharUse.getProdSpecChar().getID().equals(specCharId)){
-    				prodSpecCharUse.setCanBeOveridden(canBeOveridden);
-        			prodSpecCharUse.setIsPackage(isPackage);
-        			prodSpecCharUse.setName(name);
-        			prodSpecCharUse.setUnique(unique);
-        			prodSpecCharUse.setExtensible(extensible);
-        			prodSpecCharUse.setMaxCardinality(maxCardinality);
-        			prodSpecCharUse.setMinCardinality(minCardinality);
-        			prodSpecCharUse.setDescription(description);
-    			}
-			}
-    	}
+    	throw new UnsupportedOperationException();
     }
 
     /**
@@ -311,16 +324,38 @@ public abstract class ProductSpecification {
      * @param isDefault Indicates if the value is the default value for a characteristic. true��is default value
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
-    public void attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
+    public boolean attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
+    	//判断specChar是否为空
+    	if(null == specChar){
+    		log.error("ProductSpecification类中的attachCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
+    		return false;
+    	}
+    	//判断charValue是否为空
+    	if(null == charValue){
+    		log.error("ProductSpecification类中的attachCharacteristicValue方法参数传入错误：ProductSpecCharacteristicValue对象为空");
+    		return false;
+    	}
+    	
     	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
 				if(prodSpecCharUse.getProdSpecChar().getID().equals(specChar.getID())){
+					//判断该特征下是否已经存在该特征值
+					List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecCharUse.getProdSpecCharValue();
+					if(null != prodSpecCharValueUseList && prodSpecCharValueUseList.size()>0){
+						for (int j = 0; j < prodSpecCharValueUseList.size(); j++) {
+							if(prodSpecCharValueUseList.get(j).getProdSpecCharValue().equals(charValue)){
+								log.error("ProductSpecification类中的attachCharacteristicValue方法错误：ProductSpecCharacteristicValue对象已存在");
+								return false;
+							}
+						}
+					}
 					prodSpecCharUse.addValue(charValue, isDefault, validFor);
 				}
 			}
     	}
+    	return true;
     }
 
     /**
@@ -331,15 +366,7 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(String specCharId, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
-    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
-				if(prodSpecCharUse.getProdSpecChar().getID().equals(specCharId)){
-					prodSpecCharUse.addValue(charValue, isDefault, validFor);
-				}
-			}
-    	}
+    	throw new UnsupportedOperationException();
     }
 
     /**
@@ -350,15 +377,7 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(String specCharId, String charValueId, boolean isDefault, TimePeriod validFor) {
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
-    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
-				if(prodSpecCharUse.getProdSpecChar().getID().equals(specCharId)){
-					prodSpecCharUse.addValue(charValueId, isDefault, validFor);
-				}
-			}
-    	}
+    	throw new UnsupportedOperationException();
     }
 
     /**
@@ -366,16 +385,42 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param charValue
      */
-    public void detachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue){
+    public boolean detachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue){
+    	//判断specChar是否为空
+    	if(null == specChar){
+    		log.error("ProductSpecification类中的detachCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
+    		return false;
+    	}
+    	//判断charValue是否为空
+    	if(null == charValue){
+    		log.error("ProductSpecification类中的detachCharacteristicValue方法参数传入错误：ProductSpecCharacteristicValue对象为空");
+    		return false;
+    	}
+    	boolean isExist = false;
     	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
-				if(prodSpecCharUse.getProdSpecChar().getID().equals(specChar.getID())){
-					prodSpecCharUse.removeValue(charValue);
-				}
+    			List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecCharUse.getProdSpecCharValue();
+    			if(null != prodSpecCharValueUseList && prodSpecCharValueUseList.size()>0){
+    				for (int j = 0; j < prodSpecCharValueUseList.size(); j++) {
+    					if(prodSpecCharValueUseList.get(j).getProdSpecCharValue().equals(charValue)){
+    						prodSpecCharValueUseList.remove(j);
+    						isExist = true;
+    						break;
+    					}
+					}
+    			}
+    			if(isExist){
+    				break;
+    			}
 			}
     	}
+    	//删除一个不存在的
+    	if(!isExist){
+    		return false;
+    	}
+    	return true;
     }
 
     /**

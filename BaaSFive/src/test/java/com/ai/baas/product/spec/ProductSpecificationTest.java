@@ -16,10 +16,11 @@ import org.junit.Test;
 
 import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.constant.Const;
+import com.ai.baas.common.enums.ProdSpecEnum;
 import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecificationTest {
-	private static final Logger logger = Logger.getLogger(ProductSpecificationTest.class);
+	private static final Logger log = Logger.getLogger(ProductSpecificationTest.class);
 
 	String[] specSelectCharIds = {"1","2","4","3"};
 	String[] specSelectCharValueIds = {"11","12","14","13"};
@@ -65,7 +66,7 @@ public class ProductSpecificationTest {
 			}
 			System.out.println(selectedSpecChar.toString()+"---");
 		}
-		logger.info("11111111111");
+		log.info("11111111111");
 		//add prodSpecVersion
 		atomicProdSpec.setVersion("1.0.0", "create a version", new Date(), validFor);
 		
@@ -173,17 +174,96 @@ public class ProductSpecificationTest {
 	}
 	
 	/**
-	 * 创建规格test类
+	 * 给规格添加特征的test类
 	 */
-	@Test
-	public void addCharacteristicTest(){
+	@Ignore
+	public void testAddCharacteristic(){
+		Boolean rtnFlag = false;
 		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
-		assertEquals(1,atomicProdSpec.getProdSpecChar().size());
+		
+		//TODO 空指针异常怎么处理？？？    调用的地方加判断？？？
+		//atomicProdSpec.getProdSpecChar().size();
+		
+		rtnFlag = atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
+		assertEquals("是否成功添加一个特征",1,atomicProdSpec.getProdSpecChar().size());
 		
 		ProductSpecCharacteristic specCharTwo = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		atomicProdSpec.addCharacteristic(specCharTwo, false, false, validFor);
-		assertEquals(1,atomicProdSpec.getProdSpecChar().size());
+		rtnFlag = atomicProdSpec.addCharacteristic(specCharTwo, false, false, validFor);
+		assertEquals("同一个特征值是否能重复添加",1,atomicProdSpec.getProdSpecChar().size());
+		
+		specCharTwo = null;
+		rtnFlag = atomicProdSpec.addCharacteristic(specCharTwo, false, false, validFor);
+		assertEquals("能否添加一个特征值为null的特征对象",1,atomicProdSpec.getProdSpecChar().size());
 	}
-
+	
+	/**
+	 * 给规格remove一个特征的test类
+	 */
+	@Ignore
+	public void testRemoveCharacteristic(){
+		Boolean rtnFlag = false;
+		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
+		
+		ProductSpecCharacteristic specCharNotExsit = new ProductSpecCharacteristic("2", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		rtnFlag = atomicProdSpec.removeCharacteristic(specCharNotExsit);
+		assertEquals("是否成功删除一个不存在的特征", false,rtnFlag);
+		
+		rtnFlag = atomicProdSpec.removeCharacteristic(specChar);
+		assertEquals("是否成功删除一个已存在的特征", true,rtnFlag);
+		
+		specChar = null;
+		rtnFlag = atomicProdSpec.removeCharacteristic(specChar);
+		assertEquals("入参中要删除的特征为null是否正确", false,rtnFlag);
+	}
+	
+	/**
+	 * 给规格下的特征添加特征值的test类
+	 */
+	@Ignore
+	public void testAttachCharacteristicValue(){
+		Boolean rtnFlag = false;
+		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
+		ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
+		
+		rtnFlag = atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
+		assertEquals("是否成功添加一个特征值",true,rtnFlag);
+		
+		rtnFlag = atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
+		assertEquals("同一个特征值能否重复添加",false,rtnFlag);
+		
+		specChar = null;
+		rtnFlag = atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
+		assertEquals("为空的特征否成功添加特征值",false,rtnFlag);
+		
+		specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		charValue = null;
+		rtnFlag = atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
+		assertEquals("为空的特征值能否添加成功",false,rtnFlag);
+	}
+	
+	/**
+	 * 删除特征下的某一个特征值得test类
+	 */
+	@Test
+	public void testDetachCharacteristicValue(){
+		Boolean rtnFlag = false;
+		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
+		ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
+		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
+		
+		ProductSpecCharacteristicValue charValueNotExist = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "green", false);
+		rtnFlag = atomicProdSpec.detachCharacteristicValue(specChar, charValueNotExist);
+		assertEquals("是否成功删除一个不存在的特征值", false, rtnFlag);
+		
+		rtnFlag = atomicProdSpec.detachCharacteristicValue(specChar, charValue);
+		assertEquals("是否成功删除一个已存在的特征值", true, rtnFlag);
+		
+		specChar = null;
+		rtnFlag = atomicProdSpec.detachCharacteristicValue(specChar, charValue);
+		assertEquals("入参中要删除的特征值为null是否正确", false, rtnFlag);
+		
+	}
 }
