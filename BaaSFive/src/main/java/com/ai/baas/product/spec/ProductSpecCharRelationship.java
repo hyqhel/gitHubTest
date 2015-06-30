@@ -132,4 +132,12 @@ public class ProductSpecCharRelationship {
         throw new UnsupportedOperationException();
     }
 
+	@Override
+	public String toString() {
+		return "charRelationshipType="
+				+ charRelationshipType + ", charSpecSeq=" + charSpecSeq
+				+ ", validFor=" + validFor + "targetProdSpecChar="
+				+targetProdSpecChar.toString()+ "   ";
+	}
+
 }
