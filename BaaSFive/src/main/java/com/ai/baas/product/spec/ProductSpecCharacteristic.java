@@ -203,26 +203,12 @@ public class ProductSpecCharacteristic {
     	if(this.prodSpecCharValue ==null ){
     		this.prodSpecCharValue=new ArrayList<ProductSpecCharacteristicValue>();
     	}
-    	boolean isExists=false;
     	for(ProductSpecCharacteristicValue pscv:prodSpecCharValue){
     		if(pscv.equals(charVal)){
-    			isExists = true;
-    			break;
+    			return;
     		}
     	}
-    	if(isExists){
-    		
-    	}else{
-    		this.prodSpecCharValue.add(charVal);
-    	}
-    }
-
-    /**
-     * 
-     * @param charValId
-     */
-    public void addValue(String charValId) {
-    	//this.prodSpecCharValue.add(e)
+    	this.prodSpecCharValue.add(charVal);
     }
 
     /**
@@ -231,28 +217,11 @@ public class ProductSpecCharacteristic {
      */
     public void removeValue(ProductSpecCharacteristicValue charVal) {
     	if(charVal==null){
-            throw new UnsupportedOperationException("remove charval is null");
+    		return;
     	}
     	if(this.prodSpecCharValue!=null && this.prodSpecCharValue.size()>0){
     		for(int i=0;i<this.prodSpecCharValue.size();i++){
     			if(prodSpecCharValue.get(i).getId().equals(charVal.getId())){
-    				prodSpecCharValue.remove(i);
-    			}
-    		}
-    	}
-    }
-
-    /**
-     * 
-     * @param charValId
-     */
-    public void removeValue(String charValId) {
-    	if("".equals(charValId)){
-            throw new UnsupportedOperationException("remove charval is null");
-    	}
-    	if(this.prodSpecCharValue!=null && this.prodSpecCharValue.size()>0){
-    		for(int i=0;i<this.prodSpecCharValue.size();i++){
-    			if(prodSpecCharValue.get(i).getId().equals(charValId)){
     				prodSpecCharValue.remove(i);
     			}
     		}
@@ -336,16 +305,6 @@ public class ProductSpecCharacteristic {
     	prodSpecCharRelationship.add(pship);
     }
 
-    /**
-     * 
-     * @param specCharId
-     * @param type
-     * @param validFor
-     */
-    public void addRelatedCharacteristic(String specCharId, String type, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharacteristic.addRelatedCharacteristic
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * 
@@ -362,46 +321,20 @@ public class ProductSpecCharacteristic {
     	this.prodSpecCharRelationship.add(ship);
     }
 
-    /**
-     * 
-     * @param specCharId
-     * @param type
-     * @param validFor
-     * @param charSpecSeq
-     */
-    public void addRelatedCharacteristic(String specCharId, String type, TimePeriod validFor, int charSpecSeq) {
-        // TODO - implement ProductSpecCharacteristic.addRelatedCharacteristic
-    	if(this.prodSpecCharRelationship==null){
-    		this.prodSpecCharRelationship =new ArrayList<ProductSpecCharRelationship>();
-    	}
-    	ProductSpecCharRelationship ship =new ProductSpecCharRelationship(this,specCharId,type,validFor,charSpecSeq);
-    	this.prodSpecCharRelationship.add(ship);
-    }
 
     /**
      * 
      * @param specChar
      */
     public void removeRelatedCharacteristic(ProductSpecCharacteristic specChar) {
-        // TODO - implement ProductSpecCharacteristic.removeRelatedCharacteristic
-        throw new UnsupportedOperationException();
     }
 
-    /**
-     * 
-     * @param specCharId
-     */
-    public void removeRelatedCharacteristic(String specCharId) {
-        // TODO - implement ProductSpecCharacteristic.removeRelatedCharacteristic
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * 
      * @param charRelationshipType
      */
     public ProductSpecCharacteristic[] queryRelatedCharacteristic(String charRelationshipType) {
-        // TODO - implement ProductSpecCharacteristic.queryRelatedCharacteristic
         throw new UnsupportedOperationException();
     }
 
@@ -425,31 +358,33 @@ public class ProductSpecCharacteristic {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj){
 			return true;
-		if (obj == null)
+		}
+		if (obj == null){
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()){
 			return false;
+		}
 		ProductSpecCharacteristic other = (ProductSpecCharacteristic) obj;
-		if (ID == null) {
-			if (other.ID != null)
-				return false;
-		} else if (!ID.equals(other.ID))
-			return false;
-		return true;
+		if (ID == null && other.ID == null
+				|| ID != null && ID.equals(other.getID())) {
+				return true;
+		} 
+		return false;
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer tostr = new StringBuffer();
-		tostr.append("ProductSpecCharacteristic \n   "
-				+  "ID=" + ID + ", name=" + name
-				+ ", description=" + description + ", unique=" + unique
-				+ ", valueType=" + valueType + ", minCardinality="+ minCardinality
-				+ ", maxCardinality=" + maxCardinality
-				+ ", extensible=" + extensible + ", derivationFormula="+ derivationFormula
-				+ ", validFor=" + validFor );
+		tostr.append("ProductSpecCharacteristic \n   ")
+		     .append("ID=" + ID + ", name=" + name)
+			 .append(", description=" + description + ", unique=" + unique)
+			 .append(", valueType=" + valueType + ", minCardinality="+ minCardinality)
+			 .append(", maxCardinality=" + maxCardinality)
+			 .append(", extensible=" + extensible + ", derivationFormula="+ derivationFormula)
+			 .append(", validFor=" + validFor );
 		if(prodSpecCharValue!=null){
 			tostr.append("\n     ProductSpecCharacteristicValue "); 
 			for(ProductSpecCharacteristicValue pv:prodSpecCharValue){
@@ -462,7 +397,6 @@ public class ProductSpecCharacteristic {
 				tostr.append("\n   "+pvRship.toString());
 			}
 		}
-		
 		return tostr.toString();
 	}
 
