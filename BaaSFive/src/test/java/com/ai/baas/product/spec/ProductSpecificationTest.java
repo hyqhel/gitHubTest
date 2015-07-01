@@ -3,6 +3,7 @@ package com.ai.baas.product.spec;
 import static org.junit.Assert.assertEquals;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +24,7 @@ import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecificationTest {
 	private static final Logger log = Logger.getLogger(ProductSpecificationTest.class);
-	private static String[] specSelectCharIds = {"1","2","4","3"};
-	private static String[] specSelectCharValueIds = {"11","12","14","13"};
-	private static int[][] specCharUseValueRelate = {
-			{0,0},
-			{2,2},
-			{3,3}
-	};
+	private static ProductSpecCharacteristic psc =null;
 	//场景所用
 	private static ProductSpecification prodSpec;
 	//测spec 方法所用
@@ -56,32 +51,75 @@ public class ProductSpecificationTest {
 	public static void setProdSpec(ProductSpecification prodSpec) {
 		ProductSpecificationTest.prodSpec = prodSpec;
 	}
-
+	
 	@BeforeClass
 	public static void  createProdSpec() throws Exception{
 		prodSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
-		ProductSpecCharacteristicTest prodSpecCharTest = new ProductSpecCharacteristicTest();
-		specCharList = prodSpecCharTest.getProdSpecChars();
-		
-		for (int i = 0; i < specSelectCharIds.length; i++) {
-			ProductSpecCharacteristic selectedSpecChar = selectedProdChar(specCharList,specSelectCharIds[i]);
+		createProdSpecCharTest();
+		for (int i = 0; i < SpecCharData.specSelectCharIds.length; i++) {
+			ProductSpecCharacteristic selectedSpecChar = selectedProdChar(specCharList,SpecCharData.specSelectCharIds[i]);
 			prodSpec.addCharacteristic(selectedSpecChar, false, true, validFor, selectedSpecChar.getName(),  "", 1, 3, false,  "this is a description about size and weight used by CharUse");
 			List<ProductSpecCharacteristicValue> prodSpecCharValueList = selectedSpecChar.getProdSpecCharValue();
-			for(int j=0;j<specCharUseValueRelate.length;j++){
-				if(i==specCharUseValueRelate[j][0]){
-					int valuesub=specCharUseValueRelate[j][1];
-					ProductSpecCharacteristicValue selectvalue=selectedProdCharValue(prodSpecCharValueList,specSelectCharValueIds[valuesub]);
+			for(int j=0;j<SpecCharData.specCharUseValueRelate.length;j++){
+				if(i==SpecCharData.specCharUseValueRelate[j][0]){
+					int valuesub=SpecCharData.specCharUseValueRelate[j][1];
+					ProductSpecCharacteristicValue selectvalue=selectedProdCharValue(prodSpecCharValueList,SpecCharData.specSelectCharValueIds[valuesub]);
 					prodSpec.attachCharacteristicValue(selectedSpecChar, selectvalue, false, validFor);
 				}
 			}
-			//System.out.println(selectedSpecChar.toString());
 		}
 		prodSpec.setVersion("1.0.0", "create a version", new Date(), validFor);
 	}
-	@Before
-	public  void setUp(){
-		atomicProdSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
+	public static void createProdSpecCharTest(){
+			String derivationFormula = "";
+			String valueType="";
+			if(specCharList ==null ){
+				specCharList = new ArrayList<ProductSpecCharacteristic>();
+			}
+			for(int i=0;i<SpecCharData.specChar.length;i++){
+				ProductSpecCharacteristic prodSpecChar = new ProductSpecCharacteristic(SpecCharData.specChar[i][0].toString(), SpecCharData.specChar[i][1].toString(), valueType, validFor, SpecCharData.specChar[i][5].toString(),  Integer.parseInt(SpecCharData.specChar[i][3].toString()),  Integer.parseInt((String)SpecCharData.specChar[i][4].toString()), (Boolean)SpecCharData.specChar[i][6], SpecCharData.specChar[i][2].toString(),derivationFormula);
+				for(int j=0;j<SpecCharData.specCharRelateValue.length;j++){
+					if(i==SpecCharData.specCharRelateValue[j][0]){
+						int charvaluesub=SpecCharData.specCharRelateValue[j][1];
+						// form to value
+						ProductSpecCharacteristicValue  prodSpecCharValue=null;
+						String charvalueId=SpecCharData.specCharValue[charvaluesub][1].toString();
+						if(ProdSpecEnum.ProdSpecType.FORTH.getValue().equals((String)SpecCharData.specCharValue[charvaluesub][0])){
+							  prodSpecCharValue = new ProductSpecCharacteristicValue((String)SpecCharData.specCharValue[charvaluesub][0], SpecCharData.specCharValue[charvaluesub][2].toString(), validFor, SpecCharData.specCharValue[charvaluesub][3].toString(), SpecCharData.specCharValue[charvaluesub][4].toString(), SpecCharData.specCharValue[charvaluesub][5].toString());
+						}else{
+							  prodSpecCharValue = new ProductSpecCharacteristicValue((String)SpecCharData.specCharValue[charvaluesub][0], SpecCharData.specCharValue[charvaluesub][2].toString(), validFor, SpecCharData.specCharValue[charvaluesub][3].toString(), false);
+						}
+						prodSpecCharValue.setId(charvalueId);
+						prodSpecChar.addValue(prodSpecCharValue);
+					}
+				}
+				specCharList.add(prodSpecChar);
+			}
+			addRelatedCharacteristic();
+		}
+	
+	public static void addRelatedCharacteristic(){
+	    String carId = SpecCharData.specCharRelate[0][0].toString();
+	     psc =getCharac(carId);
+		TimePeriod validFor = new TimePeriod();
+		String startDate = "2015-06-01";
+		String endDate = "2015-08-21";
+		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
+		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
+		for(int j=0;j<SpecCharData.specCharRelate.length;j++){
+			String dependenccharId=SpecCharData.specCharRelate[j][1];
+			psc.addRelatedCharacteristic(getCharac(dependenccharId),ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
+		}
 	}
+	private static ProductSpecCharacteristic getCharac(String carId){
+		for(int i=0;i<specCharList.size();i++){
+			 if(carId.equals(specCharList.get(i).getID())){
+				 return  specCharList.get(i);
+			 }
+		}
+		return null;
+	}
+	
 	/**
 	 * this is an operation to create ProductSpecification Object
 	 * @return
@@ -116,7 +154,10 @@ public class ProductSpecificationTest {
 		}
 		return prodSpecSelectCharValue;
 	}
-	
+	@Before
+	public  void setUp(){
+		atomicProdSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
+	}
 	/**
 	 * 给规格添加特征的test类
 	 */
