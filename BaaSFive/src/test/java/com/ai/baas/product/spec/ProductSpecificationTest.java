@@ -2,7 +2,6 @@ package com.ai.baas.product.spec;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -121,11 +119,10 @@ public class ProductSpecificationTest {
 	}
 	
 	/**
-	 * this is an operation to create ProductSpecification Object
+	 * this is an operation to return ProductSpecification Object
 	 * @return
 	 * @throws Exception 
 	 */
-	
 	private static  ProductSpecCharacteristic selectedProdChar(List<ProductSpecCharacteristic> specCharList, String selectedProdSpecCharId){
 		String prodSpecCharId = "";
 		ProductSpecCharacteristic prodSpecSelectChar=null;
@@ -141,6 +138,11 @@ public class ProductSpecificationTest {
 		return prodSpecSelectChar;
 	}
 	
+	/**
+	 * this is an operation to return ProductSpecCharacteristicValue Object
+	 * @return
+	 * @throws Exception 
+	 */
 	private static ProductSpecCharacteristicValue selectedProdCharValue(List<ProductSpecCharacteristicValue> specCharValueList, String selectedProdSpecCharValueId){
 		String prodSpecCharVauleId = "";
 		ProductSpecCharacteristicValue prodSpecSelectCharValue=null;
@@ -154,10 +156,12 @@ public class ProductSpecificationTest {
 		}
 		return prodSpecSelectCharValue;
 	}
+	
 	@Before
 	public  void setUp(){
 		atomicProdSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
 	}
+	
 	/**
 	 * 给规格添加特征的test类
 	 */
@@ -220,7 +224,11 @@ public class ProductSpecificationTest {
 		assertEquals("是否成功添加一个特征值",1,atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().size());
 		
 		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
-		assertEquals("同一个特征值能否重复添加",1,atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().size());
+		assertEquals("同一个特征值能否重复添加同一个对象",1,atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().size());
+		
+		ProductSpecCharacteristicValue charValueTwo = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
+		atomicProdSpec.attachCharacteristicValue(specChar, charValueTwo, false, validFor);
+		assertEquals("同一个特征值能否重复添加new一个新的对象",1,atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().size());
 		
 		specChar = null;
 		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
@@ -245,8 +253,11 @@ public class ProductSpecificationTest {
 		ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
 		specChar.addValue(charValue);
 		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
-		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
 		
+		atomicProdSpec.detachCharacteristicValue(specChar, charValue);
+		assertEquals("不添加，直接删除特征值是否有问题",0, (atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue() == null ? 0 : atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().size()));
+		
+		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
 		ProductSpecCharacteristicValue charValueNotExist = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "green", false);
 		atomicProdSpec.detachCharacteristicValue(specChar, charValueNotExist);
 		assertEquals("是否成功删除一个不存在的特征值", 1, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().size());
@@ -259,6 +270,9 @@ public class ProductSpecificationTest {
 		assertEquals("入参中要删除的特征值为null是否正确", 0, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().size());
 	}
 	
+	/**
+	 * 给特征增加一个关系特征
+	 */
 	@Test
 	public void testAddRelatedProdSpec(){
 		ProductSpecification atomicProdSpecTwo = new AtomicProductSpecification("2", "13 英寸 MacBook Air", "apple", "Mac", validFor);
@@ -271,10 +285,61 @@ public class ProductSpecificationTest {
 		
 		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue(), validFor);
 		assertEquals("是否可以与一个为null的spec建立关系", 1, atomicProdSpec.getProdSpecRelationship().size());
+		
+		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, "", validFor);
+		assertEquals("是否成功添加一个关系类型为空的prodSpec", 1, atomicProdSpec.getProdSpecRelationship().size());
 	}
+	
+	/**
+	 * 给特征设置某一个默认的特征值
+	 */
+	@Test
+	 public void testSpecifyDefaultCharacteristicValue(){
+		 ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
+		 ProductSpecCharacteristicValue charValueOne = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
+		 ProductSpecCharacteristicValue charValueTwo = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "yellow", false);
+		 specChar.addValue(charValueOne);
+		 specChar.addValue(charValueTwo);
+		 atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
+		 atomicProdSpec.attachCharacteristicValue(specChar, charValueOne, false, validFor);
+		 atomicProdSpec.attachCharacteristicValue(specChar, charValueTwo, false, validFor);
+		 
+		 //TODO 
+		 ProductSpecCharacteristicValue defaultCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", true);
+		 atomicProdSpec.specifyDefaultCharacteristicValue(specChar, defaultCharValue);
+		 assertEquals("正常设置一个默认值是否成功",true, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().get(0).isIsDefault());
+		 
+		 
+		 /*assertEquals("该特征不存在,能否成功设置默认值", false, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().get(0).isIsDefault());
+		 
+		 assertEquals("该特征存在,特征下没有特征值是否设置成功", false, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().get(0).isIsDefault());
+		 
+		 assertEquals("该特征存在,没有默认值是否设置成功", true, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().get(0).isIsDefault());
+		 
+		 assertEquals("该特征存在,默认值存在是否设置成功", true, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().get(0).isIsDefault());*/
+	 }
+	 
+	 /**
+	  * 根据时间查询spec下的所有特征
+	  */
+	@Ignore
+	 public void testRetrieveCharacteristic(){
+		 boolean rtnFlag = false;
+		 
+		 //TODO
+		 assertEquals("时间参数传入为null能否查询", false, rtnFlag);
+		 
+		 assertEquals("时间参数传入在时间段之前的能否查到数据", false, rtnFlag);
+		 
+		 assertEquals("时间参数传入在时间段内的能否查到数据", false, rtnFlag);
+		 
+		 assertEquals("时间参数传入在时间段之后的能否查到数据", false, rtnFlag);
+	 }
+	 
 	/**
 	 * print result
 	 */
+	@SuppressWarnings("unchecked")
 	@AfterClass
 	public static void  printResult(){
 		System.out.println("总共有"+specCharList.size()+"个特征：\n");
@@ -291,11 +356,11 @@ public class ProductSpecificationTest {
 		List<ProductSpecCharUse> prodSpecCharUseList = prodSpec.getProdSpecChar();
 		System.out.println("\n\n规格："+prodSpec.getName()+"使用了"+prodSpecCharUseList.size()+"个特征:\n");
 		log.info("\t\t规格："+prodSpec.getName()+"使用了"+prodSpecCharUseList.size()+"个特征:\t");
-		if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+		if(null != prodSpecCharUseList && prodSpecCharUseList.size()>0){
 			for (int i = 0; i < prodSpecCharUseList.size(); i++) {
 				ProductSpecCharacteristic  psc = prodSpecCharUseList.get(i).getProdSpecChar();
 				String comp = "";
-				if(psc.getProdSpecCharRelationship()!=null && psc.getProdSpecCharRelationship().size()>0){
+				if(psc.getProdSpecCharRelationship() != null && psc.getProdSpecCharRelationship().size()>0){
 					comp = "(复合特征)";
 				}
 				log.info("特征"+(i+1)+comp+":\t"+psc.toString());
@@ -304,8 +369,8 @@ public class ProductSpecificationTest {
 		}
 		//version
 		List<ProductSpecificationVersion> prodSpecCharVersionList = prodSpec.getProdSpecVersion();
-		Map <String,String> mapv=new HashedMap();
-		if(null!=prodSpecCharVersionList && prodSpecCharVersionList.size()>0){
+		Map<String,String> mapv = new HashedMap();
+		if(null != prodSpecCharVersionList && prodSpecCharVersionList.size()>0){
 			for (int i = 0; i < prodSpecCharVersionList.size(); i++) {
 				String versionType = prodSpecCharVersionList.get(i).getProdSpecRevisionType();
 				String versionNum = prodSpecCharVersionList.get(i).getProdSpecRevisionNumber();

@@ -284,8 +284,8 @@ public class ProductSpecCharUse {
         	for(int i=0;i<this.prodSpecCharValue.size();i++){
         		ProductSpecCharacteristicValue pscv = this.prodSpecCharValue.get(i).getProdSpecCharValue();
         		if(pscv.equals(defaultValue)){
-        			if(!pscv.isIsDefault()){
-        				pscv.setIsDefault(true);
+        			if(!prodSpecCharValue.get(i).isIsDefault()){
+        				prodSpecCharValue.get(i).setIsDefault(true);
         			}
         		}
         	}
