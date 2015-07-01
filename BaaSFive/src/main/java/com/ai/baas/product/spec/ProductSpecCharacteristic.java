@@ -248,6 +248,10 @@ public class ProductSpecCharacteristic {
      * @param defaultCharVal
      */
     public void setDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
+    	if (defaultCharVal == null){
+    		logger.info("value is null");
+    		return;
+    	}
     	if(this.prodSpecCharValue!=null){
         	for(int i=0;i<this.prodSpecCharValue.size();i++){
         		ProductSpecCharacteristicValue psv = this.prodSpecCharValue.get(i);
@@ -329,6 +333,9 @@ public class ProductSpecCharacteristic {
      * @param specChar
      */
     public void removeRelatedCharacteristic(ProductSpecCharacteristic specChar) {
+    	if (specChar ==null){
+    		return;
+    	}
     	if(this.prodSpecCharRelationship == null){
     		return;
     	}
