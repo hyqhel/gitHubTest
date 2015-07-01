@@ -237,14 +237,11 @@ public class ProductSpecCharacteristicValue {
         throw new UnsupportedOperationException();
     }
 
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + (new Boolean(isDefault).hashCode());
 		result = prime * result
 				+ ((rangeInterval == null) ? 0 : rangeInterval.hashCode());
 		result = prime * result
@@ -262,22 +259,17 @@ public class ProductSpecCharacteristicValue {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj){
+		if (this == obj)
 			return true;
-		}
-		if (obj == null){
+		if (obj == null)
 			return false;
-		}
-		if (!(obj instanceof ProductSpecCharacteristicValue)){
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		ProductSpecCharacteristicValue other = (ProductSpecCharacteristicValue) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (isDefault != other.isDefault)
 			return false;
 		if (rangeInterval == null) {
 			if (other.rangeInterval != null)
@@ -316,6 +308,7 @@ public class ProductSpecCharacteristicValue {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "id=" + id + ", valueType="

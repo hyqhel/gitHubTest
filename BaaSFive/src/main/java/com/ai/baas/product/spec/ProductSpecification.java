@@ -365,13 +365,20 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProductSpecCharUse[] retrieveCharacteristic(Date time) {
-    	List<ProductSpecCharUse> prodSpecCharUse = this.prodSpecChar;
+    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
     	List<ProductSpecCharUse> prodSpecCharUseByDate = new ArrayList<ProductSpecCharUse>();
     	
     	if(null == time){
     		log.error("ProductSpecification类中的retrieveCharacteristic方法参数传入错误：Date数据为空time="+time);
     		return null;
     	}
+    	
+    	for (ProductSpecCharUse productSpecCharUse : prodSpecCharUseList) {
+    		TimePeriod validForTime = productSpecCharUse.getProdSpecChar().getValidFor();
+    		if(validForTime.isInTimePeriod(time) == 0){
+    			prodSpecCharUseByDate.add(productSpecCharUse);
+    		}
+		}
     	
     	return prodSpecCharUseByDate.toArray(new ProductSpecCharUse[prodSpecCharUseByDate.size()]);
     }
