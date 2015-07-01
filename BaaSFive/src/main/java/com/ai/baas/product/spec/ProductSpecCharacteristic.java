@@ -452,10 +452,11 @@ public class ProductSpecCharacteristic {
 			 .append(", extensible=" + extensible + ", derivationFormula="+ derivationFormula)
 			 .append(", validFor=" + validFor );
 		if(prodSpecCharValue!=null){
-			tostr.append("\n     特征值 "); 
+			tostr.append("\n     特征值【"); 
 			for(ProductSpecCharacteristicValue pv:prodSpecCharValue){
 				tostr.append("\n     "+pv.toString());
 			}
+			tostr.append("\n】");
 		}
 		if(prodSpecCharRelationship!=null){
 			tostr.append("\n     关联的特征【"); 
