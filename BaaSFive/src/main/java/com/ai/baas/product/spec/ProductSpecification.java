@@ -480,10 +480,29 @@ public abstract class ProductSpecification {
      * @param validFor
      */
     private void setVersion(String verType, String curTypeVersion, String description, Date revisionDate, TimePeriod validFor) {
+    	if(null == verType || "".equals(verType)){
+    		log.error("ProductSpecification类中的setVersion方法参数传入错误：verType为空, verType="+verType);
+    		return;
+    	}
+    	if(null == curTypeVersion || "".equals(curTypeVersion)){
+    		log.error("ProductSpecification类中的setVersion方法参数传入错误：curTypeVersion为空, curTypeVersion="+curTypeVersion);
+    		return;
+    	}
+    	if(null == validFor){
+    		log.error("ProductSpecification类中的setVersion方法参数传入错误：validFor为空, validFor="+validFor);
+    		return;
+    	}
     	ProductSpecificationVersion versi= new ProductSpecificationVersion(verType,description,curTypeVersion,revisionDate,validFor);
     	if(prodSpecVersion==null ){
 			prodSpecVersion = new ArrayList<ProductSpecificationVersion>();
 		}
+    	if(null != this.getProdSpecVersion()){
+    		for (int i = 0; i < getProdSpecVersion().size(); i++) {
+    			if(getProdSpecVersion().get(i).equals(versi)){
+    				return;
+    			}
+			}
+    	}
 		prodSpecVersion.add(versi);
     }
 
