@@ -31,6 +31,11 @@ public class DateUtils {
 	public static final  SimpleDateFormat datetimeFormat = new SimpleDateFormat(
 	"yyyy-MM-dd HH:mm:ss");
 
+	// 以毫秒表示的时间
+	private static final long DAY_IN_MILLIS = 24 * 3600 * 1000;
+	private static final long HOUR_IN_MILLIS = 3600 * 1000;
+	private static final long MINUTE_IN_MILLIS = 60 * 1000;
+	private static final long SECOND_IN_MILLIS = 1000;
 	/**
 	 * 当前日历，这里用中国时间表示
 	 * 
@@ -133,5 +138,111 @@ public class DateUtils {
 		}
 		return date_sdf.format(date);
 	}
+	/**
+	 * 计算两个时间之间的差值，根据标志的不同而不同
+	 * 
+	 * @param flag
+	 *            计算标志，表示按照年/月/日/时/分/秒等计算
+	 * @param calSrc
+	 *            减数
+	 * @param calDes
+	 *            被减数
+	 * @return 两个日期之间的差值
+	 */
+	public static int dateDiff(char flag, Calendar calSrc, Calendar calDes) {
 
+		long millisDiff = getMillis(calSrc) - getMillis(calDes);
+
+		if (flag == 'y') {
+			return (calSrc.get(calSrc.YEAR) - calDes.get(calDes.YEAR));
+		}
+
+		if (flag == 'd') {
+			return (int) (millisDiff / DAY_IN_MILLIS);
+		}
+
+		if (flag == 'h') {
+			return (int) (millisDiff / HOUR_IN_MILLIS);
+		}
+
+		if (flag == 'm') {
+			return (int) (millisDiff / MINUTE_IN_MILLIS);
+		}
+
+		if (flag == 's') {
+			return (int) (millisDiff / SECOND_IN_MILLIS);
+		}
+
+		return 0;
+	}
+	/**
+	 * 指定日历的毫秒数
+	 * 
+	 * @param cal
+	 *            指定日历
+	 * @return 指定日历的毫秒数
+	 */
+	public static long getMillis(Calendar cal) {
+		return cal.getTime().getTime();
+	}
+	
+	/**
+	 * 根据指定的格式将字符串转换成Date 如输入：2003-11-19 11:20:20将按照这个转成时间
+	 * 
+	 * @param src
+	 *            将要转换的原始字符窜
+	 * @param pattern
+	 *            转换的匹配格式
+	 * @return 如果转换成功则返回转换后的日期
+	 * @throws ParseException
+	 * @throws AIDateFormatException
+	 */
+	public static Calendar parseCalendar(String src, String pattern)
+			throws ParseException {
+
+		Date date = parseDate(src, pattern);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal;
+	}
+	
+	/**
+	 * 根据指定的格式将字符串转换成Date 如输入：2003-11-19 11:20:20将按照这个转成时间
+	 * 
+	 * @param src
+	 *            将要转换的原始字符窜
+	 * @param pattern
+	 *            转换的匹配格式
+	 * @return 如果转换成功则返回转换后的日期
+	 * @throws ParseException
+	 * @throws AIDateFormatException
+	 */
+	public static Calendar parseCalendar(Date date)
+			throws ParseException {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal;
+	}
+	
+	/**
+	 * 根据指定的格式将字符串转换成Date 如输入：2003-11-19 11:20:20将按照这个转成时间
+	 * 
+	 * @param src
+	 *            将要转换的原始字符窜
+	 * @param pattern
+	 *            转换的匹配格式
+	 * @return 如果转换成功则返回转换后的日期
+	 * @throws ParseException
+	 * @throws AIDateFormatException
+	 */
+	public static Date parseDate(String src, String pattern)
+			throws ParseException {
+		return getSDFormat(pattern).parse(src);
+
+	}
+	
+	// 指定模式的时间格式
+	private static SimpleDateFormat getSDFormat(String pattern) {
+		return new SimpleDateFormat(pattern);
+	}
 }
