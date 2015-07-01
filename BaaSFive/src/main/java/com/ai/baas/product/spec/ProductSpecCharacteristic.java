@@ -354,38 +354,87 @@ public class ProductSpecCharacteristic {
         throw new UnsupportedOperationException();
     }
 
+    
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((ID == null) ? 0 : ID.hashCode());
+		result = prime
+				* result
+				+ ((derivationFormula == null) ? 0 : derivationFormula
+						.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + new Boolean(extensible).hashCode() ;
+		result = prime * result + maxCardinality;
+		result = prime * result + minCardinality;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((unique == null) ? 0 : unique.hashCode());
+		result = prime * result
+				+ ((validFor == null) ? 0 : validFor.hashCode());
+		result = prime * result
+				+ ((valueType == null) ? 0 : valueType.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj){
+		if (this == obj)
 			return true;
-		}
-		if (obj == null){
+		if (obj == null)
 			return false;
-		}
-		if (!(obj instanceof ProductSpecCharacteristic)){
+		if (!(obj instanceof ProductSpecCharacteristic))
 			return false;
-		}
 		ProductSpecCharacteristic other = (ProductSpecCharacteristic) obj;
-		if (ID == null && other.getID() == null
-				|| ID != null && ID.equals(other.getID())) {
-				return true;
-		} 
-		return false;
+		if (ID == null) {
+			if (other.ID != null)
+				return false;
+		} else if (!ID.equals(other.ID))
+			return false;
+		if (derivationFormula == null) {
+			if (other.derivationFormula != null)
+				return false;
+		} else if (!derivationFormula.equals(other.derivationFormula))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (extensible != other.extensible)
+			return false;
+		if (maxCardinality != other.maxCardinality)
+			return false;
+		if (minCardinality != other.minCardinality)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (unique == null) {
+			if (other.unique != null)
+				return false;
+		} else if (!unique.equals(other.unique))
+			return false;
+		if (validFor == null) {
+			if (other.validFor != null)
+				return false;
+		} else if (!validFor.equals(other.validFor))
+			return false;
+		if (valueType == null) {
+			if (other.valueType != null)
+				return false;
+		} else if (!valueType.equals(other.valueType))
+			return false;
+		return true;
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer tostr = new StringBuffer();
-		tostr.append("特征 \n   ")
-		     .append("ID=" + ID + ", name=" + name)
+		tostr.append("ID=" + ID + ", name=" + name)
 			 .append(", description=" + description + ", unique=" + unique)
 			 .append(", valueType=" + valueType + ", minCardinality="+ minCardinality)
 			 .append(", maxCardinality=" + maxCardinality)
@@ -398,9 +447,9 @@ public class ProductSpecCharacteristic {
 			}
 		}
 		if(prodSpecCharRelationship!=null){
-			tostr.append("\n\n关联的特征【"); 
+			tostr.append("\n     关联的特征【"); 
 			for(ProductSpecCharRelationship pvRship:prodSpecCharRelationship){
-				tostr.append("\n   "+pvRship.toString());
+				tostr.append("\n     "+pvRship.toString());
 			}
 			tostr.append("\n】");
 		}

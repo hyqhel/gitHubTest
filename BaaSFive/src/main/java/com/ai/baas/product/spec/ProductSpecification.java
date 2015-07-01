@@ -224,7 +224,7 @@ public abstract class ProductSpecification {
     	boolean isExist = false;
     	if (null != this.prodSpecChar){
     		for (int i = 0; i < prodSpecChar.size(); i++) {
-    			if(this.prodSpecChar.get(i).getProdSpecChar().getID().equals(specChar.getID())){
+    			if(this.prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
     				isExist = true;
     				this.prodSpecChar.remove(i);
     				break;
@@ -343,7 +343,6 @@ public abstract class ProductSpecification {
      * @param defaultCharValue
      */
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue defaultCharValue) {
-    	111
     	if(null == specChar){
     		log.error("ProductSpecification类中的specifyDefaultCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
     		return;
@@ -373,10 +372,6 @@ public abstract class ProductSpecification {
     		log.error("ProductSpecification类中的retrieveCharacteristic方法参数传入错误：Date数据为空time="+time);
     		return null;
     	}
-    	//TODO 查询时间点下的所有特征
-    	for (int i = 0; i < array.length; i++) {
-			
-		}
     	
     	return prodSpecCharUseByDate.toArray(new ProductSpecCharUse[prodSpecCharUseByDate.size()]);
     }
@@ -392,9 +387,6 @@ public abstract class ProductSpecification {
     		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specChar.getID())){
     				//TODO 查询time 时间点下的所有特征值
-    				for (int j = 0; j < array.length; j++) {
-						
-					}
     			}
 			}
     	}
@@ -464,7 +456,6 @@ public abstract class ProductSpecification {
      * @param maxCardinality
      */
     public boolean setCardinality(ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality) {
-    	222
         if(null == specChar){
         	log.error("ProductSpecification类中的setCardinality方法参数传入错误：ProductSpecCharacteristic对象为空");
         	return false;
@@ -490,7 +481,6 @@ public abstract class ProductSpecification {
      */
     private void setVersion(String verType, String curTypeVersion, String description, Date revisionDate, TimePeriod validFor) {
     	ProductSpecificationVersion versi= new ProductSpecificationVersion(verType,description,curTypeVersion,revisionDate,validFor);
-    	333
     	if(prodSpecVersion==null ){
 			prodSpecVersion = new ArrayList<ProductSpecificationVersion>();
 		}

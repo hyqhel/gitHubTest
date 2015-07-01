@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -22,59 +23,72 @@ import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecificationTest {
 	private static final Logger log = Logger.getLogger(ProductSpecificationTest.class);
-
-	String[] specSelectCharIds = {"1","2","4","3"};
-	String[] specSelectCharValueIds = {"11","12","14","13"};
-	int[][] specCharUseValueRelate = {
+	private static String[] specSelectCharIds = {"1","2","4","3"};
+	private static String[] specSelectCharValueIds = {"11","12","14","13"};
+	private static int[][] specCharUseValueRelate = {
 			{0,0},
 			{2,2},
 			{3,3}
 	};
-	
-	private ProductSpecification atomicProdSpec;
-	
+	//场景所用
+	private static ProductSpecification prodSpec;
+	//测spec 方法所用
+	private  ProductSpecification atomicProdSpec;
 	private static TimePeriod validFor;
-	
 	String units = "pound";
 	long amount = 100;
+	//存准备好的特征
+	private static List<ProductSpecCharacteristic> specCharList = null;
 	
-	/**
-	 * this is an operation to create ProductSpecification Object
-	 * @return
-	 * @throws Exception 
-	 */
-	@Test
-	public void createProdSpec() throws Exception{
-		
-		/*new AtomicProductSpecification Object*/
-		atomicProdSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
-		
+	@BeforeClass
+	public static void setUpBeforeClass(){
+		validFor = new TimePeriod();
+		String startDate = "2015-06-01";
+		String endDate = "2015-08-01";
+		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
+		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
+	}
+	
+	public static ProductSpecification getProdSpec() {
+		return prodSpec;
+	}
+
+	public static void setProdSpec(ProductSpecification prodSpec) {
+		ProductSpecificationTest.prodSpec = prodSpec;
+	}
+
+	@BeforeClass
+	public static void  createProdSpec() throws Exception{
+		prodSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
 		ProductSpecCharacteristicTest prodSpecCharTest = new ProductSpecCharacteristicTest();
-		/*get list ProductSpecCharacteristic Object */
-		List<ProductSpecCharacteristic> specCharList = prodSpecCharTest.getProdSpecChars();
+		specCharList = prodSpecCharTest.getProdSpecChars();
 		
 		for (int i = 0; i < specSelectCharIds.length; i++) {
-			/*new CharUse Object*/
 			ProductSpecCharacteristic selectedSpecChar = selectedProdChar(specCharList,specSelectCharIds[i]);
-			atomicProdSpec.addCharacteristic(selectedSpecChar, false, true, validFor, selectedSpecChar.getName(),  "", 1, 3, false,  "this is a description about size and weight used by CharUse");
+			prodSpec.addCharacteristic(selectedSpecChar, false, true, validFor, selectedSpecChar.getName(),  "", 1, 3, false,  "this is a description about size and weight used by CharUse");
 			List<ProductSpecCharacteristicValue> prodSpecCharValueList = selectedSpecChar.getProdSpecCharValue();
 			for(int j=0;j<specCharUseValueRelate.length;j++){
 				if(i==specCharUseValueRelate[j][0]){
 					int valuesub=specCharUseValueRelate[j][1];
 					ProductSpecCharacteristicValue selectvalue=selectedProdCharValue(prodSpecCharValueList,specSelectCharValueIds[valuesub]);
-					atomicProdSpec.attachCharacteristicValue(selectedSpecChar, selectvalue, false, validFor);
+					prodSpec.attachCharacteristicValue(selectedSpecChar, selectvalue, false, validFor);
 				}
 			}
-			System.out.println(selectedSpecChar.toString()+"---");
+			//System.out.println(selectedSpecChar.toString());
 		}
-		log.info("11111111111");
-		//add prodSpecVersion
-		atomicProdSpec.setVersion("1.0.0", "create a version", new Date(), validFor);
-		
-		
+		prodSpec.setVersion("1.0.0", "create a version", new Date(), validFor);
 	}
+	@Before
+	public  void setUp(){
+		atomicProdSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
+	}
+	/**
+	 * this is an operation to create ProductSpecification Object
+	 * @return
+	 * @throws Exception 
+	 */
 	
-	private ProductSpecCharacteristic selectedProdChar(List<ProductSpecCharacteristic> specCharList, String selectedProdSpecCharId){
+	private static  ProductSpecCharacteristic selectedProdChar(List<ProductSpecCharacteristic> specCharList, String selectedProdSpecCharId){
 		String prodSpecCharId = "";
 		ProductSpecCharacteristic prodSpecSelectChar=null;
 		if(null!=specCharList && specCharList.size()>0){
@@ -89,7 +103,7 @@ public class ProductSpecificationTest {
 		return prodSpecSelectChar;
 	}
 	
-	private ProductSpecCharacteristicValue selectedProdCharValue(List<ProductSpecCharacteristicValue> specCharValueList, String selectedProdSpecCharValueId){
+	private static ProductSpecCharacteristicValue selectedProdCharValue(List<ProductSpecCharacteristicValue> specCharValueList, String selectedProdSpecCharValueId){
 		String prodSpecCharVauleId = "";
 		ProductSpecCharacteristicValue prodSpecSelectCharValue=null;
 		if(null!=specCharValueList && specCharValueList.size()>0){
@@ -104,80 +118,9 @@ public class ProductSpecificationTest {
 	}
 	
 	/**
-	 * print result
-	 */
-	@After
-	public void  printResult(){
-		System.out.println("规格："+atomicProdSpec.getName());
-		List<ProductSpecCharUse> prodSpecCharUseList = atomicProdSpec.getProdSpecChar();
-		if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-			for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-				ProductSpecCharUse  prodSpecCharUse = prodSpecCharUseList.get(i);
-				System.out.print("     "+prodSpecCharUse.getName());
-				List<ProdSpecCharValueUse> prodSpecCharValueUseList = prodSpecCharUse.getProdSpecCharValue();
-				if(null!=prodSpecCharValueUseList && prodSpecCharValueUseList.size()>0){
-					for (int j = 0; j < prodSpecCharValueUseList.size(); j++) {
-						ProdSpecCharValueUse prodSpecCharValueUse = prodSpecCharValueUseList.get(j);
-						if(null!=prodSpecCharValueUse){
-							if(null!=prodSpecCharValueUse.getProdSpecCharValue()){
-								//如果是from to的则输出范围值
-								String unitmeasure =prodSpecCharValueUse.getProdSpecCharValue().getUnitOfMeasure();
-								if(prodSpecCharValueUse.getProdSpecCharValue().getValueType().equals(Const.SPEC_CHAR_VALUE_TYPE_FORTH)){
-									System.out.println("特征的取值范围是："+prodSpecCharValueUse.getProdSpecCharValue().getValueFrom()+unitmeasure+"~"+prodSpecCharValueUse.getProdSpecCharValue().getValueTo()+unitmeasure);
-								}else{
-									System.out.println("："+prodSpecCharValueUse.getProdSpecCharValue().getValue()+unitmeasure);
-								}
-							}
-						}
-					}
-				}else{
-					System.out.println();
-				}
-			}
-		}
-		//version
-		List<ProductSpecificationVersion> prodSpecCharVersionList = atomicProdSpec.getProdSpecVersion();
-		Map <String,String> mapv=new HashedMap();
-		if(null!=prodSpecCharVersionList && prodSpecCharVersionList.size()>0){
-			for (int i = 0; i < prodSpecCharVersionList.size(); i++) {
-				String versionType = prodSpecCharVersionList.get(i).getProdSpecRevisionType();
-				String versionNum = prodSpecCharVersionList.get(i).getProdSpecRevisionNumber();
-				mapv.put(versionType, versionNum);
-			}
-		}
-		System.out.println("创建版本是："+mapv.get(Const.SPEC_MAJOR_VERSION)+"."+mapv.get(Const.SPEC_MINOR_VERSION)+"."+mapv.get(Const.SPEC_PATCH_VERSION));
-	}
-	
-	@BeforeClass
-	public static void setUpBeforeClass(){
-		validFor = new TimePeriod();
-		String startDate = "2015-06-01";
-		String endDate = "2015-08-01";
-		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
-		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
-	}
-	
-	public void getAllRootProdSpec(){
-		
-	}
-	
-	public ProductSpecification getAtomicProdSpec() {
-		return atomicProdSpec;
-	}
-
-	public void setAtomicProdSpec(ProductSpecification atomicProdSpec) {
-		this.atomicProdSpec = atomicProdSpec;
-	}
-	
-	@Before
-	public  void setUp(){
-		atomicProdSpec = new AtomicProductSpecification("1", "11 英寸 MacBook Air", "apple", "Mac", validFor);
-	}
-	
-	/**
 	 * 给规格添加特征的test类
 	 */
-	@Ignore
+	@Test
 	public void testAddCharacteristic(){
 		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
 		
@@ -199,7 +142,7 @@ public class ProductSpecificationTest {
 	/**
 	 * 给规格remove一个特征的test类
 	 */
-	@Ignore
+	@Test
 	public void testRemoveCharacteristic(){
 		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
 		
@@ -224,7 +167,7 @@ public class ProductSpecificationTest {
 	/**
 	 * 给规格下的特征添加特征值的test类
 	 */
-	@Ignore
+	@Test
 	public void testAttachCharacteristicValue(){
 		Boolean rtnFlag = false;
 		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
@@ -255,7 +198,7 @@ public class ProductSpecificationTest {
 	/**
 	 * 删除特征下的某一个特征值得test类
 	 */
-	@Ignore
+	@Test
 	public void testDetachCharacteristicValue(){
 		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
 		ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
@@ -275,7 +218,7 @@ public class ProductSpecificationTest {
 		assertEquals("入参中要删除的特征值为null是否正确", 0, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().size());
 	}
 	
-	@Ignore
+	@Test
 	public void testAddRelatedProdSpec(){
 		ProductSpecification atomicProdSpecTwo = new AtomicProductSpecification("2", "13 英寸 MacBook Air", "apple", "Mac", validFor);
 		
@@ -288,4 +231,49 @@ public class ProductSpecificationTest {
 		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue(), validFor);
 		assertEquals("是否可以与一个为null的spec建立关系", 1, atomicProdSpec.getProdSpecRelationship().size());
 	}
+	/**
+	 * print result
+	 */
+	@AfterClass
+	public static void  printResult(){
+		System.out.println("总共有"+specCharList.size()+"个特征：\n");
+		log.info("总共有"+specCharList.size()+"个特征：\t");
+		for(int i=0;i<specCharList.size();i++){
+			String comp = "";
+			if(specCharList.get(i).getProdSpecCharRelationship()!=null && specCharList.get(i).getProdSpecCharRelationship().size()>0){
+				comp = "(复合特征)";
+			}
+			log.info("特征"+(i+1)+comp+":\t"+specCharList.get(i).toString());
+			System.out.println("特征"+(i+1)+comp+":\n"+specCharList.get(i).toString());
+		}
+		
+		List<ProductSpecCharUse> prodSpecCharUseList = prodSpec.getProdSpecChar();
+		System.out.println("\n\n规格："+prodSpec.getName()+"使用了"+prodSpecCharUseList.size()+"个特征:\n");
+		log.info("\t\t规格："+prodSpec.getName()+"使用了"+prodSpecCharUseList.size()+"个特征:\t");
+		if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
+			for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+				ProductSpecCharacteristic  psc = prodSpecCharUseList.get(i).getProdSpecChar();
+				String comp = "";
+				if(psc.getProdSpecCharRelationship()!=null && psc.getProdSpecCharRelationship().size()>0){
+					comp = "(复合特征)";
+				}
+				log.info("特征"+(i+1)+comp+":\t"+psc.toString());
+				System.out.println("特征"+(i+1)+comp+":\n"+psc.toString());
+			}
+		}
+		//version
+		List<ProductSpecificationVersion> prodSpecCharVersionList = prodSpec.getProdSpecVersion();
+		Map <String,String> mapv=new HashedMap();
+		if(null!=prodSpecCharVersionList && prodSpecCharVersionList.size()>0){
+			for (int i = 0; i < prodSpecCharVersionList.size(); i++) {
+				String versionType = prodSpecCharVersionList.get(i).getProdSpecRevisionType();
+				String versionNum = prodSpecCharVersionList.get(i).getProdSpecRevisionNumber();
+				mapv.put(versionType, versionNum);
+			}
+		}
+		log.info("创建版本是："+mapv.get(Const.SPEC_MAJOR_VERSION)+"."+mapv.get(Const.SPEC_MINOR_VERSION)+"."+mapv.get(Const.SPEC_PATCH_VERSION));
+		System.out.println("创建版本是："+mapv.get(Const.SPEC_MAJOR_VERSION)+"."+mapv.get(Const.SPEC_MINOR_VERSION)+"."+mapv.get(Const.SPEC_PATCH_VERSION));
+	}
+	
+	
 }

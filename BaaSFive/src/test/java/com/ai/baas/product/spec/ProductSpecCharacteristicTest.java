@@ -111,7 +111,6 @@ public class ProductSpecCharacteristicTest {
 				}
 				prodSpecChars.add(prodSpecChar);
 			}
-			prodSpecChars.add(prodSpecCharOwn);
 			/*for(int i=0;i<prodSpecChars.size();i++){
 				if(prodSpecChars.get(i) instanceof ConfigurableProductSpecCharacteristic){
 					System.out.println("config");
@@ -146,7 +145,7 @@ public class ProductSpecCharacteristicTest {
 	@AfterClass
 	public static void printRelationChara(){
 		logger.info(psc.toString());
-		System.out.println(psc.toString());
+		System.out.println("特征：\n"+psc.toString());
 		/*System.out.println("ProductSpecCharacteristic name:"+psc.getName());
 		System.out.println("I'm a Composite charac,sub chara is:");
 		for(int i=0;i<psc.getProdSpecCharRelationship().size();i++){

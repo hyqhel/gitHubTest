@@ -35,7 +35,7 @@ public class ProductOfferingTest {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 		}
-		prodSpec=pst.getAtomicProdSpec();
+		prodSpec=pst.getProdSpec();
 		String startdate = "2015-06-04 10:20:00";
 		String enddate = "2015-06-26 10:20:00";
 		validFor.setStartDateTime(DateUtils.str2Date(startdate, DateUtils.datetimeFormat));
