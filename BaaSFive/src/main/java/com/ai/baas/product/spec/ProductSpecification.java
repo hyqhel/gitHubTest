@@ -224,7 +224,7 @@ public abstract class ProductSpecification {
     	boolean isExist = false;
     	if (null != this.prodSpecChar){
     		for (int i = 0; i < prodSpecChar.size(); i++) {
-    			if(this.prodSpecChar.get(i).getProdSpecChar().getID().equals(specChar.getID())){
+    			if(this.prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
     				isExist = true;
     				this.prodSpecChar.remove(i);
     				break;
