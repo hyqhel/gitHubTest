@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.Logger;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,7 +18,6 @@ public class ProductSpecCharacteristicTest {
 	private static final Logger logger = Logger.getLogger(ProductSpecCharacteristicTest.class);
 	private ProductSpecCharacteristic prodSpecCharOwn=null;
 	private static TimePeriod validFor;
-	private static ProductSpecCharacteristic psc =null;
 	@Before
 	public void createProductSpecCharacteristic(){
 		prodSpecCharOwn = new ConfigurableProductSpecCharacteristic("1", "深度", "", validFor, "false",  1,  1, true, "height","");
@@ -39,30 +37,40 @@ public class ProductSpecCharacteristicTest {
 		logger.info("\t判断特征是否成功加上了value");
 		assertEquals("判断是否成功加上了value",1,prodSpecCharOwn.getProdSpecCharValue().size());
 		
-		logger.info("\t对比特征所添加的值的类型是否相同");
-		assertEquals("对比所添加的值的类型是否为1","1",prodSpecCharOwn.getProdSpecCharValue().get(0).getValueType());
-		
 		ProductSpecCharacteristicValue prodSpecCharValues = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		
 		logger.info("\t判断特征再次加相同的value");
 		assertEquals("判断再次加相同的value",1,prodSpecCharOwn.getProdSpecCharValue().size());
+		
+		prodSpecCharValues = null;
+		prodSpecCharOwn.addValue(prodSpecCharValues);
+		logger.info("\t加空value");
+		assertEquals("加空value",1,prodSpecCharOwn.getProdSpecCharValue().size());
+		
+		prodSpecCharValues = new ProductSpecCharacteristicValue("1", "cm", validFor, "8", "", "");
+		prodSpecCharOwn.addValue(prodSpecCharValues);
+		logger.info("\t再次加新建的值相同的value");
+		assertEquals("再次加新建的值相同的value",2,prodSpecCharOwn.getProdSpecCharValue().size());
+		
+		prodSpecCharOwn.addValue(prodSpecCharValues);
+		logger.info("\t再次加同一对象value");
+		assertEquals("t再次加同一对象value",2,prodSpecCharOwn.getProdSpecCharValue().size());
 	} 
 	@Test
 	public void  testRemoveValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		
-		logger.info("\t删除特征不存在的value");
-		assertFalse("删除不存在的value",prodSpecCharOwn.removeValue(prodSpecCharValue));
+		logger.info("\t没有value时删除特征不存在的value");
+		assertFalse("没有value时删除不存在的value",prodSpecCharOwn.removeValue(prodSpecCharValue));
 		
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharOwn.removeValue(prodSpecCharValue);
 		
-		logger.info("\t判断特证是否删除value成功");
-		assertEquals("判断是否删除成功",0,prodSpecCharOwn.getProdSpecCharValue().size());
+		logger.info("\t删除存在的value");
+		assertEquals("删除存在的value",0,prodSpecCharOwn.getProdSpecCharValue().size());
 		
-		logger.info("\t删除特征不存在的value");
-		assertFalse("删除不存在的value",prodSpecCharOwn.removeValue(prodSpecCharValue));
+		logger.info("\t value大小为0时再删除value");
+		assertFalse("value大小为0时再删除value",prodSpecCharOwn.removeValue(prodSpecCharValue));
 	} 
 	@Test
 	public void  testAddRelatedCharacteristic(){
@@ -103,15 +111,24 @@ public class ProductSpecCharacteristicTest {
 	
 	@Test 
 	public void testSetDefaultValue(){
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
-		prodSpecCharOwn.addValue(prodSpecCharValue);
 		
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
+		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+		assertNull("特征没有值，指定一个默认值",prodSpecCharOwn.getProdSpecCharValue());
+		
+		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharValue = null;
 		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
-		assertFalse("判断是否指定了默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		assertFalse("值为空时判断能否指定了默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		
+		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "cm", validFor, "9",false);
+		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+		assertFalse("指定一个不是特征的value值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
 		
 		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
 		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
-		assertTrue("判断是否指定了默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		assertTrue("指定一个是特征value值默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		
+		
 	}
 }

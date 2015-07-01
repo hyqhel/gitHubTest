@@ -200,6 +200,10 @@ public class ProductSpecCharacteristic {
      * @param charVal
      */
     public void addValue(ProductSpecCharacteristicValue charVal) {
+    	if(charVal == null){
+    		logger.info("所添加的value为空");
+    		return;
+    	}
     	if(this.prodSpecCharValue ==null ){
     		this.prodSpecCharValue=new ArrayList<ProductSpecCharacteristicValue>();
     	}
