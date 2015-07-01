@@ -49,25 +49,4 @@ public class AtomicProductSpecification extends ProductSpecification {
 		
 	}*/
 
-	@Override
-	public void addCharacteristic(String specCharId, boolean canBeOveridden,
-			boolean isPackage, TimePeriod validFor, String name, String unique,
-			int minCardinality, int maxCardinality, boolean extensible,
-			String description) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeCharacteristic(String specCharId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void detachCharacteristicValue(String specCharId, String charValueId) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
