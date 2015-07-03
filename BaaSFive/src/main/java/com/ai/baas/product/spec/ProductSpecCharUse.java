@@ -222,8 +222,8 @@ public class ProductSpecCharUse {
     		return;
     	}
     	boolean existValue = false;
-    	for(int i=0;i<prodSpecChar.getProdSpecCharValue().size();i++){
-    		if(prodSpecChar.getProdSpecCharValue().get(i).equals(charValue)){
+    	for(ProductSpecCharacteristicValue pscv :prodSpecChar.getProdSpecCharValue()){
+    		if(pscv.equals(charValue)){
     			existValue = true;
     		}
     	}
@@ -235,22 +235,14 @@ public class ProductSpecCharUse {
     	if (null == prodSpecCharValue ) {
     		prodSpecCharValue = new ArrayList<ProdSpecCharValueUse>();
     	}
-    	for(int i=0;i<prodSpecCharValue.size();i++){
-    		if(prodSpecCharValue.get(i).equals(prodSpecCharValueUse)){
+    	for(ProdSpecCharValueUse pscvu:prodSpecCharValue){
+    		if(pscvu.equals(prodSpecCharValueUse)){
     			return;
     		}
     	}
     	prodSpecCharValue.add(prodSpecCharValueUse);
     }
 
-    /**
-     * 
-     * @param charValueId
-     * @param isDefault
-     * @param validFor
-     */
-    public void addValue(String charValueId, boolean isDefault, TimePeriod validFor) {
-    }
 
     /**
      * 
@@ -263,17 +255,12 @@ public class ProductSpecCharUse {
         			this.prodSpecCharValue.remove(i);
         		}
         	}	
+    		
     	}else{
     		return;
     	}
     }
 
-    /**
-     * 
-     * @param charValueId
-     */
-    public void removeValue(String charValueId) {
-    }
 
     /**
      * 
@@ -281,11 +268,11 @@ public class ProductSpecCharUse {
      */
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristicValue defaultValue) {
         if(this.prodSpecCharValue!=null){
-        	for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		ProductSpecCharacteristicValue pscv = this.prodSpecCharValue.get(i).getProdSpecCharValue();
+        	for(ProdSpecCharValueUse pscvu:prodSpecCharValue){
+        		ProductSpecCharacteristicValue pscv = pscvu.getProdSpecCharValue();
         		if(pscv.equals(defaultValue)){
-        			if(!prodSpecCharValue.get(i).isIsDefault()){
-        				prodSpecCharValue.get(i).setIsDefault(true);
+        			if(!pscvu.isIsDefault()){
+        				pscvu.setIsDefault(true);
         			}
         		}
         	}

@@ -34,60 +34,49 @@ public class ProductSpecCharacteristicTest {
 	public void  testAddValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValue);
-		logger.info("\t判断特征是否成功加上了value");
 		assertEquals("判断是否成功加上了value",1,prodSpecCharOwn.getProdSpecCharValue().size());
 		
 		ProductSpecCharacteristicValue prodSpecCharValues = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		logger.info("\t判断特征再次加相同的value");
 		assertEquals("判断再次加相同的value",1,prodSpecCharOwn.getProdSpecCharValue().size());
 		
 		prodSpecCharValues = null;
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		logger.info("\t加空value");
+		
 		assertEquals("加空value",1,prodSpecCharOwn.getProdSpecCharValue().size());
 		
 		prodSpecCharValues = new ProductSpecCharacteristicValue("1", "cm", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		logger.info("\t再次加新建的值相同的value");
 		assertEquals("再次加新建的值相同的value",2,prodSpecCharOwn.getProdSpecCharValue().size());
 		
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		logger.info("\t再次加同一对象value");
 		assertEquals("t再次加同一对象value",2,prodSpecCharOwn.getProdSpecCharValue().size());
 	} 
 	@Test
 	public void  testRemoveValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
-		
-		logger.info("\t没有value时删除特征不存在的value");
-		assertFalse("没有value时删除不存在的value",prodSpecCharOwn.removeValue(prodSpecCharValue));
+		prodSpecCharOwn.removeValue(prodSpecCharValue);
+		assertNull("没有value时删除不存在的value",prodSpecCharOwn.getProdSpecCharValue());
 		
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharOwn.removeValue(prodSpecCharValue);
 		
-		logger.info("\t删除存在的value");
 		assertEquals("删除存在的value",0,prodSpecCharOwn.getProdSpecCharValue().size());
 		
-		logger.info("\t value大小为0时再删除value");
-		assertFalse("value大小为0时再删除value",prodSpecCharOwn.removeValue(prodSpecCharValue));
+		assertEquals("value大小为0时再删除value",0,prodSpecCharOwn.getProdSpecCharValue().size());
 	} 
 	@Test
 	public void  testAddRelatedCharacteristic(){
 		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "", validFor, "true",  1,  1, true, "compistchar","");
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		
-		logger.info("\t判断特征是否加上了关系");
 		assertEquals("判断是否加了关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
 		 
-		logger.info("\t判断特征添加的关系类型是否正确");
 		assertEquals("判断添加的关系类型","1",prodSpecCharOwn.getProdSpecCharRelationship().get(0).getCharRelationshipType());
 		 
-		logger.info("\t再次为该特征关联相同特征相同关系");
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		assertEquals("再次添加相同关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
 		 
-		logger.info("\t再次为该特征关联相同特征不同关系");
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue(), validFor);
 		assertEquals("再次添加不相同关系",2,prodSpecCharOwn.getProdSpecCharRelationship().size());
 	}
@@ -96,11 +85,9 @@ public class ProductSpecCharacteristicTest {
 	public void  testRemoveRelatedCharacteristic(){
 		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "", validFor, "true",  1,  1, true, "compistchar","");
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelate);
-		logger.info("\t特征删除关系");
 		assertNull("判断删除关系",prodSpecCharOwn.getProdSpecCharRelationship());
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		
-		logger.info("\t在特征已添加一个关系基础上删除不存在的关系");
 		ProductSpecCharacteristic prodSpecCharRelatee = new ProductSpecCharacteristic("1", "颜色", "", validFor, "true",  1,  1, false, "compistchar","");
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelatee);
 		assertEquals("在已添加一个关系基础上删除不存在的关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());

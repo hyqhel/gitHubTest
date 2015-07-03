@@ -191,6 +191,9 @@ public class ProductSpecCharacteristic {
      * @param maxCardinality
      */
     public void setCardinality(int minCardinality, int maxCardinality) {
+    	if (minCardinality > maxCardinality){
+    		throw new IllegalArgumentException("param is not illegal");
+    	}
         this.minCardinality =minCardinality;
         this.maxCardinality =maxCardinality;
     }
@@ -201,8 +204,8 @@ public class ProductSpecCharacteristic {
      */
     public void addValue(ProductSpecCharacteristicValue charVal) {
     	if(charVal == null){
-    		logger.info("所添加的value为空");
     		return;
+    		//throw new IllegalArgumentException("param is not illegal");
     	}
     	if(this.prodSpecCharValue ==null ){
     		this.prodSpecCharValue=new ArrayList<ProductSpecCharacteristicValue>();
@@ -219,19 +222,14 @@ public class ProductSpecCharacteristic {
      * 
      * @param charVal
      */
-    public boolean removeValue(ProductSpecCharacteristicValue charVal) {
+    public void removeValue(ProductSpecCharacteristicValue charVal) {
     	if(charVal==null){
-    		return false;
+    		throw new IllegalArgumentException("param is not illegal");
     	}
     	if(this.prodSpecCharValue!=null && this.prodSpecCharValue.size()>0){
-    		if(!prodSpecCharValue.contains(charVal)){
-    			return false;
-    		}else{
+    		if(prodSpecCharValue.contains(charVal)){
     			prodSpecCharValue.remove(charVal);
-    			return true;
     		}
-    	}else{
-    		return false;
     	}
     }
 
@@ -240,7 +238,8 @@ public class ProductSpecCharacteristic {
      * @param time
      */
     public ProductSpecCharacteristicValue[] getValue(Date time) {
-        throw new UnsupportedOperationException();
+    	// TODO
+    	return null;
     }
 
     /**
@@ -249,37 +248,28 @@ public class ProductSpecCharacteristic {
      */
     public void setDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
     	if (defaultCharVal == null){
-    		logger.info("value is null");
     		return;
     	}
     	if(this.prodSpecCharValue!=null){
-        	for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		ProductSpecCharacteristicValue psv = this.prodSpecCharValue.get(i);
-        		if(psv.equals(defaultCharVal)){
-        			if(!psv.isIsDefault()){
-        				psv.setIsDefault(true);
+    		for(ProductSpecCharacteristicValue productSpecCharacteristicValue:prodSpecCharValue){
+        		if(productSpecCharacteristicValue.equals(defaultCharVal)){
+        			if(!productSpecCharacteristicValue.isIsDefault()){
+        				productSpecCharacteristicValue.setIsDefault(true);
         			}
         		}
-        	}
+    		}
         }else{
             logger.error("you set setDefaultValue  not exists");
         }
-    }
-
-    /**
-     * 
-     * @param defaultCharValId
-     */
-    public void setDefaultValue(String defaultCharValId) {
     }
 
     public ProductSpecCharacteristicValue getDefaultValue() {
         if(this.prodSpecCharValue==null){
         	throw new UnsupportedOperationException("no value");
         }else{
-        	for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		if(prodSpecCharValue.get(i).isIsDefault()){
-        			return prodSpecCharValue.get(i);
+        	for(ProductSpecCharacteristicValue productSpecCharacteristicValue :prodSpecCharValue){
+        		if(productSpecCharacteristicValue.isIsDefault()){
+        			return productSpecCharacteristicValue;
         		}
         	}
         }
@@ -293,13 +283,12 @@ public class ProductSpecCharacteristic {
      * @param validFor
      */
     public void addRelatedCharacteristic(ProductSpecCharacteristic specChar, String type, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharacteristic.addRelatedCharacteristic
     	ProductSpecCharRelationship pship = new ProductSpecCharRelationship(this,specChar,type,validFor);    	
     	if(prodSpecCharRelationship ==null){
     		prodSpecCharRelationship = new ArrayList<ProductSpecCharRelationship>();
     	}
-    	for(int i=0;i<prodSpecCharRelationship.size();i++){
-    		if(prodSpecCharRelationship.get(i).equals(pship)){
+    	for(ProductSpecCharRelationship productSpecCharRelationship :prodSpecCharRelationship){
+    		if(productSpecCharRelationship.equals(pship)){
     			return;
     		}
     	}
@@ -319,8 +308,8 @@ public class ProductSpecCharacteristic {
     		this.prodSpecCharRelationship =new ArrayList<ProductSpecCharRelationship>();
     	}
     	ProductSpecCharRelationship ship =new ProductSpecCharRelationship(this,specChar,type,validFor,charSpecSeq);
-    	for(int i=0;i<prodSpecCharRelationship.size();i++){
-    		if(prodSpecCharRelationship.get(i).equals(ship)){
+    	for(ProductSpecCharRelationship productSpecCharRelationship :prodSpecCharRelationship){
+    		if(productSpecCharRelationship.equals(ship)){
     			return;
     		}
     	}
@@ -339,9 +328,14 @@ public class ProductSpecCharacteristic {
     	if(this.prodSpecCharRelationship == null){
     		return;
     	}
-    	for(int i=0;i<prodSpecCharRelationship.size();i++){
+    	/*for(int i=0;i<prodSpecCharRelationship.size();i++){
     		if(prodSpecCharRelationship.get(i).getTargetProdSpecChar().equals(specChar)){
     			prodSpecCharRelationship.remove(i);
+    		}
+    	}*/
+    	for(ProductSpecCharRelationship psrs :prodSpecCharRelationship){
+    		if(psrs.getTargetProdSpecChar().equals(specChar)){
+    			prodSpecCharRelationship.remove(psrs);
     		}
     	}
     }
@@ -351,8 +345,9 @@ public class ProductSpecCharacteristic {
      * 
      * @param charRelationshipType
      */
-    public ProductSpecCharacteristic[] queryRelatedCharacteristic(String charRelationshipType) {
-        throw new UnsupportedOperationException();
+    public ProductSpecCharacteristic[] retieveRelatedCharacteristic(String charRelationshipType) {
+    	// TODO
+    	return null;
     }
 
     /**
@@ -360,9 +355,9 @@ public class ProductSpecCharacteristic {
      * @param charRelationshipType
      * @param time
      */
-    public ProductSpecCharacteristic[] queryRelatedCharacteristic(String charRelationshipType, Date time) {
+    public ProductSpecCharacteristic[] retieveRelatedCharacteristic(String charRelationshipType, Date time) {
         // TODO - implement ProductSpecCharacteristic.queryRelatedCharacteristic
-        throw new UnsupportedOperationException();
+    	return null;
     }
 
     
@@ -371,21 +366,6 @@ public class ProductSpecCharacteristic {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((ID == null) ? 0 : ID.hashCode());
-		result = prime
-				* result
-				+ ((derivationFormula == null) ? 0 : derivationFormula
-						.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + new Boolean(extensible).hashCode() ;
-		result = prime * result + maxCardinality;
-		result = prime * result + minCardinality;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((unique == null) ? 0 : unique.hashCode());
-		result = prime * result
-				+ ((validFor == null) ? 0 : validFor.hashCode());
-		result = prime * result
-				+ ((valueType == null) ? 0 : valueType.hashCode());
 		return result;
 	}
 
@@ -402,42 +382,6 @@ public class ProductSpecCharacteristic {
 			if (other.ID != null)
 				return false;
 		} else if (!ID.equals(other.ID))
-			return false;
-		if (derivationFormula == null) {
-			if (other.derivationFormula != null)
-				return false;
-		} else if (!derivationFormula.equals(other.derivationFormula))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (extensible != other.extensible)
-			return false;
-		if (maxCardinality != other.maxCardinality)
-			return false;
-		if (minCardinality != other.minCardinality)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (unique == null) {
-			if (other.unique != null)
-				return false;
-		} else if (!unique.equals(other.unique))
-			return false;
-		if (validFor == null) {
-			if (other.validFor != null)
-				return false;
-		} else if (!validFor.equals(other.validFor))
-			return false;
-		if (valueType == null) {
-			if (other.valueType != null)
-				return false;
-		} else if (!valueType.equals(other.valueType))
 			return false;
 		return true;
 	}
@@ -456,7 +400,7 @@ public class ProductSpecCharacteristic {
 			for(ProductSpecCharacteristicValue pv:prodSpecCharValue){
 				tostr.append("\n     "+pv.toString());
 			}
-			tostr.append("\n】");
+			tostr.append("\n     】");
 		}
 		if(prodSpecCharRelationship!=null){
 			tostr.append("\n     关联的特征【"); 

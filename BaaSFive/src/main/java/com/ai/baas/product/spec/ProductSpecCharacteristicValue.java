@@ -193,8 +193,9 @@ public class ProductSpecCharacteristicValue {
     	if(prodSpecCharValueRelationship == null){
     		prodSpecCharValueRelationship = new ArrayList<ProdSpecCharValueRelationship>();
     	}
-    	for(int i=0;i<prodSpecCharValueRelationship.size();i++){
-    		if(prodSpecCharValueRelationship.get(i).equals(pship)){
+    	
+    	for(ProdSpecCharValueRelationship psvr :prodSpecCharValueRelationship){
+    		if(psvr.equals(charValue)){
     			return;
     		}
     	}
@@ -210,9 +211,9 @@ public class ProductSpecCharacteristicValue {
     	if(this.prodSpecCharValueRelationship == null){
     		return;
     	}
-    	for(int i=0;i<prodSpecCharValueRelationship.size();i++){
-    		if(prodSpecCharValueRelationship.get(i).equals(charValue)){
-    			prodSpecCharValueRelationship.remove(i);
+    	for(ProdSpecCharValueRelationship psvr :prodSpecCharValueRelationship){
+    		if(psvr.equals(charValue)){
+    			prodSpecCharValueRelationship.remove(psvr);
     		}
     	}
     }
@@ -224,7 +225,7 @@ public class ProductSpecCharacteristicValue {
      */
     public ProductSpecCharacteristicValue[] queryRelatedCharValue(String relationType) {
         // TODO - implement ProductSpecCharacteristicValue.queryRelatedCharValue
-        throw new UnsupportedOperationException();
+    	return null;
     }
 
     /**
@@ -234,7 +235,7 @@ public class ProductSpecCharacteristicValue {
      */
     public ProductSpecCharacteristicValue[] queryRelatedCharValue(String relationType, Date time) {
         // TODO - implement ProductSpecCharacteristicValue.queryRelatedCharValue
-        throw new UnsupportedOperationException();
+    	return null;
     }
 
 	@Override
