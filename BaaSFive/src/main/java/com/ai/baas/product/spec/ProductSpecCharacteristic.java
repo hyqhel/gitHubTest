@@ -2,6 +2,7 @@ package com.ai.baas.product.spec;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -328,16 +329,12 @@ public class ProductSpecCharacteristic {
     	if(this.prodSpecCharRelationship == null){
     		return;
     	}
-    	/*for(int i=0;i<prodSpecCharRelationship.size();i++){
-    		if(prodSpecCharRelationship.get(i).getTargetProdSpecChar().equals(specChar)){
-    			prodSpecCharRelationship.remove(i);
-    		}
-    	}*/
-    	for(ProductSpecCharRelationship psrs :prodSpecCharRelationship){
-    		if(psrs.getTargetProdSpecChar().equals(specChar)){
-    			prodSpecCharRelationship.remove(psrs);
-    		}
-    	}
+    	 Iterator<ProductSpecCharRelationship> iterator = prodSpecCharRelationship.iterator();    
+         while (iterator.hasNext()) { 
+        	 if(iterator.next().getTargetProdSpecChar().equals(specChar)){
+     			 iterator.remove();
+     		}
+         }
     }
 
 
