@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -41,7 +42,11 @@ public class ProductSpecCharacteristicTest {
 		assertEquals("判断再次加相同的value",1,prodSpecCharOwn.getProdSpecCharValue().size());
 		
 		prodSpecCharValues = null;
-		prodSpecCharOwn.addValue(prodSpecCharValues);
+		try {
+			prodSpecCharOwn.addValue(prodSpecCharValues);
+			fail("param is not illegal");
+		} catch (Exception e) {
+		}
 		
 		assertEquals("加空value",1,prodSpecCharOwn.getProdSpecCharValue().size());
 		
@@ -105,7 +110,11 @@ public class ProductSpecCharacteristicTest {
 		
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharValue = null;
-		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+		try {
+			prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+			fail("param is not illegal");
+		} catch (Exception e) {
+		}
 		assertFalse("值为空时判断能否指定了默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
 		
 		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "cm", validFor, "9",false);

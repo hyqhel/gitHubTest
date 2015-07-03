@@ -218,7 +218,6 @@ public class ProductSpecCharUse {
      */
     public void addValue(ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
     	if(prodSpecChar.getProdSpecCharValue() ==null || prodSpecChar.getProdSpecCharValue().size()==0){
-    		logger.error("添加char use 的value为空");
     		return;
     	}
     	boolean existValue = false;
@@ -228,7 +227,6 @@ public class ProductSpecCharUse {
     		}
     	}
     	if(!existValue){
-    		logger.error("char use 所关联value 没有你想要的value");
     		return;
     	}
     	ProdSpecCharValueUse prodSpecCharValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
@@ -255,7 +253,6 @@ public class ProductSpecCharUse {
         			this.prodSpecCharValue.remove(i);
         		}
         	}	
-    		
     	}else{
     		return;
     	}
@@ -277,7 +274,6 @@ public class ProductSpecCharUse {
         		}
         	}
         }else{
-            logger.error("you specify default not exists");
         	return;
         }
     }

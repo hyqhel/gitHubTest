@@ -224,7 +224,7 @@ public class ProductSpecCharacteristicValue {
      * @param relationType
      */
     public ProductSpecCharacteristicValue[] retieveRelatedCharValue(String relationType) {
-        // TODO - implement ProductSpecCharacteristicValue.queryRelatedCharValue
+        // TODO 
     	return null;
     }
 
@@ -234,7 +234,7 @@ public class ProductSpecCharacteristicValue {
      * @param time
      */
     public ProductSpecCharacteristicValue[] retieveRelatedCharValue(String relationType, Date time) {
-        // TODO - implement ProductSpecCharacteristicValue.queryRelatedCharValue
+        // TODO 
     	return null;
     }
 

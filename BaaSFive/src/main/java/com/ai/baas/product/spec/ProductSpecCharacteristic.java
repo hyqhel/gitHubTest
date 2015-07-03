@@ -205,8 +205,7 @@ public class ProductSpecCharacteristic {
      */
     public void addValue(ProductSpecCharacteristicValue charVal) {
     	if(charVal == null){
-    		return;
-    		//throw new IllegalArgumentException("param is not illegal");
+    		throw new IllegalArgumentException("param is not illegal");
     	}
     	if(this.prodSpecCharValue ==null ){
     		this.prodSpecCharValue=new ArrayList<ProductSpecCharacteristicValue>();
@@ -249,7 +248,7 @@ public class ProductSpecCharacteristic {
      */
     public void setDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
     	if (defaultCharVal == null){
-    		return;
+    		throw new IllegalArgumentException("param is not illegal");
     	}
     	if(this.prodSpecCharValue!=null){
     		for(ProductSpecCharacteristicValue productSpecCharacteristicValue:prodSpecCharValue){
@@ -266,7 +265,7 @@ public class ProductSpecCharacteristic {
 
     public ProductSpecCharacteristicValue getDefaultValue() {
         if(this.prodSpecCharValue==null){
-        	throw new UnsupportedOperationException("no value");
+        	throw new IllegalArgumentException("param is not illegal");
         }else{
         	for(ProductSpecCharacteristicValue productSpecCharacteristicValue :prodSpecCharValue){
         		if(productSpecCharacteristicValue.isIsDefault()){
@@ -324,7 +323,7 @@ public class ProductSpecCharacteristic {
      */
     public void removeRelatedCharacteristic(ProductSpecCharacteristic specChar) {
     	if (specChar ==null){
-    		return;
+    		throw new IllegalArgumentException("param is not illegal");
     	}
     	if(this.prodSpecCharRelationship == null){
     		return;
@@ -353,7 +352,7 @@ public class ProductSpecCharacteristic {
      * @param time
      */
     public ProductSpecCharacteristic[] retieveRelatedCharacteristic(String charRelationshipType, Date time) {
-        // TODO - implement ProductSpecCharacteristic.queryRelatedCharacteristic
+        // TODO 
     	return null;
     }
 

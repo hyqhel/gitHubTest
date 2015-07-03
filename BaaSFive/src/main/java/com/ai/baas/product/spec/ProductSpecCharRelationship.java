@@ -76,7 +76,6 @@ public class ProductSpecCharRelationship {
      * @param validFor
      */
     public ProductSpecCharRelationship(ProductSpecCharacteristic srourceSpecChar, ProductSpecCharacteristic targetSpecChar, String relationType, TimePeriod validFor) {
-        // TODO - implement ProductSpecCharRelationship.ProductSpecCharRelationship
     	this.sourceProdSpecChar = srourceSpecChar;
     	this.targetProdSpecChar = targetSpecChar;
     	this.charRelationshipType = relationType;
