@@ -70,6 +70,8 @@ public class ProductSpecificationEqualsTest {
 		ProductSpecification atomicProdSpecNew = new AtomicProductSpecification(productNumber, name, brand, description, validFor);
 		boolean objectEquals = atomicProdSpec.equals(atomicProdSpecNew);
 		assertEquals(rtnMsg,objectEquals,rtnFlag);
+		
+		System.out.println("是否提交成功测试");
 	}
 	
 }
