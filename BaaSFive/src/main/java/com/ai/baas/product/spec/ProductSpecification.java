@@ -2,7 +2,9 @@ package com.ai.baas.product.spec;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 import com.ai.baas.basetype.Money;
 import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.enums.ProdSpecEnum;
+import com.ai.baas.common.util.NumberUtil;
 import com.ai.baas.product.offering.SimpleProductOffering;
 
 /**
@@ -21,7 +24,7 @@ public abstract class ProductSpecification {
     public List<ProductSpecificationCost> productSpecificationCost;
     public List<ProductSpecificationRelationship> prodSpecRelationship;
     public List<ProductSpecificationVersion> prodSpecVersion;
-    public List<ProductSpecCharUse> prodSpecChar;
+    public Set<ProductSpecCharUse> prodSpecChar;
     public List<CompositeProductSpecification> compositeProdSpec;
     public List<SimpleProductOffering> simpleProdOffering;
     
@@ -33,7 +36,7 @@ public abstract class ProductSpecification {
 		return prodSpecVersion;
 	}
 
-	public List<ProductSpecCharUse> getProdSpecChar() {
+	public Set<ProductSpecCharUse> getProdSpecChar() {
 		return prodSpecChar;
 	}
 	
@@ -155,17 +158,13 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicSpecification is applicable.
      */
     public boolean addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-    	//特征为空
-    	if(null == specChar){
-    		log.error("ProductSpecification类中的addCharacteristic方法入参错误：ProductSpecCharacteristic对象为空");
-    		return false;
-    	}
-        if (null == prodSpecChar) {
-			prodSpecChar = new ArrayList<ProductSpecCharUse>();
-		}
-        //该特征已在该规格下使用过  则不能再次添加该特征
-        for (int i = 0; i < prodSpecChar.size(); i++) {
-        	if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
+    	//the parameter of specChar is null
+    	checkProdSpecChar(specChar);
+    	//initialize set of ProductSpecCharUse
+    	initProdSpecCharUseSet();
+        //the characteristic has been used under the specification, can't add characteristic again
+        for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
+        	if(prodSpecCharUse.getProdSpecChar().equals(specChar)){
         		return false;
         	}
 		}
@@ -173,7 +172,7 @@ public abstract class ProductSpecification {
     	prodSpecChar.add(prodSpecCharUse);
     	return true;
     }
-
+    
     /**
      * 
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The object must exist in the system
@@ -188,21 +187,17 @@ public abstract class ProductSpecification {
      * @param description A narrative that explains the CharacteristicSpecification.
      */
     public boolean addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
-    	//特征为空
-    	if(null == specChar){
-    		log.error("ProductSpecification类中的addCharacteristic方法入参错误：ProductSpecCharacteristic对象为空");
-    		return false;
-    	}
-        if (null == prodSpecChar) {
-			prodSpecChar = new ArrayList<ProductSpecCharUse>();
-		}
-      //该特征已在该规格下使用过  则不能再次添加该特征
-        for (int i = 0; i < prodSpecChar.size(); i++) {
-        	if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
+    	//the parameter of specChar is null
+    	checkProdSpecChar(specChar);
+    	//initialize set of ProductSpecCharUse
+    	initProdSpecCharUseSet();
+        //the characteristic has been used under the specification, can't add characteristic again
+        for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
+        	if(prodSpecCharUse.getProdSpecChar().equals(specChar)){
         		return false;
         	}
 		}
-        //TODO 用list的Contance？？？
+        //TODO list  Contance？？？
         /*if(prodSpecChar.contains(prodSpecCharUse)){
     		return false;
     	}*/
@@ -216,24 +211,21 @@ public abstract class ProductSpecification {
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
     public boolean removeCharacteristic(ProductSpecCharacteristic specChar){
-    	//传入的特征对象为空
-    	if(null == specChar){
-    		log.error("ProductSpecification类中的removeCharacteristic方法入参错误：ProductSpecCharacteristic对象null");
-    		return false;
-    	}
+    	//the parameter of specChar is null
+    	checkProdSpecChar(specChar);
     	boolean isExist = false;
     	if (null != this.prodSpecChar){
-    		for (int i = 0; i < prodSpecChar.size(); i++) {
-    			if(this.prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
+    		for (ProductSpecCharUse prodSpecUse : prodSpecChar) {
+    			if(prodSpecUse.getProdSpecChar().equals(specChar)){
     				isExist = true;
-    				this.prodSpecChar.remove(i);
+    				this.prodSpecChar.remove(prodSpecUse);
     				break;
     			}
 			}
     	}
-    	//删除一个不存在的
+    	//delete an Object which is not exist
     	if(!isExist){
-    		log.error("ProductSpecification类中的removeCharacteristic方法错误：ProductSpecCharacteristic对象不存在");
+    		log.error("parameter is error ：the Object of ProductSpecCharacteristic is null, the value of parameter specChar = " + specChar);
     		return false;
     	}
     	return true;
@@ -253,14 +245,10 @@ public abstract class ProductSpecification {
      * @param description A narrative that explains the CharacteristicSpecification.
      */
     public boolean modifyCharacteristicInfo(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-    	if(null == specChar){
-    		log.error("ProductSpecification类中的modifyCharacteristicInfo方法参数传入错误：ProductSpecCharacteristic对象为空");
-    		return false;
-    	}
-    	
+    	//the parameter of specChar is null
+    	checkProdSpecChar(specChar);
     	if (null != this.prodSpecChar){
-    		for (int i = 0; i < prodSpecChar.size(); i++) {
-    			ProductSpecCharUse prodSpecCharUse = this.prodSpecChar.get(i);
+    		for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
     			if(prodSpecCharUse.getProdSpecChar().getID().equals(specChar.getID())){
     				prodSpecCharUse.setCanBeOveridden(canBeOveridden);
         			prodSpecCharUse.setIsPackage(isPackage);
@@ -284,21 +272,13 @@ public abstract class ProductSpecification {
      * @param validFor The period of time for which the use of the CharacteristicValue is applicable.
      */
     public void attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-    	//判断specChar是否为空
-    	if(null == specChar){
-    		log.error("ProductSpecification类中的attachCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
-    		return;
-    	}
-    	//判断charValue是否为空
-    	if(null == charValue){
-    		log.error("ProductSpecification类中的attachCharacteristicValue方法参数传入错误：ProductSpecCharacteristicValue对象为空");
-    		return;
-    	}
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
-    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
-				if(prodSpecCharUse.getProdSpecChar().equals(specChar)){
+    	//the parameter of specChar is null
+    	checkProdSpecChar(specChar);
+    	//judge charValue is null
+    	checkProdSpecCharValue(charValue);
+    	if(null != prodSpecChar && prodSpecChar.size()>0){
+    		for (ProductSpecCharUse prodSpecCharUse : this.prodSpecChar) {
+    			if(prodSpecCharUse.getProdSpecChar().equals(specChar)){
 					prodSpecCharUse.addValue(charValue, isDefault, validFor);
 				}
 			}
@@ -311,28 +291,20 @@ public abstract class ProductSpecification {
      * @param charValue
      */
     public void detachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue){
-    	//判断specChar是否为空
-    	if(null == specChar){
-    		log.error("ProductSpecification类中的detachCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
-    		return;
-    	}
-    	//判断charValue是否为空
-    	if(null == charValue){
-    		log.error("ProductSpecification类中的detachCharacteristicValue方法参数传入错误：ProductSpecCharacteristicValue对象为空");
-    		return;
-    	}
+    	//the parameter of specChar is null
+    	checkProdSpecChar(specChar);
+    	//judge charValue is null
+    	checkProdSpecCharValue(charValue);
     	boolean charIsExist = false;
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
-    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-    			ProductSpecCharUse prodSpecCharUse = prodSpecCharUseList.get(i);
+    	if(null != prodSpecChar && prodSpecChar.size()>0){
+    		for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
     			if(prodSpecCharUse.getProdSpecChar().equals(specChar)){
     				charIsExist = true;
     				prodSpecCharUse.removeValue(charValue);
     			}
 			}
     		if(!charIsExist){
-    			log.error("ProductSpecification类中的detachCharacteristicValue方法spec下没有要使用要删除的特征值关联的特征");
+    			log.error("under the prodSpec didn't use the characteristic which the value will be used by characteristic");
     		}
     	}
     }
@@ -343,18 +315,14 @@ public abstract class ProductSpecification {
      * @param defaultCharValue
      */
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue defaultCharValue) {
-    	if(null == specChar){
-    		log.error("ProductSpecification类中的specifyDefaultCharacteristicValue方法参数传入错误：ProductSpecCharacteristic对象为空");
-    		return;
-    	}
-    	if(null == defaultCharValue){
-    		log.error("ProductSpecification类中的specifyDefaultCharacteristicValue方法参数传入错误：ProductSpecCharacteristicValue对象为空");
-    		return;
-    	}
+    	//the parameter of specChar is null
+    	checkProdSpecChar(specChar);
+    	//judge charValue is null
+    	checkProdSpecCharValue(defaultCharValue);
     	if(null != this.prodSpecChar){
-    		for (int i = 0; i < prodSpecChar.size(); i++) {
-				if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
-					prodSpecChar.get(i).specifyDefaultCharacteristicValue(defaultCharValue);
+    		for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
+    			if(prodSpecCharUse.getProdSpecChar().equals(specChar)){
+    				prodSpecCharUse.specifyDefaultCharacteristicValue(defaultCharValue);
 				}
 			}
     	}
@@ -365,12 +333,12 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProductSpecCharUse[] retrieveCharacteristic(Date time) {
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	Set<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
     	List<ProductSpecCharUse> prodSpecCharUseByDate = new ArrayList<ProductSpecCharUse>();
     	
     	if(null == time){
-    		log.error("ProductSpecification类中的retrieveCharacteristic方法参数传入错误：Date数据为空time="+time);
-    		return null;
+    		log.error("parameter is error ：time is null. ");
+    		throw new IllegalArgumentException("specChar should not be null .");
     	}
     	
     	for (ProductSpecCharUse productSpecCharUse : prodSpecCharUseList) {
@@ -379,7 +347,6 @@ public abstract class ProductSpecification {
     			prodSpecCharUseByDate.add(productSpecCharUse);
     		}
 		}
-    	
     	return prodSpecCharUseByDate.toArray(new ProductSpecCharUse[prodSpecCharUseByDate.size()]);
     }
 
@@ -389,29 +356,64 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProdSpecCharValueUse[] retrieveCharacteristicValue(ProductSpecCharacteristic specChar, Date time) {
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	Set<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	List<ProdSpecCharValueUse> prodSpecCharValueUseByDate = new ArrayList<ProdSpecCharValueUse>();
     	if(null != prodSpecCharUseList && prodSpecCharUseList.size()>0){
-    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-    			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specChar.getID())){
-    				//TODO 查询time 时间点下的所有特征值
+    		for (ProductSpecCharUse productSpecCharUse : prodSpecCharUseList) {
+    			if(productSpecCharUse.getProdSpecChar().equals(specChar)){
+    				if(productSpecCharUse.getProdSpecChar().getValidFor().isInTimePeriod(time) == 0){
+    					for (ProdSpecCharValueUse prodSpecCharValueUse : productSpecCharUse.getProdSpecCharValue()) {
+							if(prodSpecCharValueUse.getValidFor().isInTimePeriod(time) == 0){
+								prodSpecCharValueUseByDate.add(prodSpecCharValueUse);
+							}
+						}
+    				}else{
+    					//the characteristics of the prodSpec isn't in the time period 
+    					return prodSpecCharValueUseByDate.toArray(new ProdSpecCharValueUse[prodSpecCharValueUseByDate.size()]);
+    				}
     			}
-			}
+    		}
+    	}
+    	return prodSpecCharValueUseByDate.toArray(new ProdSpecCharValueUse[prodSpecCharValueUseByDate.size()]);
+    }
+
+    /**
+     * this operation is  convert ProductSpecCharacteristic type to ProductSpecCharUse type
+     * @param prodSpecCharN
+     * @return
+     */
+    private ProductSpecCharUse getProdSpecCharUse(ProductSpecCharacteristic prodSpecCharN){
+    	if(null!=prodSpecChar && prodSpecChar.size()>0){
+    		for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
+    			if(prodSpecCharUse.getProdSpecChar().equals(prodSpecCharN)){
+    				return prodSpecCharUse;
+    			}
+    		}
     	}
     	return null;
     }
-
-    public ProductSpecCharUse[] getRootCharacteristic() {
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
-    	List<ProductSpecCharUse> resultProdSpecCharUseList = new ArrayList<ProductSpecCharUse>();
-    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-    			ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
+    /**
+     * 
+     * @return
+     */
+    public Set<ProductSpecCharUse> getRootCharacteristic() {
+    	Set<ProductSpecCharUse> resultProdSpecCharUseList = new HashSet<ProductSpecCharUse>();
+    	resultProdSpecCharUseList = this.prodSpecChar;
+    	if(null!=prodSpecChar && prodSpecChar.size()>0){
+    		for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
+    			ProductSpecCharacteristic[] relatedChars = prodSpecCharUse.getProdSpecChar().retieveRelatedCharacteristic(ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
     			if(null == relatedChars || relatedChars.length == 0){
-    				resultProdSpecCharUseList.add(prodSpecCharUseList.get(i));
+    				for (ProductSpecCharacteristic prodSpecChar : relatedChars) {
+    					ProductSpecCharUse prodSpecCharSub = getProdSpecCharUse(prodSpecChar);
+    					if(null != prodSpecCharSub){
+    						resultProdSpecCharUseList.remove(prodSpecCharSub);
+    					}
+					}
+    				resultProdSpecCharUseList.add(prodSpecCharUse);
     			}
 			}
     	}
-    	return resultProdSpecCharUseList.toArray(new ProductSpecCharUse[resultProdSpecCharUseList.size()]);
+    	return resultProdSpecCharUseList;
     }
 
     /**
@@ -419,41 +421,20 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param time
      */
-    public ProductSpecCharUse[] getLeafCharacteristic(ProductSpecCharacteristic specChar, Date time) {
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
-    	List<ProductSpecCharUse> resultProdSpecCharUseList = new ArrayList<ProductSpecCharUse>();
+    public Set<ProductSpecCharUse> getLeafCharacteristic(ProductSpecCharacteristic specChar, Date time) {
+    	Set<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
+    	Set<ProductSpecCharUse> resultProdSpecCharUseSet = new HashSet<ProductSpecCharUse>();
     	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
+    		/*for (int i = 0; i < prodSpecCharUseList.size(); i++) {
     			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specChar.getID())){
     				ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
         			if(null != relatedChars && relatedChars.length > 0){
         				resultProdSpecCharUseList.add(prodSpecCharUseList.get(i));
         			}
     			}
-			}
+			}*/
     	}
-    	return resultProdSpecCharUseList.toArray(new ProductSpecCharUse[resultProdSpecCharUseList.size()]);
-    }
-
-    /**
-     * 
-     * @param specCharId
-     * @param time
-     */
-    public ProductSpecCharUse[] getLeafCharacteristic(String specCharId, Date time) {
-    	List<ProductSpecCharUse> prodSpecCharUseList = this.prodSpecChar;
-    	List<ProductSpecCharUse> resultProdSpecCharUseList = new ArrayList<ProductSpecCharUse>();
-    	if(null!=prodSpecCharUseList && prodSpecCharUseList.size()>0){
-    		for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-    			if(prodSpecCharUseList.get(i).getProdSpecChar().getID().equals(specCharId)){
-    				ProductSpecCharacteristic[] relatedChars = prodSpecCharUseList.get(i).getProdSpecChar().queryRelatedCharacteristic(ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
-        			if(null != relatedChars && relatedChars.length > 0){
-        				resultProdSpecCharUseList.add(prodSpecCharUseList.get(i));
-        			}
-    			}
-			}
-    	}
-    	return resultProdSpecCharUseList.toArray(new ProductSpecCharUse[resultProdSpecCharUseList.size()]);
+    	return resultProdSpecCharUseSet;
     }
 
     /**
@@ -463,15 +444,17 @@ public abstract class ProductSpecification {
      * @param maxCardinality
      */
     public boolean setCardinality(ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality) {
-        if(null == specChar){
-        	log.error("ProductSpecification类中的setCardinality方法参数传入错误：ProductSpecCharacteristic对象为空");
-        	return false;
+    	checkProdSpecChar(specChar);
+        int rtnNum = NumberUtil.compareTheNumber(minCardinality, maxCardinality);
+        if(rtnNum == 1){
+        	log.error("minCardinality should be less than or equal to  maxCardinality.");
+        	throw new IllegalArgumentException("the parameter of verType is error.");
         }
         if(null != prodSpecChar && prodSpecChar.size()>0){
-        	for (int i = 0; i < prodSpecChar.size(); i++) {
-        		if(prodSpecChar.get(i).getProdSpecChar().equals(specChar)){
-        			prodSpecChar.get(i).setMinCardinality(minCardinality);
-        			prodSpecChar.get(i).setMaxCardinality(maxCardinality);
+        	for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
+        		if(prodSpecCharUse.getProdSpecChar().equals(specChar)){
+        			prodSpecCharUse.setMinCardinality(minCardinality);
+        			prodSpecCharUse.setMaxCardinality(maxCardinality);
         		}
 			}
         }
@@ -488,16 +471,16 @@ public abstract class ProductSpecification {
      */
     private void setVersion(String verType, String curTypeVersion, String description, Date revisionDate, TimePeriod validFor) {
     	if(null == verType || "".equals(verType)){
-    		log.error("ProductSpecification类中的setVersion方法参数传入错误：verType为空, verType="+verType);
-    		return;
+    		log.error("the parameter of verType is null. ");
+    		throw new IllegalArgumentException("the parameter of verType is error.");
     	}
     	if(null == curTypeVersion || "".equals(curTypeVersion)){
-    		log.error("ProductSpecification类中的setVersion方法参数传入错误：curTypeVersion为空, curTypeVersion="+curTypeVersion);
-    		return;
+    		log.error("the parameter of curTypeVersion is null. ");
+    		throw new IllegalArgumentException("the parameter of curTypeVersion is error.");
     	}
     	if(null == validFor){
-    		log.error("ProductSpecification类中的setVersion方法参数传入错误：validFor为空, validFor="+validFor);
-    		return;
+    		log.error("the parameter of validFor is null. ");
+    		throw new IllegalArgumentException("the parameter of validFor is error.");
     	}
     	ProductSpecificationVersion versi= new ProductSpecificationVersion(verType,description,curTypeVersion,revisionDate,validFor);
     	if(prodSpecVersion==null ){
@@ -525,8 +508,8 @@ public abstract class ProductSpecification {
     	if(version!=null && !"".equals(version)){
     		String []vos = version.split("\\.");
     		if(vos.length!=3){
-    			log.error("ProductSpecification类中的setVersion方法错误,传入的Version格式不正确");
-    			throw new Exception("version error!");
+    			log.error("the format of version is not correct");
+    			throw new IllegalArgumentException("the parameter of version is error.");
     		}else{
     			setVersion(ProdSpecEnum.VersionLevel.MAJOR_VERSION.getValue(), vos[0], description, revisionDate, validFor);
     			setVersion(ProdSpecEnum.VersionLevel.MINOR_VERSION.getValue(), vos[1], description, revisionDate, validFor);
@@ -536,7 +519,8 @@ public abstract class ProductSpecification {
     }
     
     public ProductSpecificationVersion[] getCurrentVersion() {
-        throw new UnsupportedOperationException();
+    	//TODO 
+    	return null;
     }
 
     /**
@@ -546,8 +530,8 @@ public abstract class ProductSpecification {
      * @param revisionDate
      */
     public String upgradeMajorVersion(String majorVersion, String description, Date revisionDate) {
-    	throw new UnsupportedOperationException();
-
+    	//TODO 
+    	return "";
     }
 
     /**
@@ -557,7 +541,8 @@ public abstract class ProductSpecification {
      * @param revisionDate
      */
     public String upgradeMinorVersion(String minorVersion, String description, Date revisionDate) {
-        throw new UnsupportedOperationException();
+    	//TODO 
+    	return "";
     }
 
     /**
@@ -567,7 +552,8 @@ public abstract class ProductSpecification {
      * @param revisionDate
      */
     public String upgradePatchVersion(String patchVersion, String description, Date revisionDate) {
-        throw new UnsupportedOperationException();
+    	//TODO 
+    	return null;
     }
 
     /**
@@ -586,7 +572,7 @@ public abstract class ProductSpecification {
      * @param validFor
      */
     public void updateCostPeriod(ProductSpecificationCost cost, TimePeriod validFor) {
-        throw new UnsupportedOperationException();
+    	//TODO
     }
 
     /**
@@ -594,7 +580,9 @@ public abstract class ProductSpecification {
      * @param time
      */
     public ProductSpecificationCost[] queryCost(Date time) {
-        throw new UnsupportedOperationException();
+    	//TODO 
+    	ProductSpecificationCost[] prodSpecCosts = null;
+        return prodSpecCosts;
     }
 
     /**
@@ -605,22 +593,22 @@ public abstract class ProductSpecification {
      */
     public void addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
     	if(StringUtils.isBlank(type)){
-    		log.error("ProductSpecification类中的addRelatedProdSpec方法错误,传入的type为空 type="+type);
-    		return;
+    		log.error("the parameter type is null");
+    		throw new IllegalArgumentException("type should not be null .");
     	}
     	if(null == prodSpec){
-    		log.error("ProductSpecification类中的addRelatedProdSpec方法错误,传入的ProductSpecification对象为空");
-    		return;
+    		log.error("the object of ProductSpecification is null");
+    		throw new IllegalArgumentException("prodSpec should not be null .");
     	}
     	if(this.prodSpecRelationship == null){
     		this.prodSpecRelationship = new ArrayList<ProductSpecificationRelationship>();
     	}
     	ProductSpecificationRelationship ship =new ProductSpecificationRelationship(this, prodSpec, type, validFor);
-    	for(int i=0;i<prodSpecRelationship.size();i++){
-    		if(prodSpecRelationship.get(i).equals(ship)){
+    	for (ProductSpecificationRelationship  prodSpecRelat : prodSpecRelationship) {
+    		if(prodSpecRelat.equals(ship)){
     			return;
     		}
-    	}
+		}
     	this.prodSpecRelationship.add(ship);
     }
 
@@ -630,25 +618,38 @@ public abstract class ProductSpecification {
      */
     public void removeRelatedProdSpec(ProductSpecification prodSpec) {
     	if(null == prodSpec){
-    		log.error("ProductSpecification类中的removeRelatedProdSpec方法错误,传入的ProductSpecification对象为空");
-    		return;
+    		log.error("the object of ProductSpecification is null");
+    		throw new IllegalArgumentException("prodSpec should not be null .");
     	}
-    	if(this.prodSpecRelationship == null){
-    		return;
+    	if(null == this.prodSpecRelationship){
+    		log.error("prodSpecRelationship is null");
+    		throw new IllegalArgumentException("prodSpecRelationship should not be null .");
     	}
-    	for(int i=0;i<prodSpecRelationship.size();i++){
-    		if(prodSpecRelationship.get(i).getTargetProdSpec().equals(prodSpec)){
-    			prodSpecRelationship.remove(i);
-    		}
-    	}
+    	for (ProductSpecificationRelationship prodSpecRelated : prodSpecRelationship) {
+			if(prodSpecRelated.getTargetProdSpec().equals(prodSpec)){
+				prodSpecRelationship.remove(prodSpecRelated);
+			}
+		}
     }
 
     /**
      * 
      * @param type
      */
-    public ProductSpecification[] queryRelatedProdSpec(String type) {
-        throw new UnsupportedOperationException();
+    public ProductSpecification[] retrieveRelatedProdSpec(String type) {
+    	if(StringUtils.isBlank(type)){
+    		log.error("the parameter type is null, the value of the parameter type="+type);
+    		throw new IllegalArgumentException("type should not be null .");
+    	}
+    	List<ProductSpecificationRelationship> rtnResultRelationship = new ArrayList<ProductSpecificationRelationship>();
+    	if(null != this.prodSpecRelationship){
+    		for (ProductSpecificationRelationship prodSpecRelate : this.prodSpecRelationship) {
+    			if(prodSpecRelate.getType().equals(type)){
+    				rtnResultRelationship.add(prodSpecRelate);
+    			}
+			}
+    	}
+    	return (ProductSpecification[])rtnResultRelationship.toArray(new ProductSpecification[rtnResultRelationship.size()]);
     }
 
     /**
@@ -656,8 +657,98 @@ public abstract class ProductSpecification {
      * @param type
      * @param time
      */
-    public ProductSpecification[] queryRelatedProdSpec(String type, Date time) {
-        throw new UnsupportedOperationException();
+    public ProductSpecification[] retrieveRelatedProdSpec(String type, Date time) {
+    	List<ProductSpecificationRelationship> rtnResultRelationship = new ArrayList<ProductSpecificationRelationship>();
+    	if(null != this.prodSpecRelationship){
+    		if(null == time){
+    			for (ProductSpecificationRelationship prodSpecRelate : this.prodSpecRelationship) {
+	    			if(prodSpecRelate.getType().equals(type)){
+	    				rtnResultRelationship.add(prodSpecRelate);
+	    			}
+    			}
+    		}else{
+    			for (ProductSpecificationRelationship prodSpecRelate : this.prodSpecRelationship) {
+	    			if(prodSpecRelate.getValidFor().isInTimePeriod(time) == 0 && prodSpecRelate.getType().equals(type)){
+	    				rtnResultRelationship.add(prodSpecRelate);
+	    			}
+    			}
+    		}
+    	}
+    	return (ProductSpecification[])rtnResultRelationship.toArray(new ProductSpecification[rtnResultRelationship.size()]);
     }
+    
+    /**
+     * initialize set of ProductSpecCharUse
+     */
+    private void initProdSpecCharUseSet(){
+    	if (null == prodSpecChar) {
+			prodSpecChar = new HashSet<ProductSpecCharUse>();
+		}
+    }
+    
+    /**
+     * check parameter is null
+     */
+    public void checkProdSpecChar(ProductSpecCharacteristic prodSpecChar){
+    	if(null == prodSpecChar){
+    		log.error("parameter is error ：the Object of ProductSpecCharacteristic is null. ");
+    		throw new IllegalArgumentException("specChar should not be null .");
+    	}
+    }
+    
+    /**
+     * check parameter is null
+     */
+    public void checkProdSpecCharValue(ProductSpecCharacteristicValue charValue){
+    	if(null == charValue){
+    		log.error("parameter is error ：the Object of ProductSpecCharacteristicValue is null. ");
+    		throw new IllegalArgumentException("charValue should not be null .");
+    	}
+    }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((brand == null) ? 0 : brand.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((productNumber == null) ? 0 : productNumber.hashCode());
+		result = prime * result
+				+ ((validFor == null) ? 0 : validFor.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductSpecification other = (ProductSpecification) obj;
+		if (brand == null) {
+			if (other.brand != null)
+				return false;
+		} else if (!brand.equals(other.brand))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (productNumber == null) {
+			if (other.productNumber != null)
+				return false;
+		} else if (!productNumber.equals(other.productNumber))
+			return false;
+		if (validFor == null) {
+			if (other.validFor != null)
+				return false;
+		} else if (!validFor.equals(other.validFor))
+			return false;
+		return true;
+	}
 
 }

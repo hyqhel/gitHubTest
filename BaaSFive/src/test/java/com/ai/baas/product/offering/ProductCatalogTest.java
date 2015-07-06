@@ -7,6 +7,7 @@ import org.junit.Test;
 import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.util.DateUtils;
 import com.ai.baas.product.offering.catalog.ProductCatalog;
+import com.ai.baas.product.spec.ProductSpecCharUse;
 
 public class ProductCatalogTest {
 	ProductCatalog pclog = null;
@@ -42,11 +43,13 @@ public class ProductCatalogTest {
 		System.out.println("       I am a offering my name is: "+pclog.getProdCatalogProdOffer().get(0).getProdOffering().getName());
 		SimpleProductOffering s=(SimpleProductOffering)(pclog.getProdCatalogProdOffer().get(0).getProdOffering());
 		System.out.println("       I hvae a automSpec,name is "+s.getProductSpecification().getName());
-		int prscharussize=s.getProductSpecification().getProdSpecChar().size();
+		/*int prscharussize=s.getProductSpecification().getProdSpecChar().size();
 		System.out.println("       automSpec use "+prscharussize+" char his is:");
 		for(int i=0;i<prscharussize;i++){
-			System.out.println("         character name: "+s.getProductSpecification().getProdSpecChar().get(i).getProdSpecChar().getName());
+		}*/
+		for (ProductSpecCharUse prodSpecCharUse: s.getProductSpecification().getProdSpecChar()) {
+			System.out.println("         character name: "+prodSpecCharUse.getProdSpecChar().getName());
+			
 		}
-
 	}
 }
