@@ -59,6 +59,9 @@ public class ProductSpecificationEqualsTest {
 		this.validFor = validFor;
 		this.rtnFlag = rtnFlag;
 		this.rtnMsg = rtnMsg;
+		
+		
+		
 	}
 	
 	@Test
