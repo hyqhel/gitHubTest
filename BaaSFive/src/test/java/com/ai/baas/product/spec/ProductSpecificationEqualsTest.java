@@ -71,7 +71,6 @@ public class ProductSpecificationEqualsTest {
 		boolean objectEquals = atomicProdSpec.equals(atomicProdSpecNew);
 		assertEquals(rtnMsg,objectEquals,rtnFlag);
 		
-		System.out.println("是否提交成功测试");
 	}
 	
 }
