@@ -283,7 +283,6 @@ public class ProductSpecCharacteristic {
     public List<ProductSpecCharacteristicValue> retrieveValue(Date time) {
         List<ProductSpecCharacteristicValue> productSpecCharValues = new ArrayList<ProductSpecCharacteristicValue>();
         if (null == time) {
-            logger.error("DateTime should not be null.");
             throw new IllegalArgumentException("DateTime should not be null.");
         }
         if ( null != this.prodSpecCharValue ) {
@@ -302,7 +301,6 @@ public class ProductSpecCharacteristic {
      */
     public void specifyDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
     	if (null == defaultCharVal){
-            logger.error("Parameter  defaultCharVal is null");
     		throw new IllegalArgumentException("Parameter  defaultCharVal should not be null");
     	}
     	if(null != this.prodSpecCharValue){
@@ -398,9 +396,7 @@ public class ProductSpecCharacteristic {
      */
     public List<ProductSpecCharacteristic> retrieveRelatedCharacteristic(String charRelationshipType) {
         if(StringUtils.isEmpty(charRelationshipType)){
-            logger.error("type should not be null.");
             throw new IllegalArgumentException("type should not be null.");
-
         }
         List<ProductSpecCharacteristic>  characteristic=new ArrayList<ProductSpecCharacteristic>();
         if ( null != prodSpecCharRelationship ) {
@@ -420,7 +416,6 @@ public class ProductSpecCharacteristic {
      */
     public List<ProductSpecCharacteristic> retrieveRelatedCharacteristic(String charRelationshipType, Date time){
         if (StringUtils.isEmpty(charRelationshipType) ) {
-            logger.error("type   should not be null");
             throw new IllegalArgumentException("type or dateTime  should not be null");
         }
         if ( null == time) {

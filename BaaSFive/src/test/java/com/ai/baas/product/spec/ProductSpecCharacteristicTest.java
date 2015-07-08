@@ -39,12 +39,12 @@ public class ProductSpecCharacteristicTest {
 		exceptChar.getProdSpecCharValue().add(prodSpecCharValue);
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		assertEquals("check ProductSpecCharacteristic add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
-		assertEquals("check ProductSpecCharacteristic  other content",exceptChar.toString(),prodSpecCharOwn.toString());
+		assertTrue("check ProductSpecCharacteristic  other content", exceptChar.getProdSpecCharValue().equals(prodSpecCharOwn.getProdSpecCharValue()));
 
 		ProductSpecCharacteristicValue prodSpecCharValues = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
 		assertEquals("check ProductSpecCharacteristic again  add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
-		assertEquals("check ProductSpecCharacteristic  other content",exceptChar.toString(),prodSpecCharOwn.toString());
+		assertTrue("check ProductSpecCharacteristic  other content",exceptChar.getProdSpecCharValue().equals(prodSpecCharOwn.getProdSpecCharValue()));
 
 		prodSpecCharValues = null;
 		try {

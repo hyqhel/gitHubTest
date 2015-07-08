@@ -299,7 +299,6 @@ public class ProductSpecCharacteristicValue {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((rangeInterval == null) ? 0 : rangeInterval.hashCode());
 		result = prime * result
@@ -324,46 +323,55 @@ public class ProductSpecCharacteristicValue {
 		if (getClass() != obj.getClass())
 			return false;
 		ProductSpecCharacteristicValue other = (ProductSpecCharacteristicValue) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		if (rangeInterval == null) {
-			if (other.rangeInterval != null)
+			if (other.rangeInterval != null) {
 				return false;
-		} else if (!rangeInterval.equals(other.rangeInterval))
+			}
+		} else if (!rangeInterval.equals(other.rangeInterval)) {
 			return false;
+		}
 		if (unitOfMeasure == null) {
-			if (other.unitOfMeasure != null)
+			if (other.unitOfMeasure != null) {
 				return false;
-		} else if (!unitOfMeasure.equals(other.unitOfMeasure))
+			}
+		} else if (!unitOfMeasure.equals(other.unitOfMeasure)) {
 			return false;
+		}
 		if (validFor == null) {
-			if (other.validFor != null)
+			if (other.validFor != null) {
 				return false;
-		} else if (!validFor.equals(other.validFor))
+			}
+		} else if (!validFor.equals(other.validFor)) {
 			return false;
+		}
 		if (value == null) {
-			if (other.value != null)
+			if (other.value != null) {
 				return false;
-		} else if (!value.equals(other.value))
+			}
+		} else if (!value.equals(other.value)) {
 			return false;
+		}
 		if (valueFrom == null) {
-			if (other.valueFrom != null)
+			if (other.valueFrom != null) {
 				return false;
-		} else if (!valueFrom.equals(other.valueFrom))
+			}
+		} else if (!valueFrom.equals(other.valueFrom)) {
 			return false;
+		}
 		if (valueTo == null) {
-			if (other.valueTo != null)
+			if (other.valueTo != null) {
 				return false;
-		} else if (!valueTo.equals(other.valueTo))
+			}
+		} else if (!valueTo.equals(other.valueTo)) {
 			return false;
+		}
 		if (valueType == null) {
-			if (other.valueType != null)
+			if (other.valueType != null) {
 				return false;
-		} else if (!valueType.equals(other.valueType))
+			}
+		} else if (!valueType.equals(other.valueType)) {
 			return false;
+		}
 		return true;
 	}
 
