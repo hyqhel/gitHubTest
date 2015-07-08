@@ -1,29 +1,31 @@
 package com.ai.baas.product.spec;
 
-import java.util.*;
-import com.ai.baas.basetype.*;
+import com.ai.baas.basetype.TimePeriod;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
 
 /**
  * A type of ProductSpecification that is formed by aggregating other ProductSpecifications, which may be Composite or Atomic ProductSpecifications.
  */
 public class CompositeProductSpecification extends ProductSpecification {
 
+    private static Logger logger = Logger.getLogger(CompositeProductSpecification.class);
+
     public List<ProductSpecification> prodSpec;
 
     /**
-     * 
      * @param productNumber
      * @param name
      * @param brand
      */
     public CompositeProductSpecification(String productNumber, String name, String brand) {
-        // TODO - implement CompositeProductSpecification.CompositeProductSpecification
-    	super(name, productNumber, brand);
-        throw new UnsupportedOperationException();
+        super(productNumber, name, brand);
     }
 
     /**
-     * 
      * @param productNumber
      * @param name
      * @param brand
@@ -31,36 +33,31 @@ public class CompositeProductSpecification extends ProductSpecification {
      * @param validFor
      */
     public CompositeProductSpecification(String productNumber, String name, String brand, String description, TimePeriod validFor) {
-        // TODO - implement CompositeProductSpecification.CompositeProductSpecification
-    	super(name, productNumber, brand, validFor, description);
-        throw new UnsupportedOperationException();
+        super(productNumber, name, brand, validFor, description);
     }
 
     /**
-     * 
      * @param prodSpec
      */
     public void addSubProdSpec(ProductSpecification prodSpec) {
-        // TODO - implement CompositeProductSpecification.addSubProdSpec
-        throw new UnsupportedOperationException();
+        if (null == this.prodSpec) {
+            this.prodSpec = new ArrayList<ProductSpecification>();
+        }
+        if (null == prodSpec) {
+            logger.error("Parameter [prodSpec] cannot be null.");
+            return;
+        }
+        if (this.prodSpec.contains(prodSpec)) {
+            logger.error("the subProdSpec already exist, Cannot repeatedly create subProdSpec. ProductNumber="
+                    + prodSpec.getProductNumber());
+            throw new IllegalArgumentException("the subProdSpec already exist, Cannot repeatedly create subProdSpec.");
+        }
+        if (this.equals(prodSpec)) {
+            logger.error("Cannot add subProdSpec with it self!");
+            throw new IllegalArgumentException("Cannot add subProdSpec with it self!");
+        }
+        this.prodSpec.add(prodSpec);
     }
 
-    /**
-     * 
-     * @param prodSpecId
-     */
-    public void addSubProdSpec(String prodSpecId) {
-        // TODO - implement CompositeProductSpecification.addSubProdSpec
-        throw new UnsupportedOperationException();
-    }
-
-	/*@Override
-	public void addCharacteristic(ProductSpecCharacteristic specChar,
-			boolean canBeOveridden, boolean isPackage, TimePeriod validFor,
-			String name, String unique, int minCardinality, int maxCardinality,
-			boolean extensible, String description) {
-		// TODO Auto-generated method stub
-		
-	}*/
 
 }

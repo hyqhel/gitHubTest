@@ -1,48 +1,51 @@
 package com.ai.baas.product.offering;
 
-import java.util.*;
+import com.ai.baas.basetype.TimePeriod;
+import com.ai.baas.product.offering.catalog.ProdCatalogProdOffer;
+import com.ai.baas.product.offering.price.ProductOfferingPrice;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
-import com.ai.baas.product.offering.price.*;
-import com.ai.baas.product.offering.catalog.*;
-import com.ai.baas.basetype.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The presentation of one or more ProductSpecifications to the marketplace for sale, rental, or lease for a ProductOfferingPrice. A ProductOffering may target one or more MarketSegments, be included in one or more ProductCatalog, presented in support of one or more ProductStrategies, and made available in one or more Places. ProductOffering may represent a simple offering of a single ProductSpecification or could represent a bundling of one or more other ProductOffering.
  */
 public abstract class ProductOffering {
 
+    private static Logger logger = Logger.getLogger(ProductOffering.class);
+
     private List<ProductOfferingPrice> productOfferingPrice;
     private List<ProductOfferingRelationship> prodOfferingRelationship;
     private List<ProdCatalogProdOffer> prodCatalogProdOffer;
-    
+
     public List<ProductOfferingPrice> getProductOfferingPrice() {
-		return productOfferingPrice;
-	}
+        return productOfferingPrice;
+    }
 
-	public void setProductOfferingPrice(
-			List<ProductOfferingPrice> productOfferingPrice) {
-		this.productOfferingPrice = productOfferingPrice;
-	}
+    public void setProductOfferingPrice(List<ProductOfferingPrice> productOfferingPrice) {
+        this.productOfferingPrice = productOfferingPrice;
+    }
 
-	public List<ProductOfferingRelationship> getProdOfferingRelationship() {
-		return prodOfferingRelationship;
-	}
+    public List<ProductOfferingRelationship> getProdOfferingRelationship() {
+        return prodOfferingRelationship;
+    }
 
-	public void setProdOfferingRelationship(
-			List<ProductOfferingRelationship> prodOfferingRelationship) {
-		this.prodOfferingRelationship = prodOfferingRelationship;
-	}
+    public void setProdOfferingRelationship(List<ProductOfferingRelationship> prodOfferingRelationship) {
+        this.prodOfferingRelationship = prodOfferingRelationship;
+    }
 
-	public List<ProdCatalogProdOffer> getProdCatalogProdOffer() {
-		return prodCatalogProdOffer;
-	}
+    public List<ProdCatalogProdOffer> getProdCatalogProdOffer() {
+        return prodCatalogProdOffer;
+    }
 
-	public void setProdCatalogProdOffer(
-			List<ProdCatalogProdOffer> prodCatalogProdOffer) {
-		this.prodCatalogProdOffer = prodCatalogProdOffer;
-	}
+    public void setProdCatalogProdOffer(List<ProdCatalogProdOffer> prodCatalogProdOffer) {
+        this.prodCatalogProdOffer = prodCatalogProdOffer;
+    }
 
-	/**
+    /**
      * A unique identifier for the ProductOffering.
      */
     private String id;
@@ -100,142 +103,125 @@ public abstract class ProductOffering {
     }
 
     /**
-     * 
      * @param id
      * @param name
      * @param description
      * @param validFor
      */
     public ProductOffering(String id, String name, String description, TimePeriod validFor) {
-        // TODO - implement ProductOffering.ProductOffering
-    	this.id = id;
-    	this.name = name;
-    	this.description = description;
-    	this.validFor = validFor;
+        if (StringUtils.isEmpty(id)) {
+            logger.error("The parameter " + id + " is null");
+            throw new IllegalArgumentException();
+        }
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.validFor = validFor;
     }
 
     /**
-     * 
      * @param offering
      * @param relationType
      * @param validFor
      */
     public void addRelatedOffering(ProductOffering offering, String relationType, TimePeriod validFor) {
-    	ProductOfferingRelationship pors =  new ProductOfferingRelationship(this,offering,relationType,validFor);
-    	if(this.prodOfferingRelationship == null){
-    		this.prodOfferingRelationship = new ArrayList<ProductOfferingRelationship>();
-    	}
-    	this.prodOfferingRelationship.add(pors);
-    	
+        if (null == this.prodOfferingRelationship) {
+            this.prodOfferingRelationship = new ArrayList<ProductOfferingRelationship>();
+        }
+        if (null == offering) {
+            throw new IllegalArgumentException("Parameter [offering] cannot be null.");
+        }
+        if (null == relationType) {
+            throw new IllegalArgumentException("Parameter [relationType] cannot be null. ID="
+                    + offering.getId() + "relationType=" + relationType);
+        }
+        if (this.equals(offering)) {
+            logger.error("Cannot add relationship with it self! ID=" + offering.getId() + "relationType=" + relationType);
+            throw new IllegalArgumentException("Cannot add relationship with it self!");
+        }
+        ProductOfferingRelationship offeringRelationship = new ProductOfferingRelationship(this, offering, relationType, validFor);
+        if (this.prodOfferingRelationship.contains(offeringRelationship)) {
+            logger.warn("the relationship already exist, Cannot repeatedly create relationship by the same type. ID="
+                    + offering.getId() + "relationType=" + relationType);
+        } else {
+            this.prodOfferingRelationship.add(offeringRelationship);
+        }
     }
 
     /**
-     * 
-     * @param offeringId
-     * @param relationType
-     * @param validFor
-     */
-    public void addRelatedOffering(String offeringId, String relationType, TimePeriod validFor) {
-    }
-
-    /**
-     * 
      * @param offering
      */
     public void removeRelatedOffering(ProductOffering offering) {
-    	if(this.prodOfferingRelationship != null && this.prodOfferingRelationship.size()>0){
-    		this.prodOfferingRelationship.remove(offering);
-    	}
+        //TODO
     }
 
     /**
-     * 
-     * @param offeringId
-     */
-    public void removeRelatedOffering(String offeringId) {
-    }
-
-    /**
-     * 
      * @param relationType
      */
-    public List<ProductOffering> queryRelatedOffering(String relationType) {
-    	List<ProductOffering> poarr= new ArrayList<ProductOffering>();
-    	if("".equals(relationType)){
-    		return null;
-    	}
-    	if(this.prodOfferingRelationship != null && this.prodOfferingRelationship.size()>0){
-    		for(int i=0 ;i<this.prodOfferingRelationship.size();i++){
-    			if(this.prodOfferingRelationship.get(i).getTypeRelationship().equals(relationType)){
-    				poarr.add(this.prodOfferingRelationship.get(i).getTargetOffering());
-    			}
-    		}
-    	}
-        return poarr;
+    public List<ProductOffering> retrieveRelatedOffering(String relationType) {
+        List<ProductOffering> offerings = new ArrayList<ProductOffering>();
+        if (StringUtils.isEmpty(relationType)) {
+            throw new IllegalArgumentException("Parameter [relationType] cannot be null.");
+        }
+        if (null != this.prodOfferingRelationship && this.prodOfferingRelationship.size() > 0) {
+            for (ProductOfferingRelationship relationship : prodOfferingRelationship) {
+                if (relationType.equals(relationship.getTypeRelationship())) {
+                    offerings.add(relationship.getTargetOffering());
+                }
+            }
+        }
+        return offerings;
     }
 
     /**
-     * 
      * @param relationType
      * @param time
      */
-    public ProductOffering[] queryRelatedOffering(String relationType, Date time) {
-    	return null;
+    public List<ProductOffering> queryRelatedOffering(String relationType, Date time) {
+        List<ProductOffering> offerings = new ArrayList<ProductOffering>();
+        if (StringUtils.isEmpty(relationType)) {
+            throw new IllegalArgumentException("Parameter [relationType] cannot be null.");
+        }
+        if (null == time) {
+            throw new IllegalArgumentException("Parameter [time] cannot be null.");
+        }
+        if (null != this.prodOfferingRelationship && this.prodOfferingRelationship.size() > 0) {
+            for (ProductOfferingRelationship relationship : prodOfferingRelationship) {
+                if (relationType.equals(relationship.getTypeRelationship()) && 0 == relationship.getValidFor().isInTimePeriod(time) && 0 == relationship.getValidFor().isInTimePeriod(time)) {
+                    offerings.add(relationship.getTargetOffering());
+                }
+            }
+        }
+        return offerings;
     }
 
     /**
-     * 
      * @param price
      */
     public void addPrice(ProductOfferingPrice price) {
-    	if(price !=null){
-    		if(this.productOfferingPrice ==null ){
-    			this.productOfferingPrice = new ArrayList<ProductOfferingPrice>();
-    		}
-    		this.productOfferingPrice.add(price);
-    	}
-    	
+        //TODO price
     }
 
     /**
-     * 
-     * @param priceId
-     */
-    public void addPrice(String priceId) {
-    }
-
-    /**
-     * 
      * @param price
      */
     public void removePrice(ProductOfferingPrice price) {
-    	if(price !=null){
-    		if(this.productOfferingPrice !=null && this.productOfferingPrice.size()>0){
-    			this.productOfferingPrice.remove(price);
-    		}
-    	}
+        //TODO price
     }
 
     /**
-     * 
-     * @param priceId
-     */
-    public void removePrice(String priceId) {
-    }
-
-    /**
-     * 
      * @param price
      */
-    public void setPrice(ProductOfferingPrice[] price) {
+    public void specifyPrice(ProductOfferingPrice[] price) {
+        //TODO price
     }
 
     /**
-     * 
      * @param time
      */
-    public ProductOfferingPrice[] queryPrice(Date time) {
-    	return null;
+    public ProductOfferingPrice[] retrievePrice(Date time) {
+        //TODO price
+        return null;
     }
 
 }
