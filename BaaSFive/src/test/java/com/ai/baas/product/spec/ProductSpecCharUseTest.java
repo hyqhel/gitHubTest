@@ -1,16 +1,17 @@
 package com.ai.baas.product.spec;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.util.DateUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ProductSpecCharUseTest {
     private	ProductSpecCharUse pscu =null;
@@ -23,7 +24,7 @@ public class ProductSpecCharUseTest {
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		ProductSpecCharacteristicValue prodSpecCharValuee = new ProductSpecCharacteristicValue("1", "cm", validFor, "12.3", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValuee);
-	    pscu = new ProductSpecCharUse(prodSpecCharOwn, false, false, validFor);
+	    pscu = new ProductSpecCharUse(prodSpecCharOwn, false, false, validFor,"深度");
 	}
 	@BeforeClass
 	public static void initVliadFor(){
@@ -36,37 +37,58 @@ public class ProductSpecCharUseTest {
 	@Test
     public void testAddValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
+
 		pscu.addValue(prodSpecCharValue, false, validFor);
-		assertEquals("判断是否成功加上了valueuse",1,pscu.getProdSpecCharValue().size());
+		assertEquals("add a charValue ,judet charValues's size", 1, pscu.getProdSpecCharValue().size());
+		assertTrue("add a charValue, judet charValues is belong this charValue", pscu.getProdSpecCharValue().contains(prodSpecCharValue));
 		
-		pscu.addValue(prodSpecCharValue, false, validFor);
-		assertEquals("重新再加相同的valueuse",1,pscu.getProdSpecCharValue().size());
-		
-		ProductSpecCharacteristicValue prodSpecCharValuee = new ProductSpecCharacteristicValue("1", "cm", validFor, "12.3", "", "");
-		pscu.addValue(prodSpecCharValuee, false, validFor);
-		assertEquals("判断是否再次成功加上不同的value了valueuse",2,pscu.getProdSpecCharValue().size());
+		pscu.addValue(prodSpecCharValue2, false, validFor);
+		assertEquals("add a same charValue ,judet charValues's size", 1, pscu.getProdSpecCharValue().size());
+		assertTrue("add a same charValue, judet charValues is belong this charValue", pscu.getProdSpecCharValue().contains(prodSpecCharValue));
+
+		try{
+			pscu.addValue(null, false, validFor);
+			fail("add a null");
+		}catch(Exception e){}
     }
-	@Test
-	public void testRemoveValue(){
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
-		pscu.removeValue(prodSpecCharValue);
-		assertNull("未添加value时删除valueuse",pscu.getProdSpecCharValue());
-		
-		pscu.addValue(prodSpecCharValue, false, validFor);
-		pscu.removeValue(prodSpecCharValue);
-		assertEquals("已添加value后再删除valueuse",0,pscu.getProdSpecCharValue().size());
-	}
+
 	@Test 
 	public void testSpecifyDefaultCharacteristicValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "12.3", "", "");
 		pscu.addValue(prodSpecCharValue, false, validFor);
-		
-		prodSpecCharValue = null;
+		pscu.addValue(prodSpecCharValue2, true, validFor);
+
+		List<ProdSpecCharValueUse> expectCharValueUse = new ArrayList<ProdSpecCharValueUse>();
+		ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(prodSpecCharValue,true,validFor);
+		ProdSpecCharValueUse defcharValueUse = new ProdSpecCharValueUse(prodSpecCharValue2,false,validFor);
+		expectCharValueUse.add(charValueUse);
+		expectCharValueUse.add(defcharValueUse);
+
 		pscu.specifyDefaultCharacteristicValue(prodSpecCharValue);
-		assertFalse("判断是否指定了默认值",pscu.getProdSpecCharValue().get(0).getProdSpecCharValue().isIsDefault());
-		
-		prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
-		pscu.specifyDefaultCharacteristicValue(prodSpecCharValue);
-		assertTrue("判断是否指定了默认值",pscu.getProdSpecCharValue().get(0).getProdSpecCharValue().isIsDefault());
+		assertEquals("specify default characteristicValue", expectCharValueUse, pscu.getProdSpecCharValue());
+
+		try{
+			pscu.specifyDefaultCharacteristicValue(null);
+			fail("specify default characteristicValue，but the parameter is null");
+		}catch(Exception e){
+		}
+
+		ProductSpecCharacteristicValue defaultValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "15", "", "");
+		pscu.specifyDefaultCharacteristicValue(defaultValue2);
+		assertEquals("specify default characteristicValue，but the charValue isn't belong to the characteristic", expectCharValueUse, pscu.getProdSpecCharValue());
+	}
+
+	@Test
+	public void testSetCardinality(){
+		pscu.setCardinality(1, 5);
+		assertEquals("set characteristicUse cardinality,judet minCardinality", 1, pscu.getMinCardinality());
+		assertEquals("set characteristicUse cardinality,judet maxCardinality",5,pscu.getMaxCardinality());
+
+		try{
+			pscu.setCardinality(6,5);
+			fail("set characteristicUse cardinality , but minCardinality is greater than maxCardinality");
+		}catch(Exception e){}
 	}
 }
