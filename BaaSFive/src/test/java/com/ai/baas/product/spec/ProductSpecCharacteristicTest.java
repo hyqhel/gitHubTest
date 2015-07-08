@@ -21,7 +21,7 @@ public class ProductSpecCharacteristicTest {
 	private static TimePeriod validFor;
 	@Before
 	public void createProductSpecCharacteristic(){
-		prodSpecCharOwn = new ConfigurableProductSpecCharacteristic("1", "深度", "1", validFor, "false",  1,  1, true, "height","");
+		prodSpecCharOwn = new ConfigurableProductSpecCharacteristic("1", "high", "1", validFor, "false",  1,  1, true, "height","");
 	}
 	@BeforeClass
 	public static void initVliadFor(){
@@ -59,14 +59,14 @@ public class ProductSpecCharacteristicTest {
 	public void  testRemoveValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.removeValue(prodSpecCharValue);
-		assertNull("remove one not exists value",prodSpecCharOwn.getProdSpecCharValue());
+		assertNull("remove one not exists value", prodSpecCharOwn.getProdSpecCharValue());
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharOwn.removeValue(prodSpecCharValue);
 		assertEquals("remove one exists value",0,prodSpecCharOwn.getProdSpecCharValue().size());
 	}
 	@Test
 	public void  testAddRelatedCharacteristic(){
-		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "1", validFor, "true",  1,  1, true, "compistchar","");
+		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "Size and weight", "1", validFor, "true",  1,  1, true, "compistchar","");
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		
 		assertEquals("check add realte",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
@@ -82,7 +82,7 @@ public class ProductSpecCharacteristicTest {
 	
 	@Test
 	public void  testRemoveRelatedCharacteristic(){
-		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "1", validFor, "true",  1,  1, true, "compistchar","");
+		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "Size and weight", "1", validFor, "true",  1,  1, true, "compistchar","");
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelate);
 		assertNull("check remove relate",prodSpecCharOwn.getProdSpecCharRelationship());
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);

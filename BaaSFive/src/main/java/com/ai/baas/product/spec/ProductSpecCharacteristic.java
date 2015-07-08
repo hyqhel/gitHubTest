@@ -1,9 +1,6 @@
 package com.ai.baas.product.spec;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -15,14 +12,14 @@ import com.ai.baas.basetype.TimePeriod;
  */
 public class ProductSpecCharacteristic {
 	private static final Logger logger = Logger.getLogger(ProductSpecCharacteristic.class);
-    private  List<ProductSpecCharacteristicValue> prodSpecCharValue;
+    private Set<ProductSpecCharacteristicValue> prodSpecCharValue;
     private List<ProductSpecCharRelationship> prodSpecCharRelationship;
-    public List<ProductSpecCharacteristicValue> getProdSpecCharValue() {
+    public Set<ProductSpecCharacteristicValue> getProdSpecCharValue() {
 		return prodSpecCharValue;
 	}
 
 	public void setProdSpecCharValue(
-			List<ProductSpecCharacteristicValue> prodSpecCharValue) {
+            Set<ProductSpecCharacteristicValue> prodSpecCharValue) {
 		this.prodSpecCharValue = prodSpecCharValue;
 	}
 
@@ -219,13 +216,14 @@ public class ProductSpecCharacteristic {
     		throw new IllegalArgumentException("param is not illegal");
     	}
     	if(null == this.prodSpecCharValue){
-    		this.prodSpecCharValue=new ArrayList<ProductSpecCharacteristicValue>();
+    		this.prodSpecCharValue = new HashSet<ProductSpecCharacteristicValue>();
     	}
-    	for(ProductSpecCharacteristicValue pscv:prodSpecCharValue){
-    		if(pscv.equals(charVal)){
-    			return;
-    		}
-    	}
+        Iterator<ProductSpecCharacteristicValue> iterator = prodSpecCharValue.iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().equals(charVal)){
+                return;
+            }
+        }
     	this.prodSpecCharValue.add(charVal);
     }
 
@@ -318,7 +316,7 @@ public class ProductSpecCharacteristic {
     	if(null == this.prodSpecCharRelationship){
     		this.prodSpecCharRelationship =new ArrayList<ProductSpecCharRelationship>();
     	}
-    	ProductSpecCharRelationship ship =new ProductSpecCharRelationship(this,specChar,type,validFor,charSpecSeq);
+    	ProductSpecCharRelationship ship = new ProductSpecCharRelationship(this,specChar,type,validFor,charSpecSeq);
     	for(ProductSpecCharRelationship productSpecCharRelationship :prodSpecCharRelationship){
     		if(productSpecCharRelationship.equals(ship)){
     			return;
