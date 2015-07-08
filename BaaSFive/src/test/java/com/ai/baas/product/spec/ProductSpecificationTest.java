@@ -314,7 +314,7 @@ public class ProductSpecificationTest {
     @Test
     public void testAddRelatedProdSpec() {
 
-        // *********** Case1（正常分支） **************
+        // *********** Case1 **************
         ProductSpecification targetProdSpec = new AtomicProductSpecification("T001", "AppleCare For iPhone", "AppleCare");
         String type = ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue();
         TimePeriod validFor = new TimePeriod();
@@ -323,11 +323,11 @@ public class ProductSpecificationTest {
                 targetProdSpec, type, validFor);
         expectedRelatedSpecList.add(expectedRelatedSpec);
         this.srcProdSpec.addRelatedProdSpec(targetProdSpec, type, validFor);
-        assertEquals("添加关联规格", 1, this.srcProdSpec.getProdSpecRelationship().size());
+        assertEquals("add a normal AtomicProductSpecification.", 1, this.srcProdSpec.getProdSpecRelationship().size());
         assertEquals(expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
 
-        // *********** Case2（添加同样数据，同一关联类型） **************
-        // 再次添加一条同样数据
+        // *********** Case2 **************
+        // add the same AtomicProductSpecification and the same relationshipType again.
         ProductSpecification targetProdSpec2 = new AtomicProductSpecification("T001", "AppleCare For iPhone2",
                 "AppleCare");
         try {
@@ -336,50 +336,48 @@ public class ProductSpecificationTest {
         } catch (Exception e) {
 
         }
-        assertEquals("添加同样数据，同一关联类型", 1, this.srcProdSpec.getProdSpecRelationship().size());
-        assertEquals("添加同样数据，同一关联类型", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+        assertEquals("add same AtomicProductSpecification and the same relationshipType again", 1, this.srcProdSpec.getProdSpecRelationship().size());
+        assertEquals("add same AtomicProductSpecification and the same relationshipType again", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
 
-        // ***********testAddRelatedProdSpec Case3（添加不同数据，同一关联类型）
-        // 再次添加一条不同数据,相同类型
+        // *********** Case3 **************
         ProductSpecification targetProdSpec3 = new AtomicProductSpecification("T002", "AppleCare For iPhone2",
                 "AppleCare");
         this.srcProdSpec.addRelatedProdSpec(targetProdSpec3, type, validFor);
-        // 构造期待数据
+
         ProductSpecificationRelationship expectedRelatedSpec3 = new ProductSpecificationRelationship(srcProdSpec,
                 targetProdSpec3, type, validFor);
         expectedRelatedSpecList.add(expectedRelatedSpec3);
-        assertEquals("再次添加一条不同数据,相同类型", 2, this.srcProdSpec.getProdSpecRelationship().size());
-        assertEquals("再次添加一条不同数据,相同类型", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+        assertEquals("add a different AtomicProductSpecification and the same relationshipType again.", 2, this.srcProdSpec.getProdSpecRelationship().size());
+        assertEquals("add a different AtomicProductSpecification and the same relationshipType again.", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
 
-        // *********** Case4（添加同样数据，不同关联类型） **************
-        // 再次添加一条不同数据,相同类型
+        // *********** Case4 **************
+        // add the same AtomicProductSpecification and different relationshipType again.
         String type4 = ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue();
         ProductSpecification targetProdSpec4 = new AtomicProductSpecification("T001", "AppleCare For iPhone2",
                 "AppleCare");
         this.srcProdSpec.addRelatedProdSpec(targetProdSpec4, type4, validFor);
-        // 构造期待数据
+
         ProductSpecificationRelationship expectedRelatedSpec4 = new ProductSpecificationRelationship(srcProdSpec,
                 targetProdSpec4, type4, validFor);
         expectedRelatedSpecList.add(expectedRelatedSpec4);
-        assertEquals("添加同样数据，不同关联类型", 3, this.srcProdSpec.getProdSpecRelationship().size());
-        assertEquals("添加同样数据，不同关联类型", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+        assertEquals("add the same AtomicProductSpecification and different relationshipType again.", 3, this.srcProdSpec.getProdSpecRelationship().size());
+        assertEquals("add the same AtomicProductSpecification and different relationshipType again.", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
 
-        // *********** Case5（添加与srcSpec相同的Spec） **************
-        // 再次添加一条不同数据,相同类型
+        // *********** Case5 **************
+        // add relationship with srcProdSpec itSelf.
         try {
             this.srcProdSpec.addRelatedProdSpec(this.srcProdSpec, type4, validFor);
             fail("expected IllegalArgumentException for srcProdSpec");
         } catch (IllegalArgumentException e) {
         }
-        assertEquals("添加与srcSpec相同的Spec", 3, this.srcProdSpec.getProdSpecRelationship().size());
-        // 构造期待数据
-        assertEquals("添加与srcSpec相同的Spec", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+        assertEquals("add relationship with srcProdSpec itSelf.", 3, this.srcProdSpec.getProdSpecRelationship().size());
+        assertEquals("add relationship with srcProdSpec itSelf.", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
     }
 
     @Test
     public void testRetrieveRelatedProdSpec() {
 
-        // *********** Case1（2个不同类型，取其中一种） *************
+        // *********** Case1 *************
         String dependencyType = ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue();
         String aggregationType = ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue();
         ProductSpecification targetProdSpecDependency1 = new AtomicProductSpecification("T001", "AppleCare For iPhone",
@@ -396,28 +394,27 @@ public class ProductSpecificationTest {
         this.srcProdSpec.addRelatedProdSpec(targetProdSpecDependency1, dependencyType, validFor);
         this.srcProdSpec.addRelatedProdSpec(targetProdSpecAggregation1, aggregationType, validFor);
         List<ProductSpecification> productSpecificationList = this.srcProdSpec.retrieveRelatedProdSpec(aggregationType);
-        assertEquals("存在多种类型关系，取其中一种关联关系", 1, productSpecificationList.size());
-        assertEquals("存在多种类型关系，取其中一种关联关系", expectedRelatedSpecList, productSpecificationList);
+        assertEquals("retrieve specification of a relationshipType from more than 2 type.", 1, productSpecificationList.size());
+        assertEquals("retrieve specification of a relationshipType from more than 2 type.", expectedRelatedSpecList, productSpecificationList);
 
-        // *********** Case2（查询不存在该类型的数据） **************
+        // *********** Case2 **************
         List<ProductSpecification> productSpecificationList2 = this.srcProdSpec
-                .retrieveRelatedProdSpec(RelationshipType.EXCLUSIVITY.getValue());
-        assertEquals("查询不存在该类型的数据", 0, productSpecificationList2.size());
+                .retrieveRelatedProdSpec(ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue());
+        assertEquals("retrieve ProductSpecification from productSpecRelationships by a no existent type.", 0, productSpecificationList2.size());
 
-        // *********** Case3（传入类型为null） **************
+        // *********** Case3 **************
         try {
             List<ProductSpecification> productSpecificationList3 = this.srcProdSpec.retrieveRelatedProdSpec(null);
-            fail("Case 3 ： type为null时未通过。");
+            fail("Case 3 ： fail when type is null。");
         } catch (IllegalArgumentException e) {
         }
 
-        // *********** Case4（没有关系数据，查询某类型的spec） **************
+        // *********** Case4 **************
         this.srcProdSpec.getProdSpecRelationship().clear();
         List<ProductSpecification> productSpecificationList4 = this.srcProdSpec
                 .retrieveRelatedProdSpec(aggregationType);
-        assertEquals("没有关系数据，查询某类型的spec", 0, productSpecificationList4.size());
+        assertEquals("retrieve ProductSpecification from empty relationships", 0, productSpecificationList4.size());
     }
-
 
 
     private ProductSpecCharacteristicValue createValue(Object[] obj) {
