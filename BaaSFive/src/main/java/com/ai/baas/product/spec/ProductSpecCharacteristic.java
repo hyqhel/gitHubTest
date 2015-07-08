@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.ai.baas.basetype.TimePeriod;
@@ -14,10 +15,8 @@ import com.ai.baas.basetype.TimePeriod;
  */
 public class ProductSpecCharacteristic {
 	private static final Logger logger = Logger.getLogger(ProductSpecCharacteristic.class);
-
     private  List<ProductSpecCharacteristicValue> prodSpecCharValue;
     private List<ProductSpecCharRelationship> prodSpecCharRelationship;
-    
     public List<ProductSpecCharacteristicValue> getProdSpecCharValue() {
 		return prodSpecCharValue;
 	}
@@ -174,6 +173,18 @@ public class ProductSpecCharacteristic {
      * @param derivationFormula
      */
     public ProductSpecCharacteristic(String id, String name, String valueType, TimePeriod validFor, String unique, int minCardinality, int maxCardinality, boolean extensible, String description, String derivationFormula) {
+        if ( StringUtils.isEmpty(id) ) {
+            logger.error("id should not be null");
+            throw new IllegalArgumentException("id should not be null");
+        }
+        if ( StringUtils.isEmpty(valueType) ) {
+            logger.error("valueType should not be null");
+            throw new IllegalArgumentException("valueType should not be null");
+        }
+        if ( StringUtils.isEmpty(name)){
+            logger.error("name should not be null");
+            throw new IllegalArgumentException("name should not be null");
+        }
         this.ID = id;
         this.name = name;
         this.valueType = valueType;
@@ -191,7 +202,7 @@ public class ProductSpecCharacteristic {
      * @param minCardinality
      * @param maxCardinality
      */
-    public void setCardinality(int minCardinality, int maxCardinality) {
+    public void specifyCardinality(int minCardinality, int maxCardinality) {
     	if (minCardinality > maxCardinality){
     		throw new IllegalArgumentException("param is not illegal");
     	}
@@ -223,10 +234,10 @@ public class ProductSpecCharacteristic {
      * @param charVal
      */
     public void removeValue(ProductSpecCharacteristicValue charVal) {
-    	if(charVal==null){
+    	if(null == charVal){
     		throw new IllegalArgumentException("param is not illegal");
     	}
-    	if(this.prodSpecCharValue!=null && this.prodSpecCharValue.size()>0){
+    	if(this.prodSpecCharValue != null && this.prodSpecCharValue.size()>0){
     		if(prodSpecCharValue.contains(charVal)){
     			prodSpecCharValue.remove(charVal);
     		}
@@ -246,11 +257,11 @@ public class ProductSpecCharacteristic {
      * 
      * @param defaultCharVal
      */
-    public void setDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
-    	if (defaultCharVal == null){
+    public void specifyDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
+    	if (null == defaultCharVal){
     		throw new IllegalArgumentException("param is not illegal");
     	}
-    	if(this.prodSpecCharValue!=null){
+    	if(null != this.prodSpecCharValue){
     		for(ProductSpecCharacteristicValue productSpecCharacteristicValue:prodSpecCharValue){
         		if(productSpecCharacteristicValue.equals(defaultCharVal)){
         			if(!productSpecCharacteristicValue.isIsDefault()){
@@ -264,7 +275,7 @@ public class ProductSpecCharacteristic {
     }
 
     public ProductSpecCharacteristicValue getDefaultValue() {
-        if(this.prodSpecCharValue==null){
+        if(null == this.prodSpecCharValue){
         	throw new IllegalArgumentException("param is not illegal");
         }else{
         	for(ProductSpecCharacteristicValue productSpecCharacteristicValue :prodSpecCharValue){
@@ -284,7 +295,7 @@ public class ProductSpecCharacteristic {
      */
     public void addRelatedCharacteristic(ProductSpecCharacteristic specChar, String type, TimePeriod validFor) {
     	ProductSpecCharRelationship pship = new ProductSpecCharRelationship(this,specChar,type,validFor);    	
-    	if(prodSpecCharRelationship ==null){
+    	if(null == prodSpecCharRelationship){
     		prodSpecCharRelationship = new ArrayList<ProductSpecCharRelationship>();
     	}
     	for(ProductSpecCharRelationship productSpecCharRelationship :prodSpecCharRelationship){
@@ -304,7 +315,7 @@ public class ProductSpecCharacteristic {
      * @param charSpecSeq
      */
     public void addRelatedCharacteristic(ProductSpecCharacteristic specChar, String type, TimePeriod validFor, int charSpecSeq) {
-    	if(this.prodSpecCharRelationship==null){
+    	if(null == this.prodSpecCharRelationship){
     		this.prodSpecCharRelationship =new ArrayList<ProductSpecCharRelationship>();
     	}
     	ProductSpecCharRelationship ship =new ProductSpecCharRelationship(this,specChar,type,validFor,charSpecSeq);
@@ -322,10 +333,10 @@ public class ProductSpecCharacteristic {
      * @param specChar
      */
     public void removeRelatedCharacteristic(ProductSpecCharacteristic specChar) {
-    	if (specChar ==null){
+    	if (null == specChar){
     		throw new IllegalArgumentException("param is not illegal");
     	}
-    	if(this.prodSpecCharRelationship == null){
+    	if(null == this.prodSpecCharRelationship){
     		return;
     	}
     	 Iterator<ProductSpecCharRelationship> iterator = prodSpecCharRelationship.iterator();    

@@ -3,14 +3,15 @@ package com.ai.baas.product.spec;
 import java.util.*;
 
 import com.ai.baas.basetype.*;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 /**
  * A number or text that can be assigned to a ProductSpecCharacteristic.
  */
 public class ProductSpecCharacteristicValue {
-
+	private static final Logger logger = Logger.getLogger(ProductSpecCharacteristicValue.class);
     private List<ProdSpecCharValueRelationship> prodSpecCharValueRelationship;
-    
     private String id;
     
     /**
@@ -132,6 +133,15 @@ public class ProductSpecCharacteristicValue {
      * @param isDefault
      */
     public ProductSpecCharacteristicValue(String valueType, String unitOfMeasure, TimePeriod validFor, String value, boolean isDefault) {
+		if ( StringUtils.isEmpty(valueType) ) {
+			logger.error("valueType should not be null");
+			throw new IllegalArgumentException("valueType should not be null");
+		}
+
+		if(StringUtils.isEmpty(value)){
+			logger.error("value should not be null");
+			throw new IllegalArgumentException("value should not be null");
+		}
         this.valueType = valueType;
         this.unitOfMeasure = unitOfMeasure;
         this.validFor = validFor;
@@ -150,7 +160,28 @@ public class ProductSpecCharacteristicValue {
      * @param rangeInterval
      */
     public ProductSpecCharacteristicValue(String valueType, String unitOfMeasure, TimePeriod validFor, String valueFrom, String valueTo, String rangeInterval) {
-    	this.valueType = valueType;
+		if(null == validFor){
+			logger.error("validFor should not be null");
+			throw new IllegalArgumentException("validFor should not be null");
+		}
+		if(StringUtils.isEmpty(valueType)){
+			logger.error("valueType should not be null");
+			throw new IllegalArgumentException("valueType should not be null");
+		}
+
+		if (StringUtils.isEmpty(valueFrom) && StringUtils.isEmpty(valueTo)) {
+			logger.error("valueFrom and valueTo should not be null at the same time.");
+			throw new IllegalArgumentException("valueFrom and valueTo should not be null at the same time.");
+
+		}else if(StringUtils.isEmpty(valueFrom)){
+			logger.error("valueFrom should not be null .");
+			throw new IllegalArgumentException("valueFrom should not be null .");
+
+		}else if(StringUtils.isEmpty(valueTo)){
+
+			valueTo=valueFrom;
+		}
+		this.valueType = valueType;
         this.unitOfMeasure = unitOfMeasure;
         this.validFor = validFor;
         this.valueFrom = valueFrom;
@@ -163,7 +194,7 @@ public class ProductSpecCharacteristicValue {
      * @param unitOfMeasure
      * @param value
      */
-    public void setValue(String unitOfMeasure, String value) {
+    public void specifyValue(String unitOfMeasure, String value) {
     	this.unitOfMeasure = unitOfMeasure;
     	this.value = value;
     }
@@ -175,7 +206,7 @@ public class ProductSpecCharacteristicValue {
      * @param valueTo
      * @param rangeInterval
      */
-    public void setValue(String unitOfMeasure, String valueFrom, String valueTo, String rangeInterval) {
+    public void specifyValue(String unitOfMeasure, String valueFrom, String valueTo, String rangeInterval) {
     	this.unitOfMeasure = unitOfMeasure;
     	this.valueFrom = valueFrom;
     	this.valueTo = valueTo;
@@ -190,7 +221,7 @@ public class ProductSpecCharacteristicValue {
      */
     public void addRelatedCharValue(ProductSpecCharacteristicValue charValue, String relationType, TimePeriod validFor) {
     	ProdSpecCharValueRelationship pship = new ProdSpecCharValueRelationship(this,charValue,relationType,validFor);    	
-    	if(prodSpecCharValueRelationship == null){
+    	if(null ==prodSpecCharValueRelationship){
     		prodSpecCharValueRelationship = new ArrayList<ProdSpecCharValueRelationship>();
     	}
     	
@@ -208,7 +239,7 @@ public class ProductSpecCharacteristicValue {
      * @param charValue
      */
     public void removeRelatedCharValue(ProductSpecCharacteristicValue charValue) {
-    	if(this.prodSpecCharValueRelationship == null){
+    	if(null == this.prodSpecCharValueRelationship){
     		return;
     	}
     	for(ProdSpecCharValueRelationship psvr :prodSpecCharValueRelationship){

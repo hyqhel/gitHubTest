@@ -21,7 +21,7 @@ public class ProductSpecCharacteristicTest {
 	private static TimePeriod validFor;
 	@Before
 	public void createProductSpecCharacteristic(){
-		prodSpecCharOwn = new ConfigurableProductSpecCharacteristic("1", "深度", "", validFor, "false",  1,  1, true, "height","");
+		prodSpecCharOwn = new ConfigurableProductSpecCharacteristic("1", "深度", "1", validFor, "false",  1,  1, true, "height","");
 	}
 	@BeforeClass
 	public static void initVliadFor(){
@@ -72,7 +72,7 @@ public class ProductSpecCharacteristicTest {
 	} 
 	@Test
 	public void  testAddRelatedCharacteristic(){
-		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "", validFor, "true",  1,  1, true, "compistchar","");
+		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "1", validFor, "true",  1,  1, true, "compistchar","");
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		
 		assertEquals("判断是否加了关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
@@ -88,12 +88,12 @@ public class ProductSpecCharacteristicTest {
 	
 	@Test
 	public void  testRemoveRelatedCharacteristic(){
-		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "", validFor, "true",  1,  1, true, "compistchar","");
+		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "1", validFor, "true",  1,  1, true, "compistchar","");
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelate);
 		assertNull("判断删除关系",prodSpecCharOwn.getProdSpecCharRelationship());
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		
-		ProductSpecCharacteristic prodSpecCharRelatee = new ProductSpecCharacteristic("1", "颜色", "", validFor, "true",  1,  1, false, "compistchar","");
+		ProductSpecCharacteristic prodSpecCharRelatee = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "true",  1,  1, false, "compistchar","");
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelatee);
 		assertEquals("在已添加一个关系基础上删除不存在的关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
 		
@@ -105,24 +105,24 @@ public class ProductSpecCharacteristicTest {
 	public void testSetDefaultValue(){
 		
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
-		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
 		assertNull("特征没有值，指定一个默认值",prodSpecCharOwn.getProdSpecCharValue());
 		
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharValue = null;
 		try {
-			prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+			prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
 			fail("param is not illegal");
 		} catch (Exception e) {
 		}
 		assertFalse("值为空时判断能否指定了默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
 		
 		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "cm", validFor, "9",false);
-		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
 		assertFalse("指定一个不是特征的value值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
 		
 		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
-		prodSpecCharOwn.setDefaultValue(prodSpecCharValue);
+		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
 		assertTrue("指定一个是特征value值默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
 		
 		
