@@ -49,17 +49,6 @@ public class ProdSpecCharValueUse {
         this.validFor = validFor;
     }
 
-    /**
-     * 
-     * @param charValId
-     * @param isDefault
-     * @param validFor
-     */
-    public ProdSpecCharValueUse(String charValId, boolean isDefault, TimePeriod validFor) {
-    	this.isDefault =isDefault;
-    	this.validFor =validFor;
-    }
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -68,8 +57,6 @@ public class ProdSpecCharValueUse {
 				* result
 				+ ((prodSpecCharValue == null) ? 0 : prodSpecCharValue
 						.hashCode());
-		result = prime * result
-				+ ((validFor == null) ? 0 : validFor.hashCode());
 		return result;
 	}
 
@@ -86,11 +73,6 @@ public class ProdSpecCharValueUse {
 			if (other.prodSpecCharValue != null)
 				return false;
 		} else if (!prodSpecCharValue.equals(other.prodSpecCharValue))
-			return false;
-		if (validFor == null) {
-			if (other.validFor != null)
-				return false;
-		} else if (!validFor.equals(other.validFor))
 			return false;
 		return true;
 	}

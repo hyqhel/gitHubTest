@@ -133,23 +133,18 @@ public class ProductSpecCharUse {
      * @param isPackage
      * @param validFor
      */
-    public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-    	this.prodSpecChar =specChar;
+    public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor,String name) {
+		checkProdSpecChar(specChar);
+		if(name == null ||"".equals(name) ){
+			logger.error("parameter name is error £ºthe parameter is null . ");
+			throw new IllegalArgumentException("name should not be null .");
+		}
+		this.prodSpecChar =specChar;
+		this.name = name;
     	this.canBeOveridden=canBeOveridden;
     	this.isPackage = isPackage;
     }
 
-    /**
-     * 
-     * @param specCharId
-     * @param canBeOveridden
-     * @param isPackage
-     * @param validFor
-     */
-    public ProductSpecCharUse(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-    	this.canBeOveridden = canBeOveridden;
-    	this.isPackage=isPackage;
-    }
 
     /**
      * 
@@ -165,6 +160,11 @@ public class ProductSpecCharUse {
      * @param description
      */
     public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
+		checkProdSpecChar(specChar);
+		if(name == null ||"".equals(name) ){
+			logger.error("parameter name is error £ºthe parameter is null . ");
+			throw new IllegalArgumentException("name should not be null .");
+		}
         this.prodSpecChar = specChar;
         this.canBeOveridden = canBeOveridden;
         this.isPackage = isPackage;
@@ -176,29 +176,6 @@ public class ProductSpecCharUse {
         this.description = description;
     }
 
-    /**
-     * 
-     * @param specCharId
-     * @param canBeOveridden
-     * @param isPackage
-     * @param validFor
-     * @param name
-     * @param unique
-     * @param minCardinality
-     * @param maxCardinality
-     * @param extensible
-     * @param description
-     */
-    public ProductSpecCharUse(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-    	this.canBeOveridden = canBeOveridden;
-    	this.isPackage =isPackage;
-    	 this.name=name;
-    	 this.unique =unique;
-    	 this.minCardinality=minCardinality;
-    	 this.maxCardinality =maxCardinality;
-    	 this.extensible =extensible;
-    	 this.description =description;
-    }
 
     /**
      * 
@@ -206,8 +183,13 @@ public class ProductSpecCharUse {
      * @param maxCardinality
      */
     public void setCardinality(int minCardinality, int maxCardinality) {
-    	this.minCardinality =minCardinality;
-    	this.maxCardinality = maxCardinality;
+		if(minCardinality <= maxCardinality){
+			this.minCardinality = minCardinality;
+			this.maxCardinality = maxCardinality;
+		}else{
+			logger.error("minCardinality is greater than maxCardinality .");
+			throw new IllegalArgumentException("minCardinality is greater than maxCardinality .");
+		}
     }
 
     /**
@@ -217,28 +199,21 @@ public class ProductSpecCharUse {
      * @param validFor
      */
     public void addValue(ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-    	if(prodSpecChar.getProdSpecCharValue() ==null || prodSpecChar.getProdSpecCharValue().size()==0){
-    		return;
-    	}
-    	boolean existValue = false;
-    	for(ProductSpecCharacteristicValue pscv :prodSpecChar.getProdSpecCharValue()){
-    		if(pscv.equals(charValue)){
-    			existValue = true;
-    		}
-    	}
-    	if(!existValue){
-    		return;
-    	}
-    	ProdSpecCharValueUse prodSpecCharValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
-    	if (null == prodSpecCharValue ) {
-    		prodSpecCharValue = new ArrayList<ProdSpecCharValueUse>();
-    	}
-    	for(ProdSpecCharValueUse pscvu:prodSpecCharValue){
-    		if(pscvu.equals(prodSpecCharValueUse)){
-    			return;
-    		}
-    	}
-    	prodSpecCharValue.add(prodSpecCharValueUse);
+		this.checkCharValue(charValue);
+
+    	if(prodSpecChar.getProdSpecCharValue() !=null && prodSpecChar.getProdSpecCharValue().contains(charValue)){
+			ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
+			if (null == this.prodSpecCharValue) {
+				this.prodSpecCharValue = new ArrayList<ProdSpecCharValueUse>();
+			}
+			if(!prodSpecCharValue.contains(charValueUse)) {
+				this.prodSpecCharValue.add(charValueUse);
+			}else {
+				logger.warn("This charValue is used . ");
+			}
+    	}else{
+			logger.warn("This charValue isn't belong to the characteristic .");
+		}
     }
 
 
@@ -247,15 +222,8 @@ public class ProductSpecCharUse {
      * @param charValue
      */
     public void removeValue(ProductSpecCharacteristicValue charValue) {
-    	if(this.prodSpecCharValue!=null){
-    		for(int i=0;i<this.prodSpecCharValue.size();i++){
-        		if(this.prodSpecCharValue.get(i).getProdSpecCharValue().equals(charValue)){
-        			this.prodSpecCharValue.remove(i);
-        		}
-        	}	
-    	}else{
-    		return;
-    	}
+		// TODO - implement ProductSpecCharUse.removeValue
+		throw new UnsupportedOperationException();
     }
 
 
@@ -264,84 +232,80 @@ public class ProductSpecCharUse {
      * @param defaultValue
      */
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristicValue defaultValue) {
-        if(this.prodSpecCharValue!=null){
-        	for(ProdSpecCharValueUse pscvu:prodSpecCharValue){
-        		ProductSpecCharacteristicValue pscv = pscvu.getProdSpecCharValue();
-        		if(pscv.equals(defaultValue)){
-        			if(!pscvu.isIsDefault()){
-        				pscvu.setIsDefault(true);
-        			}
-        		}
-        	}
-        }else{
-        	return;
-        }
+		this.checkCharValue(defaultValue);
+		if (null != this.prodSpecCharValue) {
+			ProdSpecCharValueUse valueUse = this.retrieveProdSpecCharValueUse(defaultValue);
+			if(null != valueUse){
+				valueUse.setIsDefault(true);
+			}else{
+				logger.warn("Parameter characteristicValue is not used");
+			}
+		}else{
+			logger.warn("There is no used characteristicValue ");
+		}
     }
 
+	/**
+	 * get parameter charValue is used
+	 * @param charValue
+	 * @return
+	 */
+	private ProdSpecCharValueUse retrieveProdSpecCharValueUse(ProductSpecCharacteristicValue charValue){
+		for (ProdSpecCharValueUse valueUse : prodSpecCharValue) {
+			if (valueUse.getProdSpecCharValue().equals(charValue))
+				return valueUse;
+		}
+		return null;
+	}
+	/**
+	 * check parameter is null
+	 */
+	private void checkProdSpecChar(ProductSpecCharacteristic prodSpecChar){
+		if(null == prodSpecChar){
+			logger.error("parameter is error £ºthe Object of ProductSpecCharacteristic is null . ");
+			throw new IllegalArgumentException("specChar should not be null .");
+		}
+	}
+
+	/**
+	 * check parameter is null
+	 */
+	private void checkCharValue(ProductSpecCharacteristicValue charValue){
+		if(null == charValue){
+			logger.error("parameter is error £ºthe Object of ProductSpecCharacteristicValue is null . ");
+			throw new IllegalArgumentException("charValue should not be null .");
+		}
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (new Boolean(canBeOveridden).hashCode());
+		result = prime * result + ((null == this.name) ? 0 : this.name.hashCode());
 		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + (new Boolean(extensible).hashCode());
-		result = prime * result + (new Boolean(isPackage).hashCode());
-		result = prime * result + maxCardinality;
-		result = prime * result + minCardinality;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((unique == null) ? 0 : unique.hashCode());
+				+ ((null == this.prodSpecChar) ? 0 : this.prodSpecChar.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj){
+		if (this == obj)
 			return true;
-		}
-		if (obj == null){
+		if (obj == null)
 			return false;
-		}
-		if (!(obj instanceof ProductSpecCharUse)){
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		ProductSpecCharUse other = (ProductSpecCharUse) obj;
-		if (canBeOveridden != other.canBeOveridden)
-			return false;
-		if (description == null) {
-			if (other.description != null){
+		if (null == this.name) {
+			if (null != other.name)
 				return false;
-			}
-		} else if (!description.equals(other.description)){
+		} else if (!this.name.equals(other.name))
 			return false;
-		}
-		if (extensible != other.extensible){
-			return false;
-		}
-		if (isPackage != other.isPackage){
-			return false;
-		}
-		if (maxCardinality != other.maxCardinality){
-			return false;
-		}
-		if (minCardinality != other.minCardinality){
-			return false;
-		}
-		if (name == null) {
-			if (other.name != null){
+		if (null == this.prodSpecChar) {
+			if (null != other.prodSpecChar)
 				return false;
-			}
-		} else if (!name.equals(other.name)){
+		} else if (!this.prodSpecChar.equals(other.prodSpecChar))
 			return false;
-		}
-		if (unique == null) {
-			if (other.unique != null){
-				return false;
-			}
-		} else if (!unique.equals(other.unique)){
-			return false;
-		}
 		return true;
 	}
     
