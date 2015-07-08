@@ -246,7 +246,7 @@ public class ProductSpecCharacteristic {
      * 
      * @param time
      */
-    public List<ProductSpecCharacteristicValue> getValue(Date time) {
+    public List<ProductSpecCharacteristicValue> retrieveValue(Date time) {
     	// TODO
     	return null;
     }
@@ -272,7 +272,7 @@ public class ProductSpecCharacteristic {
         }
     }
 
-    public List<ProductSpecCharacteristicValue> getDefaultValue() {
+    public List<ProductSpecCharacteristicValue> retrieveDefaultValue() {
         if(null == this.prodSpecCharValue){
         	throw new IllegalArgumentException("param is  illegal");
         }else{
@@ -352,7 +352,7 @@ public class ProductSpecCharacteristic {
      * 
      * @param charRelationshipType
      */
-    public List<ProductSpecCharacteristic> retieveRelatedCharacteristic(String charRelationshipType) {
+    public List<ProductSpecCharacteristic> retrieveRelatedCharacteristic(String charRelationshipType) {
     	// TODO
     	return null;
     }
@@ -362,7 +362,7 @@ public class ProductSpecCharacteristic {
      * @param charRelationshipType
      * @param time
      */
-    public List<ProductSpecCharacteristic> retieveRelatedCharacteristic(String charRelationshipType, Date time) {
+    public List<ProductSpecCharacteristic> retrieveRelatedCharacteristic(String charRelationshipType, Date time) {
         // TODO 
     	return null;
     }
