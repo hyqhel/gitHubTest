@@ -31,40 +31,40 @@ public class ProductSpecificationTest {
         ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[4]);
         Set<ProductSpecCharUse> expectCharUse = new HashSet<ProductSpecCharUse>();
         ProductSpecCharUse charUse = new ProductSpecCharUse(characteristic, false, false, validFor, "CPU");
-        ProductSpecCharUse charUse2 = new ProductSpecCharUse(characteristic, false, false, validFor, "´¦ÀíÆ÷(CPU)");
+        ProductSpecCharUse charUse2 = new ProductSpecCharUse(characteristic, false, false, validFor, "å¤„ç†å™¨(CPU)");
         expectCharUse.add(charUse);
-        // Ìí¼ÓÒ»¸öÌØÕ÷
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾
         prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
-        assertEquals("Ìí¼ÓÒ»¸öÌØÕ÷", expectCharUse, prodSpec.getProdSpecCharUse());
+        assertEquals("æ·»åŠ ä¸€ä¸ªç‰¹å¾", expectCharUse, prodSpec.getProdSpecCharUse());
 
-        // Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷
+        // æ·»åŠ ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾
         prodSpec.addCharacteristic(characteristic2, false, false, validFor, "CPU");
-        assertEquals("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷", expectCharUse, prodSpec.getProdSpecCharUse());
+        assertEquals("æ·»åŠ ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾", expectCharUse, prodSpec.getProdSpecCharUse());
 
-        // Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷£¬Ê¹ÓÃÃû×Ö²»Í¬
+        // æ·»åŠ ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾ï¼Œä½¿ç”¨åå­—ä¸åŒ
         expectCharUse.add(charUse2);
-        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "´¦ÀíÆ÷(CPU)");
-        assertEquals("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷£¬Ê¹ÓÃÃû×Ö²»Í¬", 2, prodSpec.getProdSpecCharUse().size());
-        assertEquals("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷£¬Ê¹ÓÃÃû×Ö²»Í¬", expectCharUse, prodSpec.getProdSpecCharUse());
+        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "å¤„ç†å™¨(CPU)");
+        assertEquals("æ·»åŠ ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾ï¼Œä½¿ç”¨åå­—ä¸åŒ", 2, prodSpec.getProdSpecCharUse().size());
+        assertEquals("æ·»åŠ ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾ï¼Œä½¿ç”¨åå­—ä¸åŒ", expectCharUse, prodSpec.getProdSpecCharUse());
 
-        // Ìí¼ÓÒ»¸öÌØÕ÷Îª¿Õ
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾ä¸ºç©º
         try {
             prodSpec.addCharacteristic(null, false, false, validFor, "CPU");
-            fail("Ìí¼ÓÒ»¸öÌØÕ÷Îª¿Õ");
+            fail("æ·»åŠ ä¸€ä¸ªç‰¹å¾ä¸ºç©º");
         } catch (Exception e) {
         }
 
-        // Ìí¼ÓÒ»¸öÌØÕ÷Îª¿Õ£¬Ê¹ÓÃÃûÎª¿Õnull
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾ä¸ºç©ºï¼Œä½¿ç”¨åä¸ºç©ºnull
         try {
             prodSpec.addCharacteristic(characteristic2, false, false, validFor, null);
-            fail("Ìí¼ÓÒ»¸öÌØÕ÷Îª¿Õ£¬Ê¹ÓÃÃûÎª¿Õnull");
+            fail("æ·»åŠ ä¸€ä¸ªç‰¹å¾ä¸ºç©ºï¼Œä½¿ç”¨åä¸ºç©ºnull");
         } catch (Exception e) {
         }
 
-        // Ìí¼ÓÒ»¸öÌØÕ÷£¬Ê¹ÓÃÃûÎª¿Õ×Ö·û
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾ï¼Œä½¿ç”¨åä¸ºç©ºå­—ç¬¦
         try {
             prodSpec.addCharacteristic(characteristic2, false, false, validFor, "");
-            fail("Ìí¼ÓÒ»¸öÌØÕ÷£¬Ê¹ÓÃÃûÎª¿Õ×Ö·û");
+            fail("æ·»åŠ ä¸€ä¸ªç‰¹å¾ï¼Œä½¿ç”¨åä¸ºç©ºå­—ç¬¦");
         } catch (Exception e) {
         }
     }
@@ -86,51 +86,51 @@ public class ProductSpecificationTest {
         characteristic2.addValue(charValue);
         characteristic2.addValue(charValue3);
 
-        // Ìí¼ÓÌØÕ÷ //ÏÔÊ¾ÆÁ
+        // æ·»åŠ ç‰¹å¾ //æ˜¾ç¤ºå±
         prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
 
         ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue, false, validFor);
 
-        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼
         prodSpec.attachCharacteristicValue(characteristic, charValue, false, validFor, "CPU");
-        assertEquals("Ìí¼ÓÒ»¸öÌØÕ÷Öµ", 1, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().size());
-        assertTrue("Ìí¼ÓÒ»¸öÌØÕ÷Öµ", prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().contains(charValueUse));
+        assertEquals("æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼", 1, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().size());
+        assertTrue("æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼", prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().contains(charValueUse));
 
-        // Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷Öµ
+        // æ·»åŠ ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾å€¼
         prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "CPU");
-        assertEquals("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷Öµ", 1, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().size());
-        assertTrue("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷Öµ", prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().contains(charValueUse));
+        assertEquals("æ·»åŠ ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾å€¼", 1, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().size());
+        assertTrue("æ·»åŠ ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾å€¼", prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().contains(charValueUse));
 
-        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Öµ²»ÊôÓÚ¸ÃÌØÕ÷
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼,ç‰¹å¾å€¼ä¸å±äºè¯¥ç‰¹å¾
         prodSpec.attachCharacteristicValue(characteristic, charValue4, false, validFor, "CPU");
-        assertEquals("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Öµ²»ÊôÓÚ¸ÃÌØÕ÷", 1, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().size());
-        assertTrue("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Öµ²»ÊôÓÚ¸ÃÌØÕ÷", prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().contains(charValueUse));
+        assertEquals("æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼,ç‰¹å¾å€¼ä¸å±äºè¯¥ç‰¹å¾", 1, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().size());
+        assertTrue("æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼,ç‰¹å¾å€¼ä¸å±äºè¯¥ç‰¹å¾", prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().contains(charValueUse));
 
-        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷²»ÊôÓÚ¸Ã¹æ¸ñ
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼,ç‰¹å¾ä¸å±äºè¯¥è§„æ ¼
         try {
             prodSpec.attachCharacteristicValue(characteristic3, charValue3, false, validFor, "CPU");
-            fail("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷²»ÊôÓÚ¸Ã¹æ¸ñ");
+            fail("æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼,ç‰¹å¾ä¸å±äºè¯¥è§„æ ¼");
         } catch (Exception e) {
         }
 
-        // Ìí¼ÓÒ»¸öÌØÕ÷ÖµÎª¿Õ
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼ä¸ºç©º
         try {
             prodSpec.attachCharacteristicValue(characteristic, null, false, validFor, "CPU");
-            fail("Ìí¼ÓÒ»¸öÌØÕ÷ÖµÎª¿Õ");
+            fail("æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼ä¸ºç©º");
         } catch (Exception e) {
         }
 
-        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Îª¿Õ
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼,ç‰¹å¾ä¸ºç©º
         try {
             prodSpec.attachCharacteristicValue(null, charValue2, false, validFor, "CPU");
-            fail("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Îª¿Õ");
+            fail("æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼,ç‰¹å¾ä¸ºç©º");
         } catch (Exception e) {
         }
 
-        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷ÃûÎª¿Õ
+        // æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼,ç‰¹å¾åä¸ºç©º
         try {
             prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "");
-            fail("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷ÃûÎª¿Õ");
+            fail("æ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼,ç‰¹å¾åä¸ºç©º");
         } catch (Exception e) {
         }
     }
@@ -142,10 +142,10 @@ public class ProductSpecificationTest {
         ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
         characteristic.addValue(charValue1);
         characteristic.addValue(charValue2);
-        // Ìí¼ÓÌØÕ÷
+        // æ·»åŠ ç‰¹å¾
         prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
 
-        // Ìí¼ÓÌØÕ÷Öµ
+        // æ·»åŠ ç‰¹å¾å€¼
         prodSpec.attachCharacteristicValue(characteristic, charValue1, true, validFor, "CPU");
         prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "CPU");
 
@@ -162,33 +162,33 @@ public class ProductSpecificationTest {
         expectCharValueUse2.add(charValueUse4);
 
 
-        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ
+        // è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼
         prodSpec.specifyDefaultCharacteristicValue(characteristic, charValue2, "CPU");
-        assertEquals("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ", expectCharValueUse, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse());
+        assertEquals("è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼", expectCharValueUse, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse());
 
-        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÖµ¶ÔÏóÎªnull
+        // è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼ï¼Œä¼ å…¥çš„å€¼å¯¹è±¡ä¸ºnull
         try {
             prodSpec.specifyDefaultCharacteristicValue(characteristic, null, "CPU");
-            fail("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÖµ¶ÔÏóÎªnull");
+            fail("è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼ï¼Œä¼ å…¥çš„å€¼å¯¹è±¡ä¸ºnull");
         } catch (Exception e) {
         }
 
-        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÖµ¶ÔÏóÎª²»ÊÇ¸ÃÌØÕ÷ËùÓĞµÄ
+        // è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼ï¼Œä¼ å…¥çš„å€¼å¯¹è±¡ä¸ºä¸æ˜¯è¯¥ç‰¹å¾æ‰€æœ‰çš„
         ProductSpecCharacteristicValue charValue3 = this.createValue(TestProductSpecificationData.specCharValue[11]);
         prodSpec.specifyDefaultCharacteristicValue(characteristic, charValue3, "CPU");
-        assertEquals("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÖµ¶ÔÏóÎª²»ÊÇ¸ÃÌØÕ÷ËùÓĞµÄ", expectCharValueUse2, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse());
+        assertEquals("è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼ï¼Œä¼ å…¥çš„å€¼å¯¹è±¡ä¸ºä¸æ˜¯è¯¥ç‰¹å¾æ‰€æœ‰çš„", expectCharValueUse2, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse());
 
-        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÌØÕ÷¶ÔÏóÎªnull
+        // è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼ï¼Œä¼ å…¥çš„ç‰¹å¾å¯¹è±¡ä¸ºnull
         try {
             prodSpec.specifyDefaultCharacteristicValue(null, charValue2, "CPU");
-            fail("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÌØÕ÷¶ÔÏóÎªnull");
+            fail("è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼ï¼Œä¼ å…¥çš„ç‰¹å¾å¯¹è±¡ä¸ºnull");
         } catch (Exception e) {
         }
 
-        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÌØÕ÷ÃûÎª¿Õ
+        // è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼ï¼Œä¼ å…¥çš„ç‰¹å¾åä¸ºç©º
         try {
             prodSpec.specifyDefaultCharacteristicValue(characteristic, charValue2, "");
-            fail("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÌØÕ÷ÃûÎª¿Õ");
+            fail("è®¾ç½®æŸä¸€ç‰¹å¾çš„é»˜è®¤å€¼ï¼Œä¼ å…¥çš„ç‰¹å¾åä¸ºç©º");
         } catch (Exception e) {
         }
     }
@@ -197,32 +197,32 @@ public class ProductSpecificationTest {
     public void testRetrieveCharacteristic() {
         ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
         ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[5]);
-        // Ìí¼ÓÌØÕ÷
+        // æ·»åŠ ç‰¹å¾
         prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
         prodSpec.addCharacteristic(characteristic2, false, false, validFor, "CPU");
 
-        // ²éÑ¯µ±Ç°Ê±¼äµãµÄÌØÕ÷
+        // æŸ¥è¯¢å½“å‰æ—¶é—´ç‚¹çš„ç‰¹å¾
         List<ProductSpecCharUse> charUses = prodSpec.retrieveCharacteristic(new Date());
-        assertNotNull("²éÑ¯µ±Ç°Ê±¼äµãµÄÌØÕ÷", charUses);
-        assertEquals("²éÑ¯µ±Ç°Ê±¼äµãµÄÌØÕ÷", 2, charUses.size());
+        assertNotNull("æŸ¥è¯¢å½“å‰æ—¶é—´ç‚¹çš„ç‰¹å¾", charUses);
+        assertEquals("æŸ¥è¯¢å½“å‰æ—¶é—´ç‚¹çš„ç‰¹å¾", 2, charUses.size());
     }
 
     @Test
     public void testRetrieveCharacteristicValue() {
         ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
-        // Ìí¼ÓÌØÕ÷
+        // æ·»åŠ ç‰¹å¾
         prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
 
         ProductSpecCharacteristicValue charValue1 = this.createValue(TestProductSpecificationData.specCharValue[9]);
         ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
-        // Ìí¼ÓÌØÕ÷Öµ
+        // æ·»åŠ ç‰¹å¾å€¼
         prodSpec.attachCharacteristicValue(characteristic, charValue1, true, validFor, "");
         prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "");
 
-        // ²éÑ¯Ä³Ò»ÌØÕ÷ÔÚµ±Ç°Ê±¼äµãµÄÖµ
+        // æŸ¥è¯¢æŸä¸€ç‰¹å¾åœ¨å½“å‰æ—¶é—´ç‚¹çš„å€¼
         List<ProdSpecCharValueUse> charValueUses = prodSpec.retrieveCharacteristicValue(characteristic, new Date(), "CPU");
-        assertNotNull("²éÑ¯Ä³Ò»ÌØÕ÷ÔÚµ±Ç°Ê±¼äµãµÄÖµ", charValueUses);
-        assertEquals("²éÑ¯Ä³Ò»ÌØÕ÷ÔÚµ±Ç°Ê±¼äµãµÄÖµ", 2, charValueUses.size());
+        assertNotNull("æŸ¥è¯¢æŸä¸€ç‰¹å¾åœ¨å½“å‰æ—¶é—´ç‚¹çš„å€¼", charValueUses);
+        assertEquals("æŸ¥è¯¢æŸä¸€ç‰¹å¾åœ¨å½“å‰æ—¶é—´ç‚¹çš„å€¼", 2, charValueUses.size());
     }
 
     @Test
@@ -234,23 +234,23 @@ public class ProductSpecificationTest {
         ProductSpecCharacteristic characteristic4 = this.createChar(TestProductSpecificationData.specChar[7]);
         ProductSpecCharacteristic characteristic5 = this.createChar(TestProductSpecificationData.specChar[8]);
         ProductSpecCharacteristic characteristic6 = this.createChar(TestProductSpecificationData.specChar[9]);
-        // Ìí¼ÓChar¾ÛºÏ¹ØÏµ
+        // æ·»åŠ Charèšåˆå…³ç³»
         characteristic2.addRelatedCharacteristic(characteristic3, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
         characteristic2.addRelatedCharacteristic(characteristic4, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
         characteristic2.addRelatedCharacteristic(characteristic5, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
         characteristic2.addRelatedCharacteristic(characteristic6, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-        // Ìí¼ÓÌØÕ÷
+        // æ·»åŠ ç‰¹å¾
         prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
-        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "³ß´çºÍÖØÁ¿");
-        prodSpec.addCharacteristic(characteristic3, false, false, validFor, "³¤");
-        prodSpec.addCharacteristic(characteristic4, false, false, validFor, "¿í");
-        prodSpec.addCharacteristic(characteristic5, false, false, validFor, "¸ß");
-        prodSpec.addCharacteristic(characteristic6, false, false, validFor, "ÖØÁ¿");
+        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "å°ºå¯¸å’Œé‡é‡");
+        prodSpec.addCharacteristic(characteristic3, false, false, validFor, "é•¿");
+        prodSpec.addCharacteristic(characteristic4, false, false, validFor, "å®½");
+        prodSpec.addCharacteristic(characteristic5, false, false, validFor, "é«˜");
+        prodSpec.addCharacteristic(characteristic6, false, false, validFor, "é‡é‡");
 
-        // ²éÑ¯¹æ¸ñµÄÒ»¼¶ÌØÕ÷
+        // æŸ¥è¯¢è§„æ ¼çš„ä¸€çº§ç‰¹å¾
         //List<ProductSpecCharUse> rootCharUses = prodSpec.retrieveRootCharacteristic();
-        // assertNotNull("²éÑ¯¹æ¸ñµÄÒ»¼¶ÌØÕ÷", rootCharUses);
-        // assertEquals("²éÑ¯¹æ¸ñµÄÒ»¼¶ÌØÕ÷", 2, rootCharUses.size());
+        // assertNotNull("æŸ¥è¯¢è§„æ ¼çš„ä¸€çº§ç‰¹å¾", rootCharUses);
+        // assertEquals("æŸ¥è¯¢è§„æ ¼çš„ä¸€çº§ç‰¹å¾", 2, rootCharUses.size());
     }
 
     @Test
@@ -262,53 +262,53 @@ public class ProductSpecificationTest {
         ProductSpecCharacteristic characteristic4 = this.createChar(TestProductSpecificationData.specChar[7]);
         ProductSpecCharacteristic characteristic5 = this.createChar(TestProductSpecificationData.specChar[8]);
         ProductSpecCharacteristic characteristic6 = this.createChar(TestProductSpecificationData.specChar[9]);
-        // Ìí¼ÓChar¾ÛºÏ¹ØÏµ
+        // æ·»åŠ Charèšåˆå…³ç³»
         characteristic2.addRelatedCharacteristic(characteristic3, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
         characteristic2.addRelatedCharacteristic(characteristic4, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
         characteristic2.addRelatedCharacteristic(characteristic5, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
         characteristic2.addRelatedCharacteristic(characteristic6, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-        // Ìí¼ÓÌØÕ÷
+        // æ·»åŠ ç‰¹å¾
         prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
-        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "³ß´çºÍÖØÁ¿");
-        prodSpec.addCharacteristic(characteristic3, false, false, validFor, "³¤");
-        prodSpec.addCharacteristic(characteristic4, false, false, validFor, "¿í");
-        prodSpec.addCharacteristic(characteristic5, false, false, validFor, "¸ß");
-        prodSpec.addCharacteristic(characteristic6, false, false, validFor, "ÖØÁ¿");
+        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "å°ºå¯¸å’Œé‡é‡");
+        prodSpec.addCharacteristic(characteristic3, false, false, validFor, "é•¿");
+        prodSpec.addCharacteristic(characteristic4, false, false, validFor, "å®½");
+        prodSpec.addCharacteristic(characteristic5, false, false, validFor, "é«˜");
+        prodSpec.addCharacteristic(characteristic6, false, false, validFor, "é‡é‡");
 
-        // ²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷
+        // æŸ¥è¯¢è§„æ ¼çš„æŸä¸€ç‰¹å¾çš„å­ç‰¹å¾
         // List<ProductSpecCharUse> leafCharUses = prodSpec.retrieveLeafCharacteristic(characteristic2, "", new Date());
-        // assertNotNull("²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷", leafCharUses);
-        // assertEquals("²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷", 4, leafCharUses.size());
+        // assertNotNull("æŸ¥è¯¢è§„æ ¼çš„æŸä¸€ç‰¹å¾çš„å­ç‰¹å¾", leafCharUses);
+        // assertEquals("æŸ¥è¯¢è§„æ ¼çš„æŸä¸€ç‰¹å¾çš„å­ç‰¹å¾", 4, leafCharUses.size());
 
-        // ²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷
+        // æŸ¥è¯¢è§„æ ¼çš„æŸä¸€ç‰¹å¾çš„å­ç‰¹å¾
         //  List<ProductSpecCharUse> leafCharUses2 = prodSpec.retrieveLeafCharacteristic(null, "", new Date());
-        //  assertNull("²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷", leafCharUses2);
+        //  assertNull("æŸ¥è¯¢è§„æ ¼çš„æŸä¸€ç‰¹å¾çš„å­ç‰¹å¾", leafCharUses2);
     }
 
     @Test
     public void testSpecifyCardinality() {
         ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
         ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[5]);
-        // Ìí¼ÓÌØÕ÷
+        // æ·»åŠ ç‰¹å¾
         prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
 
         ProductSpecCharacteristicValue charValue1 = this.createValue(TestProductSpecificationData.specCharValue[9]);
         ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
-        // Ìí¼ÓÌØÕ÷Öµ
+        // æ·»åŠ ç‰¹å¾å€¼
         prodSpec.attachCharacteristicValue(characteristic, charValue1, true, validFor, "");
         prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "");
 
-        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄCardinality
+        // è®¾ç½®æŸä¸€ç‰¹å¾çš„Cardinality
         boolean retFlag = prodSpec.specifyCardinality(characteristic, 1, 5, "");
-        assertTrue("ÉèÖÃÄ³Ò»ÌØÕ÷µÄCardinality", retFlag);
+        assertTrue("è®¾ç½®æŸä¸€ç‰¹å¾çš„Cardinality", retFlag);
 
-        // ÉèÖÃCardinality£¬ÌØÕ÷Îª¿Õ
+        // è®¾ç½®Cardinalityï¼Œç‰¹å¾ä¸ºç©º
         retFlag = prodSpec.specifyCardinality(null, 1, 5, "");
-        assertFalse("ÉèÖÃCardinality£¬ÌØÕ÷Îª¿Õ", retFlag);
+        assertFalse("è®¾ç½®Cardinalityï¼Œç‰¹å¾ä¸ºç©º", retFlag);
 
-        // ÉèÖÃCardinality£¬ÌØÕ÷²»ÊÇ±»ÓÃµÄ
+        // è®¾ç½®Cardinalityï¼Œç‰¹å¾ä¸æ˜¯è¢«ç”¨çš„
         retFlag = prodSpec.specifyCardinality(characteristic2, 1, 5, "");
-        assertFalse("ÉèÖÃCardinality£¬ÌØÕ÷²»ÊÇ±»ÓÃµÄ", retFlag);
+        assertFalse("è®¾ç½®Cardinalityï¼Œç‰¹å¾ä¸æ˜¯è¢«ç”¨çš„", retFlag);
     }
 
     @Test
@@ -405,7 +405,7 @@ public class ProductSpecificationTest {
         // *********** Case3 **************
         try {
             List<ProductSpecification> productSpecificationList3 = this.srcProdSpec.retrieveRelatedProdSpec(null);
-            fail("Case 3 £º fail when type is null¡£");
+            fail("Case 3 ï¼š fail when type is nullã€‚");
         } catch (IllegalArgumentException e) {
         }
 
