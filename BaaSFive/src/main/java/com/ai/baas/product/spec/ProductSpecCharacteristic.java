@@ -1,5 +1,6 @@
 package com.ai.baas.product.spec;
 
+import java.text.ParseException;
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
@@ -246,9 +247,20 @@ public class ProductSpecCharacteristic {
      * 
      * @param time
      */
-    public List<ProductSpecCharacteristicValue> retrieveValue(Date time) {
-    	// TODO
-    	return null;
+    public List<ProductSpecCharacteristicValue> retrieveValue(Date time) throws ParseException {
+        List<ProductSpecCharacteristicValue> productSpecCharValues = new ArrayList<ProductSpecCharacteristicValue>();
+        if (null == time) {
+            logger.error("DateTime should not be null.");
+            throw new IllegalArgumentException("DateTime should not be null.");
+        }
+        if ( null != this.prodSpecCharValue ) {
+            for (ProductSpecCharacteristicValue charValue : prodSpecCharValue) {
+                if (null != charValue.getValidFor() && 0 == charValue.getValidFor().compait(time)) {
+                    productSpecCharValues.add(charValue);
+                }
+            }
+        }
+        return productSpecCharValues;
     }
 
     /**
@@ -353,8 +365,20 @@ public class ProductSpecCharacteristic {
      * @param charRelationshipType
      */
     public List<ProductSpecCharacteristic> retrieveRelatedCharacteristic(String charRelationshipType) {
-    	// TODO
-    	return null;
+        if(StringUtils.isEmpty(charRelationshipType)){
+            logger.error("type should not be null.");
+            throw new IllegalArgumentException("type should not be null.");
+
+        }
+        List<ProductSpecCharacteristic>  characteristic=new ArrayList<ProductSpecCharacteristic>();
+        if ( null != prodSpecCharRelationship ) {
+            for (ProductSpecCharRelationship productSpecCharRelationship : prodSpecCharRelationship) {
+                if(charRelationshipType.equals(productSpecCharRelationship.getCharRelationshipType())){
+                    characteristic.add(productSpecCharRelationship.getTargetProdSpecChar());
+                }
+            }
+        }
+        return characteristic;
     }
 
     /**
@@ -362,9 +386,24 @@ public class ProductSpecCharacteristic {
      * @param charRelationshipType
      * @param time
      */
-    public List<ProductSpecCharacteristic> retrieveRelatedCharacteristic(String charRelationshipType, Date time) {
-        // TODO 
-    	return null;
+    public List<ProductSpecCharacteristic> retrieveRelatedCharacteristic(String charRelationshipType, Date time) throws  ParseException{
+        if (StringUtils.isEmpty(charRelationshipType) ) {
+            logger.error("type   should not be null");
+            throw new IllegalArgumentException("type or dateTime  should not be null");
+        }
+        if ( null == time) {
+            logger.error(" dateTime  should not be null");
+            throw new IllegalArgumentException(" dateTime  should not be null");
+        }
+        List<ProductSpecCharacteristic>  characteristic=new ArrayList<ProductSpecCharacteristic>();;
+        if (null !=prodSpecCharRelationship ) {
+            for (ProductSpecCharRelationship productSpecCharRelationship : prodSpecCharRelationship) {
+                if(charRelationshipType.equals(productSpecCharRelationship.getCharRelationshipType()) && 0 == productSpecCharRelationship.getValidFor().compait(time)){
+                    characteristic.add(productSpecCharRelationship.getTargetProdSpecChar());
+                }
+            }
+        }
+        return characteristic;
     }
 
     

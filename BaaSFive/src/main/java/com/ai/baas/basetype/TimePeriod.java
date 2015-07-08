@@ -1,5 +1,6 @@
 package com.ai.baas.basetype;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import com.ai.baas.common.util.DateUtils;
@@ -40,7 +41,7 @@ public class TimePeriod {
         this.endDateTime = endDateTime;
     }
 
-    public int compait(Date time) throws Exception{
+    public int compait(Date time) throws ParseException {
     	DateUtils du = new DateUtils();
     	if(du.dateDiff('s', du.parseCalendar(time), du.parseCalendar(startDateTime))<0){
     		return -1;
