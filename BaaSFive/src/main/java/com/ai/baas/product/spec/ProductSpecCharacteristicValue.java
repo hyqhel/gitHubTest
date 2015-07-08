@@ -249,7 +249,7 @@ public class ProductSpecCharacteristicValue {
      * 
      * @param relationType
      */
-    public Set<ProductSpecCharacteristicValue> retieveRelatedCharValue(String relationType) {
+    public Set<ProductSpecCharacteristicValue> retrieveRelatedCharValue(String relationType) {
         // TODO 
     	return null;
     }
@@ -259,7 +259,7 @@ public class ProductSpecCharacteristicValue {
      * @param relationType
      * @param time
      */
-    public Set<ProductSpecCharacteristicValue> retieveRelatedCharValue(String relationType, Date time) {
+    public Set<ProductSpecCharacteristicValue> retrieveRelatedCharValue(String relationType, Date time) {
         // TODO 
     	return null;
     }
