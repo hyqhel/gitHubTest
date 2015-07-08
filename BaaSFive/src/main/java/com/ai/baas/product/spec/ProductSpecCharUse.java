@@ -135,7 +135,7 @@ public class ProductSpecCharUse {
      */
     public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor,String name) {
 		checkProdSpecChar(specChar);
-		if(name == null ||"".equals(name) ){
+		if(null == name ||"".equals(name) ){
 			logger.error("parameter name is error £ºthe parameter is null . ");
 			throw new IllegalArgumentException("name should not be null .");
 		}
@@ -161,7 +161,7 @@ public class ProductSpecCharUse {
      */
     public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
 		checkProdSpecChar(specChar);
-		if(name == null ||"".equals(name) ){
+		if(null == name ||"".equals(name) ){
 			logger.error("parameter name is error £ºthe parameter is null . ");
 			throw new IllegalArgumentException("name should not be null .");
 		}
@@ -201,7 +201,7 @@ public class ProductSpecCharUse {
     public void addValue(ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
 		this.checkCharValue(charValue);
 
-    	if(prodSpecChar.getProdSpecCharValue() !=null && prodSpecChar.getProdSpecCharValue().contains(charValue)){
+    	if(prodSpecChar.getProdSpecCharValue() != null && prodSpecChar.getProdSpecCharValue().contains(charValue)){
 			ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
 			if (null == this.prodSpecCharValue) {
 				this.prodSpecCharValue = new ArrayList<ProdSpecCharValueUse>();
@@ -209,10 +209,10 @@ public class ProductSpecCharUse {
 			if(!prodSpecCharValue.contains(charValueUse)) {
 				this.prodSpecCharValue.add(charValueUse);
 			}else {
-				logger.warn("This charValue is used . ");
+				logger.warn("The charValue is already in use . ");
 			}
     	}else{
-			logger.warn("This charValue isn't belong to the characteristic .");
+			logger.warn("The charValue isn't belong to the characteristic .");
 		}
     }
 
