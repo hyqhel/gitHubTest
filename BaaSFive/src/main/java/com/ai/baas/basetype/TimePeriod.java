@@ -56,9 +56,6 @@ public class TimePeriod {
         }
     }
 
-    public TimePeriod() {
-    }
-
 
     /**
      * 0  表示在区间

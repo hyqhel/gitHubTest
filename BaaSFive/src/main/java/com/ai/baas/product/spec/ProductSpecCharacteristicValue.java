@@ -1,8 +1,10 @@
 package com.ai.baas.product.spec;
 
+import java.text.ParseException;
 import java.util.*;
 
 import com.ai.baas.basetype.*;
+import com.sun.java_cup.internal.runtime.lr_parser;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -249,9 +251,21 @@ public class ProductSpecCharacteristicValue {
      * 
      * @param relationType
      */
-    public Set<ProductSpecCharacteristicValue> retrieveRelatedCharValue(String relationType) {
-        // TODO 
-    	return null;
+    public List<ProductSpecCharacteristicValue> retrieveRelatedCharValue(String relationType) {
+		if(StringUtils.isEmpty(relationType)){
+			throw new IllegalArgumentException(" relationType  should not be null .");
+		}
+		List<ProductSpecCharacteristicValue> prodSpecCharValues = new ArrayList<ProductSpecCharacteristicValue>();
+		if ( null != prodSpecCharValueRelationship  && prodSpecCharValueRelationship.size() > 0) {
+			prodSpecCharValues = new ArrayList<ProductSpecCharacteristicValue>();
+			for (ProdSpecCharValueRelationship relationship : prodSpecCharValueRelationship) {
+				if (relationship.getCharValueRelationshipType() != null
+						&& relationType.equals(relationship.getCharValueRelationshipType())) {
+					prodSpecCharValues.add(relationship.getTargetCharValue());
+				}
+			}
+		}
+		return prodSpecCharValues;
     }
 
     /**
@@ -259,9 +273,26 @@ public class ProductSpecCharacteristicValue {
      * @param relationType
      * @param time
      */
-    public Set<ProductSpecCharacteristicValue> retrieveRelatedCharValue(String relationType, Date time) {
-        // TODO 
-    	return null;
+    public List<ProductSpecCharacteristicValue> retrieveRelatedCharValue(String relationType, Date time) throws ParseException {
+		if(StringUtils.isEmpty(relationType)){
+			throw new IllegalArgumentException(" relationType  should not be null .");
+		}
+		if( null == time ){
+			throw new IllegalArgumentException(" DateTime should not be null .");
+		}
+		List<ProductSpecCharacteristicValue> prodSpecCharValues = new ArrayList<ProductSpecCharacteristicValue>();
+		if ( null != prodSpecCharValueRelationship  && prodSpecCharValueRelationship.size() > 0) {
+			prodSpecCharValues = new ArrayList<ProductSpecCharacteristicValue>();
+			for (ProdSpecCharValueRelationship relationship : prodSpecCharValueRelationship) {
+				if (relationship.getCharValueRelationshipType() != null
+						&& relationType.equals(relationship.getCharValueRelationshipType())
+						&& (relationship.getValidFor() == null || 0 == relationship.getValidFor().isInTimePeriod(time))) {
+					prodSpecCharValues.add(relationship.getTargetCharValue());
+
+				}
+			}
+		}
+		return prodSpecCharValues;
     }
 
 	@Override
