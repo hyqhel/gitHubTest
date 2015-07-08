@@ -35,11 +35,11 @@ public class ProductSpecCharacteristicTest {
 	public void  testAddValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValue);
-		assertEquals("判断是否成功加上了value",1,prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("check ProductSpecCharacteristic add value success",1,prodSpecCharOwn.getProdSpecCharValue().size());
 		
 		ProductSpecCharacteristicValue prodSpecCharValues = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		assertEquals("判断再次加相同的value",1,prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("check ProductSpecCharacteristic again  add value success",1,prodSpecCharOwn.getProdSpecCharValue().size());
 		
 		prodSpecCharValues = null;
 		try {
@@ -47,58 +47,52 @@ public class ProductSpecCharacteristicTest {
 			fail("param is not illegal");
 		} catch (Exception e) {
 		}
-		
-		assertEquals("加空value",1,prodSpecCharOwn.getProdSpecCharValue().size());
-		
+		assertEquals("add empty value",1,prodSpecCharOwn.getProdSpecCharValue().size());
 		prodSpecCharValues = new ProductSpecCharacteristicValue("1", "cm", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		assertEquals("再次加新建的值相同的value",2,prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("add new create  same value",2,prodSpecCharOwn.getProdSpecCharValue().size());
 		
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		assertEquals("t再次加同一对象value",2,prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("add same project value agian",2,prodSpecCharOwn.getProdSpecCharValue().size());
 	} 
 	@Test
 	public void  testRemoveValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.removeValue(prodSpecCharValue);
-		assertNull("没有value时删除不存在的value",prodSpecCharOwn.getProdSpecCharValue());
-		
+		assertNull("remove one not exists value",prodSpecCharOwn.getProdSpecCharValue());
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharOwn.removeValue(prodSpecCharValue);
-		
-		assertEquals("删除存在的value",0,prodSpecCharOwn.getProdSpecCharValue().size());
-		
-		assertEquals("value大小为0时再删除value",0,prodSpecCharOwn.getProdSpecCharValue().size());
-	} 
+		assertEquals("remove one exists value",0,prodSpecCharOwn.getProdSpecCharValue().size());
+	}
 	@Test
 	public void  testAddRelatedCharacteristic(){
 		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "1", validFor, "true",  1,  1, true, "compistchar","");
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		
-		assertEquals("判断是否加了关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
+		assertEquals("check add realte",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
 		 
-		assertEquals("判断添加的关系类型","1",prodSpecCharOwn.getProdSpecCharRelationship().get(0).getCharRelationshipType());
+		assertEquals("check add the type value is right","1",prodSpecCharOwn.getProdSpecCharRelationship().get(0).getCharRelationshipType());
 		 
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
-		assertEquals("再次添加相同关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
+		assertEquals("add same relate again",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
 		 
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue(), validFor);
-		assertEquals("再次添加不相同关系",2,prodSpecCharOwn.getProdSpecCharRelationship().size());
+		assertEquals("add not same relate again",2,prodSpecCharOwn.getProdSpecCharRelationship().size());
 	}
 	
 	@Test
 	public void  testRemoveRelatedCharacteristic(){
 		ProductSpecCharacteristic prodSpecCharRelate = new ProductSpecCharacteristic("2", "尺寸与重量", "1", validFor, "true",  1,  1, true, "compistchar","");
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelate);
-		assertNull("判断删除关系",prodSpecCharOwn.getProdSpecCharRelationship());
+		assertNull("check remove relate",prodSpecCharOwn.getProdSpecCharRelationship());
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		
-		ProductSpecCharacteristic prodSpecCharRelatee = new ProductSpecCharacteristic("1", "颜色", "1", validFor, "true",  1,  1, false, "compistchar","");
+		ProductSpecCharacteristic prodSpecCharRelatee = new ProductSpecCharacteristic("1", "color", "1", validFor, "true",  1,  1, false, "compistchar","");
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelatee);
-		assertEquals("在已添加一个关系基础上删除不存在的关系",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
+		assertEquals("remove one not exists relate",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
 		
 		prodSpecCharOwn.removeRelatedCharacteristic(prodSpecCharRelate);
-		assertEquals("判断删除关系",0,prodSpecCharOwn.getProdSpecCharRelationship().size());
+		assertEquals("check remove relate",0,prodSpecCharOwn.getProdSpecCharRelationship().size());
 	}
 	
 	@Test 
@@ -106,7 +100,7 @@ public class ProductSpecCharacteristicTest {
 		
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
 		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
-		assertNull("特征没有值，指定一个默认值",prodSpecCharOwn.getProdSpecCharValue());
+		assertNull("specify one defalut value to a empty value ProductSpecCharacteristic",prodSpecCharOwn.getProdSpecCharValue());
 		
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		prodSpecCharValue = null;
@@ -115,15 +109,15 @@ public class ProductSpecCharacteristicTest {
 			fail("param is not illegal");
 		} catch (Exception e) {
 		}
-		assertFalse("值为空时判断能否指定了默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		assertFalse("specify one null defalut value",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
 		
 		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "cm", validFor, "9",false);
 		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
-		assertFalse("指定一个不是特征的value值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		assertFalse("specify one defalut value but not exists ProductSpecCharacteristicValue",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
 		
 		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
 		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
-		assertTrue("指定一个是特征value值默认值",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		assertTrue("specify one defalut value from ProductSpecCharacteristicValue",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
 		
 		
 	}

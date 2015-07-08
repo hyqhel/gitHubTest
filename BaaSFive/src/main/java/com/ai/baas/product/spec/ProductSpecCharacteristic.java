@@ -215,10 +215,10 @@ public class ProductSpecCharacteristic {
      * @param charVal
      */
     public void addValue(ProductSpecCharacteristicValue charVal) {
-    	if(charVal == null){
+    	if(null == charVal){
     		throw new IllegalArgumentException("param is not illegal");
     	}
-    	if(this.prodSpecCharValue ==null ){
+    	if(null == this.prodSpecCharValue){
     		this.prodSpecCharValue=new ArrayList<ProductSpecCharacteristicValue>();
     	}
     	for(ProductSpecCharacteristicValue pscv:prodSpecCharValue){
@@ -237,7 +237,7 @@ public class ProductSpecCharacteristic {
     	if(null == charVal){
     		throw new IllegalArgumentException("param is not illegal");
     	}
-    	if(this.prodSpecCharValue != null && this.prodSpecCharValue.size()>0){
+    	if(null != this.prodSpecCharValue && this.prodSpecCharValue.size()>0){
     		if(prodSpecCharValue.contains(charVal)){
     			prodSpecCharValue.remove(charVal);
     		}
@@ -403,14 +403,14 @@ public class ProductSpecCharacteristic {
 			 .append(", extensible=" + extensible + ", derivationFormula="+ derivationFormula)
 			 .append(", validFor=" + validFor );
 		if(prodSpecCharValue!=null){
-			tostr.append("\n     特征值【"); 
+			tostr.append("\n     ProductSpecCharacteristicValue【");
 			for(ProductSpecCharacteristicValue pv:prodSpecCharValue){
 				tostr.append("\n     "+pv.toString());
 			}
 			tostr.append("\n     】");
 		}
 		if(prodSpecCharRelationship!=null){
-			tostr.append("\n     关联的特征【"); 
+			tostr.append("\n     ProductSpecCharRelationship【");
 			for(ProductSpecCharRelationship pvRship:prodSpecCharRelationship){
 				tostr.append("\n     "+pvRship.toString());
 			}
