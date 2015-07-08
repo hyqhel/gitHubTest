@@ -280,7 +280,7 @@ public class ProductSpecCharacteristic {
      * 
      * @param time
      */
-    public List<ProductSpecCharacteristicValue> retrieveValue(Date time) throws ParseException {
+    public List<ProductSpecCharacteristicValue> retrieveValue(Date time) {
         List<ProductSpecCharacteristicValue> productSpecCharValues = new ArrayList<ProductSpecCharacteristicValue>();
         if (null == time) {
             logger.error("DateTime should not be null.");
@@ -419,7 +419,7 @@ public class ProductSpecCharacteristic {
      * @param charRelationshipType
      * @param time
      */
-    public List<ProductSpecCharacteristic> retrieveRelatedCharacteristic(String charRelationshipType, Date time) throws  ParseException{
+    public List<ProductSpecCharacteristic> retrieveRelatedCharacteristic(String charRelationshipType, Date time){
         if (StringUtils.isEmpty(charRelationshipType) ) {
             logger.error("type   should not be null");
             throw new IllegalArgumentException("type or dateTime  should not be null");

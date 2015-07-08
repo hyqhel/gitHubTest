@@ -273,7 +273,7 @@ public class ProductSpecCharacteristicValue {
      * @param relationType
      * @param time
      */
-    public List<ProductSpecCharacteristicValue> retrieveRelatedCharValue(String relationType, Date time) throws ParseException {
+    public List<ProductSpecCharacteristicValue> retrieveRelatedCharValue(String relationType, Date time) {
 		if(StringUtils.isEmpty(relationType)){
 			throw new IllegalArgumentException(" relationType  should not be null .");
 		}
