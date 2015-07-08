@@ -156,6 +156,39 @@ public class ProductSpecCharacteristic {
     public void setValidFor(TimePeriod validFor) {
         this.validFor = validFor;
     }
+    /**
+     *
+     * @param id
+     * @param name
+     * @param valueType
+     * @param validFor
+     * @param unique
+     * @param minCardinality
+     * @param maxCardinality
+     */
+    public ProductSpecCharacteristic(String id, String name, String valueType, TimePeriod validFor, String unique,
+                                     int minCardinality, int maxCardinality) {
+
+        if ( StringUtils.isEmpty( id ) ) {
+            logger.error("id should not be null");
+            throw new IllegalArgumentException("id should not be null");
+        }
+        if ( StringUtils.isEmpty(valueType) ) {
+            logger.error("valueType should not be null");
+            throw new IllegalArgumentException("valueType should not be null");
+        }
+        if ( StringUtils.isEmpty(name)){
+            logger.error("name should not be null");
+            throw new IllegalArgumentException("name should not be null");
+        }
+        this.ID = id;
+        this.name = name;
+        this.valueType = valueType;
+        this.validFor = validFor;
+        this.unique = unique;
+        this.maxCardinality = maxCardinality;
+        this.minCardinality = minCardinality;
+    }
 
     /**
      * 
@@ -255,7 +288,7 @@ public class ProductSpecCharacteristic {
         }
         if ( null != this.prodSpecCharValue ) {
             for (ProductSpecCharacteristicValue charValue : prodSpecCharValue) {
-                if (null != charValue.getValidFor() && 0 == charValue.getValidFor().compait(time)) {
+                if (null != charValue.getValidFor() && 0 == charValue.getValidFor().isInTimePeriod(time)) {
                     productSpecCharValues.add(charValue);
                 }
             }
@@ -398,7 +431,7 @@ public class ProductSpecCharacteristic {
         List<ProductSpecCharacteristic>  characteristic=new ArrayList<ProductSpecCharacteristic>();;
         if (null !=prodSpecCharRelationship ) {
             for (ProductSpecCharRelationship productSpecCharRelationship : prodSpecCharRelationship) {
-                if(charRelationshipType.equals(productSpecCharRelationship.getCharRelationshipType()) && 0 == productSpecCharRelationship.getValidFor().compait(time)){
+                if(charRelationshipType.equals(productSpecCharRelationship.getCharRelationshipType()) && 0 == productSpecCharRelationship.getValidFor().isInTimePeriod(time)){
                     characteristic.add(productSpecCharRelationship.getTargetProdSpecChar());
                 }
             }

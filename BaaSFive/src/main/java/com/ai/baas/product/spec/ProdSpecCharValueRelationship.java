@@ -5,8 +5,8 @@ import com.ai.baas.basetype.*;
 public class ProdSpecCharValueRelationship {
 
     private ProductSpecCharacteristicValue sourceCharValue;
-    private ProductSpecCharacteristicValue productSpecCharacteristicValue;
-    /**
+    private ProductSpecCharacteristicValue targetCharValue;
+	/**
      * A categorization of the relationship between values, such as aggregation, migration, substitution, dependency, exclusivity.
      */
     private String charValueRelationshipType;
@@ -31,7 +31,15 @@ public class ProdSpecCharValueRelationship {
         this.validFor = validFor;
     }
 
-    /**
+	public ProductSpecCharacteristicValue getSourceCharValue() {
+		return sourceCharValue;
+	}
+
+	public ProductSpecCharacteristicValue getTargetCharValue() {
+		return targetCharValue;
+	}
+
+	/**
      * 
      * @param srourceCharValue
      * @param targetCharValue
@@ -40,7 +48,7 @@ public class ProdSpecCharValueRelationship {
      */
     public ProdSpecCharValueRelationship(ProductSpecCharacteristicValue srourceCharValue, ProductSpecCharacteristicValue targetCharValue, String relationType, TimePeriod validFor) {
        this.sourceCharValue = sourceCharValue;
-       this.productSpecCharacteristicValue = targetCharValue;
+       this.targetCharValue = targetCharValue;
     }
 
 	@Override
@@ -53,8 +61,8 @@ public class ProdSpecCharValueRelationship {
 						: charValueRelationshipType.hashCode());
 		result = prime
 				* result
-				+ ((productSpecCharacteristicValue == null) ? 0
-						: productSpecCharacteristicValue.hashCode());
+				+ ((targetCharValue == null) ? 0
+						: targetCharValue.hashCode());
 		result = prime * result
 				+ ((validFor == null) ? 0 : validFor.hashCode());
 		return result;
@@ -80,12 +88,12 @@ public class ProdSpecCharValueRelationship {
 				.equals(other.charValueRelationshipType)){
 			return false;
 		}
-		if (productSpecCharacteristicValue == null) {
-			if (other.productSpecCharacteristicValue != null){
+		if (targetCharValue == null) {
+			if (other.targetCharValue != null){
 				return false;
 			}
-		} else if (!productSpecCharacteristicValue
-				.equals(other.productSpecCharacteristicValue)){
+		} else if (!targetCharValue
+				.equals(other.targetCharValue)){
 			return false;
 		}
 		if (validFor == null) {
