@@ -235,8 +235,9 @@ public class ProductSpecCharacteristic {
      */
     public void specifyCardinality(int minCardinality, int maxCardinality) {
     	if (minCardinality > maxCardinality){
-    		throw new IllegalArgumentException("param is not illegal");
-    	}
+            logger.error("maxCardinality is less than minCardinality");
+            throw new IllegalArgumentException("maxCardinality is less than minCardinality");
+        }
         this.minCardinality =minCardinality;
         this.maxCardinality =maxCardinality;
     }
@@ -247,14 +248,13 @@ public class ProductSpecCharacteristic {
      */
     public void addValue(ProductSpecCharacteristicValue charVal) {
     	if(null == charVal){
-    		throw new IllegalArgumentException("param is  illegal");
+    		throw new IllegalArgumentException("Parameter charVal should not be null");
     	}
     	if(null == this.prodSpecCharValue){
     		this.prodSpecCharValue = new HashSet<ProductSpecCharacteristicValue>();
     	}
-        Iterator<ProductSpecCharacteristicValue> iterator = prodSpecCharValue.iterator();
-        while (iterator.hasNext()) {
-            if(iterator.next().equals(charVal)){
+        for (ProductSpecCharacteristicValue pscv:prodSpecCharValue){
+            if(pscv.equals(charVal)){
                 return;
             }
         }
@@ -267,7 +267,7 @@ public class ProductSpecCharacteristic {
      */
     public void removeValue(ProductSpecCharacteristicValue charVal) {
     	if(null == charVal){
-    		throw new IllegalArgumentException("param is  illegal");
+    		throw new IllegalArgumentException("Parameter charVal should not be  null");
     	}
     	if(null != this.prodSpecCharValue && this.prodSpecCharValue.size()>0){
     		if(prodSpecCharValue.contains(charVal)){
@@ -302,7 +302,8 @@ public class ProductSpecCharacteristic {
      */
     public void specifyDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
     	if (null == defaultCharVal){
-    		throw new IllegalArgumentException("param is  illegal");
+            logger.error("Parameter  defaultCharVal is null");
+    		throw new IllegalArgumentException("Parameter  defaultCharVal should not be null");
     	}
     	if(null != this.prodSpecCharValue){
     		for(ProductSpecCharacteristicValue productSpecCharacteristicValue:prodSpecCharValue){
@@ -319,13 +320,12 @@ public class ProductSpecCharacteristic {
 
     public List<ProductSpecCharacteristicValue> retrieveDefaultValue() {
         if(null == this.prodSpecCharValue){
-        	throw new IllegalArgumentException("param is  illegal");
+            return null;
         }else{
             List<ProductSpecCharacteristicValue> psvcoll = new ArrayList<ProductSpecCharacteristicValue>();
         	for(ProductSpecCharacteristicValue productSpecCharacteristicValue :prodSpecCharValue){
         		if(productSpecCharacteristicValue.isIsDefault()){
                     psvcoll.add(productSpecCharacteristicValue);
-
         		}
         	}
             return psvcoll;
@@ -379,17 +379,16 @@ public class ProductSpecCharacteristic {
      */
     public void removeRelatedCharacteristic(ProductSpecCharacteristic specChar) {
     	if (null == specChar){
-    		throw new IllegalArgumentException("param is not illegal");
+    		throw new IllegalArgumentException("Parameter specChar should not be  null");
     	}
     	if(null == this.prodSpecCharRelationship){
     		return;
     	}
-    	 Iterator<ProductSpecCharRelationship> iterator = prodSpecCharRelationship.iterator();    
-         while (iterator.hasNext()) { 
-        	 if(iterator.next().getTargetProdSpecChar().equals(specChar)){
-     			 iterator.remove();
-     		}
-         }
+        for(ProductSpecCharRelationship psr:prodSpecCharRelationship){
+            if(psr.getTargetProdSpecChar().equals(specChar)){
+                prodSpecCharRelationship.remove(psr);
+            }
+        }
     }
 
 
