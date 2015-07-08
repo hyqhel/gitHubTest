@@ -346,31 +346,30 @@ public abstract class ProductSpecification {
     /**
      * @return
      */
-    public Set<ProductSpecCharUse> getRootCharacteristic() {
-        Set<ProductSpecCharUse> resultProdSpecCharUseList = new HashSet<ProductSpecCharUse>();
-        resultProdSpecCharUseList = this.prodSpecChar;
-        if (null != prodSpecChar && prodSpecChar.size() > 0) {
-            for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
-                ProductSpecCharacteristic[] relatedChars = prodSpecCharUse.getProdSpecChar().retieveRelatedCharacteristic(ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
-                if (null == relatedChars || relatedChars.length == 0) {
-                    for (ProductSpecCharacteristic prodSpecChar : relatedChars) {
-                        ProductSpecCharUse prodSpecCharSub = retrieveProdSpecCharUse(prodSpecChar);
-                        if (null != prodSpecCharSub) {
-                            resultProdSpecCharUseList.remove(prodSpecCharSub);
-                        }
+    public List<ProductSpecCharUse> retrieveRootCharacteristic() {
+        List<ProductSpecCharUse> charUseList = new ArrayList<ProductSpecCharUse>();
+        if (null != this.prodSpecChar) {
+            charUseList.addAll(this.prodSpecChar);
+            for (ProductSpecCharUse charUse : this.prodSpecChar) {
+                List<ProductSpecCharacteristic> subProdSpecChar = charUse.getProdSpecChar().retrieveRelatedCharacteristic(
+                        ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
+                if (null != subProdSpecChar) {
+                    for (ProductSpecCharacteristic specChar : subProdSpecChar) {
+                        ProductSpecCharUse subCharUse = this.retrieveProdSpecCharUse(specChar, charUse.getName());
+                        if (null != subCharUse)
+                            charUseList.remove(subCharUse);
                     }
-                    resultProdSpecCharUseList.add(prodSpecCharUse);
                 }
             }
         }
-        return resultProdSpecCharUseList;
+        return charUseList;
     }
 
     /**
      * @param specChar
      * @param time
      */
-    public Set<ProductSpecCharUse> getLeafCharacteristic(ProductSpecCharacteristic specChar, Date time,String name) {
+    public List<ProductSpecCharUse> retrieveLeafCharacteristic(ProductSpecCharacteristic specChar, Date time,String name) {
         checkProdSpecChar(specChar);
         if(null == name || "".equals( name)){
             log.error("parameter is error ：the parameter name is null. ");
@@ -379,15 +378,14 @@ public abstract class ProductSpecification {
         List<ProductSpecCharUse> charUses = new ArrayList<ProductSpecCharUse>();
         List<ProductSpecCharacteristic> subProdSpecChar = null;
         if(null == time)
-            subProdSpecChar = specChar.retieveRelatedCharacteristic(
+            subProdSpecChar = specChar.retrieveRelatedCharacteristic(
                     ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
         else
             subProdSpecChar = specChar.retrieveRelatedCharacteristic(
                     ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), time);
-        Set<ProductSpecCharUse> resultProdSpecCharUseSet = new HashSet<ProductSpecCharUse>();
-        if (null != prodSpecChar) {
-            for (ProductSpecCharacteristic specChar : prodSpecChar) {
-                ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(specChar,name);
+        if (null != subProdSpecChar) {
+            for (ProductSpecCharacteristic subspecChar : subProdSpecChar) {
+                ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(subspecChar,name);
                 if (null != charUse)
                     charUses.add(charUse);
             }
@@ -400,22 +398,20 @@ public abstract class ProductSpecification {
      * @param minCardinality
      * @param maxCardinality
      */
-    public boolean setCardinality(ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality) {
+    public boolean specifyCardinality(ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality,String name) {
         checkProdSpecChar(specChar);
-        int rtnNum = NumberUtil.compareTheNumber(minCardinality, maxCardinality);
-        if (rtnNum == 1) {
-            log.error("minCardinality should be less than or equal to  maxCardinality.");
-            throw new IllegalArgumentException("the parameter of verType is error.");
+        if(null == name || "".equals( name)){
+            log.error("parameter is error ：the parameter name is null. ");
+            throw new IllegalArgumentException("name should not be null .");
         }
-        if (null != prodSpecChar && prodSpecChar.size() > 0) {
-            for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
-                if (prodSpecCharUse.getProdSpecChar().equals(specChar)) {
-                    prodSpecCharUse.setMinCardinality(minCardinality);
-                    prodSpecCharUse.setMaxCardinality(maxCardinality);
-                }
-            }
+        ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(specChar,name);
+        if (null != charUse) {
+            charUse.specifyCardinality(minCardinality, maxCardinality);
+            return true;
+        } else {
+            log.warn("Parameter characteristic is not used");
+            return false;
         }
-        return true;
     }
 
     /**

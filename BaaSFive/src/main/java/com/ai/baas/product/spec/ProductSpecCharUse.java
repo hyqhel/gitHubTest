@@ -182,7 +182,7 @@ public class ProductSpecCharUse {
      * @param minCardinality
      * @param maxCardinality
      */
-    public void setCardinality(int minCardinality, int maxCardinality) {
+    public void specifyCardinality(int minCardinality, int maxCardinality) {
 		if(minCardinality <= maxCardinality){
 			this.minCardinality = minCardinality;
 			this.maxCardinality = maxCardinality;

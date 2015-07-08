@@ -1,394 +1,434 @@
 package com.ai.baas.product.spec;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.collections.map.HashedMap;
-import org.apache.log4j.Logger;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
-
 import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.constant.Const;
 import com.ai.baas.common.enums.ProdSpecEnum;
-import com.ai.baas.common.util.DateUtils;
+import org.apache.log4j.Logger;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class ProductSpecificationTest {
-	private static final Logger log = Logger.getLogger(ProductSpecificationTest.class);
-	private static ProductSpecCharacteristic psc =null;
-	//scene
-	private static ProductSpecification prodSpec;
-	//test prodSpec
-	private  ProductSpecification atomicProdSpec;
-	private static TimePeriod validFor;
-	String units = "pound";
-	long amount = 100;
-	//data about prodSpec which is prepared
-	private static List<ProductSpecCharacteristic> specCharList = null;
-	
-	public static ProductSpecification getProdSpec() {
-		return prodSpec;
-	}
+    private Logger logger = Logger.getLogger(ProductSpecificationTest.class);
+    private ProductSpecification prodSpec = null;
+    private ProductSpecification expectProdSpec = null;
+    private TimePeriod validFor = null;
+    private ProductSpecification srcProdSpec = null;
 
-	public static void setProdSpec(ProductSpecification prodSpec) {
-		ProductSpecificationTest.prodSpec = prodSpec;
-	}
-	
-	@Ignore
-	@BeforeClass
-	public static void  createProdSpec() throws Exception{
-		validFor = new TimePeriod();
-		String startDate = "2015-06-01";
-		String endDate = "2015-08-01";
-		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
-		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
-		prodSpec = new AtomicProductSpecification("1", "11 è‹±å¯¸ MacBook Air", "apple", "Mac", validFor);
-		createProdSpecCharTest();
-		for (int i = 0; i < SpecCharData.specSelectCharIds.length; i++) {
-			ProductSpecCharacteristic selectedSpecChar = selectedProdChar(specCharList,SpecCharData.specSelectCharIds[i]);
-			prodSpec.addCharacteristic(selectedSpecChar, false, true, validFor, selectedSpecChar.getName(),  "", 1, 3, false,  "this is a description about size and weight used by CharUse");
-			List<ProductSpecCharacteristicValue> prodSpecCharValueList = selectedSpecChar.getProdSpecCharValue();
-			for(int j=0;j<SpecCharData.specCharUseValueRelate.length;j++){
-				if(i==SpecCharData.specCharUseValueRelate[j][0]){
-					int valuesub=SpecCharData.specCharUseValueRelate[j][1];
-					ProductSpecCharacteristicValue selectvalue=selectedProdCharValue(prodSpecCharValueList,SpecCharData.specSelectCharValueIds[valuesub]);
-					prodSpec.attachCharacteristicValue(selectedSpecChar, selectvalue, false, validFor);
-				}
-			}
-		}
-		prodSpec.setVersion("1.0.0", "create a version", new Date(), validFor);
-	}
-	public static void createProdSpecCharTest(){
-			String derivationFormula = "";
-			String valueType="";
-			if(specCharList ==null ){
-				specCharList = new ArrayList<ProductSpecCharacteristic>();
-			}
-			for(int i=0;i<SpecCharData.specChar.length;i++){
-				ProductSpecCharacteristic prodSpecChar = new ProductSpecCharacteristic(SpecCharData.specChar[i][0].toString(), SpecCharData.specChar[i][1].toString(), valueType, validFor, SpecCharData.specChar[i][5].toString(),  Integer.parseInt(SpecCharData.specChar[i][3].toString()),  Integer.parseInt((String)SpecCharData.specChar[i][4].toString()), (Boolean)SpecCharData.specChar[i][6], SpecCharData.specChar[i][2].toString(),derivationFormula);
-				for(int j=0;j<SpecCharData.specCharRelateValue.length;j++){
-					if(i==SpecCharData.specCharRelateValue[j][0]){
-						int charvaluesub=SpecCharData.specCharRelateValue[j][1];
-						// form to value
-						ProductSpecCharacteristicValue  prodSpecCharValue=null;
-						String charvalueId=SpecCharData.specCharValue[charvaluesub][1].toString();
-						if(ProdSpecEnum.ProdSpecType.FORTH.getValue().equals((String)SpecCharData.specCharValue[charvaluesub][0])){
-							  prodSpecCharValue = new ProductSpecCharacteristicValue((String)SpecCharData.specCharValue[charvaluesub][0], SpecCharData.specCharValue[charvaluesub][2].toString(), validFor, SpecCharData.specCharValue[charvaluesub][3].toString(), SpecCharData.specCharValue[charvaluesub][4].toString(), SpecCharData.specCharValue[charvaluesub][5].toString());
-						}else{
-							  prodSpecCharValue = new ProductSpecCharacteristicValue((String)SpecCharData.specCharValue[charvaluesub][0], SpecCharData.specCharValue[charvaluesub][2].toString(), validFor, SpecCharData.specCharValue[charvaluesub][3].toString(), false);
-						}
-						prodSpecCharValue.setId(charvalueId);
-						prodSpecChar.addValue(prodSpecCharValue);
-					}
-				}
-				specCharList.add(prodSpecChar);
-			}
-			addRelatedCharacteristic();
-		}
-	
-	public static void addRelatedCharacteristic(){
-	    String carId = SpecCharData.specCharRelate[0][0].toString();
-	     psc =getCharac(carId);
-		TimePeriod validFor = new TimePeriod();
-		String startDate = "2015-06-01";
-		String endDate = "2015-08-21";
-		validFor.setStartDateTime(DateUtils.str2Date(startDate, DateUtils.date_sdf));
-		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
-		for(int j=0;j<SpecCharData.specCharRelate.length;j++){
-			String dependenccharId=SpecCharData.specCharRelate[j][1];
-			psc.addRelatedCharacteristic(getCharac(dependenccharId),ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
-		}
-	}
-	private static ProductSpecCharacteristic getCharac(String carId){
-		for(int i=0;i<specCharList.size();i++){
-			 if(carId.equals(specCharList.get(i).getID())){
-				 return  specCharList.get(i);
-			 }
-		}
-		return null;
-	}
-	
-	/**
-	 * this is an operation to return ProductSpecification Object
-	 * @return
-	 * @throws Exception 
-	 */
-	private static  ProductSpecCharacteristic selectedProdChar(List<ProductSpecCharacteristic> specCharList, String selectedProdSpecCharId){
-		String prodSpecCharId = "";
-		ProductSpecCharacteristic prodSpecSelectChar=null;
-		if(null!=specCharList && specCharList.size()>0){
-			for (int i = 0; i < specCharList.size(); i++) {
-				prodSpecCharId = specCharList.get(i).getID();
-				if(prodSpecCharId.equals(selectedProdSpecCharId)){
-					prodSpecSelectChar= specCharList.get(i);
-					break;
-				}
-			}
-		}
-		return prodSpecSelectChar;
-	}
-	
-	/**
-	 * this is an operation to return ProductSpecCharacteristicValue Object
-	 * @return
-	 * @throws Exception 
-	 */
-	private static ProductSpecCharacteristicValue selectedProdCharValue(List<ProductSpecCharacteristicValue> specCharValueList, String selectedProdSpecCharValueId){
-		String prodSpecCharVauleId = "";
-		ProductSpecCharacteristicValue prodSpecSelectCharValue=null;
-		if(null!=specCharValueList && specCharValueList.size()>0){
-			for (int i = 0; i < specCharValueList.size(); i++) {
-				prodSpecCharVauleId = specCharValueList.get(i).getId();
-				if(prodSpecCharVauleId.equals(selectedProdSpecCharValueId)){
-					prodSpecSelectCharValue= specCharValueList.get(i);
-				}
-			}
-		}
-		return prodSpecSelectCharValue;
-	}
-	
-	@Before
-	public  void setUp(){
-		atomicProdSpec = new AtomicProductSpecification("1", "11 Pounds MacBook Air", "apple", "Mac", validFor);
-	}
-	
-	/**
-	 * the test class about productSpecification when add a characteristic
-	 */
-	@Test
-	public void testAddCharacteristic(){
-		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "color", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		
-		//TODO exception handingï¼Ÿï¼Ÿï¼Ÿ    judgment when callï¼Ÿï¼Ÿï¼Ÿ
-		//atomicProdSpec.getProdSpecChar().size();
-		
-		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
-		assertEquals("add a characteristic success",1,atomicProdSpec.getProdSpecChar().size());
-		//assertEquals("characteristic is correct to ProductSpecification",false,atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecChar().equals(specChar));
-		ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, false, false, validFor);
-		assertEquals("characteristic is correct to ProductSpecification",true,atomicProdSpec.getProdSpecChar().contains(prodSpecCharUse));
-		
-		ProductSpecCharacteristic specCharTwo = new ProductSpecCharacteristic("1", "color", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		atomicProdSpec.addCharacteristic(specCharTwo, false, false, validFor);
-		assertEquals("whether the same characteristic value can repeat add",1,atomicProdSpec.getProdSpecChar().size());
-		
-		specCharTwo = null;
-		try {
-			atomicProdSpec.addCharacteristic(specCharTwo, false, false, validFor);
-			assertEquals("is a null object about characteristic can be add",1,atomicProdSpec.getProdSpecChar().size());
-			fail("the object of ProductSpecCharacteristic is null, no check");
-		} catch (Exception e) {
-			// check specCharTwo is null
-		}
-		
-	}
-	
-	/**
-	 * ç»™è§„æ ¼removeä¸€ä¸ªç‰¹å¾çš„testç±»
-	 */
-	@Ignore
-	public void testRemoveCharacteristic(){
-		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "é¢œè‰²", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		
-		atomicProdSpec.removeCharacteristic(specChar);
-		assertEquals("ä¸æ·»åŠ ï¼Œç›´æ¥åˆ é™¤æ˜¯å¦æœ‰é—®é¢˜",0, (atomicProdSpec.getProdSpecChar() == null ? 0 : atomicProdSpec.getProdSpecChar().size()));
-		
-		Boolean rtnFlag = false;
-		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
-		
-		ProductSpecCharacteristic specCharNotExsit = new ProductSpecCharacteristic("2", "é¢œè‰²", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		rtnFlag = atomicProdSpec.removeCharacteristic(specCharNotExsit);
-		assertEquals("æ˜¯å¦æˆåŠŸåˆ é™¤ä¸€ä¸ªä¸å­˜åœ¨çš„ç‰¹å¾", false,rtnFlag);
-		
-		rtnFlag = atomicProdSpec.removeCharacteristic(specChar);
-		assertEquals("æ˜¯å¦æˆåŠŸåˆ é™¤ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾", true,rtnFlag);
-		
-		specChar = null;
-		rtnFlag = atomicProdSpec.removeCharacteristic(specChar);
-		assertEquals("å…¥å‚ä¸­è¦åˆ é™¤çš„ç‰¹å¾ä¸ºnullæ˜¯å¦æ­£ç¡®", false,rtnFlag);
-	}
-	
-	/**
-	 * ç»™è§„æ ¼ä¸‹çš„ç‰¹å¾æ·»åŠ ç‰¹å¾å€¼çš„testç±»
-	 */
-	@Ignore
-	public void testAttachCharacteristicValue(){
-		Boolean rtnFlag = false;
-		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "é¢œè‰²", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
-        specChar.addValue(charValue);		
-		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
-		
-		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
-		assertEquals("æ˜¯å¦æˆåŠŸæ·»åŠ ä¸€ä¸ªç‰¹å¾å€¼",1,atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
-		
-		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
-		assertEquals("åŒä¸€ä¸ªç‰¹å¾å€¼èƒ½å¦é‡å¤æ·»åŠ åŒä¸€ä¸ªå¯¹è±¡",1,atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
-		
-		ProductSpecCharacteristicValue charValueTwo = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
-		atomicProdSpec.attachCharacteristicValue(specChar, charValueTwo, false, validFor);
-		assertEquals("åŒä¸€ä¸ªç‰¹å¾å€¼èƒ½å¦é‡å¤æ·»åŠ newä¸€ä¸ªæ–°çš„å¯¹è±¡",1,atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
-		
-		specChar = null;
-		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
-		assertEquals("ä¸ºç©ºçš„ç‰¹å¾èƒ½å¦æˆåŠŸæ·»åŠ ç‰¹å¾å€¼",1,atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
-		
-		ProductSpecCharacteristic specCharNotExist = new ProductSpecCharacteristic("1", "é¢œè‰²", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		atomicProdSpec.attachCharacteristicValue(specCharNotExist, charValue, false, validFor);
-		assertEquals("æ‰¾ä¸åˆ°çš„ç‰¹å¾èƒ½å¦æˆåŠŸæ·»åŠ ç‰¹å¾å€¼",1,atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
-		
-		specChar = new ProductSpecCharacteristic("1", "é¢œè‰²", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		charValue = null;
-		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
-		assertEquals("ä¸ºç©ºçš„ç‰¹å¾å€¼èƒ½å¦æ·»åŠ æˆåŠŸ",false,rtnFlag);
-	}
-	
-	/**
-	 * åˆ é™¤ç‰¹å¾ä¸‹çš„æŸä¸€ä¸ªç‰¹å¾å€¼å¾—testç±»
-	 */
-	@Ignore
-	public void testDetachCharacteristicValue(){
-		ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "é¢œè‰²", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
-		specChar.addValue(charValue);
-		atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
-		
-		atomicProdSpec.detachCharacteristicValue(specChar, charValue);
-		assertEquals("ä¸æ·»åŠ ï¼Œç›´æ¥åˆ é™¤ç‰¹å¾å€¼æ˜¯å¦æœ‰é—®é¢˜",0, (atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue() == null ? 0 : atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size()));
-		
-		atomicProdSpec.attachCharacteristicValue(specChar, charValue, false, validFor);
-		ProductSpecCharacteristicValue charValueNotExist = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "green", false);
-		atomicProdSpec.detachCharacteristicValue(specChar, charValueNotExist);
-		assertEquals("æ˜¯å¦æˆåŠŸåˆ é™¤ä¸€ä¸ªä¸å­˜åœ¨çš„ç‰¹å¾å€¼", 1, atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
-		
-		atomicProdSpec.detachCharacteristicValue(specChar, charValue);
-		assertEquals("æ˜¯å¦æˆåŠŸåˆ é™¤ä¸€ä¸ªå·²å­˜åœ¨çš„ç‰¹å¾å€¼", 0, atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
-		
-		specChar = null;
-		atomicProdSpec.detachCharacteristicValue(specChar, charValue);
-		assertEquals("å…¥å‚ä¸­è¦åˆ é™¤çš„ç‰¹å¾å€¼ä¸ºnullæ˜¯å¦æ­£ç¡®", 0, atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
-	}
-	
-	/**
-	 * ç»™ç‰¹å¾å¢åŠ ä¸€ä¸ªå…³ç³»ç‰¹å¾
-	 */
-	@Ignore
-	public void testAddRelatedProdSpec(){
-		ProductSpecification atomicProdSpecTwo = new AtomicProductSpecification("2", "13 è‹±å¯¸ MacBook Air", "apple", "Mac", validFor);
-		
-		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue(), validFor);
-		assertEquals("æ˜¯å¦æˆåŠŸæ·»åŠ ä¸€ä¸ªäº’æ–¥å…³ç³»çš„prodSpec", 1, atomicProdSpec.getProdSpecRelationship().size());
-		
-		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue(), validFor);
-		assertEquals("ä¸åŒä¸€ä¸ªspecå»ºç«‹åŒä¸€ä¸ªç±»å‹å…³ç³»æ˜¯å¦å¯ä»¥", 1, atomicProdSpec.getProdSpecRelationship().size());
-		
-		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue(), validFor);
-		assertEquals("æ˜¯å¦å¯ä»¥ä¸ä¸€ä¸ªä¸ºnullçš„specå»ºç«‹å…³ç³»", 1, atomicProdSpec.getProdSpecRelationship().size());
-		
-		atomicProdSpec.addRelatedProdSpec(atomicProdSpecTwo, "", validFor);
-		assertEquals("æ˜¯å¦æˆåŠŸæ·»åŠ ä¸€ä¸ªå…³ç³»ç±»å‹ä¸ºç©ºçš„prodSpec", 1, atomicProdSpec.getProdSpecRelationship().size());
-	}
-	
-	/**
-	 * ç»™ç‰¹å¾è®¾ç½®æŸä¸€ä¸ªé»˜è®¤çš„ç‰¹å¾å€¼
-	 */
-	@Ignore
-	 public void testSpecifyDefaultCharacteristicValue(){
-		 ProductSpecCharacteristic specChar = new ProductSpecCharacteristic("1", "é¢œè‰²", "1", validFor, "unique", 1, 3, false, "description", "derivationFormula");
-		 ProductSpecCharacteristicValue charValueOne = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", false);
-		 ProductSpecCharacteristicValue charValueTwo = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "yellow", false);
-		 specChar.addValue(charValueOne);
-		 specChar.addValue(charValueTwo);
-		 atomicProdSpec.addCharacteristic(specChar, false, false, validFor);
-		 atomicProdSpec.attachCharacteristicValue(specChar, charValueOne, false, validFor);
-		 atomicProdSpec.attachCharacteristicValue(specChar, charValueTwo, false, validFor);
-		 
-		 //TODO 
-		 ProductSpecCharacteristicValue defaultCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.TEXT.getValue(), "GBK", validFor, "red", true);
-		 atomicProdSpec.specifyDefaultCharacteristicValue(specChar, defaultCharValue);
-		 assertEquals("æ­£å¸¸è®¾ç½®ä¸€ä¸ªé»˜è®¤å€¼æ˜¯å¦æˆåŠŸ",true, atomicProdSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().get(0).isIsDefault());
-		 
-		 
-		 /*assertEquals("è¯¥ç‰¹å¾ä¸å­˜åœ¨,èƒ½å¦æˆåŠŸè®¾ç½®é»˜è®¤å€¼", false, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().get(0).isIsDefault());
-		 
-		 assertEquals("è¯¥ç‰¹å¾å­˜åœ¨,ç‰¹å¾ä¸‹æ²¡æœ‰ç‰¹å¾å€¼æ˜¯å¦è®¾ç½®æˆåŠŸ", false, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().get(0).isIsDefault());
-		 
-		 assertEquals("è¯¥ç‰¹å¾å­˜åœ¨,æ²¡æœ‰é»˜è®¤å€¼æ˜¯å¦è®¾ç½®æˆåŠŸ", true, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().get(0).isIsDefault());
-		 
-		 assertEquals("è¯¥ç‰¹å¾å­˜åœ¨,é»˜è®¤å€¼å­˜åœ¨æ˜¯å¦è®¾ç½®æˆåŠŸ", true, atomicProdSpec.getProdSpecChar().get(0).getProdSpecCharValue().get(0).isIsDefault());*/
-	 }
-	 
-	 /**
-	  * æ ¹æ®æ—¶é—´æŸ¥è¯¢specä¸‹çš„æ‰€æœ‰ç‰¹å¾
-	  */
-	@Ignore
-	 public void testRetrieveCharacteristic(){
-		 boolean rtnFlag = false;
-		 
-		 //TODO
-		 assertEquals("æ—¶é—´å‚æ•°ä¼ å…¥ä¸ºnullèƒ½å¦æŸ¥è¯¢", false, rtnFlag);
-		 
-		 assertEquals("æ—¶é—´å‚æ•°ä¼ å…¥åœ¨æ—¶é—´æ®µä¹‹å‰çš„èƒ½å¦æŸ¥åˆ°æ•°æ®", false, rtnFlag);
-		 
-		 assertEquals("æ—¶é—´å‚æ•°ä¼ å…¥åœ¨æ—¶é—´æ®µå†…çš„èƒ½å¦æŸ¥åˆ°æ•°æ®", false, rtnFlag);
-		 
-		 assertEquals("æ—¶é—´å‚æ•°ä¼ å…¥åœ¨æ—¶é—´æ®µä¹‹åçš„èƒ½å¦æŸ¥åˆ°æ•°æ®", false, rtnFlag);
-	 }
-	 
-	/**
-	 * print result
-	 */
-	@Ignore
-	public static void  printResult(){
-		System.out.println("æ€»å…±æœ‰"+specCharList.size()+"ä¸ªç‰¹å¾ï¼š\n");
-		log.info("æ€»å…±æœ‰"+specCharList.size()+"ä¸ªç‰¹å¾ï¼š\t");
-		for(int i=0;i<specCharList.size();i++){
-			String comp = "";
-			if(specCharList.get(i).getProdSpecCharRelationship()!=null && specCharList.get(i).getProdSpecCharRelationship().size()>0){
-				comp = "(å¤åˆç‰¹å¾)";
-			}
-			log.info("ç‰¹å¾"+(i+1)+comp+":\t"+specCharList.get(i).toString());
-			System.out.println("ç‰¹å¾"+(i+1)+comp+":\n"+specCharList.get(i).toString());
-		}
-		
-		Set<ProductSpecCharUse> prodSpecCharUseList = prodSpec.getProdSpecChar();
-		System.out.println("\n\nè§„æ ¼ï¼š"+prodSpec.getName()+"ä½¿ç”¨äº†"+prodSpecCharUseList.size()+"ä¸ªç‰¹å¾:\n");
-		log.info("\t\tè§„æ ¼ï¼š"+prodSpec.getName()+"ä½¿ç”¨äº†"+prodSpecCharUseList.size()+"ä¸ªç‰¹å¾:\t");
-		if(null != prodSpecCharUseList && prodSpecCharUseList.size()>0){
-			for (int i = 0; i < prodSpecCharUseList.size(); i++) {
-				ProductSpecCharacteristic  psc = prodSpecCharUseList.iterator().next().getProdSpecChar();
-				String comp = "";
-				if(psc.getProdSpecCharRelationship() != null && psc.getProdSpecCharRelationship().size()>0){
-					comp = "(å¤åˆç‰¹å¾)";
-				}
-				log.info("ç‰¹å¾"+(i+1)+comp+":\t"+psc.toString());
-				System.out.println("ç‰¹å¾"+(i+1)+comp+":\n"+psc.toString());
-			}
-		}
-		//version
-		List<ProductSpecificationVersion> prodSpecCharVersionList = prodSpec.getProdSpecVersion();
-		Map<String,String> mapv = new HashedMap();
-		if(null != prodSpecCharVersionList && prodSpecCharVersionList.size()>0){
-			for (int i = 0; i < prodSpecCharVersionList.size(); i++) {
-				String versionType = prodSpecCharVersionList.get(i).getProdSpecRevisionType();
-				String versionNum = prodSpecCharVersionList.get(i).getProdSpecRevisionNumber();
-				mapv.put(versionType, versionNum);
-			}
-		}
-		log.info("åˆ›å»ºç‰ˆæœ¬æ˜¯ï¼š"+mapv.get(Const.SPEC_MAJOR_VERSION)+"."+mapv.get(Const.SPEC_MINOR_VERSION)+"."+mapv.get(Const.SPEC_PATCH_VERSION));
-		System.out.println("åˆ›å»ºç‰ˆæœ¬æ˜¯ï¼š"+mapv.get(Const.SPEC_MAJOR_VERSION)+"."+mapv.get(Const.SPEC_MINOR_VERSION)+"."+mapv.get(Const.SPEC_PATCH_VERSION));
-	}
-	
-	
+    @Before
+    public void initProdSpec() {
+        srcProdSpec = new AtomicProductSpecification("S001", "iPhone6", "Apple iPhone");
+        validFor = new TimePeriod("2015-02-03 12:00:00", "2015-07-21 23:59:59");
+        prodSpec = new AtomicProductSpecification("mac-13", "13-inch MacBook Pro", "apple");
+        expectProdSpec = new AtomicProductSpecification("mac-13", "13-inch MacBook Pro", "apple");
+    }
+
+    @Test
+    public void testAddCharacteristic() {
+        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
+        ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[4]);
+        Set<ProductSpecCharUse> expectCharUse = new HashSet<ProductSpecCharUse>();
+        ProductSpecCharUse charUse = new ProductSpecCharUse(characteristic, false, false, validFor, "CPU");
+        ProductSpecCharUse charUse2 = new ProductSpecCharUse(characteristic, false, false, validFor, "´¦ÀíÆ÷(CPU)");
+        expectCharUse.add(charUse);
+        // Ìí¼ÓÒ»¸öÌØÕ÷
+        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
+        assertEquals("Ìí¼ÓÒ»¸öÌØÕ÷", expectCharUse, prodSpec.getProdSpecCharUse());
+
+        // Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷
+        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "CPU");
+        assertEquals("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷", expectCharUse, prodSpec.getProdSpecCharUse());
+
+        // Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷£¬Ê¹ÓÃÃû×Ö²»Í¬
+        expectCharUse.add(charUse2);
+        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "´¦ÀíÆ÷(CPU)");
+        assertEquals("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷£¬Ê¹ÓÃÃû×Ö²»Í¬", 2, prodSpec.getProdSpecCharUse().size());
+        assertEquals("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷£¬Ê¹ÓÃÃû×Ö²»Í¬", expectCharUse, prodSpec.getProdSpecCharUse());
+
+        // Ìí¼ÓÒ»¸öÌØÕ÷Îª¿Õ
+        try {
+            prodSpec.addCharacteristic(null, false, false, validFor, "CPU");
+            fail("Ìí¼ÓÒ»¸öÌØÕ÷Îª¿Õ");
+        } catch (Exception e) {
+        }
+
+        // Ìí¼ÓÒ»¸öÌØÕ÷Îª¿Õ£¬Ê¹ÓÃÃûÎª¿Õnull
+        try {
+            prodSpec.addCharacteristic(characteristic2, false, false, validFor, null);
+            fail("Ìí¼ÓÒ»¸öÌØÕ÷Îª¿Õ£¬Ê¹ÓÃÃûÎª¿Õnull");
+        } catch (Exception e) {
+        }
+
+        // Ìí¼ÓÒ»¸öÌØÕ÷£¬Ê¹ÓÃÃûÎª¿Õ×Ö·û
+        try {
+            prodSpec.addCharacteristic(characteristic2, false, false, validFor, "");
+            fail("Ìí¼ÓÒ»¸öÌØÕ÷£¬Ê¹ÓÃÃûÎª¿Õ×Ö·û");
+        } catch (Exception e) {
+        }
+    }
+
+    @Test
+    public void testAttachCharacteristicValue() {
+        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
+        ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[4]);
+        ProductSpecCharacteristic characteristic3 = this.createChar(TestProductSpecificationData.specChar[0]);
+
+        ProductSpecCharacteristicValue charValue = this.createValue(TestProductSpecificationData.specCharValue[9]);
+        ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[9]);
+        ProductSpecCharacteristicValue charValue3 = this.createValue(TestProductSpecificationData.specCharValue[10]);
+        ProductSpecCharacteristicValue charValue4 = this.createValue(TestProductSpecificationData.specCharValue[10]);
+
+        characteristic.addValue(charValue);
+        characteristic.addValue(charValue3);
+
+        characteristic2.addValue(charValue);
+        characteristic2.addValue(charValue3);
+
+        // Ìí¼ÓÌØÕ÷ //ÏÔÊ¾ÆÁ
+        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
+
+        ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue, false, validFor);
+
+        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ
+        prodSpec.attachCharacteristicValue(characteristic, charValue, false, validFor, "CPU");
+        assertEquals("Ìí¼ÓÒ»¸öÌØÕ÷Öµ", 1, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().size());
+        assertTrue("Ìí¼ÓÒ»¸öÌØÕ÷Öµ", prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().contains(charValueUse));
+
+        // Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷Öµ
+        prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "CPU");
+        assertEquals("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷Öµ", 1, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().size());
+        assertTrue("Ìí¼ÓÒ»¸öÒÑ´æÔÚµÄÌØÕ÷Öµ", prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().contains(charValueUse));
+
+        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Öµ²»ÊôÓÚ¸ÃÌØÕ÷
+        prodSpec.attachCharacteristicValue(characteristic, charValue4, false, validFor, "CPU");
+        assertEquals("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Öµ²»ÊôÓÚ¸ÃÌØÕ÷", 1, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().size());
+        assertTrue("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Öµ²»ÊôÓÚ¸ÃÌØÕ÷", prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse().contains(charValueUse));
+
+        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷²»ÊôÓÚ¸Ã¹æ¸ñ
+        try {
+            prodSpec.attachCharacteristicValue(characteristic3, charValue3, false, validFor, "CPU");
+            fail("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷²»ÊôÓÚ¸Ã¹æ¸ñ");
+        } catch (Exception e) {
+        }
+
+        // Ìí¼ÓÒ»¸öÌØÕ÷ÖµÎª¿Õ
+        try {
+            prodSpec.attachCharacteristicValue(characteristic, null, false, validFor, "CPU");
+            fail("Ìí¼ÓÒ»¸öÌØÕ÷ÖµÎª¿Õ");
+        } catch (Exception e) {
+        }
+
+        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Îª¿Õ
+        try {
+            prodSpec.attachCharacteristicValue(null, charValue2, false, validFor, "CPU");
+            fail("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷Îª¿Õ");
+        } catch (Exception e) {
+        }
+
+        // Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷ÃûÎª¿Õ
+        try {
+            prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "");
+            fail("Ìí¼ÓÒ»¸öÌØÕ÷Öµ,ÌØÕ÷ÃûÎª¿Õ");
+        } catch (Exception e) {
+        }
+    }
+
+    @Test
+    public void testSpecifyDefaultCharacteristicValue() {
+        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
+        ProductSpecCharacteristicValue charValue1 = this.createValue(TestProductSpecificationData.specCharValue[9]);
+        ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
+        characteristic.addValue(charValue1);
+        characteristic.addValue(charValue2);
+        // Ìí¼ÓÌØÕ÷
+        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
+
+        // Ìí¼ÓÌØÕ÷Öµ
+        prodSpec.attachCharacteristicValue(characteristic, charValue1, true, validFor, "CPU");
+        prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "CPU");
+
+        Set<ProdSpecCharValueUse> expectCharValueUse = new HashSet<ProdSpecCharValueUse>();
+        ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue2, true, validFor);
+        ProdSpecCharValueUse charValueUse2 = new ProdSpecCharValueUse(charValue1, false, validFor);
+        expectCharValueUse.add(charValueUse);
+        expectCharValueUse.add(charValueUse2);
+
+        Set<ProdSpecCharValueUse> expectCharValueUse2 = new HashSet<ProdSpecCharValueUse>();
+        ProdSpecCharValueUse charValueUse3 = new ProdSpecCharValueUse(charValue1, true, validFor);
+        ProdSpecCharValueUse charValueUse4 = new ProdSpecCharValueUse(charValue2, false, validFor);
+        expectCharValueUse2.add(charValueUse3);
+        expectCharValueUse2.add(charValueUse4);
+
+
+        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ
+        prodSpec.specifyDefaultCharacteristicValue(characteristic, charValue2, "CPU");
+        assertEquals("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ", expectCharValueUse, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse());
+
+        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÖµ¶ÔÏóÎªnull
+        try {
+            prodSpec.specifyDefaultCharacteristicValue(characteristic, null, "CPU");
+            fail("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÖµ¶ÔÏóÎªnull");
+        } catch (Exception e) {
+        }
+
+        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÖµ¶ÔÏóÎª²»ÊÇ¸ÃÌØÕ÷ËùÓĞµÄ
+        ProductSpecCharacteristicValue charValue3 = this.createValue(TestProductSpecificationData.specCharValue[11]);
+        prodSpec.specifyDefaultCharacteristicValue(characteristic, charValue3, "CPU");
+        assertEquals("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÖµ¶ÔÏóÎª²»ÊÇ¸ÃÌØÕ÷ËùÓĞµÄ", expectCharValueUse2, prodSpec.getProdSpecCharUse().iterator().next().getProdSpecCharValueUse());
+
+        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÌØÕ÷¶ÔÏóÎªnull
+        try {
+            prodSpec.specifyDefaultCharacteristicValue(null, charValue2, "CPU");
+            fail("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÌØÕ÷¶ÔÏóÎªnull");
+        } catch (Exception e) {
+        }
+
+        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÌØÕ÷ÃûÎª¿Õ
+        try {
+            prodSpec.specifyDefaultCharacteristicValue(characteristic, charValue2, "");
+            fail("ÉèÖÃÄ³Ò»ÌØÕ÷µÄÄ¬ÈÏÖµ£¬´«ÈëµÄÌØÕ÷ÃûÎª¿Õ");
+        } catch (Exception e) {
+        }
+    }
+
+    @Test
+    public void testRetrieveCharacteristic() {
+        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
+        ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[5]);
+        // Ìí¼ÓÌØÕ÷
+        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
+        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "CPU");
+
+        // ²éÑ¯µ±Ç°Ê±¼äµãµÄÌØÕ÷
+        List<ProductSpecCharUse> charUses = prodSpec.retrieveCharacteristic(new Date());
+        assertNotNull("²éÑ¯µ±Ç°Ê±¼äµãµÄÌØÕ÷", charUses);
+        assertEquals("²éÑ¯µ±Ç°Ê±¼äµãµÄÌØÕ÷", 2, charUses.size());
+    }
+
+    @Test
+    public void testRetrieveCharacteristicValue() {
+        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
+        // Ìí¼ÓÌØÕ÷
+        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
+
+        ProductSpecCharacteristicValue charValue1 = this.createValue(TestProductSpecificationData.specCharValue[9]);
+        ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
+        // Ìí¼ÓÌØÕ÷Öµ
+        prodSpec.attachCharacteristicValue(characteristic, charValue1, true, validFor, "");
+        prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "");
+
+        // ²éÑ¯Ä³Ò»ÌØÕ÷ÔÚµ±Ç°Ê±¼äµãµÄÖµ
+        List<ProdSpecCharValueUse> charValueUses = prodSpec.retrieveCharacteristicValue(characteristic, new Date(), "CPU");
+        assertNotNull("²éÑ¯Ä³Ò»ÌØÕ÷ÔÚµ±Ç°Ê±¼äµãµÄÖµ", charValueUses);
+        assertEquals("²éÑ¯Ä³Ò»ÌØÕ÷ÔÚµ±Ç°Ê±¼äµãµÄÖµ", 2, charValueUses.size());
+    }
+
+    @Test
+    public void testRetrieveRootCharacteristic() {
+        //TODO
+        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
+        ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[5]);
+        ProductSpecCharacteristic characteristic3 = this.createChar(TestProductSpecificationData.specChar[6]);
+        ProductSpecCharacteristic characteristic4 = this.createChar(TestProductSpecificationData.specChar[7]);
+        ProductSpecCharacteristic characteristic5 = this.createChar(TestProductSpecificationData.specChar[8]);
+        ProductSpecCharacteristic characteristic6 = this.createChar(TestProductSpecificationData.specChar[9]);
+        // Ìí¼ÓChar¾ÛºÏ¹ØÏµ
+        characteristic2.addRelatedCharacteristic(characteristic3, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
+        characteristic2.addRelatedCharacteristic(characteristic4, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
+        characteristic2.addRelatedCharacteristic(characteristic5, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
+        characteristic2.addRelatedCharacteristic(characteristic6, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
+        // Ìí¼ÓÌØÕ÷
+        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
+        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "³ß´çºÍÖØÁ¿");
+        prodSpec.addCharacteristic(characteristic3, false, false, validFor, "³¤");
+        prodSpec.addCharacteristic(characteristic4, false, false, validFor, "¿í");
+        prodSpec.addCharacteristic(characteristic5, false, false, validFor, "¸ß");
+        prodSpec.addCharacteristic(characteristic6, false, false, validFor, "ÖØÁ¿");
+
+        // ²éÑ¯¹æ¸ñµÄÒ»¼¶ÌØÕ÷
+        //List<ProductSpecCharUse> rootCharUses = prodSpec.retrieveRootCharacteristic();
+        // assertNotNull("²éÑ¯¹æ¸ñµÄÒ»¼¶ÌØÕ÷", rootCharUses);
+        // assertEquals("²éÑ¯¹æ¸ñµÄÒ»¼¶ÌØÕ÷", 2, rootCharUses.size());
+    }
+
+    @Test
+    public void getLeafCharacteristic() {
+        //TODO
+        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
+        ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[5]);
+        ProductSpecCharacteristic characteristic3 = this.createChar(TestProductSpecificationData.specChar[6]);
+        ProductSpecCharacteristic characteristic4 = this.createChar(TestProductSpecificationData.specChar[7]);
+        ProductSpecCharacteristic characteristic5 = this.createChar(TestProductSpecificationData.specChar[8]);
+        ProductSpecCharacteristic characteristic6 = this.createChar(TestProductSpecificationData.specChar[9]);
+        // Ìí¼ÓChar¾ÛºÏ¹ØÏµ
+        characteristic2.addRelatedCharacteristic(characteristic3, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
+        characteristic2.addRelatedCharacteristic(characteristic4, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
+        characteristic2.addRelatedCharacteristic(characteristic5, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
+        characteristic2.addRelatedCharacteristic(characteristic6, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
+        // Ìí¼ÓÌØÕ÷
+        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
+        prodSpec.addCharacteristic(characteristic2, false, false, validFor, "³ß´çºÍÖØÁ¿");
+        prodSpec.addCharacteristic(characteristic3, false, false, validFor, "³¤");
+        prodSpec.addCharacteristic(characteristic4, false, false, validFor, "¿í");
+        prodSpec.addCharacteristic(characteristic5, false, false, validFor, "¸ß");
+        prodSpec.addCharacteristic(characteristic6, false, false, validFor, "ÖØÁ¿");
+
+        // ²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷
+        // List<ProductSpecCharUse> leafCharUses = prodSpec.retrieveLeafCharacteristic(characteristic2, "", new Date());
+        // assertNotNull("²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷", leafCharUses);
+        // assertEquals("²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷", 4, leafCharUses.size());
+
+        // ²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷
+        //  List<ProductSpecCharUse> leafCharUses2 = prodSpec.retrieveLeafCharacteristic(null, "", new Date());
+        //  assertNull("²éÑ¯¹æ¸ñµÄÄ³Ò»ÌØÕ÷µÄ×ÓÌØÕ÷", leafCharUses2);
+    }
+
+    @Test
+    public void testSpecifyCardinality() {
+        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
+        ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[5]);
+        // Ìí¼ÓÌØÕ÷
+        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
+
+        ProductSpecCharacteristicValue charValue1 = this.createValue(TestProductSpecificationData.specCharValue[9]);
+        ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
+        // Ìí¼ÓÌØÕ÷Öµ
+        prodSpec.attachCharacteristicValue(characteristic, charValue1, true, validFor, "");
+        prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "");
+
+        // ÉèÖÃÄ³Ò»ÌØÕ÷µÄCardinality
+        boolean retFlag = prodSpec.specifyCardinality(characteristic, 1, 5, "");
+        assertTrue("ÉèÖÃÄ³Ò»ÌØÕ÷µÄCardinality", retFlag);
+
+        // ÉèÖÃCardinality£¬ÌØÕ÷Îª¿Õ
+        retFlag = prodSpec.specifyCardinality(null, 1, 5, "");
+        assertFalse("ÉèÖÃCardinality£¬ÌØÕ÷Îª¿Õ", retFlag);
+
+        // ÉèÖÃCardinality£¬ÌØÕ÷²»ÊÇ±»ÓÃµÄ
+        retFlag = prodSpec.specifyCardinality(characteristic2, 1, 5, "");
+        assertFalse("ÉèÖÃCardinality£¬ÌØÕ÷²»ÊÇ±»ÓÃµÄ", retFlag);
+    }
+
+    @Test
+    public void testAddRelatedProdSpec() {
+
+        // *********** Case1£¨Õı³£·ÖÖ§£© **************
+        ProductSpecification targetProdSpec = new AtomicProductSpecification("T001", "AppleCare For iPhone", "AppleCare");
+        String type = ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue();
+        TimePeriod validFor = new TimePeriod();
+        List<ProductSpecificationRelationship> expectedRelatedSpecList = new ArrayList<ProductSpecificationRelationship>();
+        ProductSpecificationRelationship expectedRelatedSpec = new ProductSpecificationRelationship(srcProdSpec,
+                targetProdSpec, type, validFor);
+        expectedRelatedSpecList.add(expectedRelatedSpec);
+        this.srcProdSpec.addRelatedProdSpec(targetProdSpec, type, validFor);
+        assertEquals("Ìí¼Ó¹ØÁª¹æ¸ñ", 1, this.srcProdSpec.getProdSpecRelationship().size());
+        assertEquals(expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+
+        // *********** Case2£¨Ìí¼ÓÍ¬ÑùÊı¾İ£¬Í¬Ò»¹ØÁªÀàĞÍ£© **************
+        // ÔÙ´ÎÌí¼ÓÒ»ÌõÍ¬ÑùÊı¾İ
+        ProductSpecification targetProdSpec2 = new AtomicProductSpecification("T001", "AppleCare For iPhone2",
+                "AppleCare");
+        try {
+            this.srcProdSpec.addRelatedProdSpec(targetProdSpec2, type, validFor);
+            fail("expected IllegalArgumentException for srcProdSpec");
+        } catch (Exception e) {
+
+        }
+        assertEquals("Ìí¼ÓÍ¬ÑùÊı¾İ£¬Í¬Ò»¹ØÁªÀàĞÍ", 1, this.srcProdSpec.getProdSpecRelationship().size());
+        assertEquals("Ìí¼ÓÍ¬ÑùÊı¾İ£¬Í¬Ò»¹ØÁªÀàĞÍ", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+
+        // ***********testAddRelatedProdSpec Case3£¨Ìí¼Ó²»Í¬Êı¾İ£¬Í¬Ò»¹ØÁªÀàĞÍ£©
+        // ÔÙ´ÎÌí¼ÓÒ»Ìõ²»Í¬Êı¾İ,ÏàÍ¬ÀàĞÍ
+        ProductSpecification targetProdSpec3 = new AtomicProductSpecification("T002", "AppleCare For iPhone2",
+                "AppleCare");
+        this.srcProdSpec.addRelatedProdSpec(targetProdSpec3, type, validFor);
+        // ¹¹ÔìÆÚ´ıÊı¾İ
+        ProductSpecificationRelationship expectedRelatedSpec3 = new ProductSpecificationRelationship(srcProdSpec,
+                targetProdSpec3, type, validFor);
+        expectedRelatedSpecList.add(expectedRelatedSpec3);
+        assertEquals("ÔÙ´ÎÌí¼ÓÒ»Ìõ²»Í¬Êı¾İ,ÏàÍ¬ÀàĞÍ", 2, this.srcProdSpec.getProdSpecRelationship().size());
+        assertEquals("ÔÙ´ÎÌí¼ÓÒ»Ìõ²»Í¬Êı¾İ,ÏàÍ¬ÀàĞÍ", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+
+        // *********** Case4£¨Ìí¼ÓÍ¬ÑùÊı¾İ£¬²»Í¬¹ØÁªÀàĞÍ£© **************
+        // ÔÙ´ÎÌí¼ÓÒ»Ìõ²»Í¬Êı¾İ,ÏàÍ¬ÀàĞÍ
+        String type4 = ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue();
+        ProductSpecification targetProdSpec4 = new AtomicProductSpecification("T001", "AppleCare For iPhone2",
+                "AppleCare");
+        this.srcProdSpec.addRelatedProdSpec(targetProdSpec4, type4, validFor);
+        // ¹¹ÔìÆÚ´ıÊı¾İ
+        ProductSpecificationRelationship expectedRelatedSpec4 = new ProductSpecificationRelationship(srcProdSpec,
+                targetProdSpec4, type4, validFor);
+        expectedRelatedSpecList.add(expectedRelatedSpec4);
+        assertEquals("Ìí¼ÓÍ¬ÑùÊı¾İ£¬²»Í¬¹ØÁªÀàĞÍ", 3, this.srcProdSpec.getProdSpecRelationship().size());
+        assertEquals("Ìí¼ÓÍ¬ÑùÊı¾İ£¬²»Í¬¹ØÁªÀàĞÍ", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+
+        // *********** Case5£¨Ìí¼ÓÓësrcSpecÏàÍ¬µÄSpec£© **************
+        // ÔÙ´ÎÌí¼ÓÒ»Ìõ²»Í¬Êı¾İ,ÏàÍ¬ÀàĞÍ
+        try {
+            this.srcProdSpec.addRelatedProdSpec(this.srcProdSpec, type4, validFor);
+            fail("expected IllegalArgumentException for srcProdSpec");
+        } catch (IllegalArgumentException e) {
+        }
+        assertEquals("Ìí¼ÓÓësrcSpecÏàÍ¬µÄSpec", 3, this.srcProdSpec.getProdSpecRelationship().size());
+        // ¹¹ÔìÆÚ´ıÊı¾İ
+        assertEquals("Ìí¼ÓÓësrcSpecÏàÍ¬µÄSpec", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+    }
+
+    @Test
+    public void testRetrieveRelatedProdSpec() {
+
+        // *********** Case1£¨2¸ö²»Í¬ÀàĞÍ£¬È¡ÆäÖĞÒ»ÖÖ£© *************
+        String dependencyType = ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue();
+        String aggregationType = ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue();
+        ProductSpecification targetProdSpecDependency1 = new AtomicProductSpecification("T001", "AppleCare For iPhone",
+                "AppleCare");
+        ProductSpecification targetProdSpecAggregation1 = new AtomicProductSpecification("T002",
+                "AppleCare For iPhone", "AppleCare");
+        TimePeriod validFor = new TimePeriod();
+
+        List<ProductSpecification> expectedRelatedSpecList = new ArrayList<ProductSpecification>();
+        ProductSpecification expectedTargetProdSpec = new AtomicProductSpecification("T002", "AppleCare For iPhone",
+                "AppleCare");
+        expectedRelatedSpecList.add(expectedTargetProdSpec);
+
+        this.srcProdSpec.addRelatedProdSpec(targetProdSpecDependency1, dependencyType, validFor);
+        this.srcProdSpec.addRelatedProdSpec(targetProdSpecAggregation1, aggregationType, validFor);
+        List<ProductSpecification> productSpecificationList = this.srcProdSpec.retrieveRelatedProdSpec(aggregationType);
+        assertEquals("´æÔÚ¶àÖÖÀàĞÍ¹ØÏµ£¬È¡ÆäÖĞÒ»ÖÖ¹ØÁª¹ØÏµ", 1, productSpecificationList.size());
+        assertEquals("´æÔÚ¶àÖÖÀàĞÍ¹ØÏµ£¬È¡ÆäÖĞÒ»ÖÖ¹ØÁª¹ØÏµ", expectedRelatedSpecList, productSpecificationList);
+
+        // *********** Case2£¨²éÑ¯²»´æÔÚ¸ÃÀàĞÍµÄÊı¾İ£© **************
+        List<ProductSpecification> productSpecificationList2 = this.srcProdSpec
+                .retrieveRelatedProdSpec(RelationshipType.EXCLUSIVITY.getValue());
+        assertEquals("²éÑ¯²»´æÔÚ¸ÃÀàĞÍµÄÊı¾İ", 0, productSpecificationList2.size());
+
+        // *********** Case3£¨´«ÈëÀàĞÍÎªnull£© **************
+        try {
+            List<ProductSpecification> productSpecificationList3 = this.srcProdSpec.retrieveRelatedProdSpec(null);
+            fail("Case 3 £º typeÎªnullÊ±Î´Í¨¹ı¡£");
+        } catch (IllegalArgumentException e) {
+        }
+
+        // *********** Case4£¨Ã»ÓĞ¹ØÏµÊı¾İ£¬²éÑ¯Ä³ÀàĞÍµÄspec£© **************
+        this.srcProdSpec.getProdSpecRelationship().clear();
+        List<ProductSpecification> productSpecificationList4 = this.srcProdSpec
+                .retrieveRelatedProdSpec(aggregationType);
+        assertEquals("Ã»ÓĞ¹ØÏµÊı¾İ£¬²éÑ¯Ä³ÀàĞÍµÄspec", 0, productSpecificationList4.size());
+    }
+
+
+
+    private ProductSpecCharacteristicValue createValue(Object[] obj) {
+        ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue((String) obj[1],
+                (boolean) obj[2], (String) obj[3], (TimePeriod) obj[4], (String) obj[5]);
+        return charValue;
+    }
+
+    private ProductSpecCharacteristic createChar(Object[] obj) {
+        ProductSpecCharacteristic specChar = new ProductSpecCharacteristic((String) obj[0], (String) obj[1],
+                (String) obj[2], (TimePeriod) obj[3], (String) obj[4], (Integer) obj[5], (Integer) obj[5]);
+        return specChar;
+    }
 }
