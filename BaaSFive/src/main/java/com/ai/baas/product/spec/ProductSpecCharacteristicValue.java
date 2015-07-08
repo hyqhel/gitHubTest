@@ -47,9 +47,6 @@ public class ProductSpecCharacteristicValue {
     /**
      * The period of time for which a value is applicable.
      */
-    
-    
-    
     private TimePeriod validFor;
 
     public String getId() {
@@ -137,7 +134,6 @@ public class ProductSpecCharacteristicValue {
 			logger.error("valueType should not be null");
 			throw new IllegalArgumentException("valueType should not be null");
 		}
-
 		if(StringUtils.isEmpty(value)){
 			logger.error("value should not be null");
 			throw new IllegalArgumentException("value should not be null");
@@ -221,10 +217,9 @@ public class ProductSpecCharacteristicValue {
      */
     public void addRelatedCharValue(ProductSpecCharacteristicValue charValue, String relationType, TimePeriod validFor) {
     	ProdSpecCharValueRelationship pship = new ProdSpecCharValueRelationship(this,charValue,relationType,validFor);    	
-    	if(null ==prodSpecCharValueRelationship){
+    	if(null == prodSpecCharValueRelationship){
     		prodSpecCharValueRelationship = new ArrayList<ProdSpecCharValueRelationship>();
     	}
-    	
     	for(ProdSpecCharValueRelationship psvr :prodSpecCharValueRelationship){
     		if(psvr.equals(charValue)){
     			return;
@@ -254,7 +249,7 @@ public class ProductSpecCharacteristicValue {
      * 
      * @param relationType
      */
-    public ProductSpecCharacteristicValue[] retieveRelatedCharValue(String relationType) {
+    public Set<ProductSpecCharacteristicValue> retieveRelatedCharValue(String relationType) {
         // TODO 
     	return null;
     }
@@ -264,7 +259,7 @@ public class ProductSpecCharacteristicValue {
      * @param relationType
      * @param time
      */
-    public ProductSpecCharacteristicValue[] retieveRelatedCharValue(String relationType, Date time) {
+    public Set<ProductSpecCharacteristicValue> retieveRelatedCharValue(String relationType, Date time) {
         // TODO 
     	return null;
     }

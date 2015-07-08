@@ -74,7 +74,6 @@ public class ProductSpecCharRelationship {
      * @param validFor
      */
     public ProductSpecCharRelationship(ProductSpecCharacteristic srourceSpecChar, ProductSpecCharacteristic targetSpecChar, String relationType, TimePeriod validFor) {
-
 		if (null == srourceSpecChar) {
 			logger.error("srcProdSpecChar should not be null");
 			throw new IllegalArgumentException("srcProdSpecChar should not be null");
