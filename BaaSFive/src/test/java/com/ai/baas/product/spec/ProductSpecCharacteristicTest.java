@@ -18,10 +18,12 @@ import com.ai.baas.common.util.DateUtils;
 public class ProductSpecCharacteristicTest {
 	private static final Logger logger = Logger.getLogger(ProductSpecCharacteristicTest.class);
 	private ProductSpecCharacteristic prodSpecCharOwn=null;
+	private ProductSpecCharacteristic exceptChar;
 	private static TimePeriod validFor;
 	@Before
 	public void createProductSpecCharacteristic(){
 		prodSpecCharOwn = new ConfigurableProductSpecCharacteristic("1", "high", "1", validFor, "false",  1,  1, true, "height","");
+		exceptChar = prodSpecCharOwn;
 	}
 	@BeforeClass
 	public static void initVliadFor(){
@@ -34,13 +36,16 @@ public class ProductSpecCharacteristicTest {
 	@Test
 	public void  testAddValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
+		exceptChar.getProdSpecCharValue().add(prodSpecCharValue);
 		prodSpecCharOwn.addValue(prodSpecCharValue);
-		assertEquals("check ProductSpecCharacteristic add value success",1,prodSpecCharOwn.getProdSpecCharValue().size());
-		
+		assertEquals("check ProductSpecCharacteristic add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("check ProductSpecCharacteristic  other content",exceptChar.toString(),prodSpecCharOwn.toString());
+
 		ProductSpecCharacteristicValue prodSpecCharValues = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		assertEquals("check ProductSpecCharacteristic again  add value success",1,prodSpecCharOwn.getProdSpecCharValue().size());
-		
+		assertEquals("check ProductSpecCharacteristic again  add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("check ProductSpecCharacteristic  other content",exceptChar.toString(),prodSpecCharOwn.toString());
+
 		prodSpecCharValues = null;
 		try {
 			prodSpecCharOwn.addValue(prodSpecCharValues);
@@ -70,7 +75,6 @@ public class ProductSpecCharacteristicTest {
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
 		
 		assertEquals("check add realte",1,prodSpecCharOwn.getProdSpecCharRelationship().size());
-		 
 		assertEquals("check add the type value is right","1",prodSpecCharOwn.getProdSpecCharRelationship().get(0).getCharRelationshipType());
 		 
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
@@ -109,15 +113,15 @@ public class ProductSpecCharacteristicTest {
 			fail("param is not illegal");
 		} catch (Exception e) {
 		}
-		assertFalse("specify one null defalut value",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		assertFalse("specify one null defalut value",prodSpecCharOwn.getProdSpecCharValue().iterator().next().isIsDefault());
 		
 		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "cm", validFor, "9",false);
 		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
-		assertFalse("specify one defalut value but not exists ProductSpecCharacteristicValue",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		assertFalse("specify one defalut value but not exists ProductSpecCharacteristicValue", prodSpecCharOwn.getProdSpecCharValue().iterator().next().isIsDefault());
 		
 		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
 		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
-		assertTrue("specify one defalut value from ProductSpecCharacteristicValue",prodSpecCharOwn.getProdSpecCharValue().get(0).isIsDefault());
+		assertTrue("specify one defalut value from ProductSpecCharacteristicValue", prodSpecCharOwn.getProdSpecCharValue().iterator().next().isIsDefault());
 		
 		
 	}

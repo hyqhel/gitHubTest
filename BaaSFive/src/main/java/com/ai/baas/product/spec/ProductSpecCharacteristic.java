@@ -213,7 +213,7 @@ public class ProductSpecCharacteristic {
      */
     public void addValue(ProductSpecCharacteristicValue charVal) {
     	if(null == charVal){
-    		throw new IllegalArgumentException("param is not illegal");
+    		throw new IllegalArgumentException("param is  illegal");
     	}
     	if(null == this.prodSpecCharValue){
     		this.prodSpecCharValue = new HashSet<ProductSpecCharacteristicValue>();
@@ -233,7 +233,7 @@ public class ProductSpecCharacteristic {
      */
     public void removeValue(ProductSpecCharacteristicValue charVal) {
     	if(null == charVal){
-    		throw new IllegalArgumentException("param is not illegal");
+    		throw new IllegalArgumentException("param is  illegal");
     	}
     	if(null != this.prodSpecCharValue && this.prodSpecCharValue.size()>0){
     		if(prodSpecCharValue.contains(charVal)){
@@ -246,7 +246,7 @@ public class ProductSpecCharacteristic {
      * 
      * @param time
      */
-    public ProductSpecCharacteristicValue[] getValue(Date time) {
+    public List<ProductSpecCharacteristicValue> getValue(Date time) {
     	// TODO
     	return null;
     }
@@ -257,7 +257,7 @@ public class ProductSpecCharacteristic {
      */
     public void specifyDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
     	if (null == defaultCharVal){
-    		throw new IllegalArgumentException("param is not illegal");
+    		throw new IllegalArgumentException("param is  illegal");
     	}
     	if(null != this.prodSpecCharValue){
     		for(ProductSpecCharacteristicValue productSpecCharacteristicValue:prodSpecCharValue){
@@ -272,17 +272,19 @@ public class ProductSpecCharacteristic {
         }
     }
 
-    public ProductSpecCharacteristicValue getDefaultValue() {
+    public List<ProductSpecCharacteristicValue> getDefaultValue() {
         if(null == this.prodSpecCharValue){
-        	throw new IllegalArgumentException("param is not illegal");
+        	throw new IllegalArgumentException("param is  illegal");
         }else{
+            List<ProductSpecCharacteristicValue> psvcoll = new ArrayList<ProductSpecCharacteristicValue>();
         	for(ProductSpecCharacteristicValue productSpecCharacteristicValue :prodSpecCharValue){
         		if(productSpecCharacteristicValue.isIsDefault()){
-        			return productSpecCharacteristicValue;
+                    psvcoll.add(productSpecCharacteristicValue);
+
         		}
         	}
+            return psvcoll;
         }
-        return null;
     }
 
     /**
@@ -350,7 +352,7 @@ public class ProductSpecCharacteristic {
      * 
      * @param charRelationshipType
      */
-    public ProductSpecCharacteristic[] retieveRelatedCharacteristic(String charRelationshipType) {
+    public List<ProductSpecCharacteristic> retieveRelatedCharacteristic(String charRelationshipType) {
     	// TODO
     	return null;
     }
@@ -360,7 +362,7 @@ public class ProductSpecCharacteristic {
      * @param charRelationshipType
      * @param time
      */
-    public ProductSpecCharacteristic[] retieveRelatedCharacteristic(String charRelationshipType, Date time) {
+    public List<ProductSpecCharacteristic> retieveRelatedCharacteristic(String charRelationshipType, Date time) {
         // TODO 
     	return null;
     }
