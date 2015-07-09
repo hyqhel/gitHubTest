@@ -651,8 +651,7 @@ public abstract class ProductSpecification {
         return result;
     }
 
-    @Override
-    public String toString() {
+    public Map<String, Object> getProductInfoToMap() {
         Map<String, Object> result = getBasicInfoToMap();
         result.put("prodSpecCharRelationship", this.prodSpecRelationship);
         List<Map<String, Object>> prodSpecCharUseList = new ArrayList<Map<String, Object>>();
@@ -678,7 +677,7 @@ public abstract class ProductSpecification {
         }
         result.put("prodSpecCharUse", prodSpecCharUseList);
 
-        return CommonUtils.format(result.toString());
+        return result;
     }
 
     public Map<String, Object> getBasicInfoToMap() {

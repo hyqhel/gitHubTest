@@ -4,7 +4,9 @@ import com.ai.baas.basetype.TimePeriod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.ai.baas.common.util.CommonUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -58,5 +60,10 @@ public class CompositeProductSpecification extends ProductSpecification {
         this.prodSpec.add(prodSpec);
     }
 
-
+    @Override
+    public String toString() {
+        Map<String, Object> result = this.getProductInfoToMap();
+        result.put("prodSpec", prodSpec);
+        return CommonUtils.format(result.toString());
+    }
 }
