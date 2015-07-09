@@ -225,65 +225,7 @@ public class ProductSpecificationTest {
 		assertEquals("查询某一特征在当前时间点的值", 2, charValueUses.size());
     }
 
-    @Test
-    public void testRetrieveRootCharacteristic() {
-        //TODO
-        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
-        ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[5]);
-        ProductSpecCharacteristic characteristic3 = this.createChar(TestProductSpecificationData.specChar[6]);
-        ProductSpecCharacteristic characteristic4 = this.createChar(TestProductSpecificationData.specChar[7]);
-        ProductSpecCharacteristic characteristic5 = this.createChar(TestProductSpecificationData.specChar[8]);
-        ProductSpecCharacteristic characteristic6 = this.createChar(TestProductSpecificationData.specChar[9]);
-        // 添加Char聚合关系
-        characteristic2.addRelatedCharacteristic(characteristic3, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-        characteristic2.addRelatedCharacteristic(characteristic4, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-        characteristic2.addRelatedCharacteristic(characteristic5, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-        characteristic2.addRelatedCharacteristic(characteristic6, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-		// 添加特征
-        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
-		prodSpec.addCharacteristic(characteristic2, false, false, validFor, "尺寸和重量");
-        prodSpec.addCharacteristic(characteristic3, false, false, validFor, "长");
-        prodSpec.addCharacteristic(characteristic4, false, false, validFor, "宽");
-		prodSpec.addCharacteristic(characteristic5, false, false, validFor, "高");
-        prodSpec.addCharacteristic(characteristic6, false, false, validFor, "重量");
 
-		// 查询规格的一级特征
-        //List<ProductSpecCharUse> rootCharUses = prodSpec.retrieveRootCharacteristic();
-        // assertNotNull("查询规格的一级特征", rootCharUses);
-        // assertEquals("查询规格的一级特征", 2, rootCharUses.size());
-    }
-
-    @Test
-    public void getLeafCharacteristic() {
-        //TODO
-        ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
-        ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[5]);
-        ProductSpecCharacteristic characteristic3 = this.createChar(TestProductSpecificationData.specChar[6]);
-        ProductSpecCharacteristic characteristic4 = this.createChar(TestProductSpecificationData.specChar[7]);
-        ProductSpecCharacteristic characteristic5 = this.createChar(TestProductSpecificationData.specChar[8]);
-        ProductSpecCharacteristic characteristic6 = this.createChar(TestProductSpecificationData.specChar[9]);
-        // 添加Char聚合关系
-        characteristic2.addRelatedCharacteristic(characteristic3, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-		characteristic2.addRelatedCharacteristic(characteristic4, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-		characteristic2.addRelatedCharacteristic(characteristic5, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-		characteristic2.addRelatedCharacteristic(characteristic6, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor, 1);
-		// 添加特征
-        prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
-		prodSpec.addCharacteristic(characteristic2, false, false, validFor, "尺寸和重量");
-		prodSpec.addCharacteristic(characteristic3, false, false, validFor, "长");
-		prodSpec.addCharacteristic(characteristic4, false, false, validFor, "宽");
-        prodSpec.addCharacteristic(characteristic5, false, false, validFor, "高");
-		prodSpec.addCharacteristic(characteristic6, false, false, validFor, "重量");
-
-		// 查询规格的某一特征的子特征
-        // List<ProductSpecCharUse> leafCharUses = prodSpec.retrieveLeafCharacteristic(characteristic2, "", new Date());
-        // assertNotNull("查询规格的某一特征的子特征", leafCharUses);
-        // assertEquals("查询规格的某一特征的子特征", 4, leafCharUses.size());
-
-        // 查询规格的某一特征的子特征
-        //  List<ProductSpecCharUse> leafCharUses2 = prodSpec.retrieveLeafCharacteristic(null, "", new Date());
-        //  assertNull("查询规格的某一特征的子特征", leafCharUses2);
-    }
 
     @Test
     public void testSpecifyCardinality() {
@@ -421,9 +363,10 @@ public class ProductSpecificationTest {
 		//String valueType, boolean isDefault, String unitOfMeasure,
 		//TimePeriod validFor, String value
 		//String valueType, String unitOfMeasure, TimePeriod validFor, String value, boolean isDefault
-        ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue((String) obj[1],
-                (boolean) obj[2], (String) obj[3], (TimePeriod) obj[4], (String) obj[5]);
-        return charValue;
+//        ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue((String) obj[1],
+//                (boolean) obj[2], (String) obj[3], (TimePeriod) obj[4], (String) obj[5]);
+//        return charValue;
+        return null;
     }
 
     private ProductSpecCharacteristic createChar(Object[] obj) {
