@@ -82,12 +82,12 @@ public class ProductSpecCharUseTest {
 
 	@Test
 	public void testSetCardinality(){
-		pscu.setCardinality(1, 5);
+		pscu.specifyCardinality(1, 5);
 		assertEquals("set characteristicUse cardinality,judet minCardinality", 1, pscu.getMinCardinality());
 		assertEquals("set characteristicUse cardinality,judet maxCardinality",5,pscu.getMaxCardinality());
 
 		try{
-			pscu.setCardinality(6,5);
+			pscu.specifyCardinality(6,5);
 			fail("set characteristicUse cardinality , but minCardinality is greater than maxCardinality");
 		}catch(Exception e){}
 	}
