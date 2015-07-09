@@ -2,40 +2,40 @@ package com.ai.baas.product.offering;
 
 /**
  * A set of numbers that specifies the lower and upper limits for a ProductOffering that can be procured as part of the related BundledProductOffering.
- * 
+ * <p/>
  * Values can range from 0 to unbounded.
  */
 public class BundledProdOfferOption {
 
     private ProductOffering productOffering;
     private BundledProductOffering bundledProductOffering;
-    
+
     public ProductOffering getProductOffering() {
-		return productOffering;
-	}
+        return productOffering;
+    }
 
-	public void setProductOffering(ProductOffering productOffering) {
-		this.productOffering = productOffering;
-	}
+    public void setProductOffering(ProductOffering productOffering) {
+        this.productOffering = productOffering;
+    }
 
-	public BundledProductOffering getBundledProductOffering() {
-		return bundledProductOffering;
-	}
+    public BundledProductOffering getBundledProductOffering() {
+        return bundledProductOffering;
+    }
 
-	public void setBundledProductOffering(
-			BundledProductOffering bundledProductOffering) {
-		this.bundledProductOffering = bundledProductOffering;
-	}
+    public void setBundledProductOffering(
+            BundledProductOffering bundledProductOffering) {
+        this.bundledProductOffering = bundledProductOffering;
+    }
 
-	/**
+    /**
      * The lower limit of related ProductOfferings that can be procured as part of the BundledProductOffering.
-     * 
+     * <p/>
      * Values can range from 0 to unbounded.
      */
     private int numberRelOfferLowerLimit;
     /**
      * The upper limit of related ProductOfferings that can be procured as part of the BundledProductOffering.
-     * 
+     * <p/>
      * Values can range from 0 to unbounded.
      */
     private int numberRelOfferUpperLimit;
@@ -57,27 +57,15 @@ public class BundledProdOfferOption {
     }
 
     /**
-     * 
      * @param offering
      * @param lowerLimit
      * @param upperLimit
      */
     public BundledProdOfferOption(ProductOffering offering, int lowerLimit, int upperLimit) {
-    	this.productOffering = offering;
-    	this.numberRelOfferLowerLimit = lowerLimit;
-    	this.numberRelOfferUpperLimit = upperLimit;
-    	
-    }
+        this.productOffering = offering;
+        this.numberRelOfferLowerLimit = lowerLimit;
+        this.numberRelOfferUpperLimit = upperLimit;
 
-    /**
-     * 
-     * @param offeringId
-     * @param lowerLimit
-     * @param upperLimit
-     */
-    public BundledProdOfferOption(String offeringId, int lowerLimit, int upperLimit) {
-        // TODO - implement BundledProdOfferOption.BundledProdOfferOption
-        throw new UnsupportedOperationException();
     }
 
 }

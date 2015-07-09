@@ -81,4 +81,23 @@ public class TimePeriod {
         return 0;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TimePeriod that = (TimePeriod) o;
+
+        if (startDateTime != null ? !startDateTime.equals(that.startDateTime) : that.startDateTime != null)
+            return false;
+        return !(endDateTime != null ? !endDateTime.equals(that.endDateTime) : that.endDateTime != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = startDateTime != null ? startDateTime.hashCode() : 0;
+        result = 31 * result + (endDateTime != null ? endDateTime.hashCode() : 0);
+        return result;
+    }
 }

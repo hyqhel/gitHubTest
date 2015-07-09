@@ -9,24 +9,24 @@ public class ProductOfferingRelationship {
 
     private ProductOffering targetOffering;
     private ProductOffering sourceOffering;
-    
+
     public ProductOffering getTargetOffering() {
-		return targetOffering;
-	}
+        return targetOffering;
+    }
 
-	public void setTargetOffering(ProductOffering targetOffering) {
-		this.targetOffering = targetOffering;
-	}
+    public void setTargetOffering(ProductOffering targetOffering) {
+        this.targetOffering = targetOffering;
+    }
 
-	public ProductOffering getSourceOffering() {
-		return sourceOffering;
-	}
+    public ProductOffering getSourceOffering() {
+        return sourceOffering;
+    }
 
-	public void setSourceOffering(ProductOffering sourceOffering) {
-		this.sourceOffering = sourceOffering;
-	}
+    public void setSourceOffering(ProductOffering sourceOffering) {
+        this.sourceOffering = sourceOffering;
+    }
 
-	/**
+    /**
      * A categorization of the relationship, such as supplier/partner equivalent, alternate, and so forth.
      */
     private String typeRelationship;
@@ -52,41 +52,16 @@ public class ProductOfferingRelationship {
     }
 
     /**
-     * 
      * @param sourceOffering
      * @param targetOffering
      * @param type
      * @param validFor
      */
     public ProductOfferingRelationship(ProductOffering sourceOffering, ProductOffering targetOffering, String type, TimePeriod validFor) {
-    	this.sourceOffering =sourceOffering;
-    	this.targetOffering = targetOffering;
-    	this.typeRelationship = type;
-    	this.validFor = validFor;
-    }
-
-    /**
-     * 
-     * @param sourceOffering
-     * @param targetOfferingId
-     * @param type
-     * @param validFor
-     */
-    public ProductOfferingRelationship(ProductOffering sourceOffering, String targetOfferingId, String type, TimePeriod validFor) {
-        // TODO - implement ProductOfferingRelationship.ProductOfferingRelationshiph
-    	
-    }
-
-    /**
-     * 
-     * @param sourceOfferingId
-     * @param targetOffering
-     * @param type
-     * @param validFor
-     */
-    public ProductOfferingRelationship(String sourceOfferingId, ProductOffering targetOffering, String type, TimePeriod validFor) {
-        // TODO - implement ProductOfferingRelationship.ProductOfferingRelationship
-    
+        this.sourceOffering = sourceOffering;
+        this.targetOffering = targetOffering;
+        this.typeRelationship = type;
+        this.validFor = validFor;
     }
 
 }

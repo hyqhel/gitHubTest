@@ -1,6 +1,8 @@
 package com.ai.baas.product.offering;
 
 import com.ai.baas.basetype.TimePeriod;
+import com.ai.baas.common.enums.ProdOfferingEnum;
+import com.ai.baas.common.enums.ProdSpecEnum;
 import com.ai.baas.product.offering.catalog.ProdCatalogProdOffer;
 import com.ai.baas.product.offering.price.ProductOfferingPrice;
 import org.apache.commons.lang.StringUtils;
@@ -110,13 +112,14 @@ public abstract class ProductOffering {
      */
     public ProductOffering(String id, String name, String description, TimePeriod validFor) {
         if (StringUtils.isEmpty(id)) {
-            logger.error("The parameter " + id + " is null");
+            logger.error("The parameter id is null");
             throw new IllegalArgumentException();
         }
         this.id = id;
         this.name = name;
         this.description = description;
         this.validFor = validFor;
+        this.status = ProdOfferingEnum.ProductOfferingStatus.PLANNED.getValue();
     }
 
     /**
@@ -177,7 +180,7 @@ public abstract class ProductOffering {
      * @param relationType
      * @param time
      */
-    public List<ProductOffering> queryRelatedOffering(String relationType, Date time) {
+    public List<ProductOffering> retrieveRelatedOffering(String relationType, Date time) {
         List<ProductOffering> offerings = new ArrayList<ProductOffering>();
         if (StringUtils.isEmpty(relationType)) {
             throw new IllegalArgumentException("Parameter [relationType] cannot be null.");
@@ -219,7 +222,7 @@ public abstract class ProductOffering {
     /**
      * @param time
      */
-    public ProductOfferingPrice[] retrievePrice(Date time) {
+    public List<ProductOfferingPrice> retrievePrice(Date time) {
         //TODO price
         return null;
     }

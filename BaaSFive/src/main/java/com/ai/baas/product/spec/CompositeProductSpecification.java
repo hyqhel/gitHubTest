@@ -44,8 +44,7 @@ public class CompositeProductSpecification extends ProductSpecification {
             this.prodSpec = new ArrayList<ProductSpecification>();
         }
         if (null == prodSpec) {
-            logger.error("Parameter [prodSpec] cannot be null.");
-            return;
+            throw new IllegalArgumentException("Parameter [prodSpec] cannot be null.");
         }
         if (this.prodSpec.contains(prodSpec)) {
             logger.error("the subProdSpec already exist, Cannot repeatedly create subProdSpec. ProductNumber="
