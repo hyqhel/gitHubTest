@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
  * The appearance of a ProductOffering in a ProductCatalog.
  */
 public class ProdCatalogProdOffer {
-    private static final Logger logger = Logger.getLogger(ProductCatalog.class);
+    private static final Logger logger = Logger.getLogger(ProdCatalogProdOffer.class);
     private ProductOffering prodOffering;
     private List<ProductOfferingPrice> productOfferingPrice;
     /**

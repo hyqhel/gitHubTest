@@ -2,9 +2,10 @@ package com.ai.baas.common.catalog;
 
 import com.ai.baas.basetype.*;
 import com.ai.baas.product.offering.ProductOffering;
+import org.apache.log4j.Logger;
 
 public class Catalog {
-
+    private static final Logger logger = Logger.getLogger(Catalog.class);
     /**
      * A unique identifier for a catalog.
      */
@@ -62,6 +63,10 @@ public class Catalog {
      * @param validFor
      */
     public Catalog(String id, String name, String type, TimePeriod validFor) {
+        if(null == id || "".equals(id)){
+            logger.error("parameter is error £ºthe id is null . ");
+            throw new IllegalArgumentException("id should not be null .");
+        }
     	this.ID = id;
     	this.name = name;
     	this.type = type;

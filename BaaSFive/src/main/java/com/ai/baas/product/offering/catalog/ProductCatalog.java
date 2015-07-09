@@ -97,21 +97,7 @@ public class ProductCatalog extends Catalog {
         }
     }
 
-    public void modifyOfferingValidTime(ProductOffering offering){
-        checkProductOffering(offering);
-        if(null != prodCatalogProdOffer){
-            for(ProdCatalogProdOffer catalogProdOffer : prodCatalogProdOffer) {
-                if(offering.equals(catalogProdOffer.getProdOffering()) && 0 == catalogProdOffer.getValidFor().isInTimePeriod(new Date())){
-                    TimePeriod validTime = new TimePeriod();
-                    validTime.setEndDateTime(new Date());
-                    validTime.setStartDateTime(catalogProdOffer.getValidFor().getStartDateTime());
-                    catalogProdOffer.setValidFor(validTime);
-                }
-            }
-        }else{
-            logger.warn("the Object of ProductCatalog haven't ProductOffering . ");
-        }
-    }
+
     /**
      * 
      * @param offering
@@ -185,6 +171,21 @@ public class ProductCatalog extends Catalog {
             }
         }
         return null;
+    }
+    private void modifyOfferingValidTime(ProductOffering offering){
+        checkProductOffering(offering);
+        if(null != prodCatalogProdOffer){
+            for(ProdCatalogProdOffer catalogProdOffer : prodCatalogProdOffer) {
+                if(offering.equals(catalogProdOffer.getProdOffering()) && 0 == catalogProdOffer.getValidFor().isInTimePeriod(new Date())){
+                    TimePeriod validTime = new TimePeriod();
+                    validTime.setEndDateTime(new Date());
+                    validTime.setStartDateTime(catalogProdOffer.getValidFor().getStartDateTime());
+                    catalogProdOffer.setValidFor(validTime);
+                }
+            }
+        }else{
+            logger.warn("the Object of ProductCatalog haven't ProductOffering . ");
+        }
     }
 
 }
