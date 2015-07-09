@@ -27,7 +27,7 @@ public class ProdSpecEnum {
 
         public static String getName(String value) {
             for (ProdSpecType c : ProdSpecType.values()) {
-                if (c.getName().equals(value)) {
+                if (c.getValue().equals(value)) {
                     return c.name;
                 }
             }
@@ -60,7 +60,7 @@ public class ProdSpecEnum {
 
         public static String getName(String value) {
             for (VersionLevel c : VersionLevel.values()) {
-                if (c.getName().equals(value)) {
+                if (c.getValue().equals(value)) {
                     return c.name;
                 }
             }
@@ -93,7 +93,7 @@ public class ProdSpecEnum {
 
         public static String getName(String value) {
             for (ProdSpecStatus c : ProdSpecStatus.values()) {
-                if (c.getName().equals(value)) {
+                if (c.getValue().equals(value)) {
                     return c.name;
                 }
             }
@@ -128,7 +128,7 @@ public class ProdSpecEnum {
 
         public static String getName(String value) {
             for (ProdSpecRelationship c : ProdSpecRelationship.values()) {
-                if (c.getName().equals(value)) {
+                if (c.getValue().equals(value)) {
                     return c.name;
                 }
             }

@@ -27,7 +27,7 @@ public class ProdOfferingEnum {
 
         public static String getName(String value) {
             for (ProductOfferingStatus c : ProductOfferingStatus.values()) {
-                if (c.getName().equals(value)) {
+                if (c.getValue().equals(value)) {
                     return c.name;
                 }
             }
@@ -62,7 +62,7 @@ public class ProdOfferingEnum {
 
         public static String getName(String value) {
             for (OfferingRelationshipType c : OfferingRelationshipType.values()) {
-                if (c.getName().equals(value)) {
+                if (c.getValue().equals(value)) {
                     return c.name;
                 }
             }
