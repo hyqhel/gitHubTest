@@ -1,6 +1,10 @@
 package com.ai.baas.product.spec;
 
 import com.ai.baas.basetype.TimePeriod;
+import com.ai.baas.common.enums.ProdSpecEnum;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A migration, substitution, dependency, or exclusivity relationship between/among ProductSpecifications.
@@ -102,4 +106,13 @@ public class ProductSpecificationRelationship {
         return true;
     }
 
+    @Override
+    public String toString() {
+        Map<String, Object> relationshipMap = new HashMap<String, Object>();
+        relationshipMap.put("targetProdSpec", this.targetProdSpec);
+        relationshipMap.put("type", ProdSpecEnum.ProdSpecRelationship.getName(this.type));
+        relationshipMap.put("validFor", this.validFor);
+
+        return relationshipMap.toString();
+    }
 }

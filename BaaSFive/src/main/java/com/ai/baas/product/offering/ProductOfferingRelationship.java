@@ -1,6 +1,11 @@
 package com.ai.baas.product.offering;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.enums.ProdOfferingEnum;
+import com.ai.baas.common.enums.ProdSpecEnum;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A significant connection or similarity between two or more ProductOfferings. For example, the relationship between a provider's ProductOffering and a supplier/partner's ProductOffering used to fulfill the provider's ProductOffering; a service provider offers various photos for download and printing...a print shop prints them for the provider and considers one photo (ProductOffering) the same as any other from a pricing perspective...one partners' photo offering is related to many of the provider's photos.
@@ -89,4 +94,15 @@ public class ProductOfferingRelationship {
         result = 31 * result + (validFor != null ? validFor.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        Map<String, Object> relationshipMap = new HashMap<String, Object>();
+        relationshipMap.put("targetOffering", this.targetOffering);
+        relationshipMap.put("typeRelationship", ProdOfferingEnum.OfferingRelationshipType.getName(this.typeRelationship));
+        relationshipMap.put("validFor", this.validFor);
+
+        return relationshipMap.toString();
+    }
+
 }

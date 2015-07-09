@@ -3,14 +3,13 @@ package com.ai.baas.product.offering;
 import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.enums.ProdOfferingEnum;
 import com.ai.baas.common.enums.ProdSpecEnum;
+import com.ai.baas.common.util.CommonUtils;
 import com.ai.baas.product.offering.catalog.ProdCatalogProdOffer;
 import com.ai.baas.product.offering.price.ProductOfferingPrice;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * The presentation of one or more ProductSpecifications to the marketplace for sale, rental, or lease for a ProductOfferingPrice. A ProductOffering may target one or more MarketSegments, be included in one or more ProductCatalog, presented in support of one or more ProductStrategies, and made available in one or more Places. ProductOffering may represent a simple offering of a single ProductSpecification or could represent a bundling of one or more other ProductOffering.
@@ -259,17 +258,13 @@ public abstract class ProductOffering {
         return id.hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "ProductOffering{" +
-                "productOfferingPrice=" + productOfferingPrice +
-                ", prodOfferingRelationship=" + prodOfferingRelationship +
-                ", prodCatalogProdOffer=" + prodCatalogProdOffer +
-                ", id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", validFor=" + validFor +
-                ", status='" + status + '\'' +
-                '}';
+    public Map<String, Object> getBasicInfoToMap() {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("id", id);
+        result.put("name", name);
+        result.put("description", description);
+        result.put("status", ProdOfferingEnum.ProductOfferingStatus.getName(status));
+        result.put("validFor", validFor);
+        return result;
     }
 }

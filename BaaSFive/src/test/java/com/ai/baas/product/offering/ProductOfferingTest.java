@@ -135,6 +135,8 @@ public class ProductOfferingTest {
                 4, this.srcOffering.getProdOfferingRelationship().size());
         assertEquals("add same SimpleProductOffering and the same relationshipType again",
                 expectedRelatedOfferingList, this.srcOffering.getProdOfferingRelationship());
+
+        System.out.println(this.srcOffering.toString());
     }
 
     @Test
