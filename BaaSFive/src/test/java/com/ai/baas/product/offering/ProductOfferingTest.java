@@ -24,11 +24,11 @@ import static org.junit.Assert.fail;
 public class ProductOfferingTest {
 
     SimpleProductOffering offering = null;
-    ProductSpecification specification = null;
+    public static ProductSpecification specification = null;
     SimpleProductOffering srcOffering = null;
 
     @BeforeClass
-    public void initProductSpec() {
+    public static void initProductSpec() {
         specification = new AtomicProductSpecification("001SP", "11 英寸 MacBook Air SPEC", "Mac Air");
     }
 
@@ -86,27 +86,32 @@ public class ProductOfferingTest {
                 expectedRelatedOffering3, this.srcOffering.getProdOfferingRelationship());
 
         // *********** Case4 **************
-        // add the same AtomicProductSpecification and different relationshipType again.
+        // add the same SimpleProductOffering and different relationshipType again.
         String type4 = ProdOfferingEnum.OfferingRelationshipType.AGGREGATION.getValue();
         SimpleProductOffering targetProdSpec4 = new SimpleProductOffering("T001", "AppleCare For Mac",
-                "AppleCare");
+                "AppleCare", targetProdOfferingValidFor, specification);
         this.srcOffering.addRelatedOffering(targetProdSpec4, type4, validFor);
 
-        ProductSpecificationRelationship expectedRelatedSpec4 = new ProductSpecificationRelationship(srcProdSpec,
-                targetProdSpec4, type4, validFor);
-        expectedRelatedSpecList.add(expectedRelatedSpec4);
-        assertEquals("add the same AtomicProductSpecification and different relationshipType again.", 3, this.srcProdSpec.getProdSpecRelationship().size());
-        assertEquals("add the same AtomicProductSpecification and different relationshipType again.", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+        SimpleProductOffering expectedTargetProdSpec4 = new SimpleProductOffering("T001", "AppleCare For Mac",
+                "AppleCare", targetProdOfferingValidFor, specification);
+        ProductOfferingRelationship expectedRelatedSpec4 = new ProductOfferingRelationship(srcOffering,
+                expectedTargetProdSpec4, type4, validFor);
+        expectedRelatedOfferingList.add(expectedRelatedSpec4);
+        assertEquals("add the same AtomicProductSpecification and different relationshipType again.",
+                3, this.srcOffering.getProdOfferingRelationship().size());
+        assertEquals("add the same AtomicProductSpecification and different relationshipType again.",
+                expectedRelatedOfferingList, srcOffering.getProdOfferingRelationship());
 
         // *********** Case5 **************
         // add relationship with srcProdSpec itSelf.
         try {
-            this.srcProdSpec.addRelatedProdSpec(this.srcProdSpec, type4, validFor);
+            this.srcOffering.addRelatedOffering(this.srcOffering, type4, validFor);
             fail("expected IllegalArgumentException for srcProdSpec");
         } catch (IllegalArgumentException e) {
         }
-        assertEquals("add relationship with srcProdSpec itSelf.", 3, this.srcProdSpec.getProdSpecRelationship().size());
-        assertEquals("add relationship with srcProdSpec itSelf.", expectedRelatedSpecList, srcProdSpec.getProdSpecRelationship());
+        assertEquals("add relationship with srcProdSpec itSelf.", 3, this.srcOffering.getProdOfferingRelationship().size());
+        assertEquals("add relationship with srcProdSpec itSelf.", expectedRelatedOfferingList, srcOffering
+                .getProdOfferingRelationship());
 
     }
 
