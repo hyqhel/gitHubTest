@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.*;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.enums.ProdSpecEnum;
 import com.ai.baas.common.util.CommonUtils;
 import com.sun.java_cup.internal.runtime.lr_parser;
 import org.apache.commons.lang.StringUtils;
@@ -379,7 +380,16 @@ public class ProductSpecCharacteristicValue {
 	@Override
 	public String toString() {
 		Map<String,Object> charValue=getBasicInfoToMap();
-		charValue.put("charValueRelationShip", this.prodSpecCharValueRelationship);
+		List<Map<String,Object>> needCharValueRelationShipValue = null;
+		if(null !=prodSpecCharValueRelationship && 0!=prodSpecCharValueRelationship.size()){
+			needCharValueRelationShipValue = new ArrayList<Map<String, Object>>();
+			for(ProdSpecCharValueRelationship psr:prodSpecCharValueRelationship){
+				Map<String,Object> targchar = psr.getTargetCharValue().getBasicInfoToMap();
+				targchar.put("charValueRelationshipType", ProdSpecEnum.ProdSpecRelationship.getName(psr.getCharValueRelationshipType()));
+				needCharValueRelationShipValue.add(targchar);
+			}
+		}
+		charValue.put("charValueRelationShip", needCharValueRelationShipValue);
 		return charValue.toString();
 	}
 	public Map<String,Object> getBasicInfoToMap(){
