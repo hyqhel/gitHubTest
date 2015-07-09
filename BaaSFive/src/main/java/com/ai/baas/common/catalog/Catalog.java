@@ -62,7 +62,6 @@ public class Catalog {
      * @param validFor
      */
     public Catalog(String id, String name, String type, TimePeriod validFor) {
-        // TODO - implement Catalog.Catalog
     	this.ID = id;
     	this.name = name;
     	this.type = type;

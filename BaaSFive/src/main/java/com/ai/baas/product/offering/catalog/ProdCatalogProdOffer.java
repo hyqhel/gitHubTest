@@ -71,7 +71,6 @@ public class ProdCatalogProdOffer {
      */
     public void specifyOfferingPrice(ProductOfferingPrice price) {
         // TODO - implement ProdCatalogProdOffer.specifyOfferingPrice
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -80,7 +79,6 @@ public class ProdCatalogProdOffer {
      */
     public void specifyOfferingPrice(ProductOfferingPrice[] price) {
         // TODO - implement ProdCatalogProdOffer.specifyOfferingPrice
-        throw new UnsupportedOperationException();
     }
     /**
      * check parameter is null
