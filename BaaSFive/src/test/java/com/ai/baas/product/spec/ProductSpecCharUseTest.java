@@ -19,7 +19,7 @@ public class ProductSpecCharUseTest {
     private static TimePeriod validFor;
 	@Before
 	public void createProductSpecCharacteristic(){
-		prodSpecCharOwn = new ProductSpecCharacteristic("1", "深度", "", validFor, "false",  1,  1, true, "height","");
+		prodSpecCharOwn = new ProductSpecCharacteristic("1", "深度", "number", validFor, "false",  1,  1, true, "height","");
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		ProductSpecCharacteristicValue prodSpecCharValuee = new ProductSpecCharacteristicValue("1", "cm", validFor, "12.3", "", "");
@@ -39,13 +39,15 @@ public class ProductSpecCharUseTest {
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
 		ProductSpecCharacteristicValue prodSpecCharValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
 
+		ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(prodSpecCharValue, false, validFor);
+
 		pscu.addValue(prodSpecCharValue, false, validFor);
 		assertEquals("add a charValue ,judet charValues's size", 1, pscu.getProdSpecCharValue().size());
-		assertTrue("add a charValue, judet charValues is belong this charValue", pscu.getProdSpecCharValue().contains(prodSpecCharValue));
+		assertTrue("add a charValue, check whether the charValue contained in the charValues", pscu.getProdSpecCharValue().contains(charValueUse));
 		
 		pscu.addValue(prodSpecCharValue2, false, validFor);
 		assertEquals("add a same charValue ,judet charValues's size", 1, pscu.getProdSpecCharValue().size());
-		assertTrue("add a same charValue, judet charValues is belong this charValue", pscu.getProdSpecCharValue().contains(prodSpecCharValue));
+		assertTrue("add a same charValue, check whether the charValue contained in the charValues", pscu.getProdSpecCharValue().contains(charValueUse));
 
 		try{
 			pscu.addValue(null, false, validFor);
