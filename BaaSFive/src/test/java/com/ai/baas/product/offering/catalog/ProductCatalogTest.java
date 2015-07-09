@@ -37,18 +37,20 @@ public class ProductCatalogTest {
         String description = "1.6GHz 双核 Intel Core i5 处理器，Turbo Boost 高达 2.7GHz";
 
         ProductSpecification  prodSpec = new AtomicProductSpecification("001SP", "11 英寸 MacBook Air SPEC", "Mac Air");
-        SimpleProductOffering offering = new SimpleProductOffering(id, name, description, validFor, prodSpec);
+         poff = new SimpleProductOffering(id, name, description, validFor, prodSpec);
     }
     @Test
     public void testPublishOffering(){
         ProductOffering offering = null ;
         TimePeriod validFor = new TimePeriod("2015-06-04 10:20:00", "2015-06-26 10:20:00");
 
-        pcata.publishOffering(offering,validFor);
-        assertEquals("publish one null offering to catalog", 0, pcata.getProdCatalogProdOffer().size());
-
+        try {
+            pcata.publishOffering(offering, validFor);
+            fail("publish one null offering to catalog.");
+        } catch (IllegalArgumentException ex) {
+        }
         List<ProdCatalogProdOffer> expectedProdCatalogProdList = new ArrayList<ProdCatalogProdOffer>();
-        ProdCatalogProdOffer expectedSubOffering1 = new ProdCatalogProdOffer(offering,validFor);
+        ProdCatalogProdOffer expectedSubOffering1 = new ProdCatalogProdOffer(poff,validFor);
         expectedProdCatalogProdList.add(expectedSubOffering1);
 
         pcata.publishOffering(poff, validFor);
