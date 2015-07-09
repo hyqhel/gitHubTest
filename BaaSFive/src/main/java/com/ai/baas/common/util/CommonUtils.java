@@ -49,10 +49,10 @@ public class CommonUtils {
 
         String retStr = jsonForMatStr.toString();
 
-        while (-1 != retStr.indexOf("\n\n")) {
-            retStr = retStr.replace("\n\n", "\n");
+        while (-1 != retStr.indexOf("\t\t\n")) {
+            retStr = retStr.replace("\t\t\n", "\t\n");
         }
-
+        retStr = retStr.replace("\t\n", "");
         return retStr;
 
     }
