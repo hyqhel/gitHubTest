@@ -543,8 +543,8 @@ public class ProductSpecCharacteristic {
 
     private Map<String,Object> getBasicInfoToMap(){
         Map <String,Object> result=new HashMap<String,Object>();
-        result.put("name", name);
         result.put("id", ID);
+        result.put("name", name);
         result.put("unique", unique);
         result.put("valueType",valueType);
         result.put("extensible",extensible);

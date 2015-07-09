@@ -135,4 +135,39 @@ public class ProdSpecEnum {
             return "";
         }
     }
+
+    /**
+     * char之间的relationship之间的类型定义
+     */
+    public enum ProdSpecValueRelationship {
+        AGGREGATION("1", "聚合"),
+        DEPENDENCY("2", "依赖"),
+        MIGRATION("3", "迁移"),
+        SUBSTITUTION("4", "替换"),
+        EXCLUSIVITY("5", "互斥");
+        private String value;
+        private String name;
+
+        ProdSpecValueRelationship(String value, String name) {
+            this.value = value;
+            this.name = name;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public static String getName(String value) {
+            for (ProdSpecRelationship c : ProdSpecRelationship.values()) {
+                if (c.getValue().equals(value)) {
+                    return c.name;
+                }
+            }
+            return "";
+        }
+    }
 }
