@@ -92,44 +92,44 @@ public class ProductSpecificationTest {
         ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue, false, validFor);
 
         // 添加一个特征值
-        prodSpec.attachCharacteristicValue(characteristic, charValue, false, validFor, "CPU");
+        prodSpec.attachCharacteristicValue( "CPU",characteristic, charValue, false, validFor);
         assertEquals("添加一个特征值", 1, prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
         assertTrue("添加一个特征值", prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().contains(charValueUse));
 
         // 添加一个已存在的特征值
-        prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "CPU");
+        prodSpec.attachCharacteristicValue("CPU",characteristic, charValue2, false, validFor );
         assertEquals("添加一个已存在的特征值", 1, prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
         assertTrue("添加一个已存在的特征值", prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().contains(charValueUse));
 
         // 添加一个特征值,特征值不属于该特征
-        prodSpec.attachCharacteristicValue(characteristic, charValue4, false, validFor, "CPU");
+        prodSpec.attachCharacteristicValue("CPU",characteristic, charValue4, false, validFor);
         assertEquals("添加一个特征值,特征值不属于该特征", 1, prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
         assertTrue("添加一个特征值,特征值不属于该特征", prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().contains(charValueUse));
 
         // 添加一个特征值,特征不属于该规格
         try {
-            prodSpec.attachCharacteristicValue(characteristic3, charValue3, false, validFor, "CPU");
+            prodSpec.attachCharacteristicValue("CPU",characteristic3, charValue3, false, validFor);
             fail("添加一个特征值,特征不属于该规格");
         } catch (Exception e) {
         }
 
         // 添加一个特征值为空
         try {
-            prodSpec.attachCharacteristicValue(characteristic, null, false, validFor, "CPU");
+            prodSpec.attachCharacteristicValue("CPU",characteristic, null, false, validFor);
             fail("添加一个特征值为空");
         } catch (Exception e) {
         }
 
         // 添加一个特征值,特征为空
         try {
-            prodSpec.attachCharacteristicValue(null, charValue2, false, validFor, "CPU");
+            prodSpec.attachCharacteristicValue("CPU",null, charValue2, false, validFor);
             fail("添加一个特征值,特征为空");
         } catch (Exception e) {
         }
 
         // 添加一个特征值,特征名为空
         try {
-            prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "");
+            prodSpec.attachCharacteristicValue("",characteristic, charValue2, false, validFor);
             fail("添加一个特征值,特征名为空");
         } catch (Exception e) {
         }
@@ -146,8 +146,8 @@ public class ProductSpecificationTest {
         prodSpec.addCharacteristic(characteristic, false, false, validFor, "CPU");
 
         // 添加特征值
-        prodSpec.attachCharacteristicValue(characteristic, charValue1, true, validFor, "CPU");
-        prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "CPU");
+        prodSpec.attachCharacteristicValue("CPU",characteristic, charValue1, true, validFor);
+        prodSpec.attachCharacteristicValue("CPU",characteristic, charValue2, false, validFor);
 
         Set<ProdSpecCharValueUse> expectCharValueUse = new HashSet<ProdSpecCharValueUse>();
         ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue2, true, validFor);
@@ -216,11 +216,11 @@ public class ProductSpecificationTest {
         ProductSpecCharacteristicValue charValue1 = this.createValue(TestProductSpecificationData.specCharValue[9]);
         ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
         // 添加特征值
-        prodSpec.attachCharacteristicValue(characteristic, charValue1, true, validFor, "");
-        prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "");
+        prodSpec.attachCharacteristicValue( "",characteristic, charValue1, true, validFor);
+        prodSpec.attachCharacteristicValue("",characteristic, charValue2, false, validFor);
 
 		// 查询某一特征在当前时间点的值
-        List<ProdSpecCharValueUse> charValueUses = prodSpec.retrieveCharacteristicValue(characteristic, new Date(), "CPU");
+        List<ProdSpecCharValueUse> charValueUses = prodSpec.retrieveCharacteristicValue("CPU",characteristic, new Date());
         assertNotNull("查询某一特征在当前时间点的值", charValueUses);
 		assertEquals("查询某一特征在当前时间点的值", 2, charValueUses.size());
     }
@@ -237,19 +237,19 @@ public class ProductSpecificationTest {
         ProductSpecCharacteristicValue charValue1 = this.createValue(TestProductSpecificationData.specCharValue[9]);
         ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
         // 添加特征值
-        prodSpec.attachCharacteristicValue(characteristic, charValue1, true, validFor, "");
-        prodSpec.attachCharacteristicValue(characteristic, charValue2, false, validFor, "");
+        prodSpec.attachCharacteristicValue("",characteristic, charValue1, true, validFor);
+        prodSpec.attachCharacteristicValue("",characteristic, charValue2, false, validFor);
 
 		// 设置某一特征的Cardinality
-        boolean retFlag = prodSpec.specifyCardinality(characteristic, 1, 5, "");
+        boolean retFlag = prodSpec.specifyCardinality("",characteristic, 1, 5);
         assertTrue("设置某一特征的Cardinality", retFlag);
 
 		// 设置Cardinality，特征为空
-        retFlag = prodSpec.specifyCardinality(null, 1, 5, "");
+        retFlag = prodSpec.specifyCardinality("",null, 1, 5);
         assertFalse("设置Cardinality，特征为空", retFlag);
 
-        // 设置Cardinality，特征不是被用的
-        retFlag = prodSpec.specifyCardinality(characteristic2, 1, 5, "");
+        // set Cardinality，name
+        retFlag = prodSpec.specifyCardinality("",characteristic2, 1, 5);
         assertFalse("设置Cardinality，特征不是被用的", retFlag);
 	}
 

@@ -223,7 +223,6 @@ public class ProductSpecCharUse {
      */
     public void removeValue(ProductSpecCharacteristicValue charValue) {
 		// TODO - implement ProductSpecCharUse.removeValue
-		throw new UnsupportedOperationException();
     }
 
 
@@ -252,8 +251,9 @@ public class ProductSpecCharUse {
 	 */
 	private ProdSpecCharValueUse retrieveProdSpecCharValueUse(ProductSpecCharacteristicValue charValue){
 		for (ProdSpecCharValueUse valueUse : prodSpecCharValue) {
-			if (valueUse.getProdSpecCharValue().equals(charValue))
-				return valueUse;
+			if (valueUse.getProdSpecCharValue().equals(charValue)) {
+                return valueUse;
+            }
 		}
 		return null;
 	}
