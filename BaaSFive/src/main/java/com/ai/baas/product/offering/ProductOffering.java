@@ -142,13 +142,29 @@ public abstract class ProductOffering {
             logger.error("Cannot add relationship with it self! ID=" + offering.getId() + "relationType=" + relationType);
             throw new IllegalArgumentException("Cannot add relationship with it self!");
         }
-        ProductOfferingRelationship offeringRelationship = new ProductOfferingRelationship(this, offering, relationType, validFor);
-        if (this.prodOfferingRelationship.contains(offeringRelationship)) {
-            logger.warn("the relationship already exist, Cannot repeatedly create relationship by the same type. ID="
-                    + offering.getId() + "relationType=" + relationType);
-        } else {
-            this.prodOfferingRelationship.add(offeringRelationship);
+        if (this.prodOfferingRelationship.size() > 0) {
+            for (ProductOfferingRelationship offeringRelationship : this.prodOfferingRelationship) {
+                if (offering.equals(offeringRelationship.getTargetOffering()) && relationType.equals
+                        (offeringRelationship.getTypeRelationship()) && offeringRelationship.getValidFor().isOverlap(validFor)) {
+                    logger.error("the relationship already exist as the same timePeriod. Cannot add relationship." +
+                            "  ID=" + offering.getId() + "relationType=" + relationType);
+                    throw new IllegalArgumentException("the relationship already exist as the same timePeriod. Cannot add relationship.");
+
+                }
+            }
         }
+
+        ProductOfferingRelationship offeringRelationship = new ProductOfferingRelationship(this, offering, relationType, validFor);
+        this.prodOfferingRelationship.add(offeringRelationship);
+    }
+
+    public boolean updateRelatedOfferingValidPeriod(ProductOffering offering, String relationType, TimePeriod
+            validFor, TimePeriod newValid) {
+        //TODO
+        //ProductOfferingRelationship offeringRelationship = new ProductOfferingRelationship(this, offering,
+        //      relationType, validFor);
+
+        return false;
     }
 
     /**
@@ -227,4 +243,19 @@ public abstract class ProductOffering {
         return null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductOffering that = (ProductOffering) o;
+
+        return id.equals(that.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

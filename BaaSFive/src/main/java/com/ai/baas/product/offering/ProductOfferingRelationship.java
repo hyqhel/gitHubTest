@@ -64,4 +64,29 @@ public class ProductOfferingRelationship {
         this.validFor = validFor;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductOfferingRelationship that = (ProductOfferingRelationship) o;
+
+        if (targetOffering != null ? !targetOffering.equals(that.targetOffering) : that.targetOffering != null)
+            return false;
+        if (sourceOffering != null ? !sourceOffering.equals(that.sourceOffering) : that.sourceOffering != null)
+            return false;
+        if (typeRelationship != null ? !typeRelationship.equals(that.typeRelationship) : that.typeRelationship != null)
+            return false;
+        return !(validFor != null ? !validFor.equals(that.validFor) : that.validFor != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = targetOffering != null ? targetOffering.hashCode() : 0;
+        result = 31 * result + (sourceOffering != null ? sourceOffering.hashCode() : 0);
+        result = 31 * result + (typeRelationship != null ? typeRelationship.hashCode() : 0);
+        result = 31 * result + (validFor != null ? validFor.hashCode() : 0);
+        return result;
+    }
 }

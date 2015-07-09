@@ -81,6 +81,14 @@ public class TimePeriod {
         return 0;
     }
 
+    public boolean isOverlap(TimePeriod validFor) {
+        if (validFor.getStartDateTime().compareTo(endDateTime) <= 0 && validFor.endDateTime.compareTo(startDateTime) >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
