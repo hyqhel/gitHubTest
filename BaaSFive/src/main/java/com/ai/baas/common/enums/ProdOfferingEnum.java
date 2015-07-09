@@ -24,6 +24,15 @@ public class ProdOfferingEnum {
         public String getName() {
             return this.name;
         }
+
+        public static String getName(String value) {
+            for (ProductOfferingStatus c : ProductOfferingStatus.values()) {
+                if (c.getName().equals(value)) {
+                    return c.name;
+                }
+            }
+            return "";
+        }
     }
 
     /**
@@ -49,6 +58,15 @@ public class ProdOfferingEnum {
 
         public String getName() {
             return this.name;
+        }
+
+        public static String getName(String value) {
+            for (OfferingRelationshipType c : OfferingRelationshipType.values()) {
+                if (c.getName().equals(value)) {
+                    return c.name;
+                }
+            }
+            return "";
         }
     }
 
