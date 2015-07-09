@@ -93,7 +93,7 @@ public class ProductCatalog extends Catalog {
             throw new IllegalArgumentException("offering should not be null .");
         }
         for(ProductOffering offering:offerings){
-            modifyOfferingValidTime(offering);
+            retiredOffering(offering);
         }
     }
 
