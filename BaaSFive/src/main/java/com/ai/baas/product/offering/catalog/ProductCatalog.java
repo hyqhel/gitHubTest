@@ -164,7 +164,7 @@ public class ProductCatalog extends Catalog {
      */
     public List<ProductOffering> retrieveOffering(ProductOfferingPrice price) {
         // TODO - implement ProductCatalog.retrieveOffering
-        throw new UnsupportedOperationException();
+        return null;
     }
     /**
      * check parameter is null
