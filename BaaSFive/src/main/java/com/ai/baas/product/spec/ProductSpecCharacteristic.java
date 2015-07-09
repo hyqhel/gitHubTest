@@ -541,7 +541,7 @@ public class ProductSpecCharacteristic {
     }
 
 
-    private Map<String,Object> getBasicInfoToMap(){
+    public Map<String,Object> getBasicInfoToMap(){
         Map <String,Object> result=new HashMap<String,Object>();
         result.put("id", ID);
         result.put("name", name);
