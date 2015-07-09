@@ -218,7 +218,7 @@ public abstract class ProductSpecification {
      */
     public boolean removeCharacteristic(ProductSpecCharacteristic specChar) {
         // TODO - implement ProductSpecCharUse.removeValue
-        throw new UnsupportedOperationException();
+        return false;
     }
 
     /**
@@ -235,7 +235,7 @@ public abstract class ProductSpecification {
      */
     public boolean modifyCharacteristicInfo(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
         // TODO - implement ProductSpecCharUse.removeValue
-        throw new UnsupportedOperationException();
+        return false;
     }
 
     /**
@@ -270,7 +270,6 @@ public abstract class ProductSpecification {
      */
     public void detachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue) {
         // TODO - implement ProductSpecCharUse.removeValue
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -336,9 +335,9 @@ public abstract class ProductSpecification {
                     prodSpecCharValueUseByDate.add(charValueUse);
                 }
             }
-        }else
+        }else {
             log.warn("The characteristic haven't charValue in use");
-
+        }
         return prodSpecCharValueUseByDate;
     }
 
@@ -356,8 +355,9 @@ public abstract class ProductSpecification {
                 if (null != subProdSpecChar) {
                     for (ProductSpecCharacteristic specChar : subProdSpecChar) {
                         ProductSpecCharUse subCharUse = this.retrieveProdSpecCharUse(specChar, charUse.getName());
-                        if (null != subCharUse)
+                        if (null != subCharUse) {
                             charUseList.remove(subCharUse);
+                        }
                     }
                 }
             }
@@ -386,8 +386,9 @@ public abstract class ProductSpecification {
         if (null != subProdSpecChar) {
             for (ProductSpecCharacteristic subspecChar : subProdSpecChar) {
                 ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(subspecChar,name);
-                if (null != charUse)
+                if (null != charUse) {
                     charUses.add(charUse);
+                }
             }
         }
         return charUses;
@@ -593,8 +594,9 @@ public abstract class ProductSpecification {
         if (null == charUse) {
             log.error("Parameter characteristic is not used ");
             throw new IllegalArgumentException();
-        }else
+        }else {
             return charUse;
+        }
     }
     /**
      * initialize set of ProductSpecCharUse
