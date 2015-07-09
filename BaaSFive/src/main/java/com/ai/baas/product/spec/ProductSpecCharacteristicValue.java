@@ -395,7 +395,7 @@ public class ProductSpecCharacteristicValue {
 	public Map<String,Object> getBasicInfoToMap(){
 		Map<String,Object> charValue=new HashMap<String,Object>();
 		charValue.put("valueType", this.valueType);
-		charValue.put("valueType", this.unitOfMeasure);
+		charValue.put("unitOfMeasure", this.unitOfMeasure);
 		if(this.value!=null){
 			charValue.put("value", this.value);
 		}else{

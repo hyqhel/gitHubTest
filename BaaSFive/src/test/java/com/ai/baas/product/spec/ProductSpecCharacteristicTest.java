@@ -152,8 +152,4 @@ public class ProductSpecCharacteristicTest {
 		
 		
 	}
-	@After
-	public void printS(){
-		System.out.println(prodSpecCharOwn.toString());
-	}
 }
