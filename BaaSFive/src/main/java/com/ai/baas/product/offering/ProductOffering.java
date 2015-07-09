@@ -258,4 +258,18 @@ public abstract class ProductOffering {
     public int hashCode() {
         return id.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "ProductOffering{" +
+                "productOfferingPrice=" + productOfferingPrice +
+                ", prodOfferingRelationship=" + prodOfferingRelationship +
+                ", prodCatalogProdOffer=" + prodCatalogProdOffer +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", validFor=" + validFor +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

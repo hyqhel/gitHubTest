@@ -5,6 +5,8 @@ import org.apache.commons.lang.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A base / value business entity used to represent a period of time, between two time points
@@ -107,5 +109,19 @@ public class TimePeriod {
         int result = startDateTime != null ? startDateTime.hashCode() : 0;
         result = 31 * result + (endDateTime != null ? endDateTime.hashCode() : 0);
         return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Map<String, String> vaildFor = new HashMap<String, String>();
+        vaildFor.put("startDateTime", this.startDateTime == null ? "" : format.format(this.startDateTime));
+        vaildFor.put("endDateTime", this.endDateTime == null ? "" : format.format(this.endDateTime));
+        return vaildFor.toString();
     }
 }

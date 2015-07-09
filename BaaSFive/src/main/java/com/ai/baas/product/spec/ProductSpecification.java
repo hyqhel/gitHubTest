@@ -3,6 +3,7 @@ package com.ai.baas.product.spec;
 import com.ai.baas.basetype.Money;
 import com.ai.baas.basetype.TimePeriod;
 import com.ai.baas.common.enums.ProdSpecEnum;
+import com.ai.baas.common.util.CommonUtils;
 import com.ai.baas.common.util.NumberUtil;
 import com.ai.baas.product.offering.SimpleProductOffering;
 import org.apache.commons.lang.StringUtils;
@@ -161,20 +162,20 @@ public abstract class ProductSpecification {
      * @param isPackage      An indicator that specifies if the associated CharacteristicSpecification is a composite. true��is a composite one
      * @param validFor       The period of time for which the use of the CharacteristicSpecification is applicable.
      */
-    public boolean addCharacteristic(String name,ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
+    public boolean addCharacteristic(String name, ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
-        if(null == name || "".equals( name)){
+        if (null == name || "".equals(name)) {
             log.error("parameter is error ：the parameter name is null. ");
             throw new IllegalArgumentException("name should not be null .");
         }
         //initialize set of ProductSpecCharUse
         initProdSpecCharUseSet();
         //the characteristic has been used under the specification, can't add characteristic again
-        if(null == retrieveProdSpecCharUse(name,specChar)) {
+        if (null == retrieveProdSpecCharUse(name, specChar)) {
             ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name);
             prodSpecChar.add(prodSpecCharUse);
-        }else{
+        } else {
             log.warn("the characteristic is already in use. ");
             return false;
         }
@@ -193,20 +194,20 @@ public abstract class ProductSpecification {
      * @param extensible     An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
      * @param description    A narrative that explains the CharacteristicSpecification.
      */
-    public boolean addCharacteristic(String name,ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor,  String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
+    public boolean addCharacteristic(String name, ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
-        if(null == name || "".equals( name)){
+        if (null == name || "".equals(name)) {
             log.error("parameter is error ：the parameter name is null. ");
             throw new IllegalArgumentException("name should not be null .");
         }
         //initialize set of ProductSpecCharUse
         initProdSpecCharUseSet();
         //the characteristic has been used under the specification, can't add characteristic again
-        if(null == retrieveProdSpecCharUse(name,specChar)) {
+        if (null == retrieveProdSpecCharUse(name, specChar)) {
             ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
             prodSpecChar.add(prodSpecCharUse);
-        }else{
+        } else {
             log.warn("the characteristic is already in use. ");
             return false;
         }
@@ -216,7 +217,7 @@ public abstract class ProductSpecification {
     /**
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
-    public boolean removeCharacteristic(String name,ProductSpecCharacteristic specChar) {
+    public boolean removeCharacteristic(String name, ProductSpecCharacteristic specChar) {
         // TODO - implement ProductSpecCharUse.removeValue
         return false;
     }
@@ -233,7 +234,7 @@ public abstract class ProductSpecification {
      * @param extensible     An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
      * @param description    A narrative that explains the CharacteristicSpecification.
      */
-    public boolean modifyCharacteristicInfo(String charUseName,ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
+    public boolean modifyCharacteristicInfo(String charUseName, ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
         // TODO - implement ProductSpecCharUse.removeValue
         return false;
     }
@@ -244,17 +245,17 @@ public abstract class ProductSpecification {
      * @param isDefault Indicates if the value is the default value for a characteristic. true��is default value
      * @param validFor  The period of time for which the use of the CharacteristicValue is applicable.
      */
-    public void attachCharacteristicValue(String name,ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
+    public void attachCharacteristicValue(String name, ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
         //judge charValue is null
         checkCharValue(charValue);
-        if(null == name || "".equals( name)){
+        if (null == name || "".equals(name)) {
             log.error("parameter is error ：the parameter name is null. ");
             throw new IllegalArgumentException("name should not be null .");
         }
         if (this.prodSpecChar != null) {
-            ProductSpecCharUse charUse = this.checkCharIsUse(name,specChar);
+            ProductSpecCharUse charUse = this.checkCharIsUse(name, specChar);
             if (null != specChar.getProdSpecCharValue()
                     && specChar.getProdSpecCharValue().contains(charValue)) {
                 charUse.addValue(charValue, isDefault, validFor);
@@ -268,7 +269,7 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param charValue
      */
-    public void detachCharacteristicValue(String name,ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue) {
+    public void detachCharacteristicValue(String name, ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue) {
         // TODO - implement ProductSpecCharUse.removeValue
     }
 
@@ -276,17 +277,17 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param defaultCharValue
      */
-    public void specifyDefaultCharacteristicValue(String name,ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue defaultCharValue) {
+    public void specifyDefaultCharacteristicValue(String name, ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue defaultCharValue) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
         //judge charValue is null
         checkCharValue(defaultCharValue);
-        if(null == name || "".equals( name)){
+        if (null == name || "".equals(name)) {
             log.error("parameter is error ：the parameter name is null. ");
             throw new IllegalArgumentException("name should not be null .");
         }
         if (null != this.prodSpecChar) {
-            ProductSpecCharUse charUse = this.checkCharIsUse(name,specChar);
+            ProductSpecCharUse charUse = this.checkCharIsUse(name, specChar);
             if (null != specChar.getProdSpecCharValue()
                     && specChar.getProdSpecCharValue().contains(defaultCharValue)) {
                 charUse.specifyDefaultCharacteristicValue(defaultCharValue);
@@ -318,24 +319,24 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param time
      */
-    public List<ProdSpecCharValueUse> retrieveCharacteristicValue(String name,ProductSpecCharacteristic specChar, Date time) {
+    public List<ProdSpecCharValueUse> retrieveCharacteristicValue(String name, ProductSpecCharacteristic specChar, Date time) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
-        if(null == name || "".equals( name)){
+        if (null == name || "".equals(name)) {
             log.error("parameter is error ：the parameter name is null. ");
             throw new IllegalArgumentException("name should not be null .");
         }
         List<ProdSpecCharValueUse> prodSpecCharValueUseByDate = new ArrayList<ProdSpecCharValueUse>();
-        ProductSpecCharUse charUse = this.checkCharIsUse(name,specChar);
+        ProductSpecCharUse charUse = this.checkCharIsUse(name, specChar);
         List<ProdSpecCharValueUse> valueUseAllList = charUse.getProdSpecCharValue();
-        if(null != valueUseAllList){
+        if (null != valueUseAllList) {
             for (ProdSpecCharValueUse charValueUse : valueUseAllList) {
                 TimePeriod validForTime = charValueUse.getValidFor();
                 if (0 == validForTime.isInTimePeriod(time)) {
                     prodSpecCharValueUseByDate.add(charValueUse);
                 }
             }
-        }else {
+        } else {
             log.warn("The characteristic haven't charValue in use");
         }
         return prodSpecCharValueUseByDate;
@@ -354,7 +355,7 @@ public abstract class ProductSpecification {
                         ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
                 if (null != subProdSpecChar) {
                     for (ProductSpecCharacteristic specChar : subProdSpecChar) {
-                        ProductSpecCharUse subCharUse = this.retrieveProdSpecCharUse(charUse.getName(),specChar);
+                        ProductSpecCharUse subCharUse = this.retrieveProdSpecCharUse(charUse.getName(), specChar);
                         if (null != subCharUse) {
                             charUseList.remove(subCharUse);
                         }
@@ -369,15 +370,15 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param time
      */
-    public List<ProductSpecCharUse> retrieveLeafCharacteristic(String name,ProductSpecCharacteristic specChar, Date time) {
+    public List<ProductSpecCharUse> retrieveLeafCharacteristic(String name, ProductSpecCharacteristic specChar, Date time) {
         checkProdSpecChar(specChar);
-        if(null == name || "".equals( name)){
+        if (null == name || "".equals(name)) {
             log.error("parameter is error ：the parameter name is null. ");
             throw new IllegalArgumentException("name should not be null .");
         }
         List<ProductSpecCharUse> charUses = new ArrayList<ProductSpecCharUse>();
         List<ProductSpecCharacteristic> subProdSpecChar = null;
-        if(null == time)
+        if (null == time)
             subProdSpecChar = specChar.retrieveRelatedCharacteristic(
                     ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue());
         else
@@ -385,7 +386,7 @@ public abstract class ProductSpecification {
                     ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), time);
         if (null != subProdSpecChar) {
             for (ProductSpecCharacteristic subspecChar : subProdSpecChar) {
-                ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(name,subspecChar);
+                ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(name, subspecChar);
                 if (null != charUse) {
                     charUses.add(charUse);
                 }
@@ -399,13 +400,13 @@ public abstract class ProductSpecification {
      * @param minCardinality
      * @param maxCardinality
      */
-    public boolean specifyCardinality(String name,ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality) {
+    public boolean specifyCardinality(String name, ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality) {
         checkProdSpecChar(specChar);
-        if(null == name || "".equals( name)){
+        if (null == name || "".equals(name)) {
             log.error("parameter is error ：the parameter name is null. ");
             throw new IllegalArgumentException("name should not be null .");
         }
-        ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(name,specChar);
+        ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(name, specChar);
         if (null != charUse) {
             charUse.specifyCardinality(minCardinality, maxCardinality);
             return true;
@@ -579,25 +580,28 @@ public abstract class ProductSpecification {
         }
         return rtnResultRelations;
     }
-    private ProductSpecCharUse retrieveProdSpecCharUse(String name,ProductSpecCharacteristic characteristic) {
+
+    private ProductSpecCharUse retrieveProdSpecCharUse(String name, ProductSpecCharacteristic characteristic) {
         if (null != this.prodSpecChar) {
             for (ProductSpecCharUse charUse : this.prodSpecChar) {
-                if (characteristic.equals(charUse.getProdSpecChar()) && charUse.getName().equals(name)){
+                if (characteristic.equals(charUse.getProdSpecChar()) && charUse.getName().equals(name)) {
                     return charUse;
                 }
             }
         }
         return null;
     }
-    private ProductSpecCharUse checkCharIsUse(String name,ProductSpecCharacteristic characteristic){
-        ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(name,characteristic);
+
+    private ProductSpecCharUse checkCharIsUse(String name, ProductSpecCharacteristic characteristic) {
+        ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(name, characteristic);
         if (null == charUse) {
             log.error("Parameter characteristic is not used ");
             throw new IllegalArgumentException();
-        }else {
+        } else {
             return charUse;
         }
     }
+
     /**
      * initialize set of ProductSpecCharUse
      */
@@ -644,6 +648,60 @@ public abstract class ProductSpecification {
     public int hashCode() {
         int result = prodSpecVersion != null ? prodSpecVersion.hashCode() : 0;
         result = 31 * result + productNumber.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        Map<String, Object> result = getBasicInfoToMap();
+        List<Map<String, Object>> prodSpecCharRelationshipList = new ArrayList<Map<String, Object>>();
+        if (this.prodSpecRelationship != null && this.prodSpecRelationship.size() > 0) {
+            for (ProductSpecificationRelationship relationship : this.prodSpecRelationship) {
+                Map<String, Object> relationshipMap = new HashMap<String, Object>();
+                relationshipMap.put("targetProdSpec", relationship.getTargetProdSpec());
+                relationshipMap.put("type", ProdSpecEnum.ProdSpecRelationship.getName(relationship.getType()));
+                relationshipMap.put("validFor", relationship.getValidFor());
+
+                prodSpecCharRelationshipList.add(relationshipMap);
+            }
+        }
+        result.put("prodSpecCharRelationship", prodSpecCharRelationshipList);
+
+        List<Map<String, Object>> prodSpecCharUseList = new ArrayList<Map<String, Object>>();
+        if (this.prodSpecChar != null && this.prodSpecChar.size() > 0) {
+            for (ProductSpecCharUse productSpecCharUse : this.prodSpecChar) {
+                Map<String, Object> productSpecCharUseMap = productSpecCharUse.getBasicInfoToMap();
+                ProductSpecCharacteristic specChar = productSpecCharUse.getProdSpecChar();
+                Map<String, Object> specCharMap = specChar.getBasicInfoToMap();
+                productSpecCharUseMap.put("prodSpecChar", specCharMap);
+
+                List<Map<String, Object>> prodSpecCharValueUseList = new ArrayList<Map<String, Object>>();
+                if (null != productSpecCharUse.getProdSpecCharValue()) {
+                    for (ProdSpecCharValueUse valueUse : productSpecCharUse.getProdSpecCharValue()) {
+                        Map<String, Object> productSpecCharValueUseMap = valueUse.getBasicInfoToMap();
+                        productSpecCharValueUseMap.put("prodSpecCharValue", valueUse.getProdSpecCharValue()
+                                .getBasicInfoToMap());
+                        prodSpecCharValueUseList.add(productSpecCharValueUseMap);
+                    }
+                }
+                productSpecCharUseMap.put("prodSpecCharValueUse", prodSpecCharValueUseList);
+                prodSpecCharUseList.add(productSpecCharUseMap);
+            }
+        }
+        result.put("prodSpecCharUse", prodSpecCharUseList);
+
+
+        return CommonUtils.format(result.toString());
+    }
+
+    public Map<String, Object> getBasicInfoToMap() {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("productNumber", productNumber);
+        result.put("name", name);
+        result.put("brand", brand);
+        result.put("description", description);
+        result.put("validFor", validFor);
+        result.put("lifecycleStatus", lifecycleStatus);
         return result;
     }
 }
