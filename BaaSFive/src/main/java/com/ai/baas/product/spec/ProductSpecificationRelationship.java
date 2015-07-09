@@ -32,17 +32,6 @@ public class ProductSpecificationRelationship {
     	this.validFor = validFor;
     }
 
-    /**
-     * 
-     * @param sourceSpec
-     * @param targetSpecId
-     * @param type
-     * @param validFor
-     */
-    public ProductSpecificationRelationship(ProductSpecification sourceSpec, String targetSpecId, String type, TimePeriod validFor) {
-        // TODO - implement ProductSpecificationRelationship.ProductSpecificationRelationship
-        throw new UnsupportedOperationException();
-    }
 
     public ProductSpecification getTargetProdSpec() {
 		return targetProdSpec;
@@ -68,17 +57,6 @@ public class ProductSpecificationRelationship {
 		this.validFor = validFor;
 	}
 
-	/**
-     * 
-     * @param sourceSpecId
-     * @param targetSpec
-     * @param type
-     * @param validFor
-     */
-    public ProductSpecificationRelationship(String sourceSpecId, ProductSpecification targetSpec, String type, TimePeriod validFor) {
-        // TODO - implement ProductSpecificationRelationship.ProductSpecificationRelationship
-        throw new UnsupportedOperationException();
-    }
 
 	@Override
 	public int hashCode() {

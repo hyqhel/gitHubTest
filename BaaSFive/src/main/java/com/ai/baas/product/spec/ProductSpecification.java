@@ -161,7 +161,7 @@ public abstract class ProductSpecification {
      * @param isPackage      An indicator that specifies if the associated CharacteristicSpecification is a composite. true��is a composite one
      * @param validFor       The period of time for which the use of the CharacteristicSpecification is applicable.
      */
-    public boolean addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor,String name) {
+    public boolean addCharacteristic(String name,ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
         if(null == name || "".equals( name)){
@@ -193,7 +193,7 @@ public abstract class ProductSpecification {
      * @param extensible     An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
      * @param description    A narrative that explains the CharacteristicSpecification.
      */
-    public boolean addCharacteristic(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
+    public boolean addCharacteristic(String name,ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor,  String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
         if(null == name || "".equals( name)){
@@ -216,7 +216,7 @@ public abstract class ProductSpecification {
     /**
      * @param specChar A characteristic quality or distinctive feature of a ProductSpecification. The {@code ProductSpecification} must have the Characteristic before.
      */
-    public boolean removeCharacteristic(ProductSpecCharacteristic specChar) {
+    public boolean removeCharacteristic(String name,ProductSpecCharacteristic specChar) {
         // TODO - implement ProductSpecCharUse.removeValue
         return false;
     }
@@ -233,7 +233,7 @@ public abstract class ProductSpecification {
      * @param extensible     An indicator that specifies that the values for the characteristic can be extended by adding new values when instantiating a characteristic for a Service.
      * @param description    A narrative that explains the CharacteristicSpecification.
      */
-    public boolean modifyCharacteristicInfo(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
+    public boolean modifyCharacteristicInfo(String charUseName,ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
         // TODO - implement ProductSpecCharUse.removeValue
         return false;
     }
@@ -268,7 +268,7 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param charValue
      */
-    public void detachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue) {
+    public void detachCharacteristicValue(String name,ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue) {
         // TODO - implement ProductSpecCharUse.removeValue
     }
 
@@ -276,7 +276,7 @@ public abstract class ProductSpecification {
      * @param specChar
      * @param defaultCharValue
      */
-    public void specifyDefaultCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue defaultCharValue,String name) {
+    public void specifyDefaultCharacteristicValue(String name,ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue defaultCharValue) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
         //judge charValue is null
@@ -422,7 +422,7 @@ public abstract class ProductSpecification {
      * @param revisionDate
      * @param validFor
      */
-    private void setVersion(String verType, String curTypeVersion, String description, Date revisionDate, TimePeriod validFor) {
+    private void specifyVersion(String verType, String curTypeVersion, String description, Date revisionDate, TimePeriod validFor) {
         //TODO Do not do version and related methods
     }
 
@@ -433,11 +433,11 @@ public abstract class ProductSpecification {
      * @param validFor
      * @throws Exception
      */
-    public void setVersion(String version, String description, Date revisionDate, TimePeriod validFor) throws Exception {
+    public void specifyVersion(String version, String description, Date revisionDate, TimePeriod validFor) throws Exception {
         //TODO Do not do version and related methods
     }
 
-    public ProductSpecificationVersion[] getCurrentVersion() {
+    public List<ProductSpecificationVersion> retrieveCurrentVersion() {
         //TODO Do not do version and related methods
         return null;
     }
@@ -491,7 +491,7 @@ public abstract class ProductSpecification {
     /**
      * @param time
      */
-    public ProductSpecificationCost[] queryCost(Date time) {
+    public List<ProductSpecificationCost> retrieveCost(Date time) {
         //TODO Do not do Cost and related methods
         return null;
     }
