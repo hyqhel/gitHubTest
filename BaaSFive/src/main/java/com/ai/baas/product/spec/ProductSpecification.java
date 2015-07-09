@@ -244,7 +244,7 @@ public abstract class ProductSpecification {
      * @param isDefault Indicates if the value is the default value for a characteristic. true��is default value
      * @param validFor  The period of time for which the use of the CharacteristicValue is applicable.
      */
-    public void attachCharacteristicValue(ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor,String name) {
+    public void attachCharacteristicValue(String name,ProductSpecCharacteristic specChar, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
         //judge charValue is null
