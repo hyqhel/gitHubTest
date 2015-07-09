@@ -163,7 +163,7 @@ public class ProductOfferingTest {
 
         // *********** Case2 **************
         List<ProductOffering> productOfferingList2 = this.srcOffering
-                .retrieveRelatedOffering(ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue());
+                .retrieveRelatedOffering(ProdSpecEnum.ProdSpecRelationship.EXCLUSIVITY.getValue());
         assertEquals("retrieve Offering from productOfferingRelationships by a no existent type.", 0,
                 productOfferingList2.size());
 
@@ -220,7 +220,7 @@ public class ProductOfferingTest {
 
         // *********** Case2 **************
         List<ProductOffering> productOfferingList2 = this.srcOffering
-                .retrieveRelatedOffering(ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue(), validDate);
+                .retrieveRelatedOffering(ProdSpecEnum.ProdSpecRelationship.EXCLUSIVITY.getValue(), validDate);
         assertEquals("retrieve ProductSpecification from productSpecRelationships by a no existent type.", 0, productOfferingList2.size());
 
         // *********** Case3 **************
