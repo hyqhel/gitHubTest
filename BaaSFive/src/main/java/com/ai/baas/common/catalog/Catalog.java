@@ -1,8 +1,12 @@
 package com.ai.baas.common.catalog;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.enums.ProdOfferingEnum;
 import com.ai.baas.product.offering.ProductOffering;
 import org.apache.log4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Catalog {
     private static final Logger logger = Logger.getLogger(Catalog.class);
@@ -56,22 +60,21 @@ public class Catalog {
     }
 
     /**
-     * 
      * @param id
      * @param name
      * @param type
      * @param validFor
      */
     public Catalog(String id, String name, String type, TimePeriod validFor) {
-        if(null == id || "".equals(id)){
+        if (null == id || "".equals(id)) {
             logger.error("parameter is error £ºthe id is null . ");
             throw new IllegalArgumentException("id should not be null .");
         }
-    	this.ID = id;
-    	this.name = name;
-    	this.type = type;
-    	this.validFor = validFor;
-    	
+        this.ID = id;
+        this.name = name;
+        this.type = type;
+        this.validFor = validFor;
+
     }
 
     @Override
@@ -88,5 +91,14 @@ public class Catalog {
     @Override
     public int hashCode() {
         return ID.hashCode();
+    }
+
+    public Map<String, Object> getBasicInfoToMap() {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("ID", ID);
+        result.put("name", name);
+        result.put("type", type);
+        result.put("validFor", validFor);
+        return result;
     }
 }

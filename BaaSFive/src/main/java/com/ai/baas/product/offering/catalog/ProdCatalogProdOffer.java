@@ -1,7 +1,10 @@
 package com.ai.baas.product.offering.catalog;
 
+import com.ai.baas.common.util.CommonUtils;
 import com.ai.baas.product.offering.*;
+
 import java.util.*;
+
 import com.ai.baas.product.offering.price.*;
 import com.ai.baas.basetype.*;
 import org.apache.log4j.Logger;
@@ -33,6 +36,7 @@ public class ProdCatalogProdOffer {
     public void setValidFor(TimePeriod validFor) {
         this.validFor = validFor;
     }
+
     public List<ProductOfferingPrice> getProductOfferingPrice() {
         return this.productOfferingPrice;
     }
@@ -42,7 +46,6 @@ public class ProdCatalogProdOffer {
     }
 
     /**
-     * 
      * @param offering
      * @param validFor
      */
@@ -53,7 +56,6 @@ public class ProdCatalogProdOffer {
     }
 
     /**
-     * 
      * @param offering
      * @param validFor
      * @param price
@@ -66,7 +68,6 @@ public class ProdCatalogProdOffer {
     }
 
     /**
-     * 
      * @param price
      */
     public void specifyOfferingPrice(ProductOfferingPrice price) {
@@ -74,19 +75,27 @@ public class ProdCatalogProdOffer {
     }
 
     /**
-     * 
      * @param price
      */
     public void specifyOfferingPrice(ProductOfferingPrice[] price) {
         // TODO - implement ProdCatalogProdOffer.specifyOfferingPrice
     }
+
     /**
      * check parameter is null
      */
-    private void checkProductOffering(ProductOffering offering){
-        if(null == offering){
+    private void checkProductOffering(ProductOffering offering) {
+        if (null == offering) {
             logger.error("parameter is error £ºthe Object of ProductOffering is null . ");
             throw new IllegalArgumentException("offering should not be null .");
         }
+    }
+
+    @Override
+    public String toString() {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("prodOffering", prodOffering);
+        resultMap.put("productOfferingPrice", productOfferingPrice);
+        return resultMap.toString();
     }
 }

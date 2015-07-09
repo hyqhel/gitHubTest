@@ -47,7 +47,13 @@ public class CommonUtils {
             }
         }
 
-        return jsonForMatStr.toString();
+        String retStr = jsonForMatStr.toString();
+
+        while (-1 != retStr.indexOf("\n\n")) {
+            retStr = retStr.replace("\n\n", "\n");
+        }
+
+        return retStr;
 
     }
 

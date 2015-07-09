@@ -3,6 +3,7 @@ package com.ai.baas.product.offering.catalog;
 import com.ai.baas.common.catalog.*;
 import java.util.*;
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.util.CommonUtils;
 import com.ai.baas.product.offering.*;
 import com.ai.baas.product.offering.price.*;
 import org.apache.log4j.Logger;
@@ -188,4 +189,10 @@ public class ProductCatalog extends Catalog {
         }
     }
 
+    @Override
+    public String toString() {
+        Map<String, Object> resultMap = this.getBasicInfoToMap();
+        resultMap.put("prodCatalogProdOffer", prodCatalogProdOffer);
+        return CommonUtils.format(resultMap.toString());
+    }
 }
