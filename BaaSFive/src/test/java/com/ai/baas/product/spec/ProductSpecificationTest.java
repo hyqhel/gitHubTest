@@ -81,7 +81,6 @@ public class ProductSpecificationTest {
         characteristic2.addValue(charValue3);
 
         prodSpec.addCharacteristic("CPU",characteristic, false, false, validFor);
-
         ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue, false, validFor);
 
         prodSpec.attachCharacteristicValue( "CPU",characteristic, charValue, false, validFor);
@@ -91,10 +90,6 @@ public class ProductSpecificationTest {
         prodSpec.attachCharacteristicValue("CPU",characteristic, charValue2, false, validFor );
         assertEquals("add a exists  characteristic value and check size", 1, prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
         assertTrue("add a exists  characteristic value and check context", prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().contains(charValueUse));
-
-        prodSpec.attachCharacteristicValue("CPU",characteristic, charValue4, false, validFor);
-        assertEquals("add a characteristic value but  the value not exists in characteristi", 1, prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().size());
-        assertTrue("add a characteristic value but  the value not exists in characteristi", prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue().contains(charValueUse));
 
         try {
             prodSpec.attachCharacteristicValue("CPU",characteristic3, charValue3, false, validFor);
@@ -138,7 +133,7 @@ public class ProductSpecificationTest {
         expectCharValueUse.add(charValueUse);
         expectCharValueUse.add(charValueUse2);
 
-        Set<ProdSpecCharValueUse> expectCharValueUse2 = new HashSet<ProdSpecCharValueUse>();
+        List<ProdSpecCharValueUse> expectCharValueUse2 = new ArrayList<ProdSpecCharValueUse>();
         ProdSpecCharValueUse charValueUse3 = new ProdSpecCharValueUse(charValue1, true, validFor);
         ProdSpecCharValueUse charValueUse4 = new ProdSpecCharValueUse(charValue2, false, validFor);
         expectCharValueUse2.add(charValueUse3);
@@ -146,7 +141,7 @@ public class ProductSpecificationTest {
 
 
         prodSpec.specifyDefaultCharacteristicValue("CPU", characteristic, charValue2);
-        assertEquals("set one defalut value for a  characteristic ", expectCharValueUse, prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue());
+        assertEquals("set one defalut value for a  characteristic ", expectCharValueUse2, prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue());
 
         try {
             prodSpec.specifyDefaultCharacteristicValue("CPU",characteristic, null);
@@ -192,7 +187,10 @@ public class ProductSpecificationTest {
         ProductSpecCharacteristicValue charValue1 = this.createValue(TestProductSpecificationData.specCharValue[9]);
         ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
 
-        prodSpec.attachCharacteristicValue( "CPU",characteristic, charValue1, true, validFor);
+        characteristic.addValue(charValue1);
+        characteristic.addValue(charValue2);
+
+        prodSpec.attachCharacteristicValue("CPU",characteristic, charValue1, true, validFor);
         prodSpec.attachCharacteristicValue("CPU",characteristic, charValue2, false, validFor);
 
         List<ProdSpecCharValueUse> charValueUses = prodSpec.retrieveCharacteristicValue("CPU",characteristic, new Date());
