@@ -43,16 +43,16 @@ public class ProductSpecCharUseTest {
 		ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(prodSpecCharValue, false, validFor);
 
 		pscu.addValue(prodSpecCharValue, false, validFor);
-		assertEquals("add a charValue ,judet charValues's size", 1, pscu.getProdSpecCharValue().size());
+		assertEquals("add a charValue ,compare charValues's size", 1, pscu.getProdSpecCharValue().size());
 		assertTrue("add a charValue, check whether the charValue contained in the charValues", pscu.getProdSpecCharValue().contains(charValueUse));
 		
 		pscu.addValue(prodSpecCharValue2, false, validFor);
-		assertEquals("add a same charValue ,judet charValues's size", 1, pscu.getProdSpecCharValue().size());
+		assertEquals("add a same charValue ,compare charValues's size", 1, pscu.getProdSpecCharValue().size());
 		assertTrue("add a same charValue, check whether the charValue contained in the charValues", pscu.getProdSpecCharValue().contains(charValueUse));
 
 		pscu.addValue(prodSpecCharValue3, false, validFor);
-		assertEquals("add a same charValue ,judet charValues's size", 1, pscu.getProdSpecCharValue().size());
-		assertTrue("add a same charValue, check whether the charValue contained in the charValues", pscu.getProdSpecCharValue().contains(charValueUse));
+		assertEquals("add a charValue but the charValue isn't belong to the char ,compare charValues's size", 1, pscu.getProdSpecCharValue().size());
+		assertTrue("add a charValue but the charValue isn't belong to the char, check whether the charValue contained in the charValues", pscu.getProdSpecCharValue().contains(charValueUse));
 
 		try{
 			pscu.addValue(null, false, validFor);
@@ -64,10 +64,15 @@ public class ProductSpecCharUseTest {
 	public void testSpecifyDefaultCharacteristicValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
 		ProductSpecCharacteristicValue prodSpecCharValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "12.3", "", "");
+
+		List<ProdSpecCharValueUse> expectCharValueUse = new ArrayList<ProdSpecCharValueUse>();
+
+		pscu.specifyDefaultCharacteristicValue(prodSpecCharValue);
+		assertEquals("specify default characteristicValue but the characteristic haven't value", null, pscu.getProdSpecCharValue());
+
 		pscu.addValue(prodSpecCharValue, false, validFor);
 		pscu.addValue(prodSpecCharValue2, true, validFor);
 
-		List<ProdSpecCharValueUse> expectCharValueUse = new ArrayList<ProdSpecCharValueUse>();
 		ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(prodSpecCharValue,true,validFor);
 		ProdSpecCharValueUse defcharValueUse = new ProdSpecCharValueUse(prodSpecCharValue2,false,validFor);
 		expectCharValueUse.add(charValueUse);
