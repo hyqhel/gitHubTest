@@ -3,6 +3,7 @@ package com.ai.baas.product.spec;
 import java.text.ParseException;
 import java.util.*;
 
+import com.ai.baas.common.enums.ProdSpecEnum;
 import com.ai.baas.common.util.CommonUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -517,14 +518,29 @@ public class ProductSpecCharacteristic {
     @Override
     public String toString() {
         Map <String,Object> result=getBasicInfoToMap();
-        result.put("prodSpecCharValue", prodSpecCharValue);
-        result.put("charRelationShip", prodSpecCharRelationship);
+        List<Map<String,Object>> needValue =null;
+        if(null != prodSpecCharValue && 0!=prodSpecCharValue.size()){
+            needValue = new ArrayList<Map<String, Object>>();
+            for(ProductSpecCharacteristicValue psv:prodSpecCharValue){
+                needValue.add(psv.getBasicInfoToMap());
+            }
+        }
+        result.put("prodSpecCharValues", needValue);
+
+        List<Map<String,Object>> needCharRelationShipValue = null;
+        if(null !=prodSpecCharRelationship && 0!=prodSpecCharRelationship.size()){
+             needCharRelationShipValue = new ArrayList<Map<String, Object>>();
+            for(ProductSpecCharRelationship psr:prodSpecCharRelationship){
+                Map<String,Object> targchar = psr.getTargetProdSpecChar().getBasicInfoToMap();
+                targchar.put("charRelationshipType", ProdSpecEnum.ProdSpecRelationship.getName(psr.getCharRelationshipType()));
+                needCharRelationShipValue.add(targchar);
+            }
+        }
+        result.put("charRelationShip", needCharRelationShipValue);
         return  CommonUtils.format(result.toString());
     }
 
-    public String basicInfoToString(){
-        return getBasicInfoToMap().toString();
-    }
+
     private Map<String,Object> getBasicInfoToMap(){
         Map <String,Object> result=new HashMap<String,Object>();
         result.put("name", name);

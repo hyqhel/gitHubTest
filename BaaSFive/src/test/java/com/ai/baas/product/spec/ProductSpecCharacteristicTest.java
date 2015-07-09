@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.apache.log4j.Logger;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -150,5 +151,9 @@ public class ProductSpecCharacteristicTest {
 		assertEquals("specify one defalut value from ProductSpecCharacteristicValue", 1, prodSpecCharOwn.getProdSpecCharValue().size());
 		
 		
+	}
+	@After
+	public void printS(){
+		System.out.println(prodSpecCharOwn.toString());
 	}
 }

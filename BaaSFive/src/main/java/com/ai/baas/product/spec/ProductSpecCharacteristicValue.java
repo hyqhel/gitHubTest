@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.*;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.util.CommonUtils;
 import com.sun.java_cup.internal.runtime.lr_parser;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -377,11 +378,23 @@ public class ProductSpecCharacteristicValue {
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", valueType="
-				+ valueType + ", isDefault=" + isDefault + ", value=" + value
-				+ ", unitOfMeasure=" + unitOfMeasure + ", valueFrom="
-				+ valueFrom + ", valueTo=" + valueTo + ", rangeInterval="
-				+ rangeInterval + ", validFor=" + validFor;
+		Map<String,Object> charValue=getBasicInfoToMap();
+		charValue.put("charValueRelationShip", this.prodSpecCharValueRelationship);
+		return charValue.toString();
 	}
-
+	public Map<String,Object> getBasicInfoToMap(){
+		Map<String,Object> charValue=new HashMap<String,Object>();
+		charValue.put("valueType", this.valueType);
+		charValue.put("valueType", this.unitOfMeasure);
+		if(this.value!=null){
+			charValue.put("value", this.value);
+		}else{
+			charValue.put("valueFrom", this.valueFrom);
+			charValue.put("valueTo", this.valueTo);
+			charValue.put("rangeInterval", this.rangeInterval);
+		}
+		charValue.put("isDefault", this.isDefault);
+		charValue.put("validFor", this.validFor);
+		return charValue;
+	}
 }

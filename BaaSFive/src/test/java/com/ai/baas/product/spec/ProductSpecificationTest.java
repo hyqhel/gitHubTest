@@ -316,7 +316,7 @@ public class ProductSpecificationTest {
 
 		// *********** Case2 **************
         List<ProductSpecification> productSpecificationList2 = this.srcProdSpec
-                .retrieveRelatedProdSpec(ProdSpecEnum.ProdSpecRelationship.EXCLUSIBITY.getValue());
+                .retrieveRelatedProdSpec(ProdSpecEnum.ProdSpecRelationship.EXCLUSIVITY.getValue());
         assertEquals("retrieve ProductSpecification from productSpecRelationships by a no existent type.", 0, productSpecificationList2.size());
 
 		// *********** Case3 **************
