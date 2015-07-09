@@ -145,7 +145,7 @@ public class ProductSpecificationTest {
         expectCharValueUse2.add(charValueUse4);
 
 
-        prodSpec.specifyDefaultCharacteristicValue("CPU",characteristic, charValue2);
+        prodSpec.specifyDefaultCharacteristicValue("CPU", characteristic, charValue2);
         assertEquals("set one defalut value for a  characteristic ", expectCharValueUse, prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue());
 
         try {
@@ -155,17 +155,17 @@ public class ProductSpecificationTest {
         }
 
         ProductSpecCharacteristicValue charValue3 = this.createValue(TestProductSpecificationData.specCharValue[11]);
-        prodSpec.specifyDefaultCharacteristicValue("CPU",characteristic, charValue3);
+        prodSpec.specifyDefaultCharacteristicValue("CPU", characteristic, charValue3);
         assertEquals("set one a default value for  characteristicuse,but the value not exists characteristic", expectCharValueUse2, prodSpec.getProdSpecChar().iterator().next().getProdSpecCharValue());
 
         try {
-            prodSpec.specifyDefaultCharacteristicValue( "CPU",null, charValue2);
+            prodSpec.specifyDefaultCharacteristicValue("CPU", null, charValue2);
             fail("set one null  characteristic a default value");
         } catch (Exception e) {
         }
 
         try {
-            prodSpec.specifyDefaultCharacteristicValue( "",characteristic, charValue2);
+            prodSpec.specifyDefaultCharacteristicValue("", characteristic, charValue2);
             fail("set one null name characteristicuse a default value");
         } catch (Exception e) {
         }
@@ -206,22 +206,28 @@ public class ProductSpecificationTest {
     public void testSpecifyCardinality() {
         ProductSpecCharacteristic characteristic = this.createChar(TestProductSpecificationData.specChar[4]);
         ProductSpecCharacteristic characteristic2 = this.createChar(TestProductSpecificationData.specChar[5]);
-        prodSpec.addCharacteristic("CPU",characteristic, false, false, validFor);
+        prodSpec.addCharacteristic("CPU", characteristic, false, false, validFor);
 
         ProductSpecCharacteristicValue charValue1 = this.createValue(TestProductSpecificationData.specCharValue[9]);
         ProductSpecCharacteristicValue charValue2 = this.createValue(TestProductSpecificationData.specCharValue[10]);
 
-        prodSpec.attachCharacteristicValue("",characteristic, charValue1, true, validFor);
-        prodSpec.attachCharacteristicValue("",characteristic, charValue2, false, validFor);
+        prodSpec.attachCharacteristicValue("CPU", characteristic, charValue1, true, validFor);
+        prodSpec.attachCharacteristicValue("CPU",characteristic, charValue2, false, validFor);
 
         boolean retFlag = prodSpec.specifyCardinality("CPU",characteristic, 1, 5);
         assertTrue("set one characteristic Cardinality", retFlag);
 
-        retFlag = prodSpec.specifyCardinality("",null, 1, 5);
-        assertFalse("set Cardinality，characteristic is null", retFlag);
+        try{
+            retFlag = prodSpec.specifyCardinality("",null, 1, 5);
+            fail("set Cardinality，characteristic is null");
+        }catch (IllegalArgumentException e ){
+        }
+        try{
+            retFlag = prodSpec.specifyCardinality("",characteristic2, 1, 5);
+            fail("set Cardinality， not use");
+        }catch (IllegalArgumentException e ){
+        }
 
-        retFlag = prodSpec.specifyCardinality("",characteristic2, 1, 5);
-        assertFalse("set Cardinality， not use", retFlag);
 	}
 
     @Test
