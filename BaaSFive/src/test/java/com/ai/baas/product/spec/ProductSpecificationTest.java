@@ -336,8 +336,8 @@ public class ProductSpecificationTest {
 
     private ProductSpecCharacteristicValue createValue(Object[] obj) {
 		//String valueType, String unitOfMeasure, TimePeriod validFor, String value, boolean isDefault
-        ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue((String) obj[1],
-                 (String) obj[3], (TimePeriod) obj[4], (String) obj[5],(Boolean) obj[2]);
+        ProductSpecCharacteristicValue charValue = new ProductSpecCharacteristicValue((String) obj[1],(Boolean) obj[2],
+                 (String) obj[3], (TimePeriod) obj[4], (String) obj[5]);
        return charValue;
     }
 

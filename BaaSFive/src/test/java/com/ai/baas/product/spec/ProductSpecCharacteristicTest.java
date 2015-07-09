@@ -38,13 +38,13 @@ public class ProductSpecCharacteristicTest {
 	}
 	@Test
 	public void  testAddValue(){
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", false,"GHz", validFor, "8", "", "");
 		//exceptChar.getProdSpecCharValue().add(prodSpecCharValue);
 		prodSpecCharOwn.addValue(prodSpecCharValue);
 		assertEquals("check ProductSpecCharacteristic add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
 		assertTrue("check ProductSpecCharacteristic  other content", prodSpecCharOwn.getProdSpecCharValue().contains(prodSpecCharValue));
 
-		ProductSpecCharacteristicValue prodSpecCharValues = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValues = new ProductSpecCharacteristicValue("1",false, "GHz", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
 		assertEquals("check ProductSpecCharacteristic again  add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
 		assertTrue("check ProductSpecCharacteristic  other content",prodSpecCharOwn.getProdSpecCharValue().contains(prodSpecCharValue));
@@ -55,7 +55,7 @@ public class ProductSpecCharacteristicTest {
 			fail("param is not illegal");
 		} catch (Exception e) {
 		}
-		prodSpecCharValues = new ProductSpecCharacteristicValue("1", "cm", validFor, "8", "", "");
+		prodSpecCharValues = new ProductSpecCharacteristicValue("1",false, "cm", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
 		assertEquals("add a different value",2,prodSpecCharOwn.getProdSpecCharValue().size());
 		
@@ -64,7 +64,7 @@ public class ProductSpecCharacteristicTest {
 	} 
 	@Test
 	public void  testRemoveValue(){
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", false,"GHz", validFor, "8", "", "");
 		prodSpecCharOwn.removeValue(prodSpecCharValue);
 		assertNull("remove one not exists value", prodSpecCharOwn.getProdSpecCharValue());
 		prodSpecCharOwn.addValue(prodSpecCharValue);
@@ -127,7 +127,7 @@ public class ProductSpecCharacteristicTest {
 	@Test 
 	public void testSpecifyDefaultValue(){
 		
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1",false, "GHz", validFor, "8");
 		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
 		assertNull("specify one defalut value to a empty value ProductSpecCharacteristic", prodSpecCharOwn.getProdSpecCharValue());
 		
@@ -139,12 +139,12 @@ public class ProductSpecCharacteristicTest {
 		} catch (IllegalArgumentException e) {
 		}
 
-		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "cm", validFor, "9",false);
+		prodSpecCharValue =  new ProductSpecCharacteristicValue("1",false, "cm", validFor, "9");
 		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
 		assertFalse("specify one defalut value but not exists ProductSpecCharacteristicValue", prodSpecCharOwn.getProdSpecCharValue().iterator().next().isIsDefault());
 		assertFalse("specify one defalut value but not exists ProductSpecCharacteristicValue", prodSpecCharOwn.getProdSpecCharValue().contains(prodSpecCharValue));
 
-		prodSpecCharValue =  new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
+		prodSpecCharValue =  new ProductSpecCharacteristicValue("1" ,false, "GHz", validFor, "8");
 		prodSpecCharOwn.specifyDefaultValue(prodSpecCharValue);
 		assertTrue("specify one defalut value from ProductSpecCharacteristicValue", prodSpecCharOwn.getProdSpecCharValue().iterator().next().isIsDefault());
 		assertEquals("specify one defalut value from ProductSpecCharacteristicValue", 1, prodSpecCharOwn.getProdSpecCharValue().size());

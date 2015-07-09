@@ -20,9 +20,9 @@ public class ProductSpecCharUseTest {
 	@Before
 	public void createProductSpecCharacteristic(){
 		prodSpecCharOwn = new ProductSpecCharacteristic("1", "深度", "number", validFor, "false",  1,  1, true, "height","");
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1",false, "cm", validFor, "12", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValue);
-		ProductSpecCharacteristicValue prodSpecCharValuee = new ProductSpecCharacteristicValue("1", "cm", validFor, "12.3", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValuee = new ProductSpecCharacteristicValue("1",false, "cm", validFor, "12.3", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValuee);
 	    pscu = new ProductSpecCharUse(prodSpecCharOwn, false, false, validFor,"深度");
 	}
@@ -36,9 +36,9 @@ public class ProductSpecCharUseTest {
 	}
 	@Test
     public void testAddValue(){
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
-		ProductSpecCharacteristicValue prodSpecCharValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
-		ProductSpecCharacteristicValue prodSpecCharValue3 = new ProductSpecCharacteristicValue("1", "cm", validFor, "13", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", false,"cm", validFor, "12", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue2 = new ProductSpecCharacteristicValue("1",false, "cm", validFor, "12", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue3 = new ProductSpecCharacteristicValue("1", false,"cm", validFor, "13", "", "");
 
 		ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(prodSpecCharValue, false, validFor);
 
@@ -62,8 +62,8 @@ public class ProductSpecCharUseTest {
 
 	@Test 
 	public void testSpecifyDefaultCharacteristicValue(){
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
-		ProductSpecCharacteristicValue prodSpecCharValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "12.3", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", false,"cm", validFor, "12", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue2 = new ProductSpecCharacteristicValue("1",false, "cm", validFor, "12.3", "", "");
 
 		List<ProdSpecCharValueUse> expectCharValueUse = new ArrayList<ProdSpecCharValueUse>();
 
@@ -87,7 +87,7 @@ public class ProductSpecCharUseTest {
 		}catch(IllegalArgumentException e){
 		}
 
-		ProductSpecCharacteristicValue defaultValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "15", "", "");
+		ProductSpecCharacteristicValue defaultValue2 = new ProductSpecCharacteristicValue("1",false, "cm", validFor, "15", "", "");
 		pscu.specifyDefaultCharacteristicValue(defaultValue2);
 		assertEquals("specify default characteristicValue，but the charValue isn't belong to the characteristic", expectCharValueUse, pscu.getProdSpecCharValue());
 	}

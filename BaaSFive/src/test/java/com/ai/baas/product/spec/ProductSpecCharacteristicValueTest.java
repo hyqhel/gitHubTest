@@ -25,7 +25,7 @@ public class ProductSpecCharacteristicValueTest {
 		validFor.setEndDateTime(DateUtils.str2Date(endDate, DateUtils.date_sdf));
 		String value = ""; 
 		boolean isDefault = false;
-		prodSpecCharValue = new ProductSpecCharacteristicValue(valueType, unitOfMeasure, validFor, value, isDefault);
+		prodSpecCharValue = new ProductSpecCharacteristicValue(valueType,  isDefault,unitOfMeasure, validFor, value);
 	}
 
 	public ProductSpecCharacteristicValue getProdSpecCharValue() {

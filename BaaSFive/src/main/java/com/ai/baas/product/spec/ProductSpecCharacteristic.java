@@ -3,6 +3,7 @@ package com.ai.baas.product.spec;
 import java.text.ParseException;
 import java.util.*;
 
+import com.ai.baas.common.util.CommonUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -508,32 +509,35 @@ public class ProductSpecCharacteristic {
 			return false;
 		return true;
 	}
+    /*
+    * (non-Javadoc)
+    *
+    * @see java.lang.Object#toString()
+    */
+    @Override
+    public String toString() {
+        Map <String,Object> result=getBasicInfoToMap();
+        result.put("prodSpecCharValue", prodSpecCharValue);
+        result.put("charRelationShip", prodSpecCharRelationship);
+        return  CommonUtils.format(result.toString());
+    }
 
-	@Override
-	public String toString() {
-		StringBuffer tostr = new StringBuffer();
-		tostr.append("ID=" + ID + ", name=" + name)
-			 .append(", description=" + description + ", unique=" + unique)
-			 .append(", valueType=" + valueType + ", minCardinality="+ minCardinality)
-			 .append(", maxCardinality=" + maxCardinality)
-			 .append(", extensible=" + extensible + ", derivationFormula="+ derivationFormula)
-			 .append(", validFor=" + validFor );
-		if(prodSpecCharValue!=null){
-			tostr.append("\n     ProductSpecCharacteristicValue【");
-			for(ProductSpecCharacteristicValue pv:prodSpecCharValue){
-				tostr.append("\n     "+pv.toString());
-			}
-			tostr.append("\n     】");
-		}
-		if(prodSpecCharRelationship!=null){
-			tostr.append("\n     ProductSpecCharRelationship【");
-			for(ProductSpecCharRelationship pvRship:prodSpecCharRelationship){
-				tostr.append("\n     "+pvRship.toString());
-			}
-			tostr.append("\n】");
-		}
-		return tostr.toString();
-	}
-
+    public String basicInfoToString(){
+        return getBasicInfoToMap().toString();
+    }
+    private Map<String,Object> getBasicInfoToMap(){
+        Map <String,Object> result=new HashMap<String,Object>();
+        result.put("name", name);
+        result.put("id", ID);
+        result.put("unique", unique);
+        result.put("valueType",valueType);
+        result.put("extensible",extensible);
+        result.put("derivationFormula",derivationFormula);
+        result.put("maxCardinality",maxCardinality);
+        result.put("minCardinality",minCardinality);
+        result.put("validFor",validFor);
+        result.put("description",description);
+        return result;
+    }
 	
 }

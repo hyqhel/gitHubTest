@@ -131,7 +131,7 @@ public class ProductSpecCharacteristicValue {
      * @param value
      * @param isDefault
      */
-    public ProductSpecCharacteristicValue(String valueType, String unitOfMeasure, TimePeriod validFor, String value, boolean isDefault) {
+    public ProductSpecCharacteristicValue(String valueType, boolean isDefault,String unitOfMeasure, TimePeriod validFor, String value) {
 		if ( StringUtils.isEmpty(valueType) ) {
 			logger.error("valueType should not be null");
 			throw new IllegalArgumentException("valueType should not be null");
@@ -157,7 +157,7 @@ public class ProductSpecCharacteristicValue {
      * @param valueTo
      * @param rangeInterval
      */
-    public ProductSpecCharacteristicValue(String valueType, String unitOfMeasure, TimePeriod validFor, String valueFrom, String valueTo, String rangeInterval) {
+    public ProductSpecCharacteristicValue(String valueType,boolean isDefault, String unitOfMeasure, TimePeriod validFor, String valueFrom, String valueTo, String rangeInterval) {
 		if(null == validFor){
 			logger.error("validFor should not be null");
 			throw new IllegalArgumentException("validFor should not be null");
