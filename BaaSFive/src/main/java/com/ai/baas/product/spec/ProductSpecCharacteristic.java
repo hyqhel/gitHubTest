@@ -337,11 +337,19 @@ public class ProductSpecCharacteristic {
      * @param validFor
      */
     public void addRelatedCharacteristic(ProductSpecCharacteristic specChar, String type, TimePeriod validFor) {
-    	ProductSpecCharRelationship pship = new ProductSpecCharRelationship(this,specChar,type,validFor);    	
     	if(null == prodSpecCharRelationship){
     		prodSpecCharRelationship = new ArrayList<ProductSpecCharRelationship>();
     	}
-    	for(ProductSpecCharRelationship productSpecCharRelationship :prodSpecCharRelationship){
+        ProductSpecCharRelationship relationship=this.retrieveRelatedCharacteristic(specChar);
+        if(relationship!=null){
+            if(type.equals(relationship.getCharRelationshipType()) && relationship.getValidFor().isOverlap(validFor)){
+                logger.warn("Characteristic have been created in the specified time");
+                logger.warn("the exists relationship :"+relationship.toString());
+                return;
+            }
+        }
+        ProductSpecCharRelationship pship = new ProductSpecCharRelationship(this,specChar,type,validFor);
+        for(ProductSpecCharRelationship productSpecCharRelationship :prodSpecCharRelationship){
     		if(productSpecCharRelationship.equals(pship)){
     			return;
     		}
@@ -361,7 +369,15 @@ public class ProductSpecCharacteristic {
     	if(null == this.prodSpecCharRelationship){
     		this.prodSpecCharRelationship =new ArrayList<ProductSpecCharRelationship>();
     	}
-    	ProductSpecCharRelationship ship = new ProductSpecCharRelationship(this,specChar,type,validFor,charSpecSeq);
+        ProductSpecCharRelationship relationship=this.retrieveRelatedCharacteristic(specChar);
+        if(relationship!=null){
+            if(type.equals(relationship.getCharRelationshipType()) && relationship.getValidFor().isOverlap(validFor)){
+                logger.warn("Characteristic have been created in the specified time");
+                logger.warn("the exists relationship :"+relationship.toString());
+                return;
+            }
+        }
+        ProductSpecCharRelationship ship = new ProductSpecCharRelationship(this,specChar,type,validFor,charSpecSeq);
     	for(ProductSpecCharRelationship productSpecCharRelationship :prodSpecCharRelationship){
     		if(productSpecCharRelationship.equals(ship)){
     			return;
@@ -432,8 +448,42 @@ public class ProductSpecCharacteristic {
         }
         return characteristic;
     }
+    private ProductSpecCharRelationship retrieveRelatedCharacteristic(ProductSpecCharacteristic characteristic ){
 
-    
+        if ( null == characteristic ) {
+            logger.error("characteristic  should not be null");
+            throw new IllegalArgumentException("characteristic  should not be null");
+        }
+        if (null !=prodSpecCharRelationship) {
+            for (ProductSpecCharRelationship productSpecCharRelationship : prodSpecCharRelationship) {
+                if( productSpecCharRelationship.getTargetProdSpecChar().equals(characteristic)){
+                    return productSpecCharRelationship;
+                }
+            }
+        }
+        return null;
+    }
+    public boolean updateRelatedCharValidPeriod(ProductSpecCharacteristic prodSpecChar,TimePeriod validFor){
+
+        if (null == prodSpecChar ) {
+            logger.error("prodSpecChar should not be null .");
+            throw new IllegalArgumentException("prodSpecChar should not be null .");
+        }
+        if (null == validFor ){
+            logger.error("validFor should not be null .");
+            throw new IllegalArgumentException("validFor should not be null .");
+        }
+
+        if ( null!=prodSpecCharRelationship ) {
+            for (ProductSpecCharRelationship productSpecRelationship : prodSpecCharRelationship) {
+                if ( productSpecRelationship.getTargetProdSpecChar().equals(prodSpecChar)) {
+                    productSpecRelationship.setValidFor(validFor);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 	@Override
 	public int hashCode() {
 		final int prime = 31;

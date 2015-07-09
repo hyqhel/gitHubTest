@@ -87,17 +87,20 @@ public class ProductSpecCharacteristicTest {
 
 		TimePeriod validFor2 = new TimePeriod("2015-07-15 00:00:00","2015-07-30 00:00:00");
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor2);
+		assertEquals("check add realte", 1, prodSpecCharOwn.getProdSpecCharRelationship().size());
 		assertEquals("add a same relate characteristic but the validFor is in last one", exceptRelationship, prodSpecCharOwn.getProdSpecCharRelationship());
 
-		TimePeriod validFor3 = new TimePeriod("2015-08-02","2015-09-01");
+		TimePeriod validFor3 = new TimePeriod("2015-08-02  00:00:00","2015-09-01  00:00:00");
 		ProductSpecCharRelationship exceptShip2 = new ProductSpecCharRelationship(prodSpecCharOwn,prodSpecCharRelate,ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor3);
 		exceptRelationship.add(exceptShip2);
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor3);
+		assertEquals("check add realte", 2, prodSpecCharOwn.getProdSpecCharRelationship().size());
 		assertEquals("add a same relate characteristic but the validFor is after last one", exceptRelationship, prodSpecCharOwn.getProdSpecCharRelationship());
 
 		ProductSpecCharRelationship exceptShip3 = new ProductSpecCharRelationship(prodSpecCharOwn,prodSpecCharRelate,ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue(), validFor);
 		exceptRelationship.add(exceptShip3);
 		prodSpecCharOwn.addRelatedCharacteristic(prodSpecCharRelate, ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue(), validFor);
+		assertEquals("check add different realte", 3, prodSpecCharOwn.getProdSpecCharRelationship().size());
 		assertEquals("in the same time add a same relate characteristic but the relationshipType is different ", exceptRelationship, prodSpecCharOwn.getProdSpecCharRelationship());
 
 		try {

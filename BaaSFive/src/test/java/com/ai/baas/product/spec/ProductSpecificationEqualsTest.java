@@ -45,8 +45,8 @@ public class ProductSpecificationEqualsTest {
 	public static List data(){
 		setValidFor();
 		return  Arrays.asList(new Object[][]{
-				{true, "两个特征是否完全一致1" ,"1", "11 Pounds MacBook Air", "apple", "Mac", validFor},
-				{false, "两个特征是否完全一致2" ,"2", "13 Pounds MacBook Air", "apple", "Mac", validFor}
+				{true, "two ProductSpecification is same" ,"1", "11 Pounds MacBook Air", "apple", "Mac", validFor},
+				{false, "two ProductSpecification is different" ,"2", "13 Pounds MacBook Air", "apple", "Mac", validFor}
 		});
 	}
 
