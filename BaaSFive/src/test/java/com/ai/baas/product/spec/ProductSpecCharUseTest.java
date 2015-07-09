@@ -38,6 +38,7 @@ public class ProductSpecCharUseTest {
     public void testAddValue(){
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
 		ProductSpecCharacteristicValue prodSpecCharValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
+		ProductSpecCharacteristicValue prodSpecCharValue3 = new ProductSpecCharacteristicValue("1", "cm", validFor, "13", "", "");
 
 		ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(prodSpecCharValue, false, validFor);
 
@@ -49,10 +50,14 @@ public class ProductSpecCharUseTest {
 		assertEquals("add a same charValue ,judet charValues's size", 1, pscu.getProdSpecCharValue().size());
 		assertTrue("add a same charValue, check whether the charValue contained in the charValues", pscu.getProdSpecCharValue().contains(charValueUse));
 
+		pscu.addValue(prodSpecCharValue3, false, validFor);
+		assertEquals("add a same charValue ,judet charValues's size", 1, pscu.getProdSpecCharValue().size());
+		assertTrue("add a same charValue, check whether the charValue contained in the charValues", pscu.getProdSpecCharValue().contains(charValueUse));
+
 		try{
 			pscu.addValue(null, false, validFor);
 			fail("add a null");
-		}catch(Exception e){}
+		}catch(IllegalArgumentException e){}
     }
 
 	@Test 
@@ -74,7 +79,7 @@ public class ProductSpecCharUseTest {
 		try{
 			pscu.specifyDefaultCharacteristicValue(null);
 			fail("specify default characteristicValue，but the parameter is null");
-		}catch(Exception e){
+		}catch(IllegalArgumentException e){
 		}
 
 		ProductSpecCharacteristicValue defaultValue2 = new ProductSpecCharacteristicValue("1", "cm", validFor, "15", "", "");
@@ -89,8 +94,12 @@ public class ProductSpecCharUseTest {
 		assertEquals("set characteristicUse cardinality,judet maxCardinality",5,pscu.getMaxCardinality());
 
 		try{
-			pscu.specifyCardinality(6,5);
+			pscu.specifyCardinality(6, 5);
 			fail("set characteristicUse cardinality , but minCardinality is greater than maxCardinality");
-		}catch(Exception e){}
+		}catch(IllegalArgumentException e){}
+
+		pscu.specifyCardinality(5, 5);
+		assertEquals("set characteristicUse cardinality,judet minCardinality", 5, pscu.getMinCardinality());
+		assertEquals("set characteristicUse cardinality,judet maxCardinality",5,pscu.getMaxCardinality());
 	}
 }

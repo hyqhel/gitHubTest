@@ -47,19 +47,19 @@ public class ProductSpecificationTest {
         try {
             prodSpec.addCharacteristic("CPU",null, false, false, validFor);
             fail("add a null characteristic");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
 
         try {
             prodSpec.addCharacteristic(null,characteristic2, false, false, validFor);
             fail("add a characteristic and use characteristic by null name ");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
 
         try {
             prodSpec.addCharacteristic("",characteristic2, false, false, validFor);
             fail("add a characteristic and use characteristic by blank name");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
     }
 
@@ -80,7 +80,7 @@ public class ProductSpecificationTest {
         characteristic2.addValue(charValue);
         characteristic2.addValue(charValue3);
 
-        prodSpec.addCharacteristic("CPU",characteristic, false, false, validFor);
+        prodSpec.addCharacteristic("CPU", characteristic, false, false, validFor);
         ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue, false, validFor);
 
         prodSpec.attachCharacteristicValue( "CPU",characteristic, charValue, false, validFor);
@@ -94,25 +94,25 @@ public class ProductSpecificationTest {
         try {
             prodSpec.attachCharacteristicValue("CPU",characteristic3, charValue3, false, validFor);
             fail("add a characteristic value but the characteristic  not exists in spec ");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
 
         try {
             prodSpec.attachCharacteristicValue("CPU",characteristic, null, false, validFor);
             fail("add a null value for characteristic");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
 
         try {
             prodSpec.attachCharacteristicValue("CPU",null, charValue2, false, validFor);
             fail("add a characteristic value but characteristic is null");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
 
         try {
             prodSpec.attachCharacteristicValue("",characteristic, charValue2, false, validFor);
             fail("add a characteristic value but characteristic name is null");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
     }
 
@@ -146,7 +146,7 @@ public class ProductSpecificationTest {
         try {
             prodSpec.specifyDefaultCharacteristicValue("CPU",characteristic, null);
             fail("set one defalut value for a characteristic by null value");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
 
         ProductSpecCharacteristicValue charValue3 = this.createValue(TestProductSpecificationData.specCharValue[11]);
@@ -156,13 +156,13 @@ public class ProductSpecificationTest {
         try {
             prodSpec.specifyDefaultCharacteristicValue("CPU", null, charValue2);
             fail("set one null  characteristic a default value");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
 
         try {
             prodSpec.specifyDefaultCharacteristicValue("", characteristic, charValue2);
             fail("set one null name characteristicuse a default value");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
         }
     }
 
