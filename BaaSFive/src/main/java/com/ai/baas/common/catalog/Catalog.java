@@ -1,6 +1,7 @@
 package com.ai.baas.common.catalog;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.product.offering.ProductOffering;
 
 public class Catalog {
 
@@ -61,7 +62,6 @@ public class Catalog {
      * @param validFor
      */
     public Catalog(String id, String name, String type, TimePeriod validFor) {
-        // TODO - implement Catalog.Catalog
     	this.ID = id;
     	this.name = name;
     	this.type = type;
@@ -69,4 +69,19 @@ public class Catalog {
     	
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductOffering that = (ProductOffering) o;
+
+        return ID.equals(that.getId());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return ID.hashCode();
+    }
 }
