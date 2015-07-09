@@ -1,8 +1,11 @@
 package com.ai.baas.product.offering;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.util.CommonUtils;
 import com.ai.baas.product.spec.*;
 import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 /**
  * A type of ProductOffering that does not have any subordinate ProductOfferings, that is, an SimpleProductOffering is a leaf-level ProductOffering.
@@ -38,6 +41,14 @@ public class SimpleProductOffering extends ProductOffering {
             throw new IllegalArgumentException();
         }
         this.productSpecification = prodSpec;
+    }
+
+    @Override
+    public String toString() {
+        Map<String, Object> result = getBasicInfoToMap();
+        result.put("prodOfferingRelationship", this.getProdOfferingRelationship());
+        result.put("productSpecification", this.productSpecification);
+        return CommonUtils.format(result.toString());
     }
 
 }

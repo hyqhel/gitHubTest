@@ -3,6 +3,7 @@ package com.ai.baas.product.offering;
 import java.util.*;
 
 import com.ai.baas.basetype.*;
+import com.ai.baas.common.util.CommonUtils;
 import org.apache.log4j.Logger;
 
 public class BundledProductOffering extends ProductOffering {
@@ -91,6 +92,14 @@ public class BundledProductOffering extends ProductOffering {
             }
         }
         return offerings;
+    }
+
+    @Override
+    public String toString() {
+        Map<String, Object> result = getBasicInfoToMap();
+        result.put("prodOfferingRelationship", this.getProdOfferingRelationship());
+        result.put("bundledProdOfferOption", this.bundledProdOfferOption);
+        return CommonUtils.format(result.toString());
     }
 
 }

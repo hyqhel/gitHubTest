@@ -654,19 +654,7 @@ public abstract class ProductSpecification {
     @Override
     public String toString() {
         Map<String, Object> result = getBasicInfoToMap();
-        List<Map<String, Object>> prodSpecCharRelationshipList = new ArrayList<Map<String, Object>>();
-        if (this.prodSpecRelationship != null && this.prodSpecRelationship.size() > 0) {
-            for (ProductSpecificationRelationship relationship : this.prodSpecRelationship) {
-                Map<String, Object> relationshipMap = new HashMap<String, Object>();
-                relationshipMap.put("targetProdSpec", relationship.getTargetProdSpec());
-                relationshipMap.put("type", ProdSpecEnum.ProdSpecRelationship.getName(relationship.getType()));
-                relationshipMap.put("validFor", relationship.getValidFor());
-
-                prodSpecCharRelationshipList.add(relationshipMap);
-            }
-        }
-        result.put("prodSpecCharRelationship", prodSpecCharRelationshipList);
-
+        result.put("prodSpecCharRelationship", this.prodSpecRelationship);
         List<Map<String, Object>> prodSpecCharUseList = new ArrayList<Map<String, Object>>();
         if (this.prodSpecChar != null && this.prodSpecChar.size() > 0) {
             for (ProductSpecCharUse productSpecCharUse : this.prodSpecChar) {
@@ -690,7 +678,6 @@ public abstract class ProductSpecification {
         }
         result.put("prodSpecCharUse", prodSpecCharUseList);
 
-
         return CommonUtils.format(result.toString());
     }
 
@@ -701,7 +688,7 @@ public abstract class ProductSpecification {
         result.put("brand", brand);
         result.put("description", description);
         result.put("validFor", validFor);
-        result.put("lifecycleStatus", lifecycleStatus);
+        result.put("lifecycleStatus", ProdSpecEnum.ProdSpecStatus.getName(lifecycleStatus));
         return result;
     }
 }

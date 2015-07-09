@@ -1,5 +1,10 @@
 package com.ai.baas.product.offering;
 
+import com.ai.baas.common.util.CommonUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A set of numbers that specifies the lower and upper limits for a ProductOffering that can be procured as part of the related BundledProductOffering.
  * <p/>
@@ -70,5 +75,14 @@ public class BundledProdOfferOption {
     @Override
     public int hashCode() {
         return productOffering.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("productOffering", this.productOffering);
+        result.put("numberRelOfferLowerLimit", this.numberRelOfferLowerLimit);
+        result.put("numberRelOfferUpperLimit", this.numberRelOfferUpperLimit);
+        return CommonUtils.format(result.toString());
     }
 }
