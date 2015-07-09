@@ -46,9 +46,15 @@ public class BundledProductOffering extends ProductOffering {
         if (null == this.bundledProdOfferOption) {
             this.bundledProdOfferOption = new ArrayList<BundledProdOfferOption>();
         }
+        if (lowerLimit < -1 || upperLimit < -1) {
+            logger.error("Parameter [lowerLimit]ã€[upperLimit] is not valid. lowerLimit=" + lowerLimit + "; " +
+                    "upperLimit=" + upperLimit);
+            throw new IllegalArgumentException("Parameter [lowerLimit]ã€[upperLimit] is not valid .");
+        }
         if (lowerLimit > upperLimit) {
-            logger.error("Parameter [lowerLimit]¡¢[upperLimit] is not valid .lowerLimit=" + lowerLimit + "upperLimit=" + upperLimit);
-            throw new IllegalArgumentException("Parameter [lowerLimit]¡¢[upperLimit] is not valid .");
+            logger.error("the lowLimit must be much lower than upperLimit. lowerLimit=" + lowerLimit + "; " +
+                    "upperLimit=" + upperLimit);
+            throw new IllegalArgumentException("the lowLimit must be much lower than upperLimit.");
         }
         if (null == offering) {
             logger.error("Parameter [offering] cannot be null.");
@@ -58,10 +64,10 @@ public class BundledProductOffering extends ProductOffering {
             logger.error("Cannot add subOffering with it self!");
             throw new IllegalArgumentException("Cannot add subOffering with it self!");
         }
-
+        BundledProdOfferOption subOfferingOption = new BundledProdOfferOption(offering, lowerLimit, upperLimit);
         if (this.bundledProdOfferOption.size() > 0) {
             for (BundledProdOfferOption bundledOfferingOption : this.bundledProdOfferOption) {
-                if (bundledOfferingOption.equals(offering)) {
+                if (bundledOfferingOption.equals(subOfferingOption)) {
                     logger.error("the subProdSpec already exist, Cannot repeatedly create subOffering. OfferingID="
                             + offering.getId());
                     throw new IllegalArgumentException("the subProdSpec already exist, Cannot repeatedly create subOffering. OfferingID="
@@ -69,7 +75,7 @@ public class BundledProductOffering extends ProductOffering {
                 }
             }
         }
-        BundledProdOfferOption subOfferingOption = new BundledProdOfferOption(offering, lowerLimit, upperLimit);
+
         this.bundledProdOfferOption.add(subOfferingOption);
     }
 

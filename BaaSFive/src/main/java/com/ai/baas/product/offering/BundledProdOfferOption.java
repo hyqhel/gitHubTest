@@ -7,26 +7,7 @@ package com.ai.baas.product.offering;
  */
 public class BundledProdOfferOption {
 
-    private ProductOffering productOffering;
-    private BundledProductOffering bundledProductOffering;
-
-    public ProductOffering getProductOffering() {
-        return productOffering;
-    }
-
-    public void setProductOffering(ProductOffering productOffering) {
-        this.productOffering = productOffering;
-    }
-
-    public BundledProductOffering getBundledProductOffering() {
-        return bundledProductOffering;
-    }
-
-    public void setBundledProductOffering(
-            BundledProductOffering bundledProductOffering) {
-        this.bundledProductOffering = bundledProductOffering;
-    }
-
+    public ProductOffering productOffering;
     /**
      * The lower limit of related ProductOfferings that can be procured as part of the BundledProductOffering.
      * <p/>
@@ -56,6 +37,14 @@ public class BundledProdOfferOption {
         this.numberRelOfferUpperLimit = numberRelOfferUpperLimit;
     }
 
+    public ProductOffering getProductOffering() {
+        return productOffering;
+    }
+
+    public void setProductOffering(ProductOffering productOffering) {
+        this.productOffering = productOffering;
+    }
+
     /**
      * @param offering
      * @param lowerLimit
@@ -65,7 +54,21 @@ public class BundledProdOfferOption {
         this.productOffering = offering;
         this.numberRelOfferLowerLimit = lowerLimit;
         this.numberRelOfferUpperLimit = upperLimit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BundledProdOfferOption that = (BundledProdOfferOption) o;
+
+        return productOffering.equals(that.productOffering);
 
     }
 
+    @Override
+    public int hashCode() {
+        return productOffering.hashCode();
+    }
 }
