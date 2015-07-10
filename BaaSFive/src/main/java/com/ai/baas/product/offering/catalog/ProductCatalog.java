@@ -93,10 +93,7 @@ public class ProductCatalog extends Catalog {
      */
     public boolean retiredOffering(ProductOffering offering) {
         checkProductOffering(offering);
-        TimePeriod validFor = new TimePeriod();
-        validFor.setEndDateTime(new Date());
         ProdCatalogProdOffer catalogOffer = retrieveCurrentProdCatalogProdOffer(offering, new Date());
-
         if(null != catalogOffer) {
             catalogOffer.getValidFor().setEndDateTime(new Date());
         }else{
