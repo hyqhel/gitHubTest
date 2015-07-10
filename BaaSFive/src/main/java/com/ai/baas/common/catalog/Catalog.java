@@ -67,7 +67,7 @@ public class Catalog {
      */
     public Catalog(String id, String name, String type, TimePeriod validFor) {
         if (null == id || "".equals(id)) {
-            logger.error("parameter is error £ºthe id is null . ");
+            logger.error("parameter is error ï¿½ï¿½the id is null . ");
             throw new IllegalArgumentException("id should not be null .");
         }
         this.ID = id;
@@ -97,7 +97,7 @@ public class Catalog {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("ID", ID);
         result.put("name", name);
-        result.put("type", type);
+        result.put("type", ProdOfferingEnum.ProductCatalogType.getName(type));
         result.put("validFor", validFor);
         return result;
     }
