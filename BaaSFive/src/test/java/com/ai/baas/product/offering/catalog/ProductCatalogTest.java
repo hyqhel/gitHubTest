@@ -61,7 +61,7 @@ public class ProductCatalogTest {
         TimePeriod validFor1 = new TimePeriod("2015-06-05 10:20:00", "2015-08-26 10:20:00");
         pcata.publishOffering(poff, validFor1);
         assertEquals("publish one  offering to catalog,check size ", 1, pcata.getProdCatalogProdOffer().size());
-        assertEquals("publish one  offering to catalog,check content", pcata.getProdCatalogProdOffer(), expectedProdCatalogProdList);
+        assertEquals("publish one  offering to catalog,check content", expectedProdCatalogProdList, pcata.getProdCatalogProdOffer());
     }
 
     @Test
@@ -86,7 +86,8 @@ public class ProductCatalogTest {
         ProductSpecification  prodSpec = new AtomicProductSpecification("001SP", "11 英寸 MacBook Air SPEC", "Mac Air");
         SimpleProductOffering offering1 = new SimpleProductOffering("00011F", "13 英寸 MacBook Air",  "1.6GHz 双核 Intel Core i5 处理器，Turbo Boost 高达 2.7GHz", validFor1, prodSpec);
         pcata.retiredOffering(offering1);
-        assertEquals("retired  one  offering", pcata.getProdCatalogProdOffer(), expectedProdCatalogProdList);
+        assertEquals("retired  one  offering ,check size ", 1, pcata.getProdCatalogProdOffer().size());
+        assertEquals("retired  one  offering",expectedProdCatalogProdList, pcata.getProdCatalogProdOffer());
     }
 
     @Test
@@ -112,6 +113,10 @@ public class ProductCatalogTest {
 
         SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         pcata.retrieveOffering(DateUtils.str2Date("2015-04-03 10:20:00", sim));
-        assertEquals("retrieve   offering",0, pcata.getProdCatalogProdOffer().size());
+        assertEquals("retrieve   offering",2, pcata.getProdCatalogProdOffer().size());
+        for(ProdCatalogProdOffer pcpo:pcata.getProdCatalogProdOffer()){
+            pcpo.getValidFor().isInTimePeriod(new Date());
+        }
+
     }
 }
