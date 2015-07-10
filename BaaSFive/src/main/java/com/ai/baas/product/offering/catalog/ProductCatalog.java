@@ -104,7 +104,7 @@ public class ProductCatalog extends Catalog {
      */
     public void retiredOffering(List<ProductOffering> offerings) {
         if(null == offerings || 0 == offerings.size()){
-            logger.error("parameter is error £ºthe Object of ProductOffering is null . ");
+            logger.error("parameter is error ï¼šthe Object of ProductOffering is null . ");
             throw new IllegalArgumentException("offering should not be null .");
         }
         for(ProductOffering offering:offerings){
@@ -172,7 +172,7 @@ public class ProductCatalog extends Catalog {
      */
     private void checkProductOffering(ProductOffering offering){
         if(null == offering){
-            logger.error("parameter is error £ºthe Object of ProductOffering is null . ");
+            logger.error("parameter is error ï¼šthe Object of ProductOffering is null . ");
             throw new IllegalArgumentException("offering should not be null .");
         }
     }
