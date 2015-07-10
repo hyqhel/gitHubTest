@@ -81,15 +81,11 @@ public class ProductCatalogTest {
         }
 
         pcata.publishOffering(poff, validFor1);
-        List<ProdCatalogProdOffer> expectedProdCatalogProdList = new ArrayList<ProdCatalogProdOffer>();
-        ProdCatalogProdOffer expectedSubOffering1 = new ProdCatalogProdOffer(poff,validFor1);
-        expectedProdCatalogProdList.add(expectedSubOffering1);
-
         ProductSpecification  prodSpec = new AtomicProductSpecification("001SP", "11 英寸 MacBook Air SPEC", "Mac Air");
         SimpleProductOffering offering1 = new SimpleProductOffering("00011F", "13 英寸 MacBook Air",  "1.6GHz 双核 Intel Core i5 处理器，Turbo Boost 高达 2.7GHz", validFor1, prodSpec);
         pcata.retiredOffering(offering1);
 
-        assertEquals("retired  one  offering ,check size ", 1, pcata.getProdCatalogProdOffer().size());
+        assertEquals("retired  one  offering ,check size ", 2, pcata.getProdCatalogProdOffer().size());
         for(ProdCatalogProdOffer pcpo:pcata.getProdCatalogProdOffer()){
             assertTrue("retired  one  offering", 0 >= pcpo.getValidFor().getEndDateTime().compareTo(new Date()));
         }
