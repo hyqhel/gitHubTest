@@ -90,6 +90,28 @@ public class ProdCatalogProdOffer {
             throw new IllegalArgumentException("offering should not be null .");
         }
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProdCatalogProdOffer that = (ProdCatalogProdOffer) o;
+
+        if (!prodOffering.equals(that.prodOffering)) return false;
+        if (productOfferingPrice != null ? !productOfferingPrice.equals(that.productOfferingPrice) : that.productOfferingPrice != null)
+            return false;
+        return !(validFor != null ? !validFor.equals(that.validFor) : that.validFor != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = prodOffering.hashCode();
+        result = 31 * result + (productOfferingPrice != null ? productOfferingPrice.hashCode() : 0);
+        result = 31 * result + (validFor != null ? validFor.hashCode() : 0);
+        return result;
+    }
+
 
     @Override
     public String toString() {
