@@ -37,7 +37,7 @@ public class CatalogData {
         String charUseName = "CPU";
         ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", false,"GHz", validForPublish, "128");
 
-        List<ProdCatalogProdOffer> searchOfferingLastResult = new ArrayList<ProdCatalogProdOffer>()
+        List<ProdCatalogProdOffer> searchOfferingLastResult = new ArrayList<ProdCatalogProdOffer>();
         List<ProdCatalogProdOffer> searchOfferingResult =  pcata.retrieveOffering(new Date());
         if(null != searchOfferingResult){
             for(ProdCatalogProdOffer pcpr : searchOfferingResult){
