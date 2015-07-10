@@ -17,9 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Created by huangyq3 on 2015-07-09.
@@ -74,22 +72,27 @@ public class ProductCatalogTest {
         } catch (IllegalArgumentException ex) {
         }
 
-
         TimePeriod validFor1 = new TimePeriod("2015-06-04 10:20:00", "2015-07-26 10:20:00");
         pcata.publishOffering(poff, validFor1);
         pcata.retiredOffering(poff);
         assertEquals("retired  one  offering", 1, pcata.getProdCatalogProdOffer().size());
+        for(ProdCatalogProdOffer pcpo:pcata.getProdCatalogProdOffer()){
+            assertTrue("retired  one  offering", 0 >= pcpo.getValidFor().getEndDateTime().compareTo(new Date()));
+        }
 
         pcata.publishOffering(poff, validFor1);
-
         List<ProdCatalogProdOffer> expectedProdCatalogProdList = new ArrayList<ProdCatalogProdOffer>();
         ProdCatalogProdOffer expectedSubOffering1 = new ProdCatalogProdOffer(poff,validFor1);
         expectedProdCatalogProdList.add(expectedSubOffering1);
+
         ProductSpecification  prodSpec = new AtomicProductSpecification("001SP", "11 英寸 MacBook Air SPEC", "Mac Air");
         SimpleProductOffering offering1 = new SimpleProductOffering("00011F", "13 英寸 MacBook Air",  "1.6GHz 双核 Intel Core i5 处理器，Turbo Boost 高达 2.7GHz", validFor1, prodSpec);
         pcata.retiredOffering(offering1);
+
         assertEquals("retired  one  offering ,check size ", 1, pcata.getProdCatalogProdOffer().size());
-        assertEquals("retired  one  offering",expectedProdCatalogProdList, pcata.getProdCatalogProdOffer());
+        for(ProdCatalogProdOffer pcpo:pcata.getProdCatalogProdOffer()){
+            assertTrue("retired  one  offering", 0 >= pcpo.getValidFor().getEndDateTime().compareTo(new Date()));
+        }
     }
 
     @Test
@@ -109,16 +112,19 @@ public class ProductCatalogTest {
         ProdCatalogProdOffer expectedSubOffering2 = new ProdCatalogProdOffer(offering1,validFor2);
         expectedProdCatalogProdList.add(expectedSubOffering2);
 
-        pcata.retrieveOffering(new Date());
-        assertEquals("retrieve   offering", 2, pcata.getProdCatalogProdOffer().size());
-        assertEquals("retrieve   offering", pcata.getProdCatalogProdOffer(), expectedProdCatalogProdList);
-
         SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        pcata.retrieveOffering(DateUtils.str2Date("2015-04-03 10:20:00", sim));
-        assertEquals("retrieve   offering",2, pcata.getProdCatalogProdOffer().size());
-        for(ProdCatalogProdOffer pcpo:pcata.getProdCatalogProdOffer()){
-            pcpo.getValidFor().isInTimePeriod(new Date());
-        }
+        pcata.retrieveOffering(DateUtils.str2Date("2015-07-03 10:20:00", sim));
+        assertEquals("retrieve all  offering", 2, pcata.getProdCatalogProdOffer().size());
+        assertEquals("retrieve   offering", expectedProdCatalogProdList,pcata.getProdCatalogProdOffer());
 
+        List<ProdCatalogProdOffer>  retrlist = pcata.retrieveOffering(DateUtils.str2Date("2015-04-03 10:20:00", sim));
+        assertEquals("retrieve   offering all offering out of validfor",0, retrlist.size());
+
+        List<ProdCatalogProdOffer>  retrlists = pcata.retrieveOffering(DateUtils.str2Date("2015-04-05 10:20:00", sim));
+        assertEquals("retrieve   offering have one not out of  validfor,check size",1, retrlists.size());
+        List<ProdCatalogProdOffer> expectedRtProdCatalogProdList = new ArrayList<ProdCatalogProdOffer>();
+        ProdCatalogProdOffer expectedSubOffering4 = new ProdCatalogProdOffer(offering1,validFor2);
+        expectedRtProdCatalogProdList.add(expectedSubOffering4);
+        assertEquals("retrieve   offering have one not out of  validfor,check content", expectedRtProdCatalogProdList, retrlists);
     }
 }
