@@ -12,7 +12,7 @@ import java.util.Date;
 
 /**
  * A list of ProductOfferings for sale, with prices and illustrations, for example in book form or on the web. ProductCatalogs can be used by Customers during a self-care ordering process and may be used across one or more DistributionChannels.
- *  
+ *
  * A list of ProductOfferings for sale, with prices and illustrations, for example in book form or on the web. ProductCatalogs can be used by Customers during a self-care ordering process and may be used across one or more DistributionChannels.
  * ?
  */
@@ -28,7 +28,7 @@ public class ProductCatalog extends Catalog {
         this.prodCatalogProdOffer = prodCatalogProdOffer;
     }
     /**
-     * 
+     *
      * @param id
      * @param name
      * @param type
@@ -39,7 +39,7 @@ public class ProductCatalog extends Catalog {
     }
 
     /**
-     * 
+     *
      * @param offering
      * @param validFor
      */
@@ -64,7 +64,7 @@ public class ProductCatalog extends Catalog {
     }
 
     /**
-     * 
+     *
      * @param offering
      * @param validFor
      * @param price
@@ -90,7 +90,7 @@ public class ProductCatalog extends Catalog {
     }
 
     /**
-     * 
+     *
      * @param offering
      */
     public void retiredOffering(ProductOffering offering) {
@@ -99,12 +99,12 @@ public class ProductCatalog extends Catalog {
     }
 
     /**
-     * 
+     *
      * @param offerings
      */
     public void retiredOffering(List<ProductOffering> offerings) {
         if(null == offerings || 0 == offerings.size()){
-            logger.error("parameter is error £ºthe Object of ProductOffering is null . ");
+            logger.error("parameter is error ï¼šthe Object of ProductOffering is null . ");
             throw new IllegalArgumentException("offering should not be null .");
         }
         for(ProductOffering offering:offerings){
@@ -114,7 +114,7 @@ public class ProductCatalog extends Catalog {
 
 
     /**
-     * 
+     *
      * @param offering
      * @param time
      */
@@ -124,7 +124,7 @@ public class ProductCatalog extends Catalog {
     }
 
     /**
-     * 
+     *
      * @param offering
      * @param timePeriod
      * @param price
@@ -134,7 +134,7 @@ public class ProductCatalog extends Catalog {
     }
 
     /**
-     * 
+     *
      * @param offering
      * @param timePeriod
      * @param price
@@ -144,7 +144,7 @@ public class ProductCatalog extends Catalog {
     }
 
     /**
-     * 
+     *
      * @param time
      */
     public List<ProdCatalogProdOffer> retrieveOffering(Date time) {
@@ -160,7 +160,7 @@ public class ProductCatalog extends Catalog {
     }
 
     /**
-     * 
+     *
      * @param price
      */
     public List<ProductOffering> retrieveOffering(ProductOfferingPrice price) {
@@ -172,7 +172,7 @@ public class ProductCatalog extends Catalog {
      */
     private void checkProductOffering(ProductOffering offering){
         if(null == offering){
-            logger.error("parameter is error £ºthe Object of ProductOffering is null . ");
+            logger.error("parameter is error ï¼šthe Object of ProductOffering is null . ");
             throw new IllegalArgumentException("offering should not be null .");
         }
     }
