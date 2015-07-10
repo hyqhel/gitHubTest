@@ -8,6 +8,20 @@ import com.ai.baas.basetype.*;
 public class ConfigurableProductSpecCharacteristic extends ProductSpecCharacteristic {
 
     /**
+     *
+     * @param id
+     * @param name
+     * @param valueType
+     * @param validFor
+     * @param unique
+     * @param minCardinality
+     * @param maxCardinality
+     */
+    public ConfigurableProductSpecCharacteristic(String id, String name, String valueType, TimePeriod validFor, String unique, int minCardinality, int maxCardinality) {
+        super(id, name, valueType, validFor, unique, minCardinality, maxCardinality);
+    }
+
+    /**
      * 
      * @param id
      * @param name
