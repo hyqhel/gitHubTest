@@ -45,15 +45,14 @@ public class ProductCatalog extends Catalog {
      */
     public void publishOffering(ProductOffering offering, TimePeriod validFor) {
         checkProductOffering(offering);
+        checkTimePeriod(validFor);
         if(null == prodCatalogProdOffer){
             prodCatalogProdOffer = new ArrayList<ProdCatalogProdOffer>();
         }
-        ProdCatalogProdOffer seac = retrieveProdCatalogProdOffer(offering);
-        if(null != seac){
-            if(seac.getValidFor().isOverlap(validFor)){
-                logger.warn("Characteristic have been created in the specified time");
-                return;
-            }
+        ProdCatalogProdOffer catalogOffer = retrieveProdCatalogProdOffer(offering,validFor);
+        if(null != catalogOffer){
+            logger.warn("The offering is already publish the time .");
+            return;
         }
         ProdCatalogProdOffer catalogProdOffer = new ProdCatalogProdOffer(offering,validFor);
         if(!prodCatalogProdOffer.contains(catalogProdOffer)) {
@@ -71,15 +70,14 @@ public class ProductCatalog extends Catalog {
      */
     public void publishOffering(ProductOffering offering, TimePeriod validFor, List<ProductOfferingPrice> price) {
         checkProductOffering(offering);
+        checkTimePeriod(validFor);
         if(null == prodCatalogProdOffer){
             prodCatalogProdOffer = new ArrayList<ProdCatalogProdOffer>();
         }
-        ProdCatalogProdOffer seac = retrieveProdCatalogProdOffer(offering);
-        if(null != seac){
-            if(seac.getValidFor().isOverlap(validFor)){
-                logger.warn("Characteristic have been created in the specified time");
-                return;
-            }
+        ProdCatalogProdOffer catalogOffer = retrieveProdCatalogProdOffer(offering,validFor);
+        if(null != catalogOffer){
+            logger.warn("The offering is already publish the time .");
+            return;
         }
         ProdCatalogProdOffer catalogProdOffer = new ProdCatalogProdOffer(offering,validFor,price);
         if(!prodCatalogProdOffer.contains(catalogProdOffer)) {
@@ -93,9 +91,19 @@ public class ProductCatalog extends Catalog {
      *
      * @param offering
      */
-    public void retiredOffering(ProductOffering offering) {
+    public boolean retiredOffering(ProductOffering offering) {
         checkProductOffering(offering);
-        modifyOfferingValidTime(offering);
+        TimePeriod validFor = new TimePeriod();
+        validFor.setEndDateTime(new Date());
+        ProdCatalogProdOffer catalogOffer = retrieveCurrentProdCatalogProdOffer(offering, new Date());
+
+        if(null != catalogOffer) {
+            catalogOffer.getValidFor().setEndDateTime(new Date());
+        }else{
+            logger.warn("the Object of ProductOffering Has not been published to the ProductCatalog . ");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -177,30 +185,65 @@ public class ProductCatalog extends Catalog {
         }
     }
 
-    private ProdCatalogProdOffer retrieveProdCatalogProdOffer(ProductOffering offering){
+    /**
+     * check parameter is null
+     */
+    private void checkTimePeriod(TimePeriod validFor) {
+        if (null == validFor) {
+            logger.error("parameter is error ：the Object of TimePeriod is null . ");
+            throw new IllegalArgumentException("validFor should not be null .");
+        }else if(null == validFor.getStartDateTime()){
+            logger.error("parameter is error ：the Object of TimePeriod's startDateTime is null . ");
+            throw new IllegalArgumentException("startDateTime should not be null .");
+        }else if(null == validFor.getEndDateTime()){
+            logger.error("parameter is error ：the Object of TimePeriod's endDateTime is null . ");
+            throw new IllegalArgumentException("endDateTime should not be null .");
+        }
+    }
+
+    /**
+     * retrieve the current work ProdCatalogProdOffer
+     * @param offering
+     * @param validFor
+     * @return
+     */
+    private ProdCatalogProdOffer retrieveProdCatalogProdOffer(ProductOffering offering,TimePeriod validFor){
         if(null != prodCatalogProdOffer){
             for(ProdCatalogProdOffer catalogProdOffer : prodCatalogProdOffer) {
-                if(offering.equals(catalogProdOffer.getProdOffering()) && 0 == catalogProdOffer.getValidFor().isInTimePeriod(new Date())){
+                if(offering.equals(catalogProdOffer.getProdOffering()) && catalogProdOffer.getValidFor().isOverlap(validFor)){
+                        return catalogProdOffer;
+                }
+            }
+        }
+        return null;
+    }
+    private ProdCatalogProdOffer retrieveCurrentProdCatalogProdOffer(ProductOffering offering,Date time){
+        if(null != prodCatalogProdOffer){
+            for(ProdCatalogProdOffer catalogProdOffer : prodCatalogProdOffer) {
+                if(offering.equals(catalogProdOffer.getProdOffering()) && 0 == catalogProdOffer.getValidFor().isInTimePeriod(time)){
                     return catalogProdOffer;
                 }
             }
         }
         return null;
     }
-    private void modifyOfferingValidTime(ProductOffering offering){
+    public boolean modifyOfferingValidTime(ProductOffering offering,TimePeriod oldValidFor,TimePeriod newValidFor){
         checkProductOffering(offering);
+        checkTimePeriod(oldValidFor);
+        checkTimePeriod(newValidFor);
         if(null != prodCatalogProdOffer){
-            for(ProdCatalogProdOffer catalogProdOffer : prodCatalogProdOffer) {
-                if(offering.equals(catalogProdOffer.getProdOffering()) && 0 == catalogProdOffer.getValidFor().isInTimePeriod(new Date())){
-                    TimePeriod validTime = new TimePeriod();
-                    validTime.setEndDateTime(new Date());
-                    validTime.setStartDateTime(catalogProdOffer.getValidFor().getStartDateTime());
-                    catalogProdOffer.setValidFor(validTime);
-                }
+            ProdCatalogProdOffer catalogProdOffer = retrieveProdCatalogProdOffer(offering,oldValidFor);
+            if(null != catalogProdOffer) {
+                catalogProdOffer.setValidFor(newValidFor);
+            }else{
+                logger.warn("the Object of ProductOffering Has not been published to the ProductCatalog . ");
+                return false;
             }
         }else{
             logger.warn("the Object of ProductCatalog haven't ProductOffering . ");
+            return false;
         }
+        return true;
     }
 
     @Override

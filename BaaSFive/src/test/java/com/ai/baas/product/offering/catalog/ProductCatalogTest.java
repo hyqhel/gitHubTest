@@ -27,7 +27,7 @@ public class ProductCatalogTest {
     private ProductCatalog pcata = null;
     @Before
     public void initCatalog(){
-        TimePeriod validFor = new TimePeriod("2015-06-04 10:20:00", "2015-06-26 10:20:00");
+        TimePeriod validFor = new TimePeriod("2015-06-04 10:20:00", "2015-09-26 10:20:00");
         pcata = new ProductCatalog("1","13 寸", ProdOfferingEnum.ProductCatalogType.BOOK.getValue(),validFor);
 
         String id = "0001OF";
@@ -85,10 +85,8 @@ public class ProductCatalogTest {
         SimpleProductOffering offering1 = new SimpleProductOffering("00011F", "13 英寸 MacBook Air",  "1.6GHz 双核 Intel Core i5 处理器，Turbo Boost 高达 2.7GHz", validFor1, prodSpec);
         pcata.retiredOffering(offering1);
 
-        assertEquals("retired  one  offering ,check size ", 2, pcata.getProdCatalogProdOffer().size());
-        for(ProdCatalogProdOffer pcpo:pcata.getProdCatalogProdOffer()){
-            assertTrue("retired  one  offering", 0 >= pcpo.getValidFor().getEndDateTime().compareTo(new Date()));
-        }
+        assertEquals("retired  one  offering ,check size ",2, pcata.getProdCatalogProdOffer().size());
+
     }
 
     @Test

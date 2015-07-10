@@ -51,6 +51,7 @@ public class ProdCatalogProdOffer {
      */
     public ProdCatalogProdOffer(ProductOffering offering, TimePeriod validFor) {
         checkProductOffering(offering);
+        checkTimePeriod(validFor);
         this.prodOffering = offering;
         this.validFor = validFor;
     }
@@ -62,6 +63,7 @@ public class ProdCatalogProdOffer {
      */
     public ProdCatalogProdOffer(ProductOffering offering, TimePeriod validFor, List<ProductOfferingPrice> price) {
         checkProductOffering(offering);
+        checkTimePeriod(validFor);
         this.prodOffering = offering;
         this.validFor = validFor;
         this.productOfferingPrice = price;
@@ -88,6 +90,21 @@ public class ProdCatalogProdOffer {
         if (null == offering) {
             logger.error("parameter is error £ºthe Object of ProductOffering is null . ");
             throw new IllegalArgumentException("offering should not be null .");
+        }
+    }
+    /**
+     * check parameter is null
+     */
+    private void checkTimePeriod(TimePeriod validFor) {
+        if (null == validFor) {
+            logger.error("parameter is error £ºthe Object of TimePeriod is null . ");
+            throw new IllegalArgumentException("validFor should not be null .");
+        }else if(null == validFor.getStartDateTime()){
+            logger.error("parameter is error £ºthe Object of TimePeriod's startDateTime is null . ");
+            throw new IllegalArgumentException("startDateTime should not be null .");
+        }else if(null == validFor.getEndDateTime()){
+            logger.error("parameter is error £ºthe Object of TimePeriod's endDateTime is null . ");
+            throw new IllegalArgumentException("endDateTime should not be null .");
         }
     }
     @Override
