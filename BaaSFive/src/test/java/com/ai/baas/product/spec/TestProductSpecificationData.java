@@ -159,14 +159,14 @@ public class TestProductSpecificationData {
                             "2.9GHz 2.9GHz 双核 Intel Core i5 处理器 (Turbo Boost 高达3.3GHz)，配备 3MB 共享三级缓存",
                             "3.1GHz 3.1GHz 双核 Intel Core i7 处理器 (Turbo Boost 高达 3.4GHz)，配备 4MB 共享三级缓存"},
                     new boolean[]{true, false, false}},
-            {"3", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "重量和尺寸", "unique", 1, 1,
+           /* {"3", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "重量和尺寸", "unique", 1, 1,
                     true, "", false, null, null},
             {"31", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "深度", "unique", 1, 1,
                     true, "", true, new String[]{"21.9"}, new boolean[]{true}},
             {"32", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "宽度", "unique", 1, 1,
                     true, "", true, new String[]{"31.4"}, new boolean[]{true}},
             {"33", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "高度", "unique", 1, 1,
-                    true, "", true, new String[]{"1.8"}, new boolean[]{true}},
+                    true, "", true, new String[]{"1.8"}, new boolean[]{true}},*/
             {"34", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "重量", "unique", 1, 1,
                     true, "", true, new String[]{"1.58"}, new boolean[]{true}}
 
@@ -190,7 +190,8 @@ public class TestProductSpecificationData {
                     new String[]{"2.7GHz 2.7GHz 双核 Intel Core i5 处理器 (Turbo Boost 高达 3.1GHz)，配备 3MB 共享三级缓存",
                             "2.9GHz 2.9GHz 双核 Intel Core i5 处理器 (Turbo Boost 高达3.3GHz)，配备 3MB 共享三级缓存",
                             "3.1GHz 3.1GHz 双核 Intel Core i7 处理器 (Turbo Boost 高达 3.4GHz)，配备 4MB 共享三级缓存"},
-                    new boolean[]{true, false, false}},
+                    new boolean[]{true, false, false}}
+            /*,
             {"3", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "重量和尺寸", "unique", 1, 1,
                     true, "", false, null, null},
             {"31", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "深度", "unique", 1, 1,
@@ -198,7 +199,7 @@ public class TestProductSpecificationData {
             {"32", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "宽度", "unique", 1, 1,
                     true, "", true, new String[]{"31.4"}, new boolean[]{true}},
             {"33", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "高度", "unique", 1, 1,
-                    true, "", true, new String[]{"1.8"}, new boolean[]{true}},
+                    true, "", true, new String[]{"1.8"}, new boolean[]{true}}*/,
             {"34", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "重量", "unique", 1, 1,
                     true, "", true, new String[]{"1.58"}, new boolean[]{true}}
     };
@@ -222,14 +223,14 @@ public class TestProductSpecificationData {
                     new String[]{"2.9GHz 2.9GHz 双核 Intel Core i5 处理器 (Turbo Boost 高达3.3GHz)，配备 3MB 共享三级缓存",
                             "3.1GHz 3.1GHz 双核 Intel Core i7 处理器 (Turbo Boost 高达 3.4GHz)，配备 4MB 共享三级缓存"},
                     new boolean[]{true, false, false}},
-            {"3", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "重量和尺寸", "unique", 1, 1,
+            /*{"3", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "重量和尺寸", "unique", 1, 1,
                     true, "", false, null, null},
             {"31", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "深度", "unique", 1, 1,
                     true, "", true, new String[]{"21.9"}, new boolean[]{true}},
             {"32", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "宽度", "unique", 1, 1,
                     true, "", true, new String[]{"31.4"}, new boolean[]{true}},
             {"33", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "高度", "unique", 1, 1,
-                    true, "", true, new String[]{"1.8"}, new boolean[]{true}},
+                    true, "", true, new String[]{"1.8"}, new boolean[]{true}},*/
             {"34", false, true, new TimePeriod("2015-02-03 12:00:00", "2019-07-21 23:59:59"), "重量", "unique", 1, 1,
                     true, "", true, new String[]{"1.58"}, new boolean[]{true}}
     };
