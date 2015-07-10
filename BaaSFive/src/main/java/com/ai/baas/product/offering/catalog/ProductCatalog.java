@@ -48,6 +48,13 @@ public class ProductCatalog extends Catalog {
         if(null == prodCatalogProdOffer){
             prodCatalogProdOffer = new ArrayList<ProdCatalogProdOffer>();
         }
+        ProdCatalogProdOffer seac = retrieveProdCatalogProdOffer(offering);
+        if(null != seac){
+            if(seac.getValidFor().isOverlap(validFor)){
+                logger.warn("Characteristic have been created in the specified time");
+                return;
+            }
+        }
         ProdCatalogProdOffer catalogProdOffer = new ProdCatalogProdOffer(offering,validFor);
         if(!prodCatalogProdOffer.contains(catalogProdOffer)) {
             prodCatalogProdOffer.add(catalogProdOffer);
@@ -66,6 +73,13 @@ public class ProductCatalog extends Catalog {
         checkProductOffering(offering);
         if(null == prodCatalogProdOffer){
             prodCatalogProdOffer = new ArrayList<ProdCatalogProdOffer>();
+        }
+        ProdCatalogProdOffer seac = retrieveProdCatalogProdOffer(offering);
+        if(null != seac){
+            if(seac.getValidFor().isOverlap(validFor)){
+                logger.warn("Characteristic have been created in the specified time");
+                return;
+            }
         }
         ProdCatalogProdOffer catalogProdOffer = new ProdCatalogProdOffer(offering,validFor,price);
         if(!prodCatalogProdOffer.contains(catalogProdOffer)) {
