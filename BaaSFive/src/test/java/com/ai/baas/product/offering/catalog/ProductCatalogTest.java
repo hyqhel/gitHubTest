@@ -73,6 +73,7 @@ public class ProductCatalogTest {
         } catch (IllegalArgumentException ex) {
         }
 
+
         TimePeriod validFor1 = new TimePeriod("2015-06-04 10:20:00", "2015-07-26 10:20:00");
         pcata.publishOffering(poff, validFor1);
         pcata.retiredOffering(poff);
