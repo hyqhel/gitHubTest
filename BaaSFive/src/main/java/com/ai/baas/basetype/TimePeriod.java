@@ -118,7 +118,7 @@ public class TimePeriod {
      */
     @Override
     public String toString() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Map<String, String> vaildFor = new HashMap<String, String>();
         vaildFor.put("startDateTime", this.startDateTime == null ? "" : format.format(this.startDateTime));
         vaildFor.put("endDateTime", this.endDateTime == null ? "" : format.format(this.endDateTime));

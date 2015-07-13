@@ -307,5 +307,9 @@ public class ProductCatalogController {
         this.offering512 = createSimpleProductOffering(TestProductOfferingData.offering[2], specification512);
     }
 
+    @After
+    public void printCatalog(){
+        //logger.info(this.pcata.toString());
+    }
 
 }

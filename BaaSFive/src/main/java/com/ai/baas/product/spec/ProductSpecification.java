@@ -165,10 +165,7 @@ public abstract class ProductSpecification {
     public boolean addCharacteristic(String name, ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
-        if (null == name || "".equals(name)) {
-            log.error("parameter is error ：the parameter name is null. ");
-            throw new IllegalArgumentException("name should not be null .");
-        }
+        validNull(name);
         //initialize set of ProductSpecCharUse
         initProdSpecCharUseSet();
         //the characteristic has been used under the specification, can't add characteristic again
@@ -197,10 +194,7 @@ public abstract class ProductSpecification {
     public boolean addCharacteristic(String name, ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
-        if (null == name || "".equals(name)) {
-            log.error("parameter is error ：the parameter name is null. ");
-            throw new IllegalArgumentException("name should not be null .");
-        }
+        validNull(name);
         //initialize set of ProductSpecCharUse
         initProdSpecCharUseSet();
         //the characteristic has been used under the specification, can't add characteristic again
@@ -250,10 +244,7 @@ public abstract class ProductSpecification {
         checkProdSpecChar(specChar);
         //judge charValue is null
         checkCharValue(charValue);
-        if (null == name || "".equals(name)) {
-            log.error("parameter is error ：the parameter name is null. ");
-            throw new IllegalArgumentException("name should not be null .");
-        }
+        validNull(name);
         if (this.prodSpecChar != null) {
             ProductSpecCharUse charUse = this.checkCharIsUse(name, specChar);
             if (null != specChar.getProdSpecCharValue()
@@ -262,6 +253,13 @@ public abstract class ProductSpecification {
             } else {
                 log.warn("Parameter characteristicValue is not belong to this characteristic ");
             }
+        }
+    }
+
+    private void validNull(String name) {
+        if (null == name || "".equals(name)) {
+            log.error("parameter is error ：the parameter name is null. ");
+            throw new IllegalArgumentException("name should not be null .");
         }
     }
 
@@ -282,10 +280,7 @@ public abstract class ProductSpecification {
         checkProdSpecChar(specChar);
         //judge charValue is null
         checkCharValue(defaultCharValue);
-        if (null == name || "".equals(name)) {
-            log.error("parameter is error ：the parameter name is null. ");
-            throw new IllegalArgumentException("name should not be null .");
-        }
+        validNull(name);
         if (null != this.prodSpecChar) {
             ProductSpecCharUse charUse = this.checkCharIsUse(name, specChar);
             if (null != specChar.getProdSpecCharValue()
@@ -322,10 +317,7 @@ public abstract class ProductSpecification {
     public List<ProdSpecCharValueUse> retrieveCharacteristicValue(String name, ProductSpecCharacteristic specChar, Date time) {
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
-        if (null == name || "".equals(name)) {
-            log.error("parameter is error ：the parameter name is null. ");
-            throw new IllegalArgumentException("name should not be null .");
-        }
+        validNull(name);
         List<ProdSpecCharValueUse> prodSpecCharValueUseByDate = new ArrayList<ProdSpecCharValueUse>();
         ProductSpecCharUse charUse = this.checkCharIsUse(name, specChar);
         List<ProdSpecCharValueUse> valueUseAllList = charUse.getProdSpecCharValue();
@@ -372,10 +364,7 @@ public abstract class ProductSpecification {
      */
     public List<ProductSpecCharUse> retrieveLeafCharacteristic(String name, ProductSpecCharacteristic specChar, Date time) {
         checkProdSpecChar(specChar);
-        if (null == name || "".equals(name)) {
-            log.error("parameter is error ：the parameter name is null. ");
-            throw new IllegalArgumentException("name should not be null .");
-        }
+        validNull(name);
         List<ProductSpecCharUse> charUses = new ArrayList<ProductSpecCharUse>();
         List<ProductSpecCharacteristic> subProdSpecChar = null;
         if (null == time)
@@ -402,10 +391,7 @@ public abstract class ProductSpecification {
      */
     public boolean specifyCardinality(String name, ProductSpecCharacteristic specChar, int minCardinality, int maxCardinality) {
         checkProdSpecChar(specChar);
-        if (null == name || "".equals(name)) {
-            log.error("parameter is error ：the parameter name is null. ");
-            throw new IllegalArgumentException("name should not be null .");
-        }
+        validNull(name);
         ProductSpecCharUse charUse = this.retrieveProdSpecCharUse(name, specChar);
         if (null != charUse) {
             charUse.specifyCardinality(minCardinality, maxCardinality);
