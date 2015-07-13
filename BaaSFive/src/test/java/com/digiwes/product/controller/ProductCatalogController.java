@@ -142,7 +142,7 @@ public class ProductCatalogController {
         SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         DateUtils.str2Date("2015-04-03 10:20:00", sim);
         Date dc = new Date();
-        dc.setSeconds(dc.getSeconds()+2);
+        dc.setTime(dc.getTime()+2);
         List<ProdCatalogProdOffer> prodCatalogProdOffers = this.pcata.retrieveOffering(dc);
         logger.info("Offering amount in catalog after retired：" + prodCatalogProdOffers.size());
         logger.info("the Offering information：");
