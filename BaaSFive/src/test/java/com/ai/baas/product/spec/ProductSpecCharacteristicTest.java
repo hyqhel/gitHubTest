@@ -17,7 +17,9 @@ import com.ai.baas.common.enums.ProdSpecEnum;
 import com.ai.baas.common.util.DateUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProductSpecCharacteristicTest {
 	private static final Logger logger = Logger.getLogger(ProductSpecCharacteristicTest.class);
@@ -39,29 +41,36 @@ public class ProductSpecCharacteristicTest {
 	}
 	@Test
 	public void  testAddValue(){
-		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", false,"GHz", validFor, "8", "", "");
-		//exceptChar.getProdSpecCharValue().add(prodSpecCharValue);
-		prodSpecCharOwn.addValue(prodSpecCharValue);
-		assertEquals("check ProductSpecCharacteristic add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
-		assertTrue("check ProductSpecCharacteristic  other content", prodSpecCharOwn.getProdSpecCharValue().contains(prodSpecCharValue));
-
-		ProductSpecCharacteristicValue prodSpecCharValues = new ProductSpecCharacteristicValue("1",false, "GHz", validFor, "8", "", "");
-		prodSpecCharOwn.addValue(prodSpecCharValues);
-		assertEquals("check ProductSpecCharacteristic again  add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
-		assertTrue("check ProductSpecCharacteristic  other content",prodSpecCharOwn.getProdSpecCharValue().contains(prodSpecCharValue));
-
-		prodSpecCharValues = null;
+		ProductSpecCharacteristicValue prodSpecCharValues = null;
 		try {
 			prodSpecCharOwn.addValue(prodSpecCharValues);
 			fail("param is not illegal");
 		} catch (Exception e) {
 		}
+		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", false,"GHz", validFor, "8", "", "");
+		//exceptChar.getProdSpecCharValue().add(prodSpecCharValue);
+
+		Set<ProductSpecCharacteristicValue> expectProValueList = new HashSet<ProductSpecCharacteristicValue>();
+		expectProValueList.add(prodSpecCharValue);
+		prodSpecCharOwn.addValue(prodSpecCharValue);
+
+		assertEquals("check ProductSpecCharacteristic add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("check ProductSpecCharacteristic  other content", expectProValueList,prodSpecCharOwn.getProdSpecCharValue());
+
+		 prodSpecCharValues = new ProductSpecCharacteristicValue("1",false, "GHz", validFor, "8", "", "");
+		prodSpecCharOwn.addValue(prodSpecCharValues);
+		assertEquals("check ProductSpecCharacteristic again  add value success", 1, prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("check ProductSpecCharacteristic  other content", expectProValueList, prodSpecCharOwn.getProdSpecCharValue());
+
 		prodSpecCharValues = new ProductSpecCharacteristicValue("1",false, "cm", validFor, "8", "", "");
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		assertEquals("add a different value",2,prodSpecCharOwn.getProdSpecCharValue().size());
-		
+		expectProValueList.add(prodSpecCharValues);
+		assertEquals("add a different value", 2, prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("add a different value  content", expectProValueList, prodSpecCharOwn.getProdSpecCharValue());
+
 		prodSpecCharOwn.addValue(prodSpecCharValues);
-		assertEquals("add same project value agian",2,prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("add same project value agian", 2, prodSpecCharOwn.getProdSpecCharValue().size());
+		assertEquals("add a different value  content", expectProValueList, prodSpecCharOwn.getProdSpecCharValue());
 	} 
 	@Test
 	public void  testRemoveValue(){
