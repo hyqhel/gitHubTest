@@ -15,7 +15,7 @@ import org.apache.commons.beanutils.BeanUtils;
 public class CommonUtils {
 
     /**
-     * µÃµ½¸ñÊ½»¯jsonÊý¾Ý ÍË¸ñÓÃ\t »»ÐÐÓÃ\r
+     * ï¿½Ãµï¿½ï¿½ï¿½Ê½ï¿½ï¿½jsonï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½\t ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\r
      */
     public static String format(String jsonStr) {
         int level = 0;
@@ -63,5 +63,15 @@ public class CommonUtils {
             levelStr.append("\t");
         }
         return levelStr.toString();
+    }
+
+    /**
+     * check parameter is null
+     */
+    public static boolean checkParamIsNull(Object obj) {
+        if (null == obj || "".equals(obj)) {
+            return true;
+        }
+        return false;
     }
 }

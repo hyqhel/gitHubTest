@@ -2,6 +2,7 @@ package com.ai.baas.product.spec;
 
 import java.util.*;
 
+import com.ai.baas.common.util.CommonUtils;
 import org.apache.log4j.Logger;
 
 import com.ai.baas.basetype.*;
@@ -143,11 +144,9 @@ public class ProductSpecCharUse {
      * @param validFor
      */
     public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name) {
-        checkProdSpecChar(specChar);
-        if (null == name || "".equals(name)) {
-            logger.error("parameter name is error £ºthe parameter is null . ");
-            throw new IllegalArgumentException("name should not be null .");
-        }
+       if(CommonUtils.checkParamIsNull(specChar) || CommonUtils.checkParamIsNull(name) ) {
+
+       }
         this.prodSpecChar = specChar;
         this.name = name;
         this.canBeOveridden = canBeOveridden;
@@ -170,7 +169,7 @@ public class ProductSpecCharUse {
     public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
         checkProdSpecChar(specChar);
         if (null == name || "".equals(name)) {
-            logger.error("parameter name is error £ºthe parameter is null . ");
+            logger.error("parameter name is error ï¿½ï¿½the parameter is null . ");
             throw new IllegalArgumentException("name should not be null .");
         }
         this.prodSpecChar = specChar;
@@ -205,7 +204,7 @@ public class ProductSpecCharUse {
      * @param validFor
      */
     public void addValue(ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-        this.checkCharValue(charValue);
+        CommonUtils.checkParamIsNull(charValue);
 
         if (prodSpecChar.getProdSpecCharValue() != null && prodSpecChar.getProdSpecCharValue().contains(charValue)) {
             ProdSpecCharValueUse charValueUse = new ProdSpecCharValueUse(charValue, isDefault, validFor);
@@ -235,7 +234,7 @@ public class ProductSpecCharUse {
      * @param defaultValue
      */
     public void specifyDefaultCharacteristicValue(ProductSpecCharacteristicValue defaultValue) {
-        this.checkCharValue(defaultValue);
+        CommonUtils.checkParamIsNull(defaultValue);
         if (null != this.prodSpecCharValue) {
             ProdSpecCharValueUse valueUse = this.retrieveProdSpecCharValueUse(defaultValue);
             if (null != valueUse) {
@@ -268,20 +267,12 @@ public class ProductSpecCharUse {
      */
     private void checkProdSpecChar(ProductSpecCharacteristic prodSpecChar) {
         if (null == prodSpecChar) {
-            logger.error("parameter is error £ºthe Object of ProductSpecCharacteristic is null . ");
+            logger.error("parameter is error :the Object of ProductSpecCharacteristic is null . ");
             throw new IllegalArgumentException("specChar should not be null .");
         }
     }
 
-    /**
-     * check parameter is null
-     */
-    private void checkCharValue(ProductSpecCharacteristicValue charValue) {
-        if (null == charValue) {
-            logger.error("parameter is error £ºthe Object of ProductSpecCharacteristicValue is null . ");
-            throw new IllegalArgumentException("charValue should not be null .");
-        }
-    }
+
 
     @Override
     public int hashCode() {
