@@ -94,7 +94,6 @@ public class ProductCatalog extends Catalog {
     public boolean retiredOffering(ProductOffering offering) {
         checkProductOffering(offering);
         ProdCatalogProdOffer catalogOffer = retrieveCurrentProdCatalogProdOffer(offering, new Date());
-
         if(null != catalogOffer) {
             catalogOffer.getValidFor().setEndDateTime(new Date());
         }else{
