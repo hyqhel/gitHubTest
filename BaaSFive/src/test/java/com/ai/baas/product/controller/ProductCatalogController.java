@@ -7,10 +7,8 @@ import com.ai.baas.product.offering.ProductOffering;
 import com.ai.baas.product.offering.SimpleProductOffering;
 import com.ai.baas.product.offering.TestProductOfferingData;
 import com.ai.baas.product.offering.catalog.ProdCatalogProdOffer;
-import com.ai.baas.product.offering.catalog.ProductCatalog;
 import com.ai.baas.product.spec.*;
 import org.apache.log4j.Logger;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,15 +51,16 @@ public class ProductCatalogController {
 
     @Test
     public void publishOffering() {
-        logger.info("当前Catalog：" + CommonUtils.format(this.pcata.getBasicInfoToMap().toString()));
-        logger.info("发布前catalog内Offering总数：" + (this.pcata.getProdCatalogProdOffer() == null ? 0 : this.pcata
+        logger.info("Catalog information：" + CommonUtils.format(this.pcata.getBasicInfoToMap().toString()));
+        logger.info("ProductOffering's count in Catalog：" + (this.pcata.getProdCatalogProdOffer() == null ? 0 : this.pcata
                 .getProdCatalogProdOffer().size()));
         TimePeriod validForPublish = new TimePeriod("2015-06-04 10:20:00", "2015-07-26 10:20:00");
         pcata.publishOffering(offering128, validForPublish);
         pcata.publishOffering(offering256, validForPublish);
         pcata.publishOffering(offering512, validForPublish);
-        logger.info("发布后catalog内Offering总数：" + this.pcata.getProdCatalogProdOffer().size());
-        logger.info("Catalog内Offering基本信息：");
+        logger.info("ProductOffering's count in catalog after published ：" + this.pcata
+                .getProdCatalogProdOffer().size());
+        logger.info("the offering information in catalog：");
         for (int i = 0; i < this.pcata.getProdCatalogProdOffer().size(); i++) {
             logger.info("\n" + CommonUtils.format(this.pcata.getProdCatalogProdOffer().get(i).getProdOffering()
                     .getBasicInfoToMap().toString()));
@@ -75,8 +74,8 @@ public class ProductCatalogController {
         pcata.publishOffering(offering256, validForPublish);
         pcata.publishOffering(offering512, validForPublish);
 
-        logger.info("Catalog内Offering总数：" + this.pcata.getProdCatalogProdOffer().size());
-        logger.info("Catalog内Offering基本信息：");
+        logger.info("ProductOffering's count in Catalog：" + this.pcata.getProdCatalogProdOffer().size());
+        logger.info("the offering information in catalog：");
         for (int i = 0; i < this.pcata.getProdCatalogProdOffer().size(); i++) {
             logger.info("\n" + CommonUtils.format(this.pcata.getProdCatalogProdOffer().get(i).getProdOffering()
                     .getBasicInfoToMap().toString()));
@@ -108,9 +107,9 @@ public class ProductCatalogController {
                 }
             }
         }
-        logger.info("查询条件：charUseName=" + charUseName + " charValue=" + value);
-        logger.info("查询到的Offering总数：" + searchOfferingLastResult.size());
-        logger.info("Offering内容：");
+        logger.info("query condition：charUseName=" + charUseName + " charValue=" + value);
+        logger.info("offering queried amount：" + searchOfferingLastResult.size());
+        logger.info("Offering information：");
         for (int i = 0; i < searchOfferingLastResult.size(); i++) {
             logger.info("\n" + CommonUtils.format(searchOfferingLastResult.get(i).getProdOffering().getBasicInfoToMap
                     ().toString()));
@@ -120,25 +119,25 @@ public class ProductCatalogController {
 
     @Test
     public void retiredOffering() {
-        logger.info("当前Catalog：" + CommonUtils.format(this.pcata.getBasicInfoToMap().toString()));
+        logger.info("catalog information：" + CommonUtils.format(this.pcata.getBasicInfoToMap().toString()));
 
         TimePeriod validForPublish = new TimePeriod("2015-06-04 10:20:00", "2015-07-26 10:20:00");
         pcata.publishOffering(offering128, validForPublish);
         pcata.publishOffering(offering256, validForPublish);
         pcata.publishOffering(offering512, validForPublish);
 
-        logger.info("Catalog内Offering总数：" + this.pcata.getProdCatalogProdOffer().size());
-        logger.info("Catalog内Offering基本信息：");
+        logger.info("Offering count in catalog：" + this.pcata.getProdCatalogProdOffer().size());
+        logger.info("Offering information in catalog：");
         for (int i = 0; i < this.pcata.getProdCatalogProdOffer().size(); i++) {
             logger.info("\n" + CommonUtils.format(this.pcata.getProdCatalogProdOffer().get(i).getProdOffering()
                     .getBasicInfoToMap().toString()));
         }
 
-        logger.info("将以下Offering下架：\n" + offering512.getBasicInfoToMap().toString());
+        logger.info("retire Offering：\n" + offering512.getBasicInfoToMap().toString());
         pcata.retiredOffering(offering512);
         List<ProdCatalogProdOffer> prodCatalogProdOffers = this.pcata.retrieveOffering(new Date());
-        logger.info("下架后catalog内Offering总数：" + prodCatalogProdOffers.size());
-        logger.info("Offering内容：");
+        logger.info("Offering amount in catalog after retired：" + prodCatalogProdOffers.size());
+        logger.info("the Offering information：");
         for (int i = 0; i < prodCatalogProdOffers.size(); i++) {
             logger.info("\n" + CommonUtils.format(prodCatalogProdOffers.get(i).getProdOffering().getBasicInfoToMap
                     ().toString()));
@@ -196,13 +195,13 @@ public class ProductCatalogController {
 
     public void createProductSpec() {
 
-        // 创建规格（2.7GHz 处理器 128 GB 存储容量）
+        // create product specification（2.7GHz 处理器 128 GB 存储容量）
         specification128 = createProductSpecification(
                 TestProductSpecificationData.specParameter1, TestProductSpecificationData.one_charData);
-        // 创建规格（2.7GHz 处理器 256 GB 存储容量）
+        // create product specification（2.7GHz 处理器 256 GB 存储容量）
         specification256 = createProductSpecification(
                 TestProductSpecificationData.specParameter2, TestProductSpecificationData.two_charData);
-        // 创建规格（2.9GHz 处理器 512GB 存储容量）
+        // create product specification（2.9GHz 处理器 512GB 存储容量）
         specification512 = createProductSpecification(
                 TestProductSpecificationData.specParameter3, TestProductSpecificationData.three_charData);
     }
@@ -238,11 +237,12 @@ public class ProductCatalogController {
                                 charData[i][9].toString());
 
                 if (Boolean.parseBoolean(charData[i][10].toString())) {
-                    ProductSpecCharacteristicValue[] values = this.getCharValue(prodSpecChar,
+                    List<ProductSpecCharacteristicValue> values = this.getCharValue(prodSpecChar,
                             (String[]) charData[i][11]);
                     if (values != null) {
-                        for (int j = 0; j < values.length; j++) {
-                            productSpec.attachCharacteristicValue(charData[i][4].toString(), prodSpecChar, values[j],
+                        for (int j = 0; j < values.size(); j++) {
+                            productSpec.attachCharacteristicValue(charData[i][4].toString(), prodSpecChar, values
+                                            .get(j),
                                     ((boolean[]) charData[i][12])[j], (TimePeriod) specParameter[4]);
                         }
                     }
@@ -266,7 +266,8 @@ public class ProductCatalogController {
 
     }
 
-    public ProductSpecCharacteristicValue[] getCharValue(ProductSpecCharacteristic characteristic, String[] values) {
+    public List<ProductSpecCharacteristicValue> getCharValue(ProductSpecCharacteristic characteristic, String[]
+            values) {
         if (values != null) {
             Set<ProductSpecCharacteristicValue> productValues = characteristic.getProdSpecCharValue();
             List<ProductSpecCharacteristicValue> prodSpecChars = new ArrayList<ProductSpecCharacteristicValue>();
@@ -279,8 +280,7 @@ public class ProductCatalogController {
                     }
                 }
             }
-            return (ProductSpecCharacteristicValue[]) prodSpecChars
-                    .toArray(new ProductSpecCharacteristicValue[prodSpecChars.size()]);
+            return prodSpecChars;
         }
         return null;
 
@@ -305,11 +305,6 @@ public class ProductCatalogController {
         this.offering128 = createSimpleProductOffering(TestProductOfferingData.offering[0], specification128);
         this.offering256 = createSimpleProductOffering(TestProductOfferingData.offering[1], specification256);
         this.offering512 = createSimpleProductOffering(TestProductOfferingData.offering[2], specification512);
-    }
-
-    @After
-    public void printCatalog(){
-        //logger.info(this.pcata.toString());
     }
 
 }
