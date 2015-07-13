@@ -75,7 +75,7 @@ public class CommonUtils {
 
     public static void checkParamIsNull(String paramName, Object paramValue) throws IllegalArgumentException {
         if (null == paramValue || "".equals(paramValue.toString())) {
-            throw new IllegalArgumentException(paramName + " is null.");
+            throw new IllegalArgumentException("Parameter [" + paramName + "] must be not null. ");
         }
     }
 }
