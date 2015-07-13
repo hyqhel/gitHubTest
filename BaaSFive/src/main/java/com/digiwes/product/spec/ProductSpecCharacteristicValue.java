@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.digiwes.common.enums.ProdSpecEnum;
 import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.CommonUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -131,14 +132,8 @@ public class ProductSpecCharacteristicValue {
      * @param isDefault
      */
     public ProductSpecCharacteristicValue(String valueType, boolean isDefault,String unitOfMeasure, TimePeriod validFor, String value) {
-		if ( StringUtils.isEmpty(valueType) ) {
-			logger.error("valueType should not be null");
-			throw new IllegalArgumentException("valueType should not be null");
-		}
-		if(StringUtils.isEmpty(value)){
-			logger.error("value should not be null");
-			throw new IllegalArgumentException("value should not be null");
-		}
+		assert !StringUtils.isEmpty(valueType):"valueType should not be null";
+		assert !StringUtils.isEmpty(value):"value should not be null";
         this.valueType = valueType;
         this.unitOfMeasure = unitOfMeasure;
         this.validFor = validFor;
@@ -157,25 +152,15 @@ public class ProductSpecCharacteristicValue {
      * @param rangeInterval
      */
     public ProductSpecCharacteristicValue(String valueType,boolean isDefault, String unitOfMeasure, TimePeriod validFor, String valueFrom, String valueTo, String rangeInterval) {
-		if(null == validFor){
-			logger.error("validFor should not be null");
-			throw new IllegalArgumentException("validFor should not be null");
-		}
-		if(StringUtils.isEmpty(valueType)){
-			logger.error("valueType should not be null");
-			throw new IllegalArgumentException("valueType should not be null");
-		}
-
+		assert !StringUtils.isEmpty(valueType):"valueType should not be null";
+		assert !CommonUtils.checkParamIsNull(validFor):"validFor should not be null";
 		if (StringUtils.isEmpty(valueFrom) && StringUtils.isEmpty(valueTo)) {
 			logger.error("valueFrom and valueTo should not be null at the same time.");
 			throw new IllegalArgumentException("valueFrom and valueTo should not be null at the same time.");
-
 		}else if(StringUtils.isEmpty(valueFrom)){
 			logger.error("valueFrom should not be null .");
 			throw new IllegalArgumentException("valueFrom should not be null .");
-
 		}else if(StringUtils.isEmpty(valueTo)){
-
 			valueTo=valueFrom;
 		}
 		this.valueType = valueType;
@@ -235,9 +220,9 @@ public class ProductSpecCharacteristicValue {
      * @param charValue
      */
     public void removeRelatedCharValue(ProductSpecCharacteristicValue charValue) {
-    	if(null == this.prodSpecCharValueRelationship){
-    		return;
-    	}
+		if(CommonUtils.checkParamIsNull(prodSpecCharValueRelationship)){
+			return;
+		}
     	for(ProdSpecCharValueRelationship psvr :prodSpecCharValueRelationship){
     		if(psvr.equals(charValue)){
     			prodSpecCharValueRelationship.remove(psvr);
@@ -276,7 +261,7 @@ public class ProductSpecCharacteristicValue {
 		if(StringUtils.isEmpty(relationType)){
 			throw new IllegalArgumentException(" relationType  should not be null .");
 		}
-		if( null == time ){
+		if(CommonUtils.checkParamIsNull(time)){
 			throw new IllegalArgumentException(" DateTime should not be null .");
 		}
 		List<ProductSpecCharacteristicValue> prodSpecCharValues = new ArrayList<ProductSpecCharacteristicValue>();

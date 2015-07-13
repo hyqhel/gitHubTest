@@ -5,6 +5,7 @@ import java.util.*;
 import com.digiwes.common.enums.ProdSpecEnum;
 import com.digiwes.common.util.CommonUtils;
 import com.digiwes.basetype.TimePeriod;
+import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -168,19 +169,10 @@ public class ProductSpecCharacteristic {
      */
     public ProductSpecCharacteristic(String id, String name, String valueType, TimePeriod validFor, String unique,
                                      int minCardinality, int maxCardinality) {
-
-        if ( StringUtils.isEmpty( id ) ) {
-            logger.error("id should not be null");
-            throw new IllegalArgumentException("id should not be null");
-        }
-        if ( StringUtils.isEmpty(valueType) ) {
-            logger.error("valueType should not be null");
-            throw new IllegalArgumentException("valueType should not be null");
-        }
-        if ( StringUtils.isEmpty(name)){
-            logger.error("name should not be null");
-            throw new IllegalArgumentException("name should not be null");
-        }
+        assert !StringUtils.isEmpty(id):"id should not be null";
+        assert !StringUtils.isEmpty(valueType):"valueType should not be null";
+        assert !StringUtils.isEmpty(name):"name should not be null";
+        assert !(minCardinality>maxCardinality):"maxCardinality is less than minCardinality";
         this.ID = id;
         this.name = name;
         this.valueType = valueType;
@@ -204,18 +196,10 @@ public class ProductSpecCharacteristic {
      * @param derivationFormula
      */
     public ProductSpecCharacteristic(String id, String name, String valueType, TimePeriod validFor, String unique, int minCardinality, int maxCardinality, boolean extensible, String description, String derivationFormula) {
-        if ( StringUtils.isEmpty(id) ) {
-            logger.error("id should not be null");
-            throw new IllegalArgumentException("id should not be null");
-        }
-        if ( StringUtils.isEmpty(valueType) ) {
-            logger.error("valueType should not be null");
-            throw new IllegalArgumentException("valueType should not be null");
-        }
-        if ( StringUtils.isEmpty(name)){
-            logger.error("name should not be null");
-            throw new IllegalArgumentException("name should not be null");
-        }
+        assert !StringUtils.isEmpty(id):"id should not be null";
+        assert !StringUtils.isEmpty(valueType):"valueType should not be null";
+        assert !StringUtils.isEmpty(name):"name should not be null";
+        assert !(minCardinality>maxCardinality):"maxCardinality is less than minCardinality";
         this.ID = id;
         this.name = name;
         this.valueType = valueType;
@@ -247,9 +231,9 @@ public class ProductSpecCharacteristic {
      * @param charVal
      */
     public void addValue(ProductSpecCharacteristicValue charVal) {
-    	if(null == charVal){
-    		throw new IllegalArgumentException("Parameter charVal should not be null");
-    	}
+        if(CommonUtils.checkParamIsNull(charVal)){
+            throw new IllegalArgumentException("Parameter charVal should not be null");
+        }
     	if(null == this.prodSpecCharValue){
     		this.prodSpecCharValue = new HashSet<ProductSpecCharacteristicValue>();
     	}
@@ -266,9 +250,9 @@ public class ProductSpecCharacteristic {
      * @param charVal
      */
     public void removeValue(ProductSpecCharacteristicValue charVal) {
-    	if(null == charVal){
-    		throw new IllegalArgumentException("Parameter charVal should not be  null");
-    	}
+        if(CommonUtils.checkParamIsNull(charVal)){
+            throw new IllegalArgumentException("Parameter charVal should not be null");
+        }
     	if(null != this.prodSpecCharValue && this.prodSpecCharValue.size()>0){
     		if(prodSpecCharValue.contains(charVal)){
     			prodSpecCharValue.remove(charVal);
@@ -282,7 +266,7 @@ public class ProductSpecCharacteristic {
      */
     public List<ProductSpecCharacteristicValue> retrieveValue(Date time) {
         List<ProductSpecCharacteristicValue> productSpecCharValues = new ArrayList<ProductSpecCharacteristicValue>();
-        if (null == time) {
+        if(CommonUtils.checkParamIsNull(time)){
             throw new IllegalArgumentException("DateTime should not be null.");
         }
         if ( null != this.prodSpecCharValue ) {
@@ -300,9 +284,9 @@ public class ProductSpecCharacteristic {
      * @param defaultCharVal
      */
     public void specifyDefaultValue(ProductSpecCharacteristicValue defaultCharVal) {
-    	if (null == defaultCharVal){
-    		throw new IllegalArgumentException("Parameter  defaultCharVal should not be null");
-    	}
+        if(CommonUtils.checkParamIsNull(defaultCharVal)){
+            throw new IllegalArgumentException("Parameter  defaultCharVal should not be null.");
+        }
     	if(null != this.prodSpecCharValue){
     		for(ProductSpecCharacteristicValue productSpecCharacteristicValue:prodSpecCharValue){
         		if(productSpecCharacteristicValue.equals(defaultCharVal)){
@@ -317,8 +301,8 @@ public class ProductSpecCharacteristic {
     }
 
     public List<ProductSpecCharacteristicValue> retrieveDefaultValue() {
-        if(null == this.prodSpecCharValue){
-            return null;
+        if(CommonUtils.checkParamIsNull(this.prodSpecCharValue)) {
+            return  null;
         }else{
             List<ProductSpecCharacteristicValue> psvcoll = new ArrayList<ProductSpecCharacteristicValue>();
         	for(ProductSpecCharacteristicValue productSpecCharacteristicValue :prodSpecCharValue){
@@ -392,12 +376,12 @@ public class ProductSpecCharacteristic {
      * @param specChar
      */
     public void removeRelatedCharacteristic(ProductSpecCharacteristic specChar) {
-    	if (null == specChar){
-    		throw new IllegalArgumentException("Parameter specChar should not be  null");
-    	}
-    	if(null == this.prodSpecCharRelationship){
-    		return;
-    	}
+        if(CommonUtils.checkParamIsNull(specChar)){
+            throw new IllegalArgumentException("Parameter specChar should not be  null");
+        }
+        if(CommonUtils.checkParamIsNull(prodSpecCharRelationship)){
+            return;
+        }
         for(ProductSpecCharRelationship psr:prodSpecCharRelationship){
             if(psr.getTargetProdSpecChar().equals(specChar)){
                 prodSpecCharRelationship.remove(psr);
@@ -434,7 +418,7 @@ public class ProductSpecCharacteristic {
         if (StringUtils.isEmpty(charRelationshipType) ) {
             throw new IllegalArgumentException("type or dateTime  should not be null");
         }
-        if ( null == time) {
+        if(CommonUtils.checkParamIsNull(time)){
             logger.error(" dateTime  should not be null");
             throw new IllegalArgumentException(" dateTime  should not be null");
         }
@@ -449,8 +433,7 @@ public class ProductSpecCharacteristic {
         return characteristic;
     }
     private ProductSpecCharRelationship retrieveRelatedCharacteristic(ProductSpecCharacteristic characteristic ){
-
-        if ( null == characteristic ) {
+        if(CommonUtils.checkParamIsNull(characteristic)){
             logger.error("characteristic  should not be null");
             throw new IllegalArgumentException("characteristic  should not be null");
         }
@@ -464,16 +447,14 @@ public class ProductSpecCharacteristic {
         return null;
     }
     public boolean updateRelatedCharValidPeriod(ProductSpecCharacteristic prodSpecChar,TimePeriod validFor){
-
-        if (null == prodSpecChar ) {
+        if(CommonUtils.checkParamIsNull(prodSpecChar)){
             logger.error("prodSpecChar should not be null .");
             throw new IllegalArgumentException("prodSpecChar should not be null .");
         }
-        if (null == validFor ){
+        if(CommonUtils.checkParamIsNull(validFor)){
             logger.error("validFor should not be null .");
             throw new IllegalArgumentException("validFor should not be null .");
         }
-
         if ( null!=prodSpecCharRelationship ) {
             for (ProductSpecCharRelationship productSpecRelationship : prodSpecCharRelationship) {
                 if ( productSpecRelationship.getTargetProdSpecChar().equals(prodSpecChar)) {
