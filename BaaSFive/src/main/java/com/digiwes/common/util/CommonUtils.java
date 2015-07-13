@@ -14,9 +14,7 @@ import org.apache.commons.beanutils.BeanUtils;
 
 public class CommonUtils {
 
-    /**
-     * �õ���ʽ��json���� �˸���\t ������\r
-     */
+
     public static String format(String jsonStr) {
         int level = 0;
         StringBuffer jsonForMatStr = new StringBuffer();
@@ -69,9 +67,15 @@ public class CommonUtils {
      * check parameter is null
      */
     public static boolean checkParamIsNull(Object obj) {
-        if (null == obj || "".equals(obj)) {
+        if (null == obj) {
             return true;
         }
         return false;
+    }
+
+    public static void checkParamIsNull(String paramName, Object paramValue) throws IllegalArgumentException {
+        if (null == paramValue || "".equals(paramValue.toString())) {
+            throw new IllegalArgumentException(paramName + " is null.");
+        }
     }
 }
