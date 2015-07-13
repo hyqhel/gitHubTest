@@ -3,6 +3,7 @@ package com.digiwes.product.controller;
 import com.digiwes.basetype.TimePeriod;
 import com.digiwes.common.enums.ProdOfferingEnum;
 import com.digiwes.common.util.CommonUtils;
+import com.digiwes.common.util.DateUtils;
 import com.digiwes.product.offering.ProductOffering;
 import com.digiwes.product.offering.SimpleProductOffering;
 import com.digiwes.product.offering.TestProductOfferingData;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -125,7 +127,8 @@ public class ProductCatalogController {
         TimePeriod validForPublish = new TimePeriod("2015-06-04 10:20:00", "2015-07-26 10:20:00");
         pcata.publishOffering(offering128, validForPublish);
         pcata.publishOffering(offering256, validForPublish);
-        pcata.publishOffering(offering512, validForPublish);
+        TimePeriod validForPublish2 = new TimePeriod("2015-06-04 10:20:00", "2015-07-26 10:20:00");
+        pcata.publishOffering(offering512, validForPublish2);
 
         logger.info("Offering count in catalog：" + this.pcata.getProdCatalogProdOffer().size());
         logger.info("Offering information in catalog：");
@@ -136,7 +139,11 @@ public class ProductCatalogController {
 
         logger.info("retire Offering：\n" + offering512.getBasicInfoToMap().toString());
         pcata.retiredOffering(offering512);
-        List<ProdCatalogProdOffer> prodCatalogProdOffers = this.pcata.retrieveOffering(new Date());
+        SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateUtils.str2Date("2015-04-03 10:20:00", sim);
+        Date dc = new Date();
+        dc.setSeconds(dc.getSeconds()+2);
+        List<ProdCatalogProdOffer> prodCatalogProdOffers = this.pcata.retrieveOffering(dc);
         logger.info("Offering amount in catalog after retired：" + prodCatalogProdOffers.size());
         logger.info("the Offering information：");
         for (int i = 0; i < prodCatalogProdOffers.size(); i++) {
