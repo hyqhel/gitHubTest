@@ -497,7 +497,7 @@ public abstract class ProductSpecification {
             return BusinessCodeEnum.ProductSpec.PRODUCT_SPEC_100003;
         }
 
-        if (null == this.prodSpecRelationship) {
+        if (CommonUtils.checkParamIsNull(this.prodSpecRelationship)) {
             this.prodSpecRelationship = new ArrayList<ProductSpecificationRelationship>();
         }
         if (this.equals(prodSpec)) {
