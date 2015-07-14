@@ -56,6 +56,7 @@ public class BundledProdOfferOption {
      * @param upperLimit
      */
     public BundledProdOfferOption(ProductOffering offering, int lowerLimit, int upperLimit) {
+        assert !CommonUtils.checkParamIsNull(offering) : "Parameter [offering] must be not null";
         this.productOffering = offering;
         this.numberRelOfferLowerLimit = lowerLimit;
         this.numberRelOfferUpperLimit = upperLimit;

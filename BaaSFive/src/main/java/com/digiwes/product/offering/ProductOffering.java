@@ -108,10 +108,8 @@ public abstract class ProductOffering {
      * @param validFor
      */
     public ProductOffering(String id, String name, String description, TimePeriod validFor) {
-        if (StringUtils.isEmpty(id)) {
-            logger.error("The parameter id is null");
-            throw new IllegalArgumentException();
-        }
+        assert StringUtils.isNotEmpty(id) : "Param [id] must be not null!";
+
         this.id = id;
         this.name = name;
         this.description = description;

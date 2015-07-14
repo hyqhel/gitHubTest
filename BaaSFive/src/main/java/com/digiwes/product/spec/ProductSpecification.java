@@ -2,7 +2,9 @@ package com.digiwes.product.spec;
 
 import com.digiwes.basetype.Money;
 import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.enums.BusinessCodeEnum;
 import com.digiwes.common.enums.ProdSpecEnum;
+import com.digiwes.common.util.CommonUtils;
 import com.digiwes.product.offering.SimpleProductOffering;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -122,10 +124,9 @@ public abstract class ProductSpecification {
      * @param brand         The manufacturer or trademark of the specification.
      */
     public ProductSpecification(String productNumber, String name, String brand) {
-        if (StringUtils.isEmpty(productNumber)) {
-            log.error("The parameter " + productNumber + " is null");
-            throw new IllegalArgumentException();
-        }
+
+        assert StringUtils.isNotEmpty(productNumber) : "The parameter [productNumber] must be not null";
+
         this.name = name;
         this.productNumber = productNumber;
         this.brand = brand;
@@ -142,10 +143,9 @@ public abstract class ProductSpecification {
      * @param description   A narrative that explains in detail what the product spec is.
      */
     public ProductSpecification(String productNumber, String name, String brand, TimePeriod validFor, String description) {
-        if (StringUtils.isEmpty(productNumber)) {
-            log.error("The parameter " + productNumber + " is null");
-            throw new IllegalArgumentException();
-        }
+
+        assert StringUtils.isNotEmpty(productNumber) : "The parameter [productNumber] must be not null";
+
         this.name = name;
         this.productNumber = productNumber;
         this.brand = brand;
@@ -160,7 +160,9 @@ public abstract class ProductSpecification {
      * @param isPackage      An indicator that specifies if the associated CharacteristicSpecification is a composite. true��is a composite one
      * @param validFor       The period of time for which the use of the CharacteristicSpecification is applicable.
      */
-    public boolean addCharacteristic(String name, ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
+    public boolean addCharacteristic(String name, ProductSpecCharacteristic specChar, boolean canBeOveridden,
+                                     boolean isPackage, TimePeriod validFor) {
+
         //the parameter of specChar is null
         checkProdSpecChar(specChar);
         validNull(name);
@@ -486,30 +488,32 @@ public abstract class ProductSpecification {
      * @param type
      * @param validFor
      */
-    public void addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
+    public Enum addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
+
+        if (CommonUtils.checkParamIsNull(prodSpec)) {
+            return BusinessCodeEnum.ProductSpec.PRODUCT_SPEC_100002;
+        }
+        if (StringUtils.isEmpty(type)) {
+            return BusinessCodeEnum.ProductSpec.PRODUCT_SPEC_100003;
+        }
+
         if (null == this.prodSpecRelationship) {
             this.prodSpecRelationship = new ArrayList<ProductSpecificationRelationship>();
         }
-        if (null == prodSpec) {
-            throw new IllegalArgumentException("Parameter [prodSpec] cannot be null.");
-        }
-        if (null == type) {
-            throw new IllegalArgumentException("Parameter [type] cannot be null. ProductNumber="
-                    + prodSpec.getProductNumber() + "type=" + type);
-        }
         if (this.equals(prodSpec)) {
             log.error("Cannot add relationship with it self!");
-            throw new IllegalArgumentException("Cannot add relationship with it self!");
+            return BusinessCodeEnum.ProductSpec.PRODUCT_SPEC_100004;
         }
+
         ProductSpecificationRelationship productSpecificationRelationship = new ProductSpecificationRelationship(this,
                 prodSpec, type, validFor);
         if (this.prodSpecRelationship.contains(productSpecificationRelationship)) {
             log.error("the relationship already exist, Cannot repeatedly create relationship by the same type. ProductNumber="
                     + prodSpec.getProductNumber() + "type=" + type);
-            throw new IllegalArgumentException(
-                    "the relationship already exist, Cannot repeatedly create relationship by the same type.");
+            return BusinessCodeEnum.ProductSpec.PRODUCT_SPEC_100005;
         }
         this.prodSpecRelationship.add(productSpecificationRelationship);
+        return BusinessCodeEnum.CommonCode.SUCCESS_000000;
     }
 
     /**
@@ -526,6 +530,7 @@ public abstract class ProductSpecification {
     public List<ProductSpecification> retrieveRelatedProdSpec(String type) {
         List<ProductSpecification> productSpecifications = new ArrayList<ProductSpecification>();
 
+        CommonUtils.checkParamIsNull("type", type);
         if (StringUtils.isEmpty(type)) {
             throw new IllegalArgumentException("Parameter [prodSpec] cannot be null.");
         }
@@ -546,6 +551,9 @@ public abstract class ProductSpecification {
      * @param time
      */
     public List<ProductSpecification> retrieveRelatedProdSpec(String type, Date time) {
+
+        CommonUtils.checkParamIsNull("type", type);
+        CommonUtils.checkParamIsNull("time", time);
         List<ProductSpecification> rtnResultRelations = new ArrayList<ProductSpecification>();
         if (null != this.prodSpecRelationship) {
             if (null == time) {
