@@ -2,6 +2,7 @@ package com.digiwes.product.offering;
 
 import com.digiwes.basetype.TimePeriod;
 import com.digiwes.common.enums.ProdOfferingEnum;
+import com.digiwes.common.util.CommonUtils;
 import com.digiwes.product.offering.catalog.ProdCatalogProdOffer;
 import com.digiwes.product.offering.price.ProductOfferingPrice;
 import org.apache.commons.lang.StringUtils;
@@ -193,12 +194,10 @@ public abstract class ProductOffering {
      */
     public List<ProductOffering> retrieveRelatedOffering(String relationType, Date time) {
         List<ProductOffering> offerings = new ArrayList<ProductOffering>();
-        if (StringUtils.isEmpty(relationType)) {
-            throw new IllegalArgumentException("Parameter [relationType] cannot be null.");
-        }
-        if (null == time) {
-            throw new IllegalArgumentException("Parameter [time] cannot be null.");
-        }
+
+        CommonUtils.checkParamIsNull("relationType", relationType);
+        CommonUtils.checkParamIsNull("time", time);
+
         if (null != this.prodOfferingRelationship && this.prodOfferingRelationship.size() > 0) {
             for (ProductOfferingRelationship relationship : prodOfferingRelationship) {
                 if (relationType.equals(relationship.getTypeRelationship()) && 0 == relationship.getValidFor().isInTimePeriod(time) && 0 == relationship.getValidFor().isInTimePeriod(time)) {
